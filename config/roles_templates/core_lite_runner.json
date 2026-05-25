@@ -1,0 +1,28 @@
+{
+  "role": "core_lite_runner",
+  "entity": "StegVerse-002",
+  "scoped_actions": [
+    "intake",
+    "report",
+    "candidate_preparation",
+    "receipt_emission",
+    "cge_check",
+    "kv_context_packet_intake"
+  ],
+  "forbidden_actions": [
+    "production_mutation",
+    "deploy_without_review",
+    "bypass_cge",
+    "identity_verification_claim",
+    "training_data_use",
+    "publication_without_consent"
+  ],
+  "authority_flags": {
+    "mutation_authority": false,
+    "workflow_change_authority": false,
+    "incoming_submission_authority": false,
+    "production_authority": false,
+    "identity_authority": false,
+    "finco_authority": false
+  }
+}
