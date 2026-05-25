@@ -1,0 +1,14 @@
+# StegVerse-002/core-lite requirements
+# Python 3.11+
+
+# Core — no external dependencies required for base operation
+# All stdlib: hashlib, json, pathlib, subprocess, dataclasses, logging, argparse
+
+# Optional: YAML support for TV manifest
+PyYAML>=6.0
+
+# Optional: schema validation
+jsonschema>=4.0
+
+# Optional: Sigstore keyless signing (falls back to HMAC if unavailable)
+# sigstore>=2.0
