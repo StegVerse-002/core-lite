@@ -1,0 +1,17 @@
+{
+  "schema": "stegverse_core_policy.v1",
+  "entity": "StegVerse-002",
+  "version": "1.0.0-sv002-m10",
+  "default_privacy_class": "private",
+  "default_ai_use": "review_required",
+  "default_external_sharing": "denied",
+  "default_training_use": "denied",
+  "default_publication_use": "denied",
+  "default_identity_authority": false,
+  "default_mutation_authority": false,
+  "stop_on_unknown": true,
+  "fail_closed_on_missing_scope": true,
+  "receipt_required_for_all_consequence_bearing_actions": true,
+  "node_status": "NOT_A_NODE",
+  "finco_participation_allowed": false
+}

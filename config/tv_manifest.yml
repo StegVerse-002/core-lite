@@ -1,0 +1,31 @@
+schema: stegverse_tv_manifest.v1
+version: "1.0.0"
+entity: StegVerse-002
+description: Token Vault policy manifest for StegVerse-002/core-lite
+
+roles:
+  - core_lite_runner
+  - knowledgevault_reader
+  - tvc_authority_verifier
+  - receipt_emitter
+  - candidate_preparer
+
+forbidden_roles:
+  - production_mutator
+  - identity_verifier
+  - finco_participant
+
+signing:
+  method: hmac_sha256
+  sigstore_keyless_preferred: true
+  fallback: hmac_sha256
+
+chainlog:
+  path: data/summary/chainlog.jsonl
+  append_only: true
+  hash_algorithm: sha256
+
+heal:
+  enabled: true
+  trigger: verify_failure
+  max_attempts: 3

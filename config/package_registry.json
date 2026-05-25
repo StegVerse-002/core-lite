@@ -1,0 +1,30 @@
+{
+  "schema": "stegverse_tvc_package_registry.v1",
+  "registry_version": "1.0.0",
+  "entity": "StegVerse-002",
+  "updated_at": "2026-05-23T00:00:00Z",
+  "packages": [
+    {
+      "name": "core-lite",
+      "version": "1.0.0-sv002-m10",
+      "source_url": "https://github.com/StegVerse-002/core-lite/archive/refs/tags/v1.0.0-sv002-m10.tar.gz",
+      "source_hash": "",
+      "lifecycle_status": "active",
+      "install_path": ".",
+      "scoped_actions": ["intake", "report", "candidate_preparation", "receipt_emission"],
+      "forbidden_actions": ["production_mutation", "deploy_without_review", "bypass_cge"],
+      "stegid_binding_status": "placeholder"
+    },
+    {
+      "name": "knowledgevault-kit",
+      "version": "1.0.0",
+      "source_url": "https://github.com/StegVerse-Labs/continuity-vault-kit",
+      "source_hash": "",
+      "lifecycle_status": "active",
+      "install_path": "vault_template/",
+      "scoped_actions": ["memory_store", "context_packet_export", "receipt_emission"],
+      "forbidden_actions": ["full_vault_dump", "training_use", "publication_without_consent"],
+      "stegid_binding_status": "placeholder"
+    }
+  ]
+}
