@@ -1,0 +1,4 @@
+# LLM Adapter Gate Input
+# Paste the LLM response here before running task: llm.adapter.ingest
+# The response will be converted into a bounded instruction packet.
+# LLM output is reasoning evidence, not authority.

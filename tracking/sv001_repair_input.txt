@@ -1,0 +1,11 @@
+# StegVerse-001 Repair Input
+# Paste the failure text from the Data-Continuation/core-lite GitHub Actions run here.
+# Then run task: sv001.repair.intake.enablement
+#
+# Example failure texts:
+#   cannot import name generate_cge_fingerprint from core_lite.cge
+#   python core_lite/cli.py: No module named core_lite.cli
+#   cannot import name ingest_incoming from core_lite.ingest
+#   ReceiptRecorder.record() missing required keyword-only argument: actor
+#
+# Replace this file content with the actual failure text before running the repair task.
