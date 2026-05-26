@@ -1,0 +1,7 @@
+[
+  "outputs/**",
+  "reports/current/**",
+  "receipts/current/**",
+  "agent_history/**",
+  "candidates/**"
+]

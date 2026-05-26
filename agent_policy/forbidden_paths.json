@@ -1,0 +1,21 @@
+[
+  ".git/**",
+  ".github/workflows/**",
+  "core_lite/**",
+  "tools/**",
+  "config/**",
+  "tracking/**",
+  "dist/**",
+  "machine/**",
+  "incoming/**",
+  "repair/**",
+  "failed_bundles/**",
+  "quarantine/**",
+  "README.md",
+  "task.md",
+  "CLAUDE.md",
+  ".env",
+  "secrets/**",
+  "governance/directives/**",
+  "schemas/**"
+]
