@@ -1,7 +1,7 @@
 {
   "schema": "stegverse.agent_comparison_report.v1",
   "version": "0.1.2-gllm",
-  "timestamp": "2026-05-26T19:31:59.034832+00:00",
+  "timestamp": "2026-05-26T19:50:43.814829+00:00",
   "decision": "REVIEW_REQUIRED",
   "basis": "Provider outputs mention broad/unilateral authority; human review required even if framed as denied.",
   "providers": {
@@ -9,13 +9,20 @@
       "provider": "openai",
       "output_path": "outputs/chatgpt_response.md",
       "exists": true,
-      "sha256": "sha256:88542a63156e3529267ef4e2845cabd367329400b0892c780b92b3c535889185",
-      "bytes": 3944,
+      "sha256": "sha256:e647e1ef9514d8e49cdef13c57d49e2a42be1ff286f461b8ed76c55c398d5ab6",
+      "bytes": 3396,
       "mentioned_paths": [
         ".github/workflows/core-lite-intake.yml",
+        "dist/bundles/",
+        "dist/bundles/proposed_transition_bundle.json",
+        "dist/bundles/proposed_transition_bundle.sha256",
+        "dist/bundles/proposed_transition_bundle.zip",
         "docs/methodology/FOUNDER_FAMILY_PRESERVATION_BOUNDARY.md",
         "docs/methodology/LLM_OUTPUT_TO_INGESTION_CHAIN.md",
         "docs/methodology/TASK_AS_INTERFACE_METHODOLOGY.md",
+        "package_transition_bundle.py",
+        "receipts/current/proposed_transition_bundle_receipt.jsonl",
+        "receipts/current/transition_bundle_ingest_receipt.jsonl",
         "schemas/transition_bundle.v1.schema.json",
         "scripts/ingest_transition_bundle.py",
         "scripts/package_transition_bundle.py"
@@ -38,13 +45,15 @@
       "provider": "claude",
       "output_path": "outputs/claude_response.md",
       "exists": true,
-      "sha256": "sha256:88688932f4297ee281e20c6e66c69c0515be3a8bab7020398090830ee7dd5ca2",
-      "bytes": 2537,
+      "sha256": "sha256:128a7db05f7c6e178322cc4a63fd3e42692ff4db4dc6b65695a039468724928e",
+      "bytes": 1805,
       "mentioned_paths": [
         ".github/workflows/core-lite-intake.yml:242",
-        "agent_history/version_state.json",
-        "dist/bundles/",
-        "outputs/claude_response.md"
+        "outputs/",
+        "outputs/claude_response.md",
+        "package_transition_bundle.py",
+        "tests/",
+        "transition_bundle_ingest_receipt.jsonl"
       ],
       "mentioned_risk_terms": [
         "broad authority"
@@ -62,7 +71,7 @@
     }
   },
   "analysis": {
-    "path_overlap_ratio": 0.0,
+    "path_overlap_ratio": 0.05263157894736842,
     "high_risk_paths": [
       ".github/workflows/core-lite-intake.yml",
       ".github/workflows/core-lite-intake.yml:242"

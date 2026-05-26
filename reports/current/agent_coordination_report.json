@@ -1,7 +1,7 @@
 {
   "schema": "stegverse.agent_coordination_report.v1",
   "version": "0.1.2-gllm",
-  "timestamp": "2026-05-26T19:31:58.914724+00:00",
+  "timestamp": "2026-05-26T19:50:43.687042+00:00",
   "decision": "COORDINATION_THREAD_READY",
   "basis": "Both provider outputs were present and merged into candidate evidence.",
   "providers": {
@@ -9,8 +9,8 @@
       "provider": "claude",
       "path": "outputs/claude_response.md",
       "exists": true,
-      "bytes": 2537,
-      "sha256": "sha256:88688932f4297ee281e20c6e66c69c0515be3a8bab7020398090830ee7dd5ca2",
+      "bytes": 1805,
+      "sha256": "sha256:128a7db05f7c6e178322cc4a63fd3e42692ff4db4dc6b65695a039468724928e",
       "sections_present": {
         "Current State Assessment": false,
         "Directive Alignment": false,
@@ -23,9 +23,11 @@
       },
       "mentioned_paths": [
         ".github/workflows/core-lite-intake.yml:242",
-        "agent_history/version_state.json",
-        "dist/bundles/",
-        "outputs/claude_response.md"
+        "outputs/",
+        "outputs/claude_response.md",
+        "package_transition_bundle.py",
+        "tests/",
+        "transition_bundle_ingest_receipt.jsonl"
       ],
       "risk_terms": [
         "broad authority"
@@ -35,8 +37,8 @@
       "provider": "openai",
       "path": "outputs/chatgpt_response.md",
       "exists": true,
-      "bytes": 3944,
-      "sha256": "sha256:88542a63156e3529267ef4e2845cabd367329400b0892c780b92b3c535889185",
+      "bytes": 3396,
+      "sha256": "sha256:e647e1ef9514d8e49cdef13c57d49e2a42be1ff286f461b8ed76c55c398d5ab6",
       "sections_present": {
         "Current State Assessment": true,
         "Directive Alignment": true,
@@ -49,9 +51,16 @@
       },
       "mentioned_paths": [
         ".github/workflows/core-lite-intake.yml",
+        "dist/bundles/",
+        "dist/bundles/proposed_transition_bundle.json",
+        "dist/bundles/proposed_transition_bundle.sha256",
+        "dist/bundles/proposed_transition_bundle.zip",
         "docs/methodology/FOUNDER_FAMILY_PRESERVATION_BOUNDARY.md",
         "docs/methodology/LLM_OUTPUT_TO_INGESTION_CHAIN.md",
         "docs/methodology/TASK_AS_INTERFACE_METHODOLOGY.md",
+        "package_transition_bundle.py",
+        "receipts/current/proposed_transition_bundle_receipt.jsonl",
+        "receipts/current/transition_bundle_ingest_receipt.jsonl",
         "schemas/transition_bundle.v1.schema.json",
         "scripts/ingest_transition_bundle.py",
         "scripts/package_transition_bundle.py"
@@ -341,6 +350,75 @@
       "summary": "Recorded governed LLM-LLM collaboration outputs, comparison evidence, no-broad-authority directive, and boundary enforcement.",
       "timestamp": "2026-05-26T18:26:32.158854+00:00",
       "version": "0.1.2-gllm"
+    },
+    {
+      "authority": "candidate_evidence_only",
+      "change_type": "coordination_synthesis",
+      "conversation": "workflow",
+      "files": [
+        "outputs/thread.md",
+        "reports/current/agent_coordination_report.json",
+        "receipts/current/agent_coordination_receipt.jsonl"
+      ],
+      "output_hashes": {
+        "claude": "sha256:88688932f4297ee281e20c6e66c69c0515be3a8bab7020398090830ee7dd5ca2",
+        "openai": "sha256:88542a63156e3529267ef4e2845cabd367329400b0892c780b92b3c535889185",
+        "thread": "sha256:00c93d514f3deac5da96cebdbbe467a62cde45cb951d4b8ef9c82364cacf6c8d"
+      },
+      "provider": "coordinator",
+      "schema": "stegverse.llm_changelog_entry.v1",
+      "summary": "Both provider outputs were present and merged into candidate evidence.",
+      "timestamp": "2026-05-26T19:31:58.914724+00:00",
+      "version": "0.1.2-gllm"
+    },
+    {
+      "authority": "candidate_evidence_only",
+      "broad_authority": false,
+      "change_type": "coordination_run",
+      "conversation": "current-workflow-run",
+      "decision": "RECORDED",
+      "files": [
+        {
+          "exists": true,
+          "path": "outputs/thread.md",
+          "sha256": "sha256:00c93d514f3deac5da96cebdbbe467a62cde45cb951d4b8ef9c82364cacf6c8d"
+        },
+        {
+          "exists": true,
+          "path": "reports/current/agent_coordination_report.json",
+          "sha256": "sha256:361fa908d76f0cc58956ea1026dca225fcfcd6225ca7c01c2a4de427c316f710"
+        },
+        {
+          "exists": true,
+          "path": "reports/current/agent_comparison_report.json",
+          "sha256": "sha256:43e3ff6afbb81cce4c73a698b9609c0cd2a39551cb0c3018a37b7d91ed0555a3"
+        },
+        {
+          "exists": true,
+          "path": "reports/current/agent_boundary_report.json",
+          "sha256": "sha256:659ef96da533df7d46a3e0062e177c36cf58e10e560c63123c68fb40fcc3b145"
+        },
+        {
+          "exists": true,
+          "path": "receipts/current/agent_coordination_receipt.jsonl",
+          "sha256": "sha256:5866160e613f4ff4e565b1439bb01e564ca86fdf10a033cfb912d51b8a1a893d"
+        },
+        {
+          "exists": true,
+          "path": "receipts/current/agent_comparison_receipt.jsonl",
+          "sha256": "sha256:d6e65ccece88bc6e87356db71177a244bf0817890b6933810b85ab953dd6e7c5"
+        },
+        {
+          "exists": true,
+          "path": "receipts/current/agent_boundary_receipt.jsonl",
+          "sha256": "sha256:6128bd8665121084e22bf1d4e230685c123707f1e62acde6e5c0938d44da5166"
+        }
+      ],
+      "provider": "coordinator",
+      "schema": "stegverse.llm_changelog_entry.v1",
+      "summary": "Recorded governed LLM-LLM collaboration outputs, comparison evidence, no-broad-authority directive, and boundary enforcement.",
+      "timestamp": "2026-05-26T19:31:59.172729+00:00",
+      "version": "0.1.3-gllm"
     }
   ],
   "thread_path": "outputs/thread.md",
@@ -350,5 +428,5 @@
     "may_bind_repo_state": false,
     "broad_authority": false
   },
-  "thread_sha256": "sha256:00c93d514f3deac5da96cebdbbe467a62cde45cb951d4b8ef9c82364cacf6c8d"
+  "thread_sha256": "sha256:436d7badf1c5d21c8ce5c850daad8c441778d9a8f30c99e84dbed5d38f9e8042"
 }
