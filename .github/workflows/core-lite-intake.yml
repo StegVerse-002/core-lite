@@ -81,7 +81,7 @@ jobs:
             --state-file tracking/stegverse-002/stage_map.json \
             --output-env $GITHUB_OUTPUT
 
-      # ── DEFAULT INTAKE (task_id blank, skip_tasks true) ───────────────────
+      # ── DEFAULT INTAKE ────────────────────────────────────────────────────
       - name: Run Core-Lite Intake
         if: ${{ github.event.inputs.task_id == '' || github.event.inputs.task_id == null }}
         run: |
@@ -100,9 +100,9 @@ jobs:
             --task-catalog tools/tasks/task_catalog.json \
             --entity StegVerse-002 \
             --stage "${{ steps.stage.outputs.active_stage }}" \
-            ${{ github.event.inputs.dry_run == 'true' && '--dry-run' || '' }}"
+            ${{ github.event.inputs.dry_run == 'true' && '--dry-run' || '' }}
 
-      # ── MULTIMODAL INPUT ENGINE ────────────────────────────────────────────
+      # ── MULTIMODAL / BUNDLE INPUT ENGINE ──────────────────────────────────
       - name: Process multimodal input
         if: ${{ github.event.inputs.input_type != '' && github.event.inputs.input_type != null }}
         run: |
@@ -110,7 +110,8 @@ jobs:
             --input-type "${{ github.event.inputs.input_type }}" \
             --input-path "${{ github.event.inputs.input_path }}" \
             --entity StegVerse-002 \
-            --stage "${{ steps.stage.outputs.active_stage }}"
+            --stage "${{ steps.stage.outputs.active_stage }}" \
+            ${{ github.event.inputs.dry_run == 'true' && '--dry-run' || '' }}
 
       # ── KNOWLEDGEVAULT CONTEXT PACKET ─────────────────────────────────────
       - name: Process KnowledgeVault context packet
@@ -121,7 +122,7 @@ jobs:
             --entity StegVerse-002 \
             --stage "${{ steps.stage.outputs.active_stage }}"
 
-      # ── STEGVERSE-001 REPAIR ───────────────────────────────────────────────
+      # ── STEGVERSE-001 REPAIR ──────────────────────────────────────────────
       - name: Run StegVerse-001 repair
         if: ${{ github.event.inputs.repair_target != '' && github.event.inputs.repair_target != null }}
         run: |
@@ -129,9 +130,9 @@ jobs:
             --target-repo "${{ github.event.inputs.repair_target }}" \
             --entity StegVerse-002 \
             --stage SV002-M3 \
-            ${{ github.event.inputs.dry_run == 'true' && '--dry-run' || '' }}"
+            ${{ github.event.inputs.dry_run == 'true' && '--dry-run' || '' }}
 
-      # ── TV/TVC VERIFICATION ────────────────────────────────────────────────
+      # ── TV/TVC VERIFICATION ───────────────────────────────────────────────
       - name: Run TV/TVC authority verification
         if: ${{ github.event.inputs.task_id == 'tvc.verify.all' }}
         run: |
@@ -139,7 +140,7 @@ jobs:
             --registry config/package_registry.json \
             --entity StegVerse-002
 
-      # ── CGE ADMISSIBILITY CHECK ────────────────────────────────────────────
+      # ── CGE ADMISSIBILITY CHECK ───────────────────────────────────────────
       - name: CGE admissibility check
         continue-on-error: true
         run: |
@@ -148,7 +149,7 @@ jobs:
             --entity StegVerse-002 \
             --stage "${{ steps.stage.outputs.active_stage }}"
 
-      # ── RECEIPT EMISSION ───────────────────────────────────────────────────
+      # ── RECEIPT EMISSION ──────────────────────────────────────────────────
       - name: Emit run receipt
         if: always()
         run: |
@@ -161,7 +162,7 @@ jobs:
             --basis "Dispatcher run — task_id=${{ github.event.inputs.task_id }} skip_tasks=${{ github.event.inputs.skip_tasks }}" \
             --output receipts/current/intake_receipt.jsonl
 
-      # ── STATE UPDATE ───────────────────────────────────────────────────────
+      # ── STATE UPDATE ──────────────────────────────────────────────────────
       - name: Update stage state
         if: success()
         run: |
@@ -170,13 +171,29 @@ jobs:
             --stage "${{ steps.stage.outputs.active_stage }}" \
             --status last_run_success
 
-      # ── COMMIT EVIDENCE ────────────────────────────────────────────────────
+      # ── COMMIT EVIDENCE + INSTALLED / ROUTED BUNDLES ──────────────────────
       - name: Commit run evidence
         if: always()
         run: |
           git config user.name "StegVerse-002 Dispatcher"
           git config user.email "sv002-dispatcher@stegverse"
-          git add reports/ receipts/ tracking/ dist/ || true
+
+          git add -A \
+            reports/ \
+            receipts/ \
+            tracking/ \
+            dist/ \
+            repair/ \
+            docs/ \
+            machine/ \
+            schemas/ \
+            core_lite/ \
+            tools/ \
+            tests/ \
+            incoming/ \
+            failed_bundles/ \
+            quarantine/ || true
+
           git diff --staged --quiet || git commit -m "sv002: intake run — stage=${{ steps.stage.outputs.active_stage }} task=${{ github.event.inputs.task_id }}"
           git push || true
 
@@ -190,4 +207,8 @@ jobs:
             reports/current/
             receipts/current/
             tracking/stegverse-002/
+            tracking/ingestion_events/
             dist/current/
+            dist/master-records/
+            dist/failed_bundles/
+            repair/bundles/
