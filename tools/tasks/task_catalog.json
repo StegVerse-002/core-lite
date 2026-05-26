@@ -1,0 +1,138 @@
+{
+  "schema": "stegverse_task_catalog.v1",
+  "entity": "StegVerse-002",
+  "version": "1.0.0-sv002-m10",
+  "description": "All capabilities for StegVerse-002/core-lite. No new workflow files needed.",
+  "tasks": [
+    {
+      "task_id": "core.intake.default",
+      "description": "Default Core-Lite Intake run — task_id blank, skip_tasks true",
+      "action": "run",
+      "command": "python -m core_lite.cli run --repo-root . --skip-tasks",
+      "allowed_stages": ["SV002-M5", "SV002-M6", "SV002-M7", "SV002-M8", "SV002-M9", "SV002-M10"],
+      "forbidden_actions": ["production_mutation", "deploy"],
+      "stop_condition": "Core-Lite Intake succeeds with task_id blank and skip_tasks true",
+      "timeout_seconds": 300
+    },
+    {
+      "task_id": "core.status",
+      "description": "Print current status and stage map",
+      "action": "report",
+      "command": "python -m core_lite.cli status",
+      "allowed_stages": ["SV002-M0", "SV002-M1", "SV002-M2", "SV002-M3", "SV002-M4", "SV002-M5", "SV002-M6", "SV002-M7", "SV002-M8", "SV002-M9", "SV002-M10"],
+      "forbidden_actions": [],
+      "stop_condition": "Status report emitted",
+      "timeout_seconds": 60
+    },
+    {
+      "task_id": "cge.check",
+      "description": "Run CGE admissibility check",
+      "action": "run",
+      "command": "python -m core_lite.cge --repo-root . --entity StegVerse-002",
+      "allowed_stages": ["SV002-M5", "SV002-M6", "SV002-M7", "SV002-M8", "SV002-M9", "SV002-M10"],
+      "forbidden_actions": ["production_mutation"],
+      "stop_condition": "CGE fingerprint emitted",
+      "timeout_seconds": 120
+    },
+    {
+      "task_id": "tvc.verify.all",
+      "description": "Run full TVC authority verification",
+      "action": "run",
+      "command": "python -m core_lite.tvc.verify --registry config/package_registry.json --entity StegVerse-002",
+      "allowed_stages": ["SV002-M9", "SV002-M10"],
+      "forbidden_actions": ["production_mutation"],
+      "stop_condition": "TVC evidence manifest emitted",
+      "timeout_seconds": 180
+    },
+    {
+      "task_id": "tv.apply",
+      "description": "TV policy apply — build export, sign, chainlog",
+      "action": "run",
+      "command": "python -c \"from core_lite.tv.policy import TVPolicyEngine; import json; e=TVPolicyEngine(); print(json.dumps(e.apply(), indent=2))\"",
+      "allowed_stages": ["SV002-M9", "SV002-M10"],
+      "forbidden_actions": ["production_mutation"],
+      "stop_condition": "TV export signed and chainlog updated",
+      "timeout_seconds": 120
+    },
+    {
+      "task_id": "tv.verify",
+      "description": "TV policy verify — verify latest export",
+      "action": "run",
+      "command": "python -c \"from core_lite.tv.policy import TVPolicyEngine; import json; e=TVPolicyEngine(); print(json.dumps(e.verify(), indent=2))\"",
+      "allowed_stages": ["SV002-M9", "SV002-M10"],
+      "forbidden_actions": [],
+      "stop_condition": "TV verification entry appended to chainlog",
+      "timeout_seconds": 120
+    },
+    {
+      "task_id": "tv.heal",
+      "description": "TV auto-heal — detect and repair policy drift",
+      "action": "run",
+      "command": "python -c \"from core_lite.tv.policy import TVPolicyEngine; import json; e=TVPolicyEngine(); print(json.dumps(e.heal(), indent=2))\"",
+      "allowed_stages": ["SV002-M9", "SV002-M10"],
+      "forbidden_actions": ["production_mutation"],
+      "stop_condition": "TV heal complete or no heal needed",
+      "timeout_seconds": 180
+    },
+    {
+      "task_id": "multimodal.classify",
+      "description": "Classify a multimodal input through the pipeline",
+      "action": "run",
+      "command": "python -m core_lite.multimodal.pipeline --input-type text --entity StegVerse-002",
+      "allowed_stages": ["SV002-M6", "SV002-M7", "SV002-M8", "SV002-M9", "SV002-M10"],
+      "forbidden_actions": [],
+      "stop_condition": "Input classified and receipt emitted",
+      "timeout_seconds": 120
+    },
+    {
+      "task_id": "kv.context.packet.intake",
+      "description": "Ingest a KnowledgeVault context packet",
+      "action": "run",
+      "command": "python -m core_lite.knowledgevault.intake --packet-path vault_template/context_packets/default_packet.json --entity StegVerse-002",
+      "allowed_stages": ["SV002-M8", "SV002-M9", "SV002-M10"],
+      "forbidden_actions": ["training", "publication", "production_mutation"],
+      "stop_condition": "Context packet admitted and memory-use receipt emitted",
+      "timeout_seconds": 120
+    },
+    {
+      "task_id": "llm.adapter.ingest",
+      "description": "Ingest LLM response through the Adapter Gate",
+      "action": "run",
+      "command": "python -m tools.scripts.llm_adapter_gate --response-file tracking/llm_input.txt --entity StegVerse-002",
+      "allowed_stages": ["SV002-M7", "SV002-M8", "SV002-M9", "SV002-M10"],
+      "forbidden_actions": ["production_mutation", "deploy", "bypass_cge"],
+      "stop_condition": "Instruction packet produced — operator review required",
+      "timeout_seconds": 120
+    },
+    {
+      "task_id": "sv001.repair.intake.enablement",
+      "description": "Repair Data-Continuation/core-lite at stuck SV001-M3 gate",
+      "action": "run",
+      "command": "python -m tools.repair.sv001_repair --target-repo Data-Continuation/core-lite --failure-file tracking/sv001_repair_input.txt --entity StegVerse-002",
+      "allowed_stages": ["SV002-M3", "SV002-M4", "SV002-M5", "SV002-M6", "SV002-M7", "SV002-M8", "SV002-M9", "SV002-M10"],
+      "forbidden_actions": ["production_mutation", "direct_target_mutation"],
+      "stop_condition": "Candidate prepared — operator applies to Data-Continuation/core-lite",
+      "timeout_seconds": 180
+    },
+    {
+      "task_id": "schemas.validate",
+      "description": "Validate all schemas and manifests",
+      "action": "run",
+      "command": "python -m tools.validators.schema_validator --schemas-dir schemas/",
+      "allowed_stages": ["SV002-M0", "SV002-M1", "SV002-M2", "SV002-M3", "SV002-M4", "SV002-M5", "SV002-M6", "SV002-M7", "SV002-M8", "SV002-M9", "SV002-M10"],
+      "forbidden_actions": [],
+      "stop_condition": "Validation report emitted",
+      "timeout_seconds": 60
+    },
+    {
+      "task_id": "receipts.chain.verify",
+      "description": "Verify the receipt chain integrity",
+      "action": "run",
+      "command": "python -m tools.validators.receipt_verifier --receipts-dir receipts/",
+      "allowed_stages": ["SV002-M3", "SV002-M4", "SV002-M5", "SV002-M6", "SV002-M7", "SV002-M8", "SV002-M9", "SV002-M10"],
+      "forbidden_actions": [],
+      "stop_condition": "Chain verification report emitted",
+      "timeout_seconds": 60
+    }
+  ]
+}
