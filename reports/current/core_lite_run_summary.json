@@ -4,7 +4,7 @@
   "stage": "SV002-M10",
   "task_id": "",
   "skip_tasks": true,
-  "started": "2026-05-26T01:28:50.623247+00:00",
+  "started": "2026-05-26T01:29:14.969158+00:00",
   "status": "success",
   "steps": [
     {
@@ -31,11 +31,11 @@
     {
       "step": "receipt",
       "status": "ok",
-      "receipt_hash": "sha256:d6901557bea1775c9dc194da7a9b556199a4af56456fb3487c4ffe0643c1035b"
+      "receipt_hash": "sha256:54d6a3d4f7d7e4ba1c3e6eb838ffa914a335ae3a1af4a37c39ebfd419237e68c"
     }
   ],
   "cge_decision": "ALLOW",
-  "receipt_hash": "sha256:d6901557bea1775c9dc194da7a9b556199a4af56456fb3487c4ffe0643c1035b",
-  "completed": "2026-05-26T01:28:50.623724+00:00",
+  "receipt_hash": "sha256:54d6a3d4f7d7e4ba1c3e6eb838ffa914a335ae3a1af4a37c39ebfd419237e68c",
+  "completed": "2026-05-26T01:29:14.969954+00:00",
   "stop_condition_met": true
 }
