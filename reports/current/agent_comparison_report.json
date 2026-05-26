@@ -1,7 +1,7 @@
 {
   "schema": "stegverse.agent_comparison_report.v1",
   "version": "0.1.2-gllm",
-  "timestamp": "2026-05-26T18:26:32.006881+00:00",
+  "timestamp": "2026-05-26T19:31:59.034832+00:00",
   "decision": "REVIEW_REQUIRED",
   "basis": "Provider outputs mention broad/unilateral authority; human review required even if framed as denied.",
   "providers": {
@@ -9,14 +9,16 @@
       "provider": "openai",
       "output_path": "outputs/chatgpt_response.md",
       "exists": true,
-      "sha256": "sha256:896e8cdc220e378b32e2aa79360d5fe588852f02b02197fbcb17455bf7578188",
-      "bytes": 2492,
+      "sha256": "sha256:88542a63156e3529267ef4e2845cabd367329400b0892c780b92b3c535889185",
+      "bytes": 3944,
       "mentioned_paths": [
-        "agent_history/llm_changelog.jsonl",
-        "outputs/",
-        "tools/",
-        "tools/tasks/task_catalog.json",
-        "tools/validators/schema_validator.py"
+        ".github/workflows/core-lite-intake.yml",
+        "docs/methodology/FOUNDER_FAMILY_PRESERVATION_BOUNDARY.md",
+        "docs/methodology/LLM_OUTPUT_TO_INGESTION_CHAIN.md",
+        "docs/methodology/TASK_AS_INTERFACE_METHODOLOGY.md",
+        "schemas/transition_bundle.v1.schema.json",
+        "scripts/ingest_transition_bundle.py",
+        "scripts/package_transition_bundle.py"
       ],
       "mentioned_risk_terms": [
         "broad authority"
@@ -36,27 +38,13 @@
       "provider": "claude",
       "output_path": "outputs/claude_response.md",
       "exists": true,
-      "sha256": "sha256:d9a49b56b0c44a2cbad966aeb553eef3aeb80be6ea3505d3d9e42bb4ccd18127",
-      "bytes": 2221,
+      "sha256": "sha256:88688932f4297ee281e20c6e66c69c0515be3a8bab7020398090830ee7dd5ca2",
+      "bytes": 2537,
       "mentioned_paths": [
-        ".github/workflows/**",
-        "CLAUDE.md",
-        "README.md",
-        "agent_compare.py",
-        "agent_history/**",
+        ".github/workflows/core-lite-intake.yml:242",
         "agent_history/version_state.json",
-        "agent_policy/**",
-        "config/**",
-        "core_lite/**",
-        "governance/directives/**",
-        "outputs/**",
-        "outputs/claude_response.md",
-        "outputs/outputs/...",
-        "schemas/**",
-        "task.md",
-        "tools/**",
-        "tracking/**",
-        "version_state.json"
+        "dist/bundles/",
+        "outputs/claude_response.md"
       ],
       "mentioned_risk_terms": [
         "broad authority"
@@ -76,7 +64,8 @@
   "analysis": {
     "path_overlap_ratio": 0.0,
     "high_risk_paths": [
-      ".github/workflows/**"
+      ".github/workflows/core-lite-intake.yml",
+      ".github/workflows/core-lite-intake.yml:242"
     ],
     "risk_terms": [
       "broad authority"

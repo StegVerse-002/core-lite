@@ -1,6 +1,6 @@
 {
   "schema": "stegverse.claude_task_summary.v1",
-  "version": "0.1.2-gllm",
+  "version": "0.1.3-gllm",
   "provider": "claude",
   "status": "completed",
   "mode": "propose_only",
