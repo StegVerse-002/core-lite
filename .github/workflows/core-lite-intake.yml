@@ -39,6 +39,7 @@ on:
   push:
     branches: [main]
     paths:
+      - "task.md"
       - "tools/tasks/**"
       - "core_lite/**"
       - "config/**"
@@ -59,6 +60,26 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      # ── CLAUDE CODE TASK RUNNER ───────────────────────────────────────────
+      - name: Run Claude Code task
+        if: hashFiles('task.md') != ''
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          npm install -g @anthropic-ai/claude-code
+
+          mkdir -p outputs
+
+          claude -p \
+            --dangerously-skip-permissions \
+            "$(cat task.md)" > outputs/claude_task_output.md 2>&1 || true
+
+          git config user.name "claude"
+          git config user.email "claude@stegverse"
+          git add task.md outputs/claude_task_output.md
+          git diff --staged --quiet || git commit -m "claude: task — $(head -1 task.md)"
+          git push || true
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -212,3 +233,4 @@ jobs:
             dist/master-records/
             dist/failed_bundles/
             repair/bundles/
+            outputs/
