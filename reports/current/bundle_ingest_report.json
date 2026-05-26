@@ -1,0 +1,21 @@
+{
+  "schema": "stegverse.bundle_ingest_report.v1",
+  "entity": "StegVerse-002",
+  "stage": "SV002-M10",
+  "input_path": "incoming/<bundle-file-name>.zip",
+  "started": "2026-05-26T01:48:24.559142+00:00",
+  "dry_run": false,
+  "status": "failure",
+  "decision": "FAIL_CLOSED",
+  "installed": [],
+  "rejected": [],
+  "errors": [
+    "input_path_not_found"
+  ],
+  "basis": "Input path not found.",
+  "completed": "2026-05-26T01:48:24.559178+00:00",
+  "receipt": {
+    "receipt_hash": "sha256:6c353fbb4787bef4748ce0d195ae0f1d819398faf777d75fa1852ba06b9d3eb5",
+    "receipt_path": "receipts/current/ingestion_receipt.jsonl"
+  }
+}
