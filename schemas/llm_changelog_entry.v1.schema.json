@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stegverse.llm_changelog_entry.v1",
+  "title": "StegVerse LLM Changelog Entry",
+  "type": "object",
+  "required": [
+    "schema",
+    "timestamp",
+    "version",
+    "provider",
+    "conversation",
+    "change_type",
+    "summary",
+    "authority"
+  ],
+  "properties": {
+    "schema": {
+      "const": "stegverse.llm_changelog_entry.v1"
+    },
+    "timestamp": {
+      "type": "string"
+    },
+    "version": {
+      "type": "string"
+    },
+    "provider": {
+      "enum": [
+        "openai",
+        "claude",
+        "coordinator",
+        "human"
+      ]
+    },
+    "conversation": {
+      "type": "string"
+    },
+    "change_type": {
+      "type": "string"
+    },
+    "summary": {
+      "type": "string"
+    },
+    "files": {
+      "type": "array"
+    },
+    "decision": {
+      "type": "string"
+    },
+    "authority": {
+      "type": "string"
+    },
+    "broad_authority": {
+      "type": "boolean"
+    },
+    "output_hashes": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stegverse.governance_directive.v1",
+  "title": "StegVerse Governance Directive",
+  "type": "object",
+  "required": [
+    "schema",
+    "id",
+    "version",
+    "status",
+    "directive",
+    "applies_to",
+    "basis"
+  ],
+  "properties": {
+    "schema": {
+      "const": "stegverse.governance_directive.v1"
+    },
+    "id": {
+      "type": "string"
+    },
+    "version": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string"
+    },
+    "directive": {
+      "type": "string"
+    },
+    "applies_to": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "basis": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "authority_requirements": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "current_scope_correction": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": true
+}
