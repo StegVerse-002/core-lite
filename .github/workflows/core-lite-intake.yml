@@ -35,16 +35,11 @@ on:
         description: "Dry run only — no mutations (true/false)"
         required: false
         default: "false"
-      agent_provider:
-        description: "Agent provider for task.md: none/openai/claude/both"
-        required: false
-        default: "none"
 
   push:
     branches: [main]
     paths:
       - "task.md"
-      - "agent_policy/**"
       - "tools/tasks/**"
       - "core_lite/**"
       - "config/**"
@@ -57,403 +52,125 @@ env:
   STEGVERSE_ENTITY: StegVerse-002
   STEGVERSE_REPO: StegVerse-002/core-lite
   STEGVERSE_VERSION: 1.0.0-sv002-m10
-  OPENAI_MODEL: ${{ vars.OPENAI_MODEL || 'gpt-5-mini' }}
 
 jobs:
-  dispatch:
-    runs-on: ubuntu-latest
 
+  # ── JOB A: CLAUDE CODE AGENT ─────────────────────────────────────────────
+  claude-agent:
+    runs-on: ubuntu-latest
+    if: hashFiles('task.md') != ''
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # ── AGENT WORKSPACE PREP ─────────────────────────────────────────────
-      - name: Prepare governed agent workspace
-        if: ${{ hashFiles('task.md') != '' }}
-        run: |
-          mkdir -p outputs candidates reports/current receipts/current agent_policy
-
-          if [ ! -f agent_policy/allowed_paths.json ]; then
-            cat > agent_policy/allowed_paths.json <<'JSON'
-          [
-            "outputs/**",
-            "candidates/**",
-            "reports/**",
-            "receipts/**",
-            "docs/**",
-            "machine/**",
-            "schemas/**",
-            "tools/**",
-            "tests/**",
-            "core_lite/**",
-            "incoming/**",
-            "repair/**",
-            "dist/**"
-          ]
-          JSON
-          fi
-
-          if [ ! -f agent_policy/forbidden_paths.json ]; then
-            cat > agent_policy/forbidden_paths.json <<'JSON'
-          [
-            ".git/**",
-            ".github/workflows/**",
-            "agent_policy/forbidden_paths.json",
-            "tracking/stegverse-002/stage_map.json"
-          ]
-          JSON
-          fi
-
-      # ── OPENAI GOVERNED CANDIDATE RUNNER ─────────────────────────────────
-      - name: Run OpenAI governed candidate task
-        if: ${{ hashFiles('task.md') != '' && (github.event_name == 'push' || github.event.inputs.agent_provider == 'openai' || github.event.inputs.agent_provider == 'both') }}
-        env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-        run: |
-          if [ -z "$OPENAI_API_KEY" ]; then
-            echo "OPENAI_API_KEY is not set; skipping OpenAI agent run."
-            exit 0
-          fi
-
-          python - <<'PY'
-          from __future__ import annotations
-
-          import json
-          import os
-          import re
-          import subprocess
-          import sys
-          import urllib.error
-          import urllib.request
-          from datetime import datetime, timezone
-          from pathlib import Path
-
-          root = Path(".")
-          task_path = root / "task.md"
-          outputs_dir = root / "outputs"
-          candidates_dir = root / "candidates"
-          reports_dir = root / "reports" / "current"
-
-          outputs_dir.mkdir(parents=True, exist_ok=True)
-          candidates_dir.mkdir(parents=True, exist_ok=True)
-          reports_dir.mkdir(parents=True, exist_ok=True)
-
-          task = task_path.read_text(encoding="utf-8")
-
-          allowed_paths = json.loads(Path("agent_policy/allowed_paths.json").read_text(encoding="utf-8"))
-          forbidden_paths = json.loads(Path("agent_policy/forbidden_paths.json").read_text(encoding="utf-8"))
-
-          status_before = subprocess.run(
-              ["git", "status", "--short"],
-              text=True,
-              capture_output=True,
-              check=False,
-          ).stdout
-
-          tracked_files = subprocess.run(
-              ["git", "ls-files"],
-              text=True,
-              capture_output=True,
-              check=False,
-          ).stdout.splitlines()
-
-          context = {
-              "schema": "stegverse.openai_candidate_task.v1",
-              "timestamp": datetime.now(timezone.utc).isoformat(),
-              "repo": os.environ.get("STEGVERSE_REPO", ""),
-              "entity": os.environ.get("STEGVERSE_ENTITY", ""),
-              "version": os.environ.get("STEGVERSE_VERSION", ""),
-              "allowed_paths": allowed_paths,
-              "forbidden_paths": forbidden_paths,
-              "git_status_before": status_before,
-              "tracked_files_sample": tracked_files[:500],
-              "task": task,
-          }
-
-          system_prompt = """You are an OpenAI coding agent operating inside StegVerse governance.
-
-          You may propose a candidate patch only.
-
-          Requirements:
-          - Treat task.md as the declared task.
-          - Respect allowed_paths and forbidden_paths.
-          - Do not modify forbidden paths.
-          - Prefer minimal edits.
-          - Output a unified git diff only if code/file changes are required.
-          - If no safe patch is possible, explain why without inventing changes.
-          - Do not include secrets.
-          - Do not claim authority to approve, deploy, or bind the change.
-          """
-
-          payload = {
-              "model": os.environ.get("OPENAI_MODEL", "gpt-5-mini"),
-              "input": [
-                  {
-                      "role": "system",
-                      "content": system_prompt,
-                  },
-                  {
-                      "role": "user",
-                      "content": json.dumps(context, indent=2),
-                  },
-              ],
-          }
-
-          req = urllib.request.Request(
-              "https://api.openai.com/v1/responses",
-              data=json.dumps(payload).encode("utf-8"),
-              headers={
-                  "Authorization": f"Bearer {os.environ['OPENAI_API_KEY']}",
-                  "Content-Type": "application/json",
-              },
-              method="POST",
-          )
-
-          try:
-              with urllib.request.urlopen(req, timeout=180) as resp:
-                  body = json.loads(resp.read().decode("utf-8"))
-          except urllib.error.HTTPError as exc:
-              error_body = exc.read().decode("utf-8", errors="replace")
-              (outputs_dir / "openai_task_output.md").write_text(error_body, encoding="utf-8")
-              (reports_dir / "openai_task_summary.json").write_text(
-                  json.dumps(
-                      {
-                          "schema": "stegverse.openai_task_summary.v1",
-                          "status": "api_error",
-                          "http_status": exc.code,
-                          "error": error_body,
-                      },
-                      indent=2,
-                  )
-                  + "\n",
-                  encoding="utf-8",
-              )
-              sys.exit(0)
-
-          def extract_text(response: dict) -> str:
-              parts: list[str] = []
-
-              if isinstance(response.get("output_text"), str):
-                  parts.append(response["output_text"])
-
-              for item in response.get("output", []) or []:
-                  for content in item.get("content", []) or []:
-                      text = content.get("text")
-                      if isinstance(text, str):
-                          parts.append(text)
-
-              return "\n\n".join(parts).strip()
-
-          text = extract_text(body)
-          (outputs_dir / "openai_task_output.md").write_text(text + "\n", encoding="utf-8")
-
-          patch_text = ""
-          fenced = re.search(r"```(?:diff|patch)?\s*(.*?)```", text, re.DOTALL)
-          if fenced:
-              patch_text = fenced.group(1).strip() + "\n"
-          elif text.startswith("diff --git ") or "\ndiff --git " in text:
-              idx = text.find("diff --git ")
-              patch_text = text[idx:].strip() + "\n"
-
-          patch_path = candidates_dir / "openai_candidate.patch"
-          patch_path.write_text(patch_text, encoding="utf-8")
-
-          patch_applied = False
-          patch_status = "no_patch_detected"
-
-          if patch_text.strip():
-              check = subprocess.run(
-                  ["git", "apply", "--check", str(patch_path)],
-                  text=True,
-                  capture_output=True,
-                  check=False,
-              )
-              if check.returncode == 0:
-                  apply = subprocess.run(
-                      ["git", "apply", str(patch_path)],
-                      text=True,
-                      capture_output=True,
-                      check=False,
-                  )
-                  patch_applied = apply.returncode == 0
-                  patch_status = "applied" if patch_applied else "apply_failed"
-              else:
-                  patch_status = "apply_check_failed"
-
-          status_after = subprocess.run(
-              ["git", "status", "--short"],
-              text=True,
-              capture_output=True,
-              check=False,
-          ).stdout
-
-          summary = {
-              "schema": "stegverse.openai_task_summary.v1",
-              "timestamp": datetime.now(timezone.utc).isoformat(),
-              "provider": "openai",
-              "model": payload["model"],
-              "status": "completed",
-              "patch_status": patch_status,
-              "patch_applied": patch_applied,
-              "output_path": "outputs/openai_task_output.md",
-              "candidate_patch": "candidates/openai_candidate.patch",
-              "git_status_before": status_before,
-              "git_status_after": status_after,
-          }
-
-          (reports_dir / "openai_task_summary.json").write_text(
-              json.dumps(summary, indent=2) + "\n",
-              encoding="utf-8",
-          )
-          PY
-
-      # ── CLAUDE GOVERNED CANDIDATE RUNNER ─────────────────────────────────
-      - name: Run Claude governed candidate task
-        if: ${{ hashFiles('task.md') != '' && (github.event_name == 'push' || github.event.inputs.agent_provider == 'claude' || github.event.inputs.agent_provider == 'both') }}
+      - name: Run Claude Code
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: |
-          if [ -z "$ANTHROPIC_API_KEY" ]; then
-            echo "ANTHROPIC_API_KEY is not set; skipping Claude agent run."
-            exit 0
-          fi
-
           npm install -g @anthropic-ai/claude-code
-
-          mkdir -p outputs candidates reports/current
-
-          {
-            echo "# Claude Governed Candidate Run"
-            echo
-            echo "Timestamp: $(date -u +"%Y-%m-%dT%H:%M:%SZ")"
-            echo
-            echo "## Task"
-            echo
-            cat task.md
-            echo
-            echo "## Output"
-            echo
-          } > outputs/claude_task_output.md
+          mkdir -p outputs
 
           claude -p \
             --dangerously-skip-permissions \
-            "$(cat task.md)" >> outputs/claude_task_output.md 2>&1 || true
+            "$(cat task.md)" > outputs/claude_response.md 2>&1 || true
 
-          git status --short > reports/current/claude_git_status_after.txt
+      - name: Upload Claude output
+        uses: actions/upload-artifact@v4
+        with:
+          name: claude-response
+          path: outputs/claude_response.md
 
-          cat > reports/current/claude_task_summary.json <<JSON
-          {
-            "schema": "stegverse.claude_task_summary.v1",
-            "provider": "claude",
-            "status": "completed",
-            "output_path": "outputs/claude_task_output.md",
-            "git_status_path": "reports/current/claude_git_status_after.txt"
-          }
-          JSON
+  # ── JOB B: GPT-4o AGENT ──────────────────────────────────────────────────
+  chatgpt-agent:
+    runs-on: ubuntu-latest
+    if: hashFiles('task.md') != ''
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      # ── AGENT GOVERNANCE GATE ────────────────────────────────────────────
-      - name: Govern agent changes
-        id: govern_agent
-        if: ${{ hashFiles('task.md') != '' }}
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install OpenAI SDK
+        run: pip install openai
+
+      - name: Run GPT-4o agent
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
-          python - <<'PY'
-          from __future__ import annotations
+          mkdir -p outputs
+          python scripts/openai_task.py
 
-          import fnmatch
-          import json
-          import subprocess
-          from datetime import datetime, timezone
-          from pathlib import Path
+      - name: Upload GPT-4o output
+        uses: actions/upload-artifact@v4
+        with:
+          name: chatgpt-response
+          path: outputs/chatgpt_response.md
 
-          reports_dir = Path("reports/current")
-          receipts_dir = Path("receipts/current")
-          reports_dir.mkdir(parents=True, exist_ok=True)
-          receipts_dir.mkdir(parents=True, exist_ok=True)
+  # ── JOB C: MERGE + SYNTHESIS ─────────────────────────────────────────────
+  merge-and-commit:
+    runs-on: ubuntu-latest
+    needs: [claude-agent, chatgpt-agent]
+    if: always() && hashFiles('task.md') != ''
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-          allowed = json.loads(Path("agent_policy/allowed_paths.json").read_text(encoding="utf-8"))
-          forbidden = json.loads(Path("agent_policy/forbidden_paths.json").read_text(encoding="utf-8"))
+      - name: Download Claude output
+        uses: actions/download-artifact@v4
+        with:
+          name: claude-response
+          path: outputs/
 
-          # Evidence paths are always permitted unless explicitly forbidden.
-          evidence_allow = [
-              "outputs/**",
-              "candidates/**",
-              "reports/**",
-              "receipts/**",
-          ]
+      - name: Download GPT-4o output
+        uses: actions/download-artifact@v4
+        with:
+          name: chatgpt-response
+          path: outputs/
 
-          status = subprocess.run(
-              ["git", "status", "--porcelain"],
-              text=True,
-              capture_output=True,
-              check=False,
-          ).stdout.splitlines()
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
 
-          changed: list[str] = []
-          for line in status:
-              if not line.strip():
-                  continue
-              path = line[3:].strip()
-              if " -> " in path:
-                  path = path.split(" -> ", 1)[1].strip()
-              changed.append(path)
+      - name: Install Anthropic SDK
+        run: pip install anthropic
 
-          def matches(path: str, patterns: list[str]) -> bool:
-              return any(fnmatch.fnmatch(path, pattern) for pattern in patterns)
+      - name: Run synthesis
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          mkdir -p outputs
+          python scripts/merge_outputs.py
 
-          violations = []
-          allowed_effects = []
+      - name: Commit all outputs
+        run: |
+          git config user.name "claude"
+          git config user.email "claude@stegverse"
+          git add \
+            outputs/claude_response.md \
+            outputs/chatgpt_response.md \
+            outputs/thread.md || true
+          git diff --staged --quiet || git commit -m "claude: coordination run — $(head -1 task.md)"
+          git push || true
 
-          for path in changed:
-              if matches(path, forbidden):
-                  violations.append(
-                      {
-                          "path": path,
-                          "reason": "forbidden_path_changed",
-                      }
-                  )
-              elif matches(path, allowed) or matches(path, evidence_allow):
-                  allowed_effects.append(path)
-              else:
-                  violations.append(
-                      {
-                          "path": path,
-                          "reason": "path_not_allowed",
-                      }
-                  )
+      - name: Upload thread artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coordination-thread
+          path: outputs/thread.md
 
-          decision = "ALLOW" if not violations else "FAIL_CLOSED"
-          report = {
-              "schema": "stegverse.agent_governance_report.v1",
-              "timestamp": datetime.now(timezone.utc).isoformat(),
-              "decision": decision,
-              "changed_paths": changed,
-              "allowed_effects": allowed_effects,
-              "violations": violations,
-              "allowed_patterns": allowed,
-              "forbidden_patterns": forbidden,
-          }
-
-          report_path = reports_dir / "agent_governance_report.json"
-          report_path.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
-
-          receipt_path = receipts_dir / "agent_governance_receipt.jsonl"
-          receipt = {
-              "schema": "stegverse.agent_governance_receipt.v1",
-              "timestamp": report["timestamp"],
-              "decision": decision,
-              "basis": "Agent changes governed by allowed/forbidden path policy.",
-              "report_path": str(report_path),
-              "changed_count": len(changed),
-              "violation_count": len(violations),
-          }
-          with receipt_path.open("a", encoding="utf-8") as f:
-              f.write(json.dumps(receipt, sort_keys=True) + "\n")
-
-          print(json.dumps(report, indent=2))
-
-          if violations:
-              raise SystemExit(1)
-          PY
+  # ── JOB D: CORE DISPATCHER ───────────────────────────────────────────────
+  dispatch:
+    runs-on: ubuntu-latest
+    needs: [merge-and-commit]
+    if: always()
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -467,7 +184,7 @@ jobs:
           pip install -e . || true
           echo "PYTHONPATH=$GITHUB_WORKSPACE" >> $GITHUB_ENV
 
-      # ── STAGE RESOLUTION ──────────────────────────────────────────────────
+      # ── STAGE RESOLUTION ────────────────────────────────────────────────
       - name: Resolve active stage and gate
         id: stage
         run: |
@@ -476,7 +193,7 @@ jobs:
             --state-file tracking/stegverse-002/stage_map.json \
             --output-env $GITHUB_OUTPUT
 
-      # ── DEFAULT INTAKE ────────────────────────────────────────────────────
+      # ── DEFAULT INTAKE ───────────────────────────────────────────────────
       - name: Run Core-Lite Intake
         if: ${{ github.event.inputs.task_id == '' || github.event.inputs.task_id == null }}
         run: |
@@ -486,7 +203,7 @@ jobs:
             --entity StegVerse-002 \
             --stage "${{ steps.stage.outputs.active_stage }}"
 
-      # ── DECLARED TASK DISPATCH ────────────────────────────────────────────
+      # ── DECLARED TASK DISPATCH ───────────────────────────────────────────
       - name: Run declared task
         if: ${{ github.event.inputs.task_id != '' && github.event.inputs.task_id != null }}
         run: |
@@ -497,7 +214,7 @@ jobs:
             --stage "${{ steps.stage.outputs.active_stage }}" \
             ${{ github.event.inputs.dry_run == 'true' && '--dry-run' || '' }}
 
-      # ── MULTIMODAL / BUNDLE INPUT ENGINE ──────────────────────────────────
+      # ── MULTIMODAL / BUNDLE INPUT ENGINE ────────────────────────────────
       - name: Process multimodal input
         if: ${{ github.event.inputs.input_type != '' && github.event.inputs.input_type != null }}
         run: |
@@ -508,7 +225,7 @@ jobs:
             --stage "${{ steps.stage.outputs.active_stage }}" \
             ${{ github.event.inputs.dry_run == 'true' && '--dry-run' || '' }}
 
-      # ── KNOWLEDGEVAULT CONTEXT PACKET ─────────────────────────────────────
+      # ── KNOWLEDGEVAULT CONTEXT PACKET ────────────────────────────────────
       - name: Process KnowledgeVault context packet
         if: ${{ github.event.inputs.kv_packet != '' && github.event.inputs.kv_packet != null }}
         run: |
@@ -517,7 +234,7 @@ jobs:
             --entity StegVerse-002 \
             --stage "${{ steps.stage.outputs.active_stage }}"
 
-      # ── STEGVERSE-001 REPAIR ──────────────────────────────────────────────
+      # ── STEGVERSE-001 REPAIR ─────────────────────────────────────────────
       - name: Run StegVerse-001 repair
         if: ${{ github.event.inputs.repair_target != '' && github.event.inputs.repair_target != null }}
         run: |
@@ -527,7 +244,7 @@ jobs:
             --stage SV002-M3 \
             ${{ github.event.inputs.dry_run == 'true' && '--dry-run' || '' }}
 
-      # ── TV/TVC VERIFICATION ───────────────────────────────────────────────
+      # ── TV/TVC VERIFICATION ──────────────────────────────────────────────
       - name: Run TV/TVC authority verification
         if: ${{ github.event.inputs.task_id == 'tvc.verify.all' }}
         run: |
@@ -535,7 +252,7 @@ jobs:
             --registry config/package_registry.json \
             --entity StegVerse-002
 
-      # ── CGE ADMISSIBILITY CHECK ───────────────────────────────────────────
+      # ── CGE ADMISSIBILITY CHECK ──────────────────────────────────────────
       - name: CGE admissibility check
         continue-on-error: true
         run: |
@@ -544,7 +261,7 @@ jobs:
             --entity StegVerse-002 \
             --stage "${{ steps.stage.outputs.active_stage }}"
 
-      # ── RECEIPT EMISSION ──────────────────────────────────────────────────
+      # ── RECEIPT EMISSION ─────────────────────────────────────────────────
       - name: Emit run receipt
         if: always()
         run: |
@@ -557,7 +274,7 @@ jobs:
             --basis "Dispatcher run — task_id=${{ github.event.inputs.task_id }} skip_tasks=${{ github.event.inputs.skip_tasks }}" \
             --output receipts/current/intake_receipt.jsonl
 
-      # ── STATE UPDATE ──────────────────────────────────────────────────────
+      # ── STATE UPDATE ─────────────────────────────────────────────────────
       - name: Update stage state
         if: success()
         run: |
@@ -566,16 +283,14 @@ jobs:
             --stage "${{ steps.stage.outputs.active_stage }}" \
             --status last_run_success
 
-      # ── COMMIT EVIDENCE + INSTALLED / ROUTED BUNDLES ──────────────────────
+      # ── COMMIT EVIDENCE ──────────────────────────────────────────────────
       - name: Commit run evidence
-        if: ${{ always() && steps.govern_agent.outcome != 'failure' }}
+        if: always()
         run: |
           git config user.name "StegVerse-002 Dispatcher"
           git config user.email "sv002-dispatcher@stegverse"
 
           git add -A \
-            outputs/ \
-            candidates/ \
             reports/ \
             receipts/ \
             tracking/ \
@@ -589,21 +304,18 @@ jobs:
             tests/ \
             incoming/ \
             failed_bundles/ \
-            quarantine/ \
-            agent_policy/ || true
+            quarantine/ || true
 
-          git diff --staged --quiet || git commit -m "sv002: governed intake run — stage=${{ steps.stage.outputs.active_stage }} task=${{ github.event.inputs.task_id }}"
+          git diff --staged --quiet || git commit -m "sv002: intake run — stage=${{ steps.stage.outputs.active_stage }} task=${{ github.event.inputs.task_id }}"
           git push || true
 
-      # ── ARTIFACTS ─────────────────────────────────────────────────────────
+      # ── ARTIFACTS ────────────────────────────────────────────────────────
       - name: Upload run artifacts
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: sv002-intake-run-${{ github.run_number }}
           path: |
-            outputs/
-            candidates/
             reports/current/
             receipts/current/
             tracking/stegverse-002/
@@ -612,3 +324,4 @@ jobs:
             dist/master-records/
             dist/failed_bundles/
             repair/bundles/
+            outputs/
