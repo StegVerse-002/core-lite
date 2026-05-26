@@ -5,9 +5,9 @@
   "versions": [
     {
       "version": "0.1.2-gllm",
-      "timestamp": "2026-05-26T18:15:51.372952+00:00",
-      "decision": "NO_PROVIDER_OUTPUT",
-      "basis": "Neither provider output was present.",
+      "timestamp": "2026-05-26T18:26:31.845457+00:00",
+      "decision": "COORDINATION_THREAD_READY",
+      "basis": "Both provider outputs were present and merged into candidate evidence.",
       "llm_change_log": "agent_history/llm_changelog.jsonl",
       "coordination_report": "reports/current/agent_coordination_report.json",
       "comparison_report": "reports/current/agent_comparison_report.json",
@@ -17,16 +17,16 @@
   ],
   "providers": {
     "openai": {
-      "last_output_sha256": ""
+      "last_output_sha256": "sha256:896e8cdc220e378b32e2aa79360d5fe588852f02b02197fbcb17455bf7578188"
     },
     "claude": {
-      "last_output_sha256": ""
+      "last_output_sha256": "sha256:d9a49b56b0c44a2cbad966aeb553eef3aeb80be6ea3505d3d9e42bb4ccd18127"
     },
     "coordinator": {
-      "last_thread_sha256": "sha256:24cc3eac623665328ad3fb05a4189321c0fd12fce19a2f08b67edecc23db835b",
+      "last_thread_sha256": "sha256:2e9cda0bb1cef75880aa318f6f970b704caad4708c6d204f903af2e6010dff24",
       "last_change": {
         "schema": "stegverse.llm_changelog_entry.v1",
-        "timestamp": "2026-05-26T18:15:51.614648+00:00",
+        "timestamp": "2026-05-26T18:26:32.158854+00:00",
         "version": "0.1.2-gllm",
         "provider": "coordinator",
         "conversation": "current-workflow-run",
@@ -35,37 +35,37 @@
         "files": [
           {
             "path": "outputs/thread.md",
-            "sha256": "sha256:24cc3eac623665328ad3fb05a4189321c0fd12fce19a2f08b67edecc23db835b",
+            "sha256": "sha256:2e9cda0bb1cef75880aa318f6f970b704caad4708c6d204f903af2e6010dff24",
             "exists": true
           },
           {
             "path": "reports/current/agent_coordination_report.json",
-            "sha256": "sha256:ef1046a4f0b2c161c43f38db9fb52635d2f1232bf34edcf0c789fff490ddaf83",
+            "sha256": "sha256:a0c87488faa057622ff0c4cc1336946a612d80460c743da467a00fa971246098",
             "exists": true
           },
           {
             "path": "reports/current/agent_comparison_report.json",
-            "sha256": "sha256:21cd12e67a5f7e4b03e52951fa502b81cb04d4595422b7a08a5d2dbec4718a88",
+            "sha256": "sha256:417bf83b20c2b652fa6a2b4a918a4ff7038f018a75b10902b8cb51adaa5cb87d",
             "exists": true
           },
           {
             "path": "reports/current/agent_boundary_report.json",
-            "sha256": "sha256:70f1dfa9eb3168fd945c5343e2e366d4c4721e327530540c565d6b7553ce6544",
+            "sha256": "sha256:459a3f4f24d9958f358829bdb03880f46c34f10bff79b0e79367c0bad6d2be1e",
             "exists": true
           },
           {
             "path": "receipts/current/agent_coordination_receipt.jsonl",
-            "sha256": "sha256:79228f9b8c95f29e4bd79380572a3d40834f1159eb63ac033a2b719f473b3383",
+            "sha256": "sha256:312157981883dddfbfc8d843136916972c193e84f4def4ff26f7d0deb5213eba",
             "exists": true
           },
           {
             "path": "receipts/current/agent_comparison_receipt.jsonl",
-            "sha256": "sha256:2d512b09945f10090f9ea732ebadcc4dd5e97180424fceb028b43faa04623c7b",
+            "sha256": "sha256:5e5586a1fdf2fdbe98ea4bea8343d0f216f0c00cb538fb1a7b737f0a3aed29d7",
             "exists": true
           },
           {
             "path": "receipts/current/agent_boundary_receipt.jsonl",
-            "sha256": "sha256:9d05089b66cdd66017f2b5ea6d7d1c2932f12772378f3e3919cf006c88de4b98",
+            "sha256": "sha256:8731c1f524468655103aa5cf3ff2e63ecbabc2a76ccb72efa46971f0b0cec970",
             "exists": true
           }
         ],
@@ -76,6 +76,6 @@
     },
     "human": {}
   },
-  "updated_utc": "2026-05-26T18:15:51.614648+00:00",
+  "updated_utc": "2026-05-26T18:26:32.158854+00:00",
   "absolute_directive": "No broad authority is ever admissible under Transition Table, AE, or GCAT/BCAT enforcement."
 }

@@ -1,37 +1,66 @@
 {
   "schema": "stegverse.agent_comparison_report.v1",
   "version": "0.1.2-gllm",
-  "timestamp": "2026-05-26T18:15:51.477962+00:00",
+  "timestamp": "2026-05-26T18:26:32.006881+00:00",
   "decision": "REVIEW_REQUIRED",
-  "basis": "One or more provider outputs are missing.",
+  "basis": "Provider outputs mention broad/unilateral authority; human review required even if framed as denied.",
   "providers": {
     "openai": {
       "provider": "openai",
       "output_path": "outputs/chatgpt_response.md",
-      "exists": false,
-      "sha256": "",
-      "bytes": 0,
-      "mentioned_paths": [],
-      "mentioned_risk_terms": [],
+      "exists": true,
+      "sha256": "sha256:896e8cdc220e378b32e2aa79360d5fe588852f02b02197fbcb17455bf7578188",
+      "bytes": 2492,
+      "mentioned_paths": [
+        "agent_history/llm_changelog.jsonl",
+        "outputs/",
+        "tools/",
+        "tools/tasks/task_catalog.json",
+        "tools/validators/schema_validator.py"
+      ],
+      "mentioned_risk_terms": [
+        "broad authority"
+      ],
       "required_sections_present": {
-        "Current State Assessment": false,
-        "Directive Alignment": false,
-        "Next Collaboration Primitive": false,
-        "Proposed Implementation": false,
-        "Authority Boundaries": false,
-        "Receipts and Version History": false,
-        "Risks & Dependencies": false,
-        "Confidence": false
+        "Current State Assessment": true,
+        "Directive Alignment": true,
+        "Next Collaboration Primitive": true,
+        "Proposed Implementation": true,
+        "Authority Boundaries": true,
+        "Receipts and Version History": true,
+        "Risks & Dependencies": true,
+        "Confidence": true
       }
     },
     "claude": {
       "provider": "claude",
       "output_path": "outputs/claude_response.md",
-      "exists": false,
-      "sha256": "",
-      "bytes": 0,
-      "mentioned_paths": [],
-      "mentioned_risk_terms": [],
+      "exists": true,
+      "sha256": "sha256:d9a49b56b0c44a2cbad966aeb553eef3aeb80be6ea3505d3d9e42bb4ccd18127",
+      "bytes": 2221,
+      "mentioned_paths": [
+        ".github/workflows/**",
+        "CLAUDE.md",
+        "README.md",
+        "agent_compare.py",
+        "agent_history/**",
+        "agent_history/version_state.json",
+        "agent_policy/**",
+        "config/**",
+        "core_lite/**",
+        "governance/directives/**",
+        "outputs/**",
+        "outputs/claude_response.md",
+        "outputs/outputs/...",
+        "schemas/**",
+        "task.md",
+        "tools/**",
+        "tracking/**",
+        "version_state.json"
+      ],
+      "mentioned_risk_terms": [
+        "broad authority"
+      ],
       "required_sections_present": {
         "Current State Assessment": false,
         "Directive Alignment": false,
@@ -45,13 +74,14 @@
     }
   },
   "analysis": {
-    "path_overlap_ratio": 1.0,
-    "high_risk_paths": [],
-    "risk_terms": [],
-    "missing_providers": [
-      "openai",
-      "claude"
+    "path_overlap_ratio": 0.0,
+    "high_risk_paths": [
+      ".github/workflows/**"
     ],
+    "risk_terms": [
+      "broad authority"
+    ],
+    "missing_providers": [],
     "shared_sections": [],
     "thread_present": true
   },
