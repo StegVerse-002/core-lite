@@ -1,0 +1,18 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "stegverse_knowledgevault_manifest.schema.json",
+  "title": "StegVerse KnowledgeVault Manifest v1",
+  "type": "object",
+  "required": ["schema", "vault_id", "owner_declared", "default_privacy_class"],
+  "properties": {
+    "schema": {"type": "string", "const": "stegverse_knowledgevault_manifest.v1"},
+    "vault_id": {"type": "string"},
+    "vault_name": {"type": "string"},
+    "owner_declared": {"type": "string"},
+    "created_at": {"type": "string"},
+    "default_privacy_class": {"type": "string", "enum": ["public","shareable","private","sensitive","restricted","unknown"]},
+    "default_ai_use": {"type": "string"},
+    "identity_context_layer": {"type": "object", "properties": {"enabled": {"type": "boolean"}, "identity_authority": {"type": "boolean"}, "identity_verification": {"type": "string"}}},
+    "stegverse_integration": {"type": "object", "properties": {"enabled": {"type": "boolean"}, "allowed_entities": {"type": "array", "items": {"type": "string"}}}}
+  }
+}
