@@ -130,7 +130,6 @@ jobs:
           } > outputs/claude_response.md
 
           claude -p \
-            --dangerously-skip-permissions \
             "$(cat task.md)" >> outputs/claude_response.md 2>&1 || true
 
           cat > reports/current/claude_task_summary.json <<JSON
@@ -199,14 +198,14 @@ jobs:
         continue-on-error: true
         with:
           name: claude-response
-          path: outputs/
+          path: .
 
       - name: Download OpenAI output
         uses: actions/download-artifact@v4
         continue-on-error: true
         with:
           name: openai-response
-          path: outputs/
+          path: .
 
       - name: Set up Python
         uses: actions/setup-python@v5
