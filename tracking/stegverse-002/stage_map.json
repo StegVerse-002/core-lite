@@ -1,0 +1,299 @@
+{
+  "schema": "stegverse_stage_map.v1",
+  "entity": "StegVerse-002",
+  "repo": "StegVerse-002/core-lite",
+  "version": "1.0.0-sv002-m10",
+  "current_stage": "SV002-M10",
+  "current_gate": "SV002-M10 \u2014 Governed mutation proposal + quorum",
+  "active_stop_condition": "Production-candidate release tagged and repair capability verified",
+  "last_updated": "2026-05-24T02:10:25.261554+00:00",
+  "stages": {
+    "SV002-M0": {
+      "name": "Identity and scope declaration",
+      "status": "complete",
+      "capability_delta": "Entity exists with declared scope and forbidden actions. No operational action.",
+      "allowed_actions": [
+        "declare_identity",
+        "declare_scope",
+        "declare_forbidden_actions",
+        "emit_initial_receipt"
+      ],
+      "forbidden_actions": [
+        "task_execution",
+        "target_mutation",
+        "candidate_generation",
+        "sandbox_execution"
+      ],
+      "stop_condition": "Identity and scope recorded. No operational action taken.",
+      "legitimacy_checks": [
+        "actor_id exists",
+        "scope declared",
+        "authority_flags false",
+        "initial receipt emitted"
+      ],
+      "promotion_criteria": "Identity declaration receipt emitted"
+    },
+    "SV002-M1": {
+      "name": "Observation and reporting",
+      "status": "complete",
+      "capability_delta": "Entity may observe supplied materials and produce reports.",
+      "allowed_actions": [
+        "inspect_provided_files",
+        "summarize_state",
+        "identify_visible_gaps",
+        "produce_reports",
+        "emit_receipts"
+      ],
+      "forbidden_actions": [
+        "run_tasks",
+        "prepare_patches",
+        "mutate_files",
+        "execute_workflows"
+      ],
+      "stop_condition": "Report emitted. No operational action taken.",
+      "legitimacy_checks": [
+        "input sources recorded",
+        "limitations recorded",
+        "report emitted",
+        "receipt emitted"
+      ],
+      "promotion_criteria": "Observation report and receipt emitted"
+    },
+    "SV002-M2": {
+      "name": "Declared task execution + receipts",
+      "status": "complete",
+      "capability_delta": "Entity may run predefined tasks inside bounded environment. Every action receipted.",
+      "allowed_actions": [
+        "run_declared_task",
+        "emit_task_report",
+        "verify_expected_outputs",
+        "emit_receipt"
+      ],
+      "forbidden_actions": [
+        "invent_new_tasks",
+        "mutate_targets_outside_task_outputs",
+        "self_authorize_new_capability"
+      ],
+      "stop_condition": "Declared task completes or fails. Report and receipt emitted.",
+      "legitimacy_checks": [
+        "task_manifest exists",
+        "task_id exists",
+        "command declared",
+        "return_code recorded",
+        "receipt emitted"
+      ],
+      "promotion_criteria": "Task catalog operational, receipts chaining correctly"
+    },
+    "SV002-M3": {
+      "name": "Remote target inspection (Data-Continuation/core-lite)",
+      "status": "complete",
+      "capability_delta": "Entity may inspect a remote target without mutating it.",
+      "allowed_actions": [
+        "clone_or_inspect_target",
+        "read_target_structure",
+        "identify_missing_contracts",
+        "report_blockers",
+        "emit_receipts"
+      ],
+      "forbidden_actions": [
+        "push_to_target",
+        "mutate_target",
+        "run_production_actions"
+      ],
+      "stop_condition": "Inspection report and plan emitted. No target mutation.",
+      "legitimacy_checks": [
+        "target_repo identified",
+        "branch identified",
+        "files inspected",
+        "contracts reported",
+        "no target mutation",
+        "receipt emitted"
+      ],
+      "promotion_criteria": "Remote inspection complete, StegVerse-001 repair candidate prepared"
+    },
+    "SV002-M4": {
+      "name": "Candidate preparation",
+      "status": "complete",
+      "capability_delta": "Entity may prepare candidate files, patches, manifests.",
+      "allowed_actions": [
+        "generate_candidate_files",
+        "generate_patches",
+        "record_hashes",
+        "emit_receipts"
+      ],
+      "forbidden_actions": [
+        "apply_candidate_directly",
+        "push_target_changes",
+        "execute_production"
+      ],
+      "stop_condition": "Candidate prepared. Operator review/application required.",
+      "legitimacy_checks": [
+        "blocker identified",
+        "target file identified",
+        "candidate generated",
+        "hashes recorded",
+        "receipt emitted"
+      ],
+      "promotion_criteria": "SV001 repair candidates prepared for all known SV001-M3 blocker classes"
+    },
+    "SV002-M5": {
+      "name": "Core-Lite Intake Enablement",
+      "status": "complete",
+      "capability_delta": "Entity may continue within the Intake gate until STOP condition met.",
+      "allowed_actions": [
+        "run_core_lite_intake",
+        "handle_known_blocker_classes",
+        "prepare_bounded_candidates",
+        "emit_receipts"
+      ],
+      "forbidden_actions": [
+        "create_new_engine",
+        "expand_into_unrelated_gates",
+        "self_authorize_production"
+      ],
+      "stop_condition": "Core-Lite Intake succeeds with task_id blank and skip_tasks true.",
+      "legitimacy_checks": [
+        "active_gate declared",
+        "stop_condition declared",
+        "known_blocker_classes declared",
+        "unknown_blocker_path declared",
+        "receipts emitted"
+      ],
+      "promotion_criteria": "Intake run produces core_lite_run_summary.json, cge_fingerprint.json, core_lite_receipts.jsonl with no import/signature failures"
+    },
+    "SV002-M6": {
+      "name": "CGE + sandbox loop",
+      "status": "complete",
+      "capability_delta": "Entity may participate in sandbox experiments through CGE.",
+      "allowed_actions": [
+        "submit_sandbox_candidate",
+        "run_sandbox_task",
+        "receive_cge_classification",
+        "emit_sandbox_report",
+        "emit_receipt"
+      ],
+      "forbidden_actions": [
+        "production_mutation",
+        "unreviewed_deployment",
+        "bypassing_cge"
+      ],
+      "stop_condition": "Sandbox result classified. No production binding.",
+      "legitimacy_checks": [
+        "sandbox_manifest valid",
+        "cge_precheck recorded",
+        "sandbox_result recorded",
+        "cge_classification emitted",
+        "receipt emitted"
+      ],
+      "promotion_criteria": "CGE sandbox loop produces classified results with receipts"
+    },
+    "SV002-M7": {
+      "name": "LLM Adapter Gate",
+      "status": "complete",
+      "capability_delta": "External LLM reasoning admitted only as bounded transition instruction packets.",
+      "allowed_actions": [
+        "ingest_llm_response",
+        "classify_into_transition_packet",
+        "apply_policy_gate",
+        "emit_receipt"
+      ],
+      "forbidden_actions": [
+        "allow_llm_to_mutate_target",
+        "treat_external_reasoning_as_authority",
+        "skip_adapter_gate"
+      ],
+      "stop_condition": "Bounded instruction packet produced, or denied, or review required.",
+      "legitimacy_checks": [
+        "llm_request recorded",
+        "llm_response recorded",
+        "policy_result recorded",
+        "transition_packet generated",
+        "receipt emitted"
+      ],
+      "promotion_criteria": "LLM adapter gate produces instruction packets \u2014 not authority grants"
+    },
+    "SV002-M8": {
+      "name": "KnowledgeVault context-packet integration",
+      "status": "complete",
+      "capability_delta": "Selected KnowledgeVault context packets admitted through input gate with memory-use receipts.",
+      "allowed_actions": [
+        "receive_context_packet",
+        "validate_packet",
+        "cge_check",
+        "emit_memory_use_receipt"
+      ],
+      "forbidden_actions": [
+        "full_vault_dump",
+        "unbounded_memory_access",
+        "training_use",
+        "publication"
+      ],
+      "stop_condition": "Context packet admitted with memory-use receipt emitted.",
+      "legitimacy_checks": [
+        "packet schema valid",
+        "target_entity matches",
+        "packet_hash verified",
+        "cge check passed",
+        "memory use receipt emitted"
+      ],
+      "promotion_criteria": "KnowledgeVault context packets flow through CGE with receipts"
+    },
+    "SV002-M9": {
+      "name": "TV/TVC encryption layer",
+      "status": "complete",
+      "capability_delta": "TV policy + signing and TVC scoped authority token verification operational.",
+      "allowed_actions": [
+        "tv_apply",
+        "tv_verify",
+        "tv_heal",
+        "tvc_verify_package",
+        "tvc_issue_authority",
+        "append_chainlog"
+      ],
+      "forbidden_actions": [
+        "bypass_signing",
+        "skip_chainlog",
+        "grant_unrestricted_authority"
+      ],
+      "stop_condition": "TVC evidence manifest emitted with registry_verify_ok and authority_verify_ok.",
+      "legitimacy_checks": [
+        "package_registry valid",
+        "authority token issued",
+        "authority verified",
+        "export signed",
+        "chainlog updated"
+      ],
+      "promotion_criteria": "TVC roadmap 8 smoke path green: registry verify, authority issue/verify, chainlog"
+    },
+    "SV002-M10": {
+      "name": "Governed mutation proposal + quorum",
+      "status": "complete",
+      "capability_delta": "Entity may propose mutations and participate in review quorum. Cannot execute without approval.",
+      "allowed_actions": [
+        "propose_mutation",
+        "produce_diff",
+        "classify_risk",
+        "emit_proposal_receipt",
+        "request_approval",
+        "quorum_participation"
+      ],
+      "forbidden_actions": [
+        "direct_execution",
+        "silent_mutation",
+        "unreviewed_deployment",
+        "self_approve"
+      ],
+      "stop_condition": "Production-candidate release tagged. Repair capability verified.",
+      "legitimacy_checks": [
+        "proposal generated",
+        "target identified",
+        "risk classified",
+        "approval_requirement declared",
+        "receipt emitted"
+      ],
+      "promotion_criteria": "v1.0.0-sv002-m10 tagged, StegVerse-001 repair capability proven, all stages complete",
+      "last_run": "2026-05-24T02:10:25.261540+00:00",
+      "last_status": "last_run_success"
+    }
+  }
+}

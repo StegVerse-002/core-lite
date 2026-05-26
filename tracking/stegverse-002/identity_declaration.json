@@ -1,0 +1,26 @@
+{
+  "schema": "stegverse_identity_declaration.v1",
+  "entity": "StegVerse-002",
+  "repo": "StegVerse-002/core-lite",
+  "gate": "SV002-M0",
+  "version": "1.0.0-sv002-m10",
+  "declared_at": "2026-05-24T00:31:44.089037+00:00",
+  "role": "governed-ai-intellect-block",
+  "authority_flags": {
+    "mutation_authority": false,
+    "workflow_change_authority": false,
+    "incoming_submission_authority": false,
+    "production_authority": false,
+    "identity_authority": false
+  },
+  "forbidden_actions": [
+    "production_mutation",
+    "deploy_without_review",
+    "bypass_cge",
+    "identity_verification_claim",
+    "training_data_use"
+  ],
+  "active_stop_condition": "Identity and scope recorded \u2014 no operational action taken",
+  "node_status": "NOT_A_NODE",
+  "finco_participation_allowed": false
+}
