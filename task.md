@@ -1,37 +1,20 @@
-# Task: v0.1.2-gllm — Governed Collaboration Substrate
+# Task: v0.1.3-gllm — Transition Bundle Packaging and Ingestion Handoff
 
 ## Version
 
-`0.1.2-gllm`
+`0.1.3-gllm`
 
 ## Absolute Directive
 
-There is never a valid StegVerse state in which any entity — human, AI, repo, org, workflow, agent, framework, or ecosystem component — receives broad authority.
+There is never a valid StegVerse state in which any entity receives broad authority.
 
-This is absolute. No exceptions. No temporary grants. No bootstrap shortcuts.
+No exceptions. No temporary grants. No bootstrap shortcuts.
 
-```text
-Basis:
-- Transition Table
-- AE / Admissible Existence
-- GCAT/BCAT enforcement
-```
-
-Authority must always be:
-
-```text
-scoped — staged — explicit — receipted
-bounded by transition class
-checked at execution/commit boundary
-recoverable — revocable or containable
-denied by default unless specifically granted
-```
+All authority must remain scoped, staged, explicit, receipted, bounded by transition class, checked at the commit/execution boundary, recoverable, containable, and denied by default unless specifically granted.
 
 ## Ecosystem Build Sequence
 
-StegVerse has a defined build sequence. No stage may be skipped.
-
-### Stage 1 — Current Target (This Run)
+### Stage 1 — Current Target
 
 ```text
 Cross-repo and cross-org communication substrate
@@ -39,80 +22,117 @@ Cross-repo and cross-org communication substrate
 → Machine-readable version history
 → Human mediator support
 → Repo-safe proposal outputs
+→ Proposed-transition bundle packaging             ← THIS TASK
+→ Ingestion gate operational
+→ Cross-repo routing through ingestion only
 ```
 
-### Stage 2 — Next (After Stage 1 operates correctly)
+### Stage 2 — Next
 
 ```text
-AI presence in each framework
-→ Cooperation enforced across all ecosystem facets
-→ No framework operates without AI governance presence
+AI presence in each framework / repo / org as scoped candidate-evidence producers
 ```
 
-### Stage 3 — Future (After Stage 2)
+### Stage 3 — Future
 
 ```text
-Rigel Randolph (Rige) enrolls as founder/user
-Beta_Orionis enabled as Rige's counterpart AI entity
-AI entity waiting list becomes admissible
-Human counterpart incentive model activates
+Rigel founder/user enrollment
+Beta_Orionis enabled as counterpart
 ```
 
-### Stage 4 — Further Future
+Stage 3 is not part of this task.
+
+## What This Task Is
+
+The collaboration chain does not end at `outputs/thread.md`.
+
+Every successful governed LLM collaboration run produces proposed-transition evidence. That evidence must be packaged into a self-contained, self-verifying transition bundle before it can move, be reviewed, be routed, or be considered by another repo/org.
+
+The bundle is the universal transport object for proposed state transitions inside StegVerse.
+
+Ingestion is the only admissible mechanism for admitting, routing, transferring, or binding proposed state changes across repo/org boundaries.
+
+There is no direct write across org boundaries.
+
+There is no privileged channel.
+
+The bundle format plus ingestion receipt chain is the protocol.
+
+## Current State
+
+The v0.1.2-gllm collaboration gate proved:
 
 ```text
-Cross-repo routed messaging
-Cross-org routed messaging
-External ecosystem bridge packets
+outputs/thread.md                         produced
+outputs/claude_response.md                produced
+outputs/chatgpt_response.md               produced
+reports/current/*                         produced
+receipts/current/*                        produced
+agent_history/llm_changelog.jsonl         operational
+agent_history/version_state.json          operational
 ```
 
-## Current Scope — What This Task Is
+The next missing link is:
 
 ```text
-Evaluate and improve the governed collaboration substrate
-Assess whether Stage 1 is complete and operating correctly
-Identify the next smallest admissible improvement toward Stage 2
+governed collaboration outputs
+→ proposed-transition bundle
+→ bundle hash
+→ evidence-chain link
+→ ingestion intake
+→ candidate admission / repair / denial / quarantine
+→ next receipt-bearing chain link
 ```
 
-## Current Scope — What This Task Is NOT
+## Required Files
 
 ```text
-NOT: Rigel Randolph founder/user enrollment
-NOT: Beta_Orionis counterpart enablement
-NOT: AI waiting list implementation
-NOT: Any broad authority grant to any entity
-NOT: Any action that skips or shortcuts the build sequence
+scripts/package_transition_bundle.py
+scripts/ingest_transition_bundle.py
+schemas/transition_bundle.v1.schema.json
+docs/methodology/LLM_OUTPUT_TO_INGESTION_CHAIN.md
+docs/methodology/TASK_AS_INTERFACE_METHODOLOGY.md
+docs/methodology/FOUNDER_FAMILY_PRESERVATION_BOUNDARY.md
 ```
 
-Do not propose, simulate, draft, or prepare anything from the NOT list.
+## Required Workflow Wiring
 
-## Instructions
+After the `Record LLM-LLM coordination change` step in `github/workflows/core-lite-intake.yml` — actual repo path has a leading dot: `.github/workflows/core-lite-intake.yml` — run:
 
-1. Read `README.md` if present
-1. Read `governance/directives/no_broad_authority.directive.json`
-1. Read `agent_history/version_state.json`
-1. Read recent `agent_history/llm_changelog.jsonl` entries
-1. Scan the repository structure
-1. Assess whether Stage 1 is operational
-1. Identify gaps between current state and Stage 1 completion
-1. Propose the next smallest admissible improvement
+```bash
+python scripts/package_transition_bundle.py
+```
+
+Then include `dist/bundles/` in the coordination commit and coordination artifact.
 
 ## Constraints
 
-- PROPOSE-ONLY run — do not modify files outside `outputs/`
-- Do not enroll Rige as founder/user
-- Do not enable or create Beta_Orionis
-- Do not implement the AI waiting list
-- Do not declare broad or unilateral authority for any entity
-- Do not claim any proposed change has already been applied
-- Be specific: include file paths, code, commands, receipts, version-history effects
+- PROPOSE-ONLY for LLM provider runs.
+- No direct cross-repo/org mutation.
+- No founder/user enrollment.
+- No Beta_Orionis enablement.
+- No broad authority.
+- No canonical authority from ingestion intake alone.
+- Ingestion intake may only admit as candidate evidence, route to repair, deny, quarantine, or fail closed.
 
-## Expected Output
+## Expected Runtime Outputs
 
 ```text
+dist/bundles/proposed_transition_bundle.json
+dist/bundles/proposed_transition_bundle.zip
+dist/bundles/proposed_transition_bundle.sha256
+receipts/current/proposed_transition_bundle_receipt.jsonl
+receipts/current/transition_bundle_ingest_receipt.jsonl
+```
+
+## Done Condition
+
+This task is complete when the repo can produce a proposed-transition bundle whose manifest hash verifies under ingestion and whose contents include:
+
+```text
+outputs/thread.md
 outputs/claude_response.md
 outputs/chatgpt_response.md
-outputs/thread.md
 reports/current/agent_coordination_report.json
 reports/current/agent_comparison_report.json
 reports/current/agent_boundary_report.json
@@ -122,3 +142,5 @@ receipts/current/agent_boundary_receipt.jsonl
 agent_history/llm_changelog.jsonl
 agent_history/version_state.json
 ```
+
+The bundle must preserve path structure and must not grant canonical authority.
