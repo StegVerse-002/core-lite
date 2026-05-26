@@ -1,0 +1,154 @@
+{
+  "schema": "stegverse.bundle_manifest.v1",
+  "bundle_name": "sv002_governed_collaboration_substrate",
+  "version": "0.1.2-gllm",
+  "created_utc": "2026-05-26T17:35:30Z",
+  "scope": "Governed OpenAI + Claude collaboration substrate for core-lite; no broad authority ever; no founder/user registration or Beta_Orionis enablement in this stage.",
+  "manual_upload": true,
+  "root_readme_present_in_bundle": false,
+  "root_bundle_manifest_present": false,
+  "existing_workflows_modified": [
+    ".github/workflows/core-lite-intake.yml"
+  ],
+  "new_workflows_added": false,
+  "iosnoperiod_mirror": {
+    ".github/workflows/core-lite-intake.yml": "iosnoperiod/github/workflows/core-lite-intake-yml"
+  },
+  "verification": {
+    "python_syntax": {
+      "scripts/openai_task.py": "ok",
+      "scripts/merge_outputs.py": "ok",
+      "tools/agent_governance/agent_compare.py": "ok",
+      "tools/agent_governance/enforce_agent_boundary.py": "ok",
+      "tools/agent_governance/record_llm_change.py": "ok"
+    },
+    "yaml_parse": "ok"
+  },
+  "files": [
+    {
+      "path": ".github/workflows/core-lite-intake.yml",
+      "sha256": "9b414318cca3331f69e0777f957bca4cba9442a651d5d5cdfc3c51a0eb2e5060",
+      "bytes": 14889
+    },
+    {
+      "path": "CLAUDE.md",
+      "sha256": "9ae9f4f9c6896109504ab3b4dae702599f0187e5c63aacf872cf81e168314293",
+      "bytes": 2436
+    },
+    {
+      "path": "agent_history/llm_changelog.jsonl",
+      "sha256": "b97af859cceb99d349808fecb2bef59c46cd3676f56cb25eb68408cd08d93921",
+      "bytes": 1308
+    },
+    {
+      "path": "agent_history/version_state.json",
+      "sha256": "fef3db48b92ea7907e244987a260ae7a7684476718d8594a59164269659b2440",
+      "bytes": 1492
+    },
+    {
+      "path": "agent_policy/allowed_paths.json",
+      "sha256": "ea5e9fb54dc024066f89ce147320bf6b7028b65e9d9fd55a7ff20c635b9691ac",
+      "bytes": 109
+    },
+    {
+      "path": "agent_policy/forbidden_paths.json",
+      "sha256": "cdcd96ccc15a5b61b75eb682d7db8ac34f813b5183c9c58ff2ac157c63530b64",
+      "bytes": 324
+    },
+    {
+      "path": "docs/agent_coordination/GOVERNED_COLLABORATION_SUBSTRATE_v0.1.2.md",
+      "sha256": "aa0e67b213ec2a22457a96cd39519d85c30b924934eab22fea9c52fad889ca4f",
+      "bytes": 2104
+    },
+    {
+      "path": "docs/agent_coordination/MANUAL_UPLOAD_MAP_v0.1.2.md",
+      "sha256": "202799762aadd1195e589878443aacb020d25660ed264f7fdaea03e091154e4b",
+      "bytes": 1701
+    },
+    {
+      "path": "governance/directives/no_broad_authority.directive.json",
+      "sha256": "c2775b8f184aa50b35a30aaa1c992897f322b294e448b45ae9a579a7100fdad7",
+      "bytes": 1015
+    },
+    {
+      "path": "iosnoperiod/github/workflows/core-lite-intake-yml",
+      "sha256": "9b414318cca3331f69e0777f957bca4cba9442a651d5d5cdfc3c51a0eb2e5060",
+      "bytes": 14889
+    },
+    {
+      "path": "iosnoperiod.md",
+      "sha256": "81c17a24234f6c79b109b8e15a0f03faf4384c7a8b02d81cc2da211f765239b6",
+      "bytes": 553
+    },
+    {
+      "path": "schemas/governance_directive.v1.schema.json",
+      "sha256": "f2235b41a0f3e0bffba57c78113aae37dfaa6b963b7e613149027f412671b46e",
+      "bytes": 979
+    },
+    {
+      "path": "schemas/llm_changelog_entry.v1.schema.json",
+      "sha256": "7459fdae927467ea1dea749dbd80d14d0320dacc82872565185ba38e35863dbd",
+      "bytes": 1073
+    },
+    {
+      "path": "scripts/__pycache__/merge_outputs.cpython-313.pyc",
+      "sha256": "362fceef793a3d4f32a92c6a52900ba9a6a5c96bf37bef7ed1144cf68a58c0ac",
+      "bytes": 15678
+    },
+    {
+      "path": "scripts/__pycache__/openai_task.cpython-313.pyc",
+      "sha256": "b780f9394aada40ad7df433bc9969716f13422e31ee635a299157f490c380e2b",
+      "bytes": 13980
+    },
+    {
+      "path": "scripts/merge_outputs.py",
+      "sha256": "a373cd12a6e5a04891fa863181b326c2f745669d4fac8235c872b8754d665110",
+      "bytes": 11898
+    },
+    {
+      "path": "scripts/openai_task.py",
+      "sha256": "54d632062c0b3b9f0bd4aeec6bbe74a349031dfa0f25047fa8d6fab23a67073e",
+      "bytes": 9338
+    },
+    {
+      "path": "task.md",
+      "sha256": "0259c878369c9e4845bf70c6e8e8ce768b07c6af03342296a5e6283af24d3320",
+      "bytes": 2722
+    },
+    {
+      "path": "tools/agent_governance/__init__.py",
+      "sha256": "b04f3a5d0d3f3aec177b253d804d01215013a2b624969befc6f9ec13d77d8215",
+      "bytes": 62
+    },
+    {
+      "path": "tools/agent_governance/__pycache__/agent_compare.cpython-313.pyc",
+      "sha256": "1935342677af5e2157d6c02b30c0d7faaab280cdf534c0e3ee269ddfe3679246",
+      "bytes": 11764
+    },
+    {
+      "path": "tools/agent_governance/__pycache__/enforce_agent_boundary.cpython-313.pyc",
+      "sha256": "326a35955c7f65848c6a79c5042b706ec041879a5be6d34f625d1da10cc29140",
+      "bytes": 5887
+    },
+    {
+      "path": "tools/agent_governance/__pycache__/record_llm_change.cpython-313.pyc",
+      "sha256": "501c600fc8c4a75f4a15986adb9d75479bb0c8d4b468356fe2eaaae87986c4d1",
+      "bytes": 6318
+    },
+    {
+      "path": "tools/agent_governance/agent_compare.py",
+      "sha256": "eeed56a40206f7cf5551c646dafa9be073212b218e3c6d0388e0596cf028898b",
+      "bytes": 7175
+    },
+    {
+      "path": "tools/agent_governance/enforce_agent_boundary.py",
+      "sha256": "f10f48b4ebdfbd092479700782328ccdcb7471bf150d64b5741245b02b9340e2",
+      "bytes": 3361
+    },
+    {
+      "path": "tools/agent_governance/record_llm_change.py",
+      "sha256": "cce5f6bb3a3cf06e538570b98298e8cc8a8faa091ace1d0f0e75a9aa1ee176f1",
+      "bytes": 3486
+    }
+  ]
+}
