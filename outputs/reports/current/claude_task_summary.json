@@ -1,0 +1,9 @@
+{
+  "schema": "stegverse.claude_task_summary.v1",
+  "version": "0.1.2-gllm",
+  "provider": "claude",
+  "status": "completed",
+  "mode": "propose_only",
+  "output_path": "outputs/claude_response.md",
+  "authority": "candidate_evidence_only"
+}
