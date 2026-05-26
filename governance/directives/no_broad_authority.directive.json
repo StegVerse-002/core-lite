@@ -1,0 +1,38 @@
+{
+  "schema": "stegverse.governance_directive.v1",
+  "id": "no_broad_authority",
+  "version": "0.1.2-gllm",
+  "status": "active",
+  "directive": "There is never a valid StegVerse state in which any entity receives broad authority.",
+  "applies_to": [
+    "human",
+    "ai",
+    "repo",
+    "org",
+    "workflow",
+    "agent",
+    "framework",
+    "ecosystem_component"
+  ],
+  "basis": [
+    "Transition Table",
+    "AE / Admissible Existence",
+    "GCAT/BCAT enforcement"
+  ],
+  "authority_requirements": [
+    "scoped",
+    "staged",
+    "explicit",
+    "receipted",
+    "bounded_by_transition_class",
+    "checked_at_execution_or_commit_boundary",
+    "recoverable",
+    "revocable_or_containable",
+    "denied_by_default_unless_specifically_granted"
+  ],
+  "current_scope_correction": {
+    "rigel_founder_user_registration": "future_transition_not_current_target",
+    "beta_orionis_counterpart_enablement": "future_transition_not_current_target",
+    "current_target": "governed_collaboration_substrate"
+  }
+}
