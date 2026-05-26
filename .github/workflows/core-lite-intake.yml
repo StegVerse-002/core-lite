@@ -47,10 +47,13 @@ on:
       - "CLAUDE.md"
       - "scripts/openai_task.py"
       - "scripts/merge_outputs.py"
+      - "scripts/package_transition_bundle.py"
+      - "scripts/ingest_transition_bundle.py"
       - "agent_policy/**"
       - "agent_history/**"
       - "governance/directives/**"
       - "schemas/**"
+      - "docs/methodology/**"
       - "tools/agent_governance/**"
       - "tools/tasks/**"
       - "core_lite/**"
@@ -64,13 +67,12 @@ env:
   STEGVERSE_ENTITY: StegVerse-002
   STEGVERSE_REPO: StegVerse-002/core-lite
   STEGVERSE_VERSION: 1.0.0-sv002-m10
-  GOVERNED_LLM_LLM_VERSION: 0.1.2-gllm
+  GOVERNED_LLM_LLM_VERSION: 0.1.3-gllm
   OPENAI_MODEL: ${{ vars.OPENAI_MODEL || 'gpt-4o' }}
   AGENT_PROVIDER: ${{ github.event_name == 'push' && 'both' || inputs.agent_provider }}
 
 jobs:
 
-  # ── JOB A: CLAUDE CODE PROPOSAL AGENT ────────────────────────────────────
   claude-agent:
     runs-on: ubuntu-latest
     steps:
@@ -154,7 +156,6 @@ jobs:
             reports/current/claude_task_summary.json
           if-no-files-found: warn
 
-  # ── JOB B: OPENAI PROPOSAL AGENT ─────────────────────────────────────────
   openai-agent:
     runs-on: ubuntu-latest
     steps:
@@ -184,7 +185,6 @@ jobs:
             receipts/current/openai_task_receipt.jsonl
           if-no-files-found: warn
 
-  # ── JOB C: MERGE + GOVERNED SYNTHESIS ────────────────────────────────────
   merge-and-commit:
     runs-on: ubuntu-latest
     needs: [claude-agent, openai-agent]
@@ -239,6 +239,10 @@ jobs:
             --summary "Recorded governed LLM-LLM collaboration outputs, comparison evidence, no-broad-authority directive, and boundary enforcement." \
             --files outputs/thread.md reports/current/agent_coordination_report.json reports/current/agent_comparison_report.json reports/current/agent_boundary_report.json receipts/current/agent_coordination_receipt.jsonl receipts/current/agent_comparison_receipt.jsonl receipts/current/agent_boundary_receipt.jsonl
 
+      - name: Package proposed-transition bundle
+        run: |
+          python scripts/package_transition_bundle.py
+
       - name: Commit governed coordination outputs
         run: |
           git config user.name "StegVerse-002 Agent Coordinator"
@@ -248,9 +252,10 @@ jobs:
             outputs/ \
             reports/current/ \
             receipts/current/ \
-            agent_history/ || true
+            agent_history/ \
+            dist/bundles/ || true
 
-          git diff --staged --quiet || git commit -m "sv002: governed collaboration v0.1.2 — $(head -1 task.md 2>/dev/null || echo no-task)"
+          git diff --staged --quiet || git commit -m "sv002: governed transition bundle v0.1.3 — $(head -1 task.md 2>/dev/null || echo no-task)"
           git push || true
 
       - name: Upload coordination artifacts
@@ -263,9 +268,9 @@ jobs:
             reports/current/
             receipts/current/
             agent_history/
+            dist/bundles/
           if-no-files-found: warn
 
-  # ── JOB D: CORE DISPATCHER ───────────────────────────────────────────────
   dispatch:
     runs-on: ubuntu-latest
     needs: [merge-and-commit]
@@ -421,5 +426,4 @@ jobs:
             dist/failed_bundles/
             repair/bundles/
             outputs/
-            agent_history/
-          if-no-files-found: warn
+            dist/bundles/
