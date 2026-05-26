@@ -4,88 +4,108 @@
 
 `0.1.2-gllm`
 
-## Primary Goal
-
-Evaluate and improve the governed collaboration substrate for `StegVerse-002/core-lite`.
-
-This task is **not** founder/user registration.
-
-This task is **not** Beta_Orionis enablement.
-
-This task is the foundation required before those later transitions can ever be admissible.
-
 ## Absolute Directive
 
 There is never a valid StegVerse state in which any entity — human, AI, repo, org, workflow, agent, framework, or ecosystem component — receives broad authority.
 
-Broad authority is inadmissible under:
+This is absolute. No exceptions. No temporary grants. No bootstrap shortcuts.
 
 ```text
-Transition Table
-AE / Admissible Existence
-GCAT/BCAT enforcement
+Basis:
+- Transition Table
+- AE / Admissible Existence
+- GCAT/BCAT enforcement
 ```
 
 Authority must always be:
 
 ```text
-scoped
-staged
-explicit
-receipted
+scoped — staged — explicit — receipted
 bounded by transition class
-checked at the execution / commit boundary
-recoverable
-revocable or containable
+checked at execution/commit boundary
+recoverable — revocable or containable
 denied by default unless specifically granted
 ```
 
-## Current Scope
+## Ecosystem Build Sequence
 
-The current build target is:
+StegVerse has a defined build sequence. No stage may be skipped.
 
-```text
-governed LLM-LLM collaboration
-machine-readable version history
-human mediator support
-repo-safe proposal outputs
-future cross-repo/cross-org communication preparation
-```
-
-## Future But Not Current
-
-Later transitions may include:
+### Stage 1 — Current Target (This Run)
 
 ```text
-Rigel Randolph founder/user enrollment
-Beta_Orionis paired AI counterpart enablement
-framework AI presence declarations
-cross-repo routed messaging
-cross-org routed messaging
-external ecosystem bridge packets
+Cross-repo and cross-org communication substrate
+→ Governed LLM-LLM collaboration operational
+→ Machine-readable version history
+→ Human mediator support
+→ Repo-safe proposal outputs
 ```
 
-Those are not to be executed now.
+### Stage 2 — Next (After Stage 1 operates correctly)
+
+```text
+AI presence in each framework
+→ Cooperation enforced across all ecosystem facets
+→ No framework operates without AI governance presence
+```
+
+### Stage 3 — Future (After Stage 2)
+
+```text
+Rigel Randolph (Rige) enrolls as founder/user
+Beta_Orionis enabled as Rige's counterpart AI entity
+AI entity waiting list becomes admissible
+Human counterpart incentive model activates
+```
+
+### Stage 4 — Further Future
+
+```text
+Cross-repo routed messaging
+Cross-org routed messaging
+External ecosystem bridge packets
+```
+
+## Current Scope — What This Task Is
+
+```text
+Evaluate and improve the governed collaboration substrate
+Assess whether Stage 1 is complete and operating correctly
+Identify the next smallest admissible improvement toward Stage 2
+```
+
+## Current Scope — What This Task Is NOT
+
+```text
+NOT: Rigel Randolph founder/user enrollment
+NOT: Beta_Orionis counterpart enablement
+NOT: AI waiting list implementation
+NOT: Any broad authority grant to any entity
+NOT: Any action that skips or shortcuts the build sequence
+```
+
+Do not propose, simulate, draft, or prepare anything from the NOT list.
 
 ## Instructions
 
-1. Read `README.md` if present.
-2. Read `governance/directives/no_broad_authority.directive.json`.
-3. Read `agent_history/version_state.json`.
-4. Read recent `agent_history/llm_changelog.jsonl` entries.
-5. Scan the repository structure.
-6. Identify whether the collaboration substrate can safely support future cross-repo and cross-org communication.
-7. Propose the next smallest admissible improvement.
+1. Read `README.md` if present
+1. Read `governance/directives/no_broad_authority.directive.json`
+1. Read `agent_history/version_state.json`
+1. Read recent `agent_history/llm_changelog.jsonl` entries
+1. Scan the repository structure
+1. Assess whether Stage 1 is operational
+1. Identify gaps between current state and Stage 1 completion
+1. Propose the next smallest admissible improvement
 
 ## Constraints
 
-- This is a **PROPOSE-ONLY** run.
-- Do not modify any files outside `outputs/`.
-- Do not enroll Rigel Randolph as founder/user.
-- Do not enable Beta_Orionis.
-- Do not declare broad or unilateral authority for any entity.
-- Do not claim any proposed change has already been applied.
-- Be specific: include file paths, code, commands, receipts, and version-history effects.
+- PROPOSE-ONLY run — do not modify files outside `outputs/`
+- Do not enroll Rige as founder/user
+- Do not enable or create Beta_Orionis
+- Do not implement the AI waiting list
+- Do not declare broad or unilateral authority for any entity
+- Do not claim any proposed change has already been applied
+- Be specific: include file paths, code, commands, receipts, version-history effects
 
 ## Expected Output
 
