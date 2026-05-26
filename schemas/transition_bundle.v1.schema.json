@@ -1,0 +1,142 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://stegverse.local/schemas/transition_bundle.v1.schema.json",
+  "title": "StegVerse Transition Bundle Manifest v1",
+  "type": "object",
+  "required": [
+    "schema",
+    "version",
+    "bundle_id",
+    "created_utc",
+    "source",
+    "transition",
+    "authority",
+    "contents",
+    "hashing",
+    "chain_link",
+    "manifest_sha256"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema": {
+      "const": "stegverse.transition_bundle.v1"
+    },
+    "version": {
+      "type": "string"
+    },
+    "bundle_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "created_utc": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source": {
+      "type": "object",
+      "required": ["entity", "repo", "stage", "workflow"],
+      "additionalProperties": true,
+      "properties": {
+        "entity": {"type": "string"},
+        "repo": {"type": "string"},
+        "stage": {"type": "string"},
+        "workflow": {"type": "string"},
+        "run_id": {"type": ["string", "null"]},
+        "run_number": {"type": ["string", "null"]},
+        "commit_sha": {"type": ["string", "null"]}
+      }
+    },
+    "transition": {
+      "type": "object",
+      "required": [
+        "class",
+        "status",
+        "decision",
+        "destination_repo",
+        "destination_org",
+        "transport_mechanism",
+        "requires_ingestion"
+      ],
+      "additionalProperties": true,
+      "properties": {
+        "class": {"type": "string"},
+        "status": {"type": "string"},
+        "decision": {"type": "string"},
+        "destination_repo": {"type": ["string", "null"]},
+        "destination_org": {"type": ["string", "null"]},
+        "transport_mechanism": {"type": "string"},
+        "requires_ingestion": {"type": "boolean"},
+        "next_required_link": {"type": "string"}
+      }
+    },
+    "authority": {
+      "type": "object",
+      "required": [
+        "mode",
+        "candidate_evidence_only",
+        "canonical_authority",
+        "broad_authority",
+        "may_bind_repo_state"
+      ],
+      "additionalProperties": true,
+      "properties": {
+        "mode": {"type": "string"},
+        "candidate_evidence_only": {"type": "boolean"},
+        "canonical_authority": {"type": "boolean"},
+        "broad_authority": {"type": "boolean"},
+        "may_bind_repo_state": {"type": "boolean"}
+      }
+    },
+    "contents": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["path", "bundle_path", "sha256", "bytes", "required", "exists"],
+        "additionalProperties": false,
+        "properties": {
+          "path": {"type": "string"},
+          "bundle_path": {"type": "string"},
+          "sha256": {"type": "string"},
+          "bytes": {"type": "integer", "minimum": 0},
+          "required": {"type": "boolean"},
+          "exists": {"type": "boolean"}
+        }
+      }
+    },
+    "hashing": {
+      "type": "object",
+      "required": ["algorithm", "canonicalization", "excluded_manifest_fields"],
+      "additionalProperties": false,
+      "properties": {
+        "algorithm": {"const": "sha256"},
+        "canonicalization": {"type": "string"},
+        "excluded_manifest_fields": {
+          "type": "array",
+          "items": {"type": "string"}
+        }
+      }
+    },
+    "chain_link": {
+      "type": "object",
+      "required": [
+        "link_id",
+        "previous_receipt_hash",
+        "source_receipt",
+        "next_required_link",
+        "ingestion_required"
+      ],
+      "additionalProperties": true,
+      "properties": {
+        "link_id": {"type": "string"},
+        "previous_receipt_hash": {"type": ["string", "null"]},
+        "source_receipt": {"type": ["string", "null"]},
+        "next_required_link": {"type": "string"},
+        "ingestion_required": {"type": "boolean"}
+      }
+    },
+    "manifest_sha256": {
+      "type": "string"
+    }
+  }
+}
