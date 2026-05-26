@@ -1,0 +1,13 @@
+{
+  "schema": "stegverse.openai_task_summary.v1",
+  "version": "0.1.2-gllm",
+  "timestamp": "2026-05-26T18:06:52.886911+00:00",
+  "provider": "openai",
+  "status": "skipped",
+  "mode": "propose_only",
+  "model": "",
+  "output_path": "outputs/chatgpt_response.md",
+  "output_sha256": "sha256:d9994be005b5c9978c51cf3a7128c62d1b8e0bd906529c45ec92bbb5c9d7ffbe",
+  "error": "",
+  "authority": "candidate_evidence_only"
+}

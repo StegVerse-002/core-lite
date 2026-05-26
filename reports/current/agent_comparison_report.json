@@ -1,0 +1,64 @@
+{
+  "schema": "stegverse.agent_comparison_report.v1",
+  "version": "0.1.2-gllm",
+  "timestamp": "2026-05-26T18:07:04.352504+00:00",
+  "decision": "REVIEW_REQUIRED",
+  "basis": "One or more provider outputs are missing.",
+  "providers": {
+    "openai": {
+      "provider": "openai",
+      "output_path": "outputs/chatgpt_response.md",
+      "exists": false,
+      "sha256": "",
+      "bytes": 0,
+      "mentioned_paths": [],
+      "mentioned_risk_terms": [],
+      "required_sections_present": {
+        "Current State Assessment": false,
+        "Directive Alignment": false,
+        "Next Collaboration Primitive": false,
+        "Proposed Implementation": false,
+        "Authority Boundaries": false,
+        "Receipts and Version History": false,
+        "Risks & Dependencies": false,
+        "Confidence": false
+      }
+    },
+    "claude": {
+      "provider": "claude",
+      "output_path": "outputs/claude_response.md",
+      "exists": false,
+      "sha256": "",
+      "bytes": 0,
+      "mentioned_paths": [],
+      "mentioned_risk_terms": [],
+      "required_sections_present": {
+        "Current State Assessment": false,
+        "Directive Alignment": false,
+        "Next Collaboration Primitive": false,
+        "Proposed Implementation": false,
+        "Authority Boundaries": false,
+        "Receipts and Version History": false,
+        "Risks & Dependencies": false,
+        "Confidence": false
+      }
+    }
+  },
+  "analysis": {
+    "path_overlap_ratio": 1.0,
+    "high_risk_paths": [],
+    "risk_terms": [],
+    "missing_providers": [
+      "openai",
+      "claude"
+    ],
+    "shared_sections": [],
+    "thread_present": true
+  },
+  "authority": {
+    "mode": "candidate_evidence_only",
+    "canonical_authority": false,
+    "may_bind_repo_state": false,
+    "broad_authority": false
+  }
+}

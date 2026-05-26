@@ -1,0 +1,55 @@
+{
+  "schema": "stegverse.agent_boundary_report.v1",
+  "version": "0.1.2-gllm",
+  "timestamp": "2026-05-26T18:07:04.417601+00:00",
+  "decision": "ALLOW_CANDIDATE_EVIDENCE",
+  "changed_paths": [
+    "agent_history/",
+    "outputs/",
+    "receipts/current/agent_comparison_receipt.jsonl",
+    "receipts/current/agent_coordination_receipt.jsonl",
+    "reports/current/agent_comparison_report.json",
+    "reports/current/agent_coordination_report.json"
+  ],
+  "allowed_effects": [
+    "agent_history/",
+    "outputs/",
+    "receipts/current/agent_comparison_receipt.jsonl",
+    "receipts/current/agent_coordination_receipt.jsonl",
+    "reports/current/agent_comparison_report.json",
+    "reports/current/agent_coordination_report.json"
+  ],
+  "violations": [],
+  "allowed_patterns": [
+    "outputs/**",
+    "reports/current/**",
+    "receipts/current/**",
+    "agent_history/**",
+    "candidates/**"
+  ],
+  "forbidden_patterns": [
+    ".git/**",
+    ".github/workflows/**",
+    "core_lite/**",
+    "tools/**",
+    "config/**",
+    "tracking/**",
+    "dist/**",
+    "machine/**",
+    "incoming/**",
+    "repair/**",
+    "failed_bundles/**",
+    "quarantine/**",
+    "README.md",
+    "task.md",
+    "CLAUDE.md",
+    ".env",
+    "secrets/**",
+    "governance/directives/**",
+    "schemas/**"
+  ],
+  "authority": {
+    "broad_authority": false,
+    "canonical_authority": false
+  }
+}

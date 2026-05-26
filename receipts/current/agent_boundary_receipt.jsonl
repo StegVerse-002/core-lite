@@ -1,0 +1,1 @@
+{"broad_authority": false, "decision": "ALLOW_CANDIDATE_EVIDENCE", "report_path": "reports/current/agent_boundary_report.json", "schema": "stegverse.agent_boundary_receipt.v1", "timestamp": "2026-05-26T18:07:04.417601+00:00", "version": "0.1.2-gllm", "violation_count": 0}

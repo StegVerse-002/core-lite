@@ -1,0 +1,58 @@
+{
+  "schema": "stegverse.agent_coordination_report.v1",
+  "version": "0.1.2-gllm",
+  "timestamp": "2026-05-26T18:07:04.276097+00:00",
+  "decision": "NO_PROVIDER_OUTPUT",
+  "basis": "Neither provider output was present.",
+  "providers": {
+    "claude": {
+      "provider": "claude",
+      "path": "outputs/claude_response.md",
+      "exists": false,
+      "bytes": 0,
+      "sha256": "",
+      "sections_present": {
+        "Current State Assessment": false,
+        "Directive Alignment": false,
+        "Next Collaboration Primitive": false,
+        "Proposed Implementation": false,
+        "Authority Boundaries": false,
+        "Receipts and Version History": false,
+        "Risks & Dependencies": false,
+        "Confidence": false
+      },
+      "mentioned_paths": [],
+      "risk_terms": []
+    },
+    "openai": {
+      "provider": "openai",
+      "path": "outputs/chatgpt_response.md",
+      "exists": false,
+      "bytes": 0,
+      "sha256": "",
+      "sections_present": {
+        "Current State Assessment": false,
+        "Directive Alignment": false,
+        "Next Collaboration Primitive": false,
+        "Proposed Implementation": false,
+        "Authority Boundaries": false,
+        "Receipts and Version History": false,
+        "Risks & Dependencies": false,
+        "Confidence": false
+      },
+      "mentioned_paths": [],
+      "risk_terms": []
+    }
+  },
+  "shared_sections": [],
+  "risk_terms": [],
+  "recent_changelog": [],
+  "thread_path": "outputs/thread.md",
+  "authority": {
+    "mode": "propose_only",
+    "canonical_authority": false,
+    "may_bind_repo_state": false,
+    "broad_authority": false
+  },
+  "thread_sha256": "sha256:2184a31904e45e23252164721d3b237fe3c8544dc09cb0a77b713539a591c177"
+}
