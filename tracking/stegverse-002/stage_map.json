@@ -6,7 +6,7 @@
   "current_stage": "SV002-M10",
   "current_gate": "SV002-M10 \u2014 Governed mutation proposal + quorum",
   "active_stop_condition": "Production-candidate release tagged and repair capability verified",
-  "last_updated": "2026-05-24T02:10:25.261554+00:00",
+  "last_updated": "2026-05-26T01:12:59.725171+00:00",
   "stages": {
     "SV002-M0": {
       "name": "Identity and scope declaration",
@@ -292,7 +292,7 @@
         "receipt emitted"
       ],
       "promotion_criteria": "v1.0.0-sv002-m10 tagged, StegVerse-001 repair capability proven, all stages complete",
-      "last_run": "2026-05-24T02:10:25.261540+00:00",
+      "last_run": "2026-05-26T01:12:59.725157+00:00",
       "last_status": "last_run_success"
     }
   }
