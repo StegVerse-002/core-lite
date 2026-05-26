@@ -1,0 +1,17 @@
+{
+  "schema": "stegverse_knowledgevault_context_packet.v1",
+  "packet_id": "kv_packet_NNNN",
+  "vault_id": "YOUR_VAULT_ID",
+  "created_at": "YYYY-MM-DDTHH:MM:SSZ",
+  "created_by": "user",
+  "target_entity": "StegVerse-002",
+  "target_stage": "SV002-MN",
+  "purpose": "DESCRIBE PURPOSE",
+  "identity_context": "project_identity_context",
+  "allowed_use": ["context", "report", "candidate_preparation"],
+  "forbidden_use": ["publication", "training", "production_mutation"],
+  "privacy_class": "private",
+  "stop_condition": "DESCRIBE STOP CONDITION",
+  "included_files": [],
+  "packet_hash": ""
+}

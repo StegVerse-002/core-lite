@@ -1,0 +1,22 @@
+{
+  "schema": "stegverse_llm_adapter_instruction_packet.v1",
+  "packet_id": "llm_packet_NNNN",
+  "source_provider": "openai",
+  "source_model": "gpt-4o",
+  "source_session": "",
+  "prompt_hash": "",
+  "response_hash": "",
+  "operator": "human_operator",
+  "target_entity": "StegVerse-002",
+  "target_stage": "SV002-M7",
+  "target_scope": "core-lite",
+  "transition_class": "candidate_suggestion",
+  "allowed_action": "candidate_suggestion",
+  "forbidden_actions": ["production_mutation", "deploy", "bypass_cge", "training_use", "publication"],
+  "risk_classification": "low",
+  "stop_condition": "Instruction packet produced — operator review required before any action",
+  "decision": "ALLOW_CANDIDATE_ONLY",
+  "basis": "",
+  "receipt_hash": "",
+  "created_at": "YYYY-MM-DDTHH:MM:SSZ"
+}

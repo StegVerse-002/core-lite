@@ -1,0 +1,18 @@
+{
+  "schema": "stegverse_memory_use_receipt.v1",
+  "timestamp": "YYYY-MM-DDTHH:MM:SSZ",
+  "vault_id": "YOUR_VAULT_ID",
+  "packet_id": "kv_packet_NNNN",
+  "actor": "StegVerse-002",
+  "target_entity": "StegVerse-002",
+  "target_stage": "SV002-MN",
+  "purpose": "DESCRIBE PURPOSE",
+  "decision": "ALLOW",
+  "basis": "DESCRIBE BASIS",
+  "files_used": [],
+  "allowed_use": ["context", "report"],
+  "forbidden_use": ["publication", "training", "production_mutation"],
+  "stop_condition": "DESCRIBE STOP CONDITION",
+  "receipt_hash": "",
+  "previous_receipt_hash": ""
+}

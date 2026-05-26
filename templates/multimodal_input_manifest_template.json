@@ -1,0 +1,21 @@
+{
+  "schema": "stegverse_multimodal_input_manifest.v1",
+  "input_id": "input_NNNN",
+  "input_type": "text",
+  "source": "DESCRIBE SOURCE",
+  "storage": {
+    "system": "KnowledgeVault",
+    "path": "vault_template/entries/input_NNNN.md"
+  },
+  "actor": "StegVerse-002",
+  "submitted_by": "human_operator",
+  "identity_context": "project_identity_context",
+  "target_scope": "SV002-MN",
+  "declared_purpose": "DESCRIBE PURPOSE",
+  "privacy_class": "private",
+  "allowed_use": ["context", "report"],
+  "forbidden_use": ["production_mutation", "training", "publication"],
+  "stop_condition": "DESCRIBE STOP CONDITION",
+  "input_hash": "",
+  "created_at": "YYYY-MM-DDTHH:MM:SSZ"
+}
