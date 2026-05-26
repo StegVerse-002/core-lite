@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "StegVerse Bundle Manifest v1",
+  "type": "object",
+  "required": [
+    "schema",
+    "bundle_name",
+    "files"
+  ],
+  "properties": {
+    "schema": {
+      "const": "stegverse.bundle_manifest.v1"
+    },
+    "bundle_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "purpose": {
+      "type": "string"
+    },
+    "allow_root_readme": {
+      "type": "boolean",
+      "default": false
+    },
+    "allow_workflows": {
+      "type": "boolean",
+      "default": false
+    },
+    "files": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "path",
+          "sha256"
+        ],
+        "properties": {
+          "path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sha256": {
+            "type": "string",
+            "minLength": 64
+          },
+          "bytes": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      }
+    }
+  }
+}
