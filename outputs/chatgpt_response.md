@@ -2,55 +2,48 @@
 
 ## Current State Assessment
 
-The current state of the StegVerse-002/core-lite repository is focused on establishing a robust governed collaboration framework. The existing setup has successfully produced outputs and receipts from LLM-LLM collaboration, but the transition bundle packaging and ingestion handoff are not yet operational.
+The current state of the StegVerse-002/core-lite repository is focused on establishing a governed collaboration substrate. The necessary outputs from the previous version (v0.1.2-gllm) have been produced, including coordination reports and receipts. The next step involves creating a proposed-transition bundle to facilitate cross-repo and cross-org communication.
 
 ## Directive Alignment
 
-The task aligns with the absolute directive that no entity should receive broad authority. All actions must be scoped, staged, explicit, and receipted, ensuring compliance with the governance model.
+The absolute directive of no broad authority is strictly adhered to. All authority remains scoped, staged, explicit, receipted, bounded by transition class, checked at the commit/execution boundary, recoverable, containable, and denied by default unless specifically granted.
 
 ## Next Collaboration Primitive
 
-The next step is to implement the proposed-transition bundle packaging and ingestion handoff. This involves creating a self-contained, self-verifying transition bundle that can be ingested and routed across repo/org boundaries without granting broad authority.
+The next step in the ecosystem build sequence is the creation and packaging of a proposed-transition bundle. This bundle will serve as the universal transport object for proposed state transitions within StegVerse.
 
 ## Proposed Implementation
 
-1. **Create `scripts/package_transition_bundle.py`:**
-   - This script will gather the necessary files, package them into a JSON and ZIP format, and generate a SHA256 hash for verification.
+1. **Create Required Files:**
+   - `scripts/package_transition_bundle.py`: Script to package the transition bundle.
+   - `scripts/ingest_transition_bundle.py`: Script to handle the ingestion of the transition bundle.
+   - `schemas/transition_bundle.v1.schema.json`: JSON schema for validating the transition bundle.
+   - Documentation files to guide the methodology and process.
 
-2. **Create `scripts/ingest_transition_bundle.py`:**
-   - This script will handle the ingestion of the transition bundle, ensuring it is admitted as candidate evidence, routed for repair, denied, quarantined, or failed closed.
-
-3. **Define `schemas/transition_bundle.v1.schema.json`:**
-   - This schema will validate the structure and contents of the transition bundle.
-
-4. **Documentation Updates:**
-   - Update `docs/methodology/LLM_OUTPUT_TO_INGESTION_CHAIN.md` and `docs/methodology/TASK_AS_INTERFACE_METHODOLOGY.md` to reflect the new processes.
-   - Ensure `docs/methodology/FOUNDER_FAMILY_PRESERVATION_BOUNDARY.md` remains consistent with the no-broad-authority directive.
-
-5. **Workflow Wiring:**
+2. **Workflow Integration:**
    - Modify `.github/workflows/core-lite-intake.yml` to include the execution of `package_transition_bundle.py` after the `Record LLM-LLM coordination change` step.
-   - Ensure `dist/bundles/` is included in the coordination commit and artifact.
+   - Ensure `dist/bundles/` is included in the coordination commit and coordination artifact.
+
+3. **Expected Outputs:**
+   - `dist/bundles/proposed_transition_bundle.json`
+   - `dist/bundles/proposed_transition_bundle.zip`
+   - `dist/bundles/proposed_transition_bundle.sha256`
+   - `receipts/current/proposed_transition_bundle_receipt.jsonl`
+   - `receipts/current/transition_bundle_ingest_receipt.jsonl`
 
 ## Authority Boundaries
 
-The proposal adheres to the authority boundaries by ensuring all actions are scoped and receipted. No broad authority is granted, and all changes are proposed-only, requiring explicit approval and execution within defined boundaries.
+This proposal adheres to the PROPOSE-ONLY constraint. No direct cross-repo/org mutations are performed. The proposal does not involve founder/user enrollment or Beta_Orionis enablement. All actions are within the scoped authority.
 
 ## Receipts and Version History
 
-The implementation will produce the following runtime outputs:
-- `dist/bundles/proposed_transition_bundle.json`
-- `dist/bundles/proposed_transition_bundle.zip`
-- `dist/bundles/proposed_transition_bundle.sha256`
-- `receipts/current/proposed_transition_bundle_receipt.jsonl`
-- `receipts/current/transition_bundle_ingest_receipt.jsonl`
-
-These outputs will be verified against the schema and included in the version history for traceability.
+The proposal ensures that all actions produce the necessary receipts and are recorded in the version history. This includes the creation of bundle receipts and ingestion receipts to maintain an evidence chain.
 
 ## Risks & Dependencies
 
-- **Dependency on Accurate Schema Definition:** The transition bundle schema must be accurately defined to ensure proper validation.
-- **Ingestion Process Complexity:** The ingestion process must be robust to handle various states like repair, denial, or quarantine without errors.
+- **Dependencies:** Successful execution of the workflow depends on the correct implementation of the packaging and ingestion scripts.
+- **Risks:** Any errors in the bundle packaging or ingestion process could lead to failures in cross-repo communication. Proper validation and testing are required to mitigate this risk.
 
 ## Confidence
 
-The proposal is designed to align with the governance model and task constraints, ensuring a high level of confidence in its successful implementation. The structured approach to packaging and ingestion minimizes risks and adheres to the no-broad-authority directive.
+The proposal is designed to align with the current ecosystem build sequence and adheres to all governance directives. Confidence is high, provided that the implementation follows the outlined steps and constraints.

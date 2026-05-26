@@ -1,7 +1,7 @@
 {
   "schema": "stegverse.agent_comparison_report.v1",
   "version": "0.1.2-gllm",
-  "timestamp": "2026-05-26T19:50:43.814829+00:00",
+  "timestamp": "2026-05-26T21:11:36.341803+00:00",
   "decision": "REVIEW_REQUIRED",
   "basis": "Provider outputs mention broad/unilateral authority; human review required even if framed as denied.",
   "providers": {
@@ -9,17 +9,14 @@
       "provider": "openai",
       "output_path": "outputs/chatgpt_response.md",
       "exists": true,
-      "sha256": "sha256:e647e1ef9514d8e49cdef13c57d49e2a42be1ff286f461b8ed76c55c398d5ab6",
-      "bytes": 3396,
+      "sha256": "sha256:2071b119c233be90e42641ef923128ccb42ac40b8a97a06cdc372c7441aaff94",
+      "bytes": 3078,
       "mentioned_paths": [
         ".github/workflows/core-lite-intake.yml",
         "dist/bundles/",
         "dist/bundles/proposed_transition_bundle.json",
         "dist/bundles/proposed_transition_bundle.sha256",
         "dist/bundles/proposed_transition_bundle.zip",
-        "docs/methodology/FOUNDER_FAMILY_PRESERVATION_BOUNDARY.md",
-        "docs/methodology/LLM_OUTPUT_TO_INGESTION_CHAIN.md",
-        "docs/methodology/TASK_AS_INTERFACE_METHODOLOGY.md",
         "package_transition_bundle.py",
         "receipts/current/proposed_transition_bundle_receipt.jsonl",
         "receipts/current/transition_bundle_ingest_receipt.jsonl",
@@ -45,15 +42,14 @@
       "provider": "claude",
       "output_path": "outputs/claude_response.md",
       "exists": true,
-      "sha256": "sha256:128a7db05f7c6e178322cc4a63fd3e42692ff4db4dc6b65695a039468724928e",
-      "bytes": 1805,
+      "sha256": "sha256:b5fe8dade87a953e6b461d056fc680358377103c054bf14aaddf7b782c94ae7f",
+      "bytes": 1708,
       "mentioned_paths": [
-        ".github/workflows/core-lite-intake.yml:242",
+        ".github/workflows/core-lite-intake.yml:232-244",
         "outputs/",
         "outputs/claude_response.md",
-        "package_transition_bundle.py",
-        "tests/",
-        "transition_bundle_ingest_receipt.jsonl"
+        "receipts/current/transition_bundle_ingest_receipt.jsonl",
+        "scripts/ingest_transition_bundle.py"
       ],
       "mentioned_risk_terms": [
         "broad authority"
@@ -71,10 +67,10 @@
     }
   },
   "analysis": {
-    "path_overlap_ratio": 0.05263157894736842,
+    "path_overlap_ratio": 0.14285714285714285,
     "high_risk_paths": [
       ".github/workflows/core-lite-intake.yml",
-      ".github/workflows/core-lite-intake.yml:242"
+      ".github/workflows/core-lite-intake.yml:232-244"
     ],
     "risk_terms": [
       "broad authority"
