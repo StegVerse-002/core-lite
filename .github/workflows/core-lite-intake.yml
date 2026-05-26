@@ -35,11 +35,23 @@ on:
         description: "Dry run only — no mutations (true/false)"
         required: false
         default: "false"
+      agent_provider:
+        description: "Governed LLM collaboration provider for task.md: none/openai/claude/both"
+        required: false
+        default: "none"
 
   push:
     branches: [main]
     paths:
       - "task.md"
+      - "CLAUDE.md"
+      - "scripts/openai_task.py"
+      - "scripts/merge_outputs.py"
+      - "agent_policy/**"
+      - "agent_history/**"
+      - "governance/directives/**"
+      - "schemas/**"
+      - "tools/agent_governance/**"
       - "tools/tasks/**"
       - "core_lite/**"
       - "config/**"
@@ -52,38 +64,100 @@ env:
   STEGVERSE_ENTITY: StegVerse-002
   STEGVERSE_REPO: StegVerse-002/core-lite
   STEGVERSE_VERSION: 1.0.0-sv002-m10
+  GOVERNED_LLM_LLM_VERSION: 0.1.2-gllm
+  OPENAI_MODEL: ${{ vars.OPENAI_MODEL || 'gpt-4o' }}
+  AGENT_PROVIDER: ${{ github.event_name == 'push' && 'both' || inputs.agent_provider }}
 
 jobs:
 
-  # ── JOB A: CLAUDE CODE AGENT ─────────────────────────────────────────────
+  # ── JOB A: CLAUDE CODE PROPOSAL AGENT ────────────────────────────────────
   claude-agent:
     runs-on: ubuntu-latest
-    if: hashFiles('task.md') != ''
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Run Claude Code
+      - name: Run Claude Code propose-only task
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: |
+          mkdir -p outputs reports/current receipts/current
+
+          if [ ! -f task.md ]; then
+            cat > outputs/claude_response.md <<'EOF'
+          # Claude Code — Skipped
+
+          No task.md was present. No Claude proposal was generated.
+          EOF
+            exit 0
+          fi
+
+          if [ "${AGENT_PROVIDER}" != "claude" ] && [ "${AGENT_PROVIDER}" != "both" ]; then
+            cat > outputs/claude_response.md <<EOF
+          # Claude Code — Skipped
+
+          AGENT_PROVIDER=${AGENT_PROVIDER}; Claude was not selected for this run.
+          EOF
+            exit 0
+          fi
+
+          if [ -z "${ANTHROPIC_API_KEY}" ]; then
+            cat > outputs/claude_response.md <<'EOF'
+          # Claude Code — Skipped
+
+          ANTHROPIC_API_KEY is not configured. Claude proposal was not generated.
+          EOF
+            exit 0
+          fi
+
           npm install -g @anthropic-ai/claude-code
-          mkdir -p outputs
+
+          {
+            echo "# Claude Code — Governed Collaboration Proposal"
+            echo
+            echo "Run timestamp: $(date -u +"%Y-%m-%dT%H:%M:%SZ")"
+            echo
+            echo "Governance mode: propose-only"
+            echo
+            echo "Capability version: ${GOVERNED_LLM_LLM_VERSION}"
+            echo
+            echo "Task source: task.md"
+            echo
+            echo "Directive: no broad authority is ever admissible under Transition Table, AE, or GCAT/BCAT enforcement."
+            echo
+            echo "---"
+            echo
+          } > outputs/claude_response.md
 
           claude -p \
             --dangerously-skip-permissions \
-            "$(cat task.md)" > outputs/claude_response.md 2>&1 || true
+            "$(cat task.md)" >> outputs/claude_response.md 2>&1 || true
+
+          cat > reports/current/claude_task_summary.json <<JSON
+          {
+            "schema": "stegverse.claude_task_summary.v1",
+            "version": "${GOVERNED_LLM_LLM_VERSION}",
+            "provider": "claude",
+            "status": "completed",
+            "mode": "propose_only",
+            "output_path": "outputs/claude_response.md",
+            "authority": "candidate_evidence_only"
+          }
+          JSON
 
       - name: Upload Claude output
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: claude-response
-          path: outputs/claude_response.md
+          path: |
+            outputs/claude_response.md
+            reports/current/claude_task_summary.json
+          if-no-files-found: warn
 
-  # ── JOB B: GPT-4o AGENT ──────────────────────────────────────────────────
-  chatgpt-agent:
+  # ── JOB B: OPENAI PROPOSAL AGENT ─────────────────────────────────────────
+  openai-agent:
     runs-on: ubuntu-latest
-    if: hashFiles('task.md') != ''
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -93,41 +167,45 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install OpenAI SDK
-        run: pip install openai
-
-      - name: Run GPT-4o agent
+      - name: Run OpenAI propose-only task
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
-          mkdir -p outputs
+          mkdir -p outputs reports/current receipts/current
           python scripts/openai_task.py
 
-      - name: Upload GPT-4o output
+      - name: Upload OpenAI output
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: chatgpt-response
-          path: outputs/chatgpt_response.md
+          name: openai-response
+          path: |
+            outputs/chatgpt_response.md
+            reports/current/openai_task_summary.json
+            receipts/current/openai_task_receipt.jsonl
+          if-no-files-found: warn
 
-  # ── JOB C: MERGE + SYNTHESIS ─────────────────────────────────────────────
+  # ── JOB C: MERGE + GOVERNED SYNTHESIS ────────────────────────────────────
   merge-and-commit:
     runs-on: ubuntu-latest
-    needs: [claude-agent, chatgpt-agent]
-    if: always() && hashFiles('task.md') != ''
+    needs: [claude-agent, openai-agent]
+    if: always()
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Download Claude output
         uses: actions/download-artifact@v4
+        continue-on-error: true
         with:
           name: claude-response
           path: outputs/
 
-      - name: Download GPT-4o output
+      - name: Download OpenAI output
         uses: actions/download-artifact@v4
+        continue-on-error: true
         with:
-          name: chatgpt-response
+          name: openai-response
           path: outputs/
 
       - name: Set up Python
@@ -135,33 +213,58 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install Anthropic SDK
-        run: pip install anthropic
-
-      - name: Run synthesis
-        env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      - name: Run deterministic synthesis
         run: |
-          mkdir -p outputs
+          mkdir -p outputs reports/current receipts/current agent_history
           python scripts/merge_outputs.py
 
-      - name: Commit all outputs
+      - name: Compare agent outputs
         run: |
-          git config user.name "claude"
-          git config user.email "claude@stegverse"
-          git add \
-            outputs/claude_response.md \
-            outputs/chatgpt_response.md \
-            outputs/thread.md || true
-          git diff --staged --quiet || git commit -m "claude: coordination run — $(head -1 task.md)"
+          python tools/agent_governance/agent_compare.py --fail-on-high
+
+      - name: Enforce coordination boundary
+        run: |
+          python tools/agent_governance/enforce_agent_boundary.py \
+            --allowed agent_policy/allowed_paths.json \
+            --forbidden agent_policy/forbidden_paths.json \
+            --report reports/current/agent_boundary_report.json \
+            --receipt receipts/current/agent_boundary_receipt.jsonl
+
+      - name: Record LLM-LLM coordination change
+        run: |
+          python tools/agent_governance/record_llm_change.py \
+            --provider coordinator \
+            --conversation current-workflow-run \
+            --version "${GOVERNED_LLM_LLM_VERSION}" \
+            --change-type coordination_run \
+            --summary "Recorded governed LLM-LLM collaboration outputs, comparison evidence, no-broad-authority directive, and boundary enforcement." \
+            --files outputs/thread.md reports/current/agent_coordination_report.json reports/current/agent_comparison_report.json reports/current/agent_boundary_report.json receipts/current/agent_coordination_receipt.jsonl receipts/current/agent_comparison_receipt.jsonl receipts/current/agent_boundary_receipt.jsonl
+
+      - name: Commit governed coordination outputs
+        run: |
+          git config user.name "StegVerse-002 Agent Coordinator"
+          git config user.email "sv002-agent-coordinator@stegverse"
+
+          git add -A \
+            outputs/ \
+            reports/current/ \
+            receipts/current/ \
+            agent_history/ || true
+
+          git diff --staged --quiet || git commit -m "sv002: governed collaboration v0.1.2 — $(head -1 task.md 2>/dev/null || echo no-task)"
           git push || true
 
-      - name: Upload thread artifact
+      - name: Upload coordination artifacts
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: coordination-thread
-          path: outputs/thread.md
+          name: governed-llm-llm-collaboration
+          path: |
+            outputs/
+            reports/current/
+            receipts/current/
+            agent_history/
+          if-no-files-found: warn
 
   # ── JOB D: CORE DISPATCHER ───────────────────────────────────────────────
   dispatch:
@@ -169,8 +272,14 @@ jobs:
     needs: [merge-and-commit]
     if: always()
     steps:
-      - name: Checkout
+      - name: Checkout latest
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Pull coordination commit if present
+        run: |
+          git pull --ff-only || true
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -184,7 +293,6 @@ jobs:
           pip install -e . || true
           echo "PYTHONPATH=$GITHUB_WORKSPACE" >> $GITHUB_ENV
 
-      # ── STAGE RESOLUTION ────────────────────────────────────────────────
       - name: Resolve active stage and gate
         id: stage
         run: |
@@ -193,7 +301,6 @@ jobs:
             --state-file tracking/stegverse-002/stage_map.json \
             --output-env $GITHUB_OUTPUT
 
-      # ── DEFAULT INTAKE ───────────────────────────────────────────────────
       - name: Run Core-Lite Intake
         if: ${{ github.event.inputs.task_id == '' || github.event.inputs.task_id == null }}
         run: |
@@ -203,7 +310,6 @@ jobs:
             --entity StegVerse-002 \
             --stage "${{ steps.stage.outputs.active_stage }}"
 
-      # ── DECLARED TASK DISPATCH ───────────────────────────────────────────
       - name: Run declared task
         if: ${{ github.event.inputs.task_id != '' && github.event.inputs.task_id != null }}
         run: |
@@ -214,7 +320,6 @@ jobs:
             --stage "${{ steps.stage.outputs.active_stage }}" \
             ${{ github.event.inputs.dry_run == 'true' && '--dry-run' || '' }}
 
-      # ── MULTIMODAL / BUNDLE INPUT ENGINE ────────────────────────────────
       - name: Process multimodal input
         if: ${{ github.event.inputs.input_type != '' && github.event.inputs.input_type != null }}
         run: |
@@ -225,7 +330,6 @@ jobs:
             --stage "${{ steps.stage.outputs.active_stage }}" \
             ${{ github.event.inputs.dry_run == 'true' && '--dry-run' || '' }}
 
-      # ── KNOWLEDGEVAULT CONTEXT PACKET ────────────────────────────────────
       - name: Process KnowledgeVault context packet
         if: ${{ github.event.inputs.kv_packet != '' && github.event.inputs.kv_packet != null }}
         run: |
@@ -234,7 +338,6 @@ jobs:
             --entity StegVerse-002 \
             --stage "${{ steps.stage.outputs.active_stage }}"
 
-      # ── STEGVERSE-001 REPAIR ─────────────────────────────────────────────
       - name: Run StegVerse-001 repair
         if: ${{ github.event.inputs.repair_target != '' && github.event.inputs.repair_target != null }}
         run: |
@@ -244,7 +347,6 @@ jobs:
             --stage SV002-M3 \
             ${{ github.event.inputs.dry_run == 'true' && '--dry-run' || '' }}
 
-      # ── TV/TVC VERIFICATION ──────────────────────────────────────────────
       - name: Run TV/TVC authority verification
         if: ${{ github.event.inputs.task_id == 'tvc.verify.all' }}
         run: |
@@ -252,7 +354,6 @@ jobs:
             --registry config/package_registry.json \
             --entity StegVerse-002
 
-      # ── CGE ADMISSIBILITY CHECK ──────────────────────────────────────────
       - name: CGE admissibility check
         continue-on-error: true
         run: |
@@ -261,7 +362,6 @@ jobs:
             --entity StegVerse-002 \
             --stage "${{ steps.stage.outputs.active_stage }}"
 
-      # ── RECEIPT EMISSION ─────────────────────────────────────────────────
       - name: Emit run receipt
         if: always()
         run: |
@@ -274,7 +374,6 @@ jobs:
             --basis "Dispatcher run — task_id=${{ github.event.inputs.task_id }} skip_tasks=${{ github.event.inputs.skip_tasks }}" \
             --output receipts/current/intake_receipt.jsonl
 
-      # ── STATE UPDATE ─────────────────────────────────────────────────────
       - name: Update stage state
         if: success()
         run: |
@@ -283,7 +382,6 @@ jobs:
             --stage "${{ steps.stage.outputs.active_stage }}" \
             --status last_run_success
 
-      # ── COMMIT EVIDENCE ──────────────────────────────────────────────────
       - name: Commit run evidence
         if: always()
         run: |
@@ -309,7 +407,6 @@ jobs:
           git diff --staged --quiet || git commit -m "sv002: intake run — stage=${{ steps.stage.outputs.active_stage }} task=${{ github.event.inputs.task_id }}"
           git push || true
 
-      # ── ARTIFACTS ────────────────────────────────────────────────────────
       - name: Upload run artifacts
         if: always()
         uses: actions/upload-artifact@v4
@@ -325,3 +422,5 @@ jobs:
             dist/failed_bundles/
             repair/bundles/
             outputs/
+            agent_history/
+          if-no-files-found: warn
