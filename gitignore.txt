@@ -1,0 +1,33 @@
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+
+# Runtime state (committed intentionally via workflow)
+# stegverse/  — keep tracked
+# receipts/    — keep tracked
+# reports/     — keep tracked
+
+# Local secrets — never commit
+env
+*.key
+*.pem
+config/secrets/
+tv_import_token.txt
+
+# Python virtual envs
+venv/
+.venv/
+env/
+
+# macOS
+.DS_Store
+
+# IDE
+.idea/
+.vscode/
+*.swp

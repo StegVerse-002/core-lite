@@ -1,0 +1,193 @@
+name: core-lite-intake
+
+on:
+  workflow_dispatch:
+    inputs:
+      task_id:
+        description: "Task ID (leave blank for default intake run)"
+        required: false
+        default: ""
+      skip_tasks:
+        description: "Skip declared task loop (true/false)"
+        required: false
+        default: "true"
+      stage_override:
+        description: "Override active stage (leave blank for current)"
+        required: false
+        default: ""
+      repair_target:
+        description: "Repair target repo (e.g. Data-Continuation/core-lite)"
+        required: false
+        default: ""
+      input_type:
+        description: "Multimodal input type (text/voice/image/screenshot/document/structured_data/llm_output/bundle)"
+        required: false
+        default: ""
+      input_path:
+        description: "Path to input file or manifest (relative to repo root)"
+        required: false
+        default: ""
+      kv_packet:
+        description: "KnowledgeVault context packet path"
+        required: false
+        default: ""
+      dry_run:
+        description: "Dry run only — no mutations (true/false)"
+        required: false
+        default: "false"
+
+  push:
+    branches: [main]
+    paths:
+      - "tools/tasks/**"
+      - "core_lite/**"
+      - "config/**"
+
+permissions:
+  contents: write
+  actions: read
+
+env:
+  STEGVERSE_ENTITY: StegVerse-002
+  STEGVERSE_REPO: StegVerse-002/core-lite
+  STEGVERSE_VERSION: 1.0.0-sv002-m10
+
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install -e . || true
+          echo "PYTHONPATH=$GITHUB_WORKSPACE" >> $GITHUB_ENV
+
+      # ── STAGE RESOLUTION ──────────────────────────────────────────────────
+      - name: Resolve active stage and gate
+        id: stage
+        run: |
+          PYTHONPATH=$GITHUB_WORKSPACE python -m tools.scripts.resolve_stage \
+            --stage-override "${{ github.event.inputs.stage_override }}" \
+            --state-file tracking/stegverse-002/stage_map.json \
+            --output-env $GITHUB_OUTPUT
+
+      # ── DEFAULT INTAKE (task_id blank, skip_tasks true) ───────────────────
+      - name: Run Core-Lite Intake
+        if: ${{ github.event.inputs.task_id == '' || github.event.inputs.task_id == null }}
+        run: |
+          python -m core_lite.cli run \
+            --repo-root . \
+            --skip-tasks \
+            --entity StegVerse-002 \
+            --stage "${{ steps.stage.outputs.active_stage }}"
+
+      # ── DECLARED TASK DISPATCH ────────────────────────────────────────────
+      - name: Run declared task
+        if: ${{ github.event.inputs.task_id != '' && github.event.inputs.task_id != null }}
+        run: |
+          python -m tools.scripts.task_dispatcher \
+            --task-id "${{ github.event.inputs.task_id }}" \
+            --task-catalog tools/tasks/task_catalog.json \
+            --entity StegVerse-002 \
+            --stage "${{ steps.stage.outputs.active_stage }}" \
+            ${{ github.event.inputs.dry_run == 'true' && '--dry-run' || '' }}"
+
+      # ── MULTIMODAL INPUT ENGINE ────────────────────────────────────────────
+      - name: Process multimodal input
+        if: ${{ github.event.inputs.input_type != '' && github.event.inputs.input_type != null }}
+        run: |
+          python -m core_lite.multimodal.pipeline \
+            --input-type "${{ github.event.inputs.input_type }}" \
+            --input-path "${{ github.event.inputs.input_path }}" \
+            --entity StegVerse-002 \
+            --stage "${{ steps.stage.outputs.active_stage }}"
+
+      # ── KNOWLEDGEVAULT CONTEXT PACKET ─────────────────────────────────────
+      - name: Process KnowledgeVault context packet
+        if: ${{ github.event.inputs.kv_packet != '' && github.event.inputs.kv_packet != null }}
+        run: |
+          python -m core_lite.knowledgevault.intake \
+            --packet-path "${{ github.event.inputs.kv_packet }}" \
+            --entity StegVerse-002 \
+            --stage "${{ steps.stage.outputs.active_stage }}"
+
+      # ── STEGVERSE-001 REPAIR ───────────────────────────────────────────────
+      - name: Run StegVerse-001 repair
+        if: ${{ github.event.inputs.repair_target != '' && github.event.inputs.repair_target != null }}
+        run: |
+          python -m tools.repair.sv001_repair \
+            --target-repo "${{ github.event.inputs.repair_target }}" \
+            --entity StegVerse-002 \
+            --stage SV002-M3 \
+            ${{ github.event.inputs.dry_run == 'true' && '--dry-run' || '' }}"
+
+      # ── TV/TVC VERIFICATION ────────────────────────────────────────────────
+      - name: Run TV/TVC authority verification
+        if: ${{ github.event.inputs.task_id == 'tvc.verify.all' }}
+        run: |
+          python -m core_lite.tvc.verify \
+            --registry config/package_registry.json \
+            --entity StegVerse-002
+
+      # ── CGE ADMISSIBILITY CHECK ────────────────────────────────────────────
+      - name: CGE admissibility check
+        continue-on-error: true
+        run: |
+          python -m core_lite.cge \
+            --repo-root . \
+            --entity StegVerse-002 \
+            --stage "${{ steps.stage.outputs.active_stage }}"
+
+      # ── RECEIPT EMISSION ───────────────────────────────────────────────────
+      - name: Emit run receipt
+        if: always()
+        run: |
+          python -m tools.scripts.emit_receipt \
+            --actor StegVerse-002 \
+            --stage "${{ steps.stage.outputs.active_stage }}" \
+            --gate core-lite-intake \
+            --task-id "${{ github.event.inputs.task_id }}" \
+            --decision "${{ job.status == 'success' && 'ALLOW' || 'FAIL_CLOSED' }}" \
+            --basis "Dispatcher run — task_id=${{ github.event.inputs.task_id }} skip_tasks=${{ github.event.inputs.skip_tasks }}" \
+            --output receipts/current/intake_receipt.jsonl
+
+      # ── STATE UPDATE ───────────────────────────────────────────────────────
+      - name: Update stage state
+        if: success()
+        run: |
+          python -m tools.scripts.update_stage_state \
+            --state-file tracking/stegverse-002/stage_map.json \
+            --stage "${{ steps.stage.outputs.active_stage }}" \
+            --status last_run_success
+
+      # ── COMMIT EVIDENCE ────────────────────────────────────────────────────
+      - name: Commit run evidence
+        if: always()
+        run: |
+          git config user.name "StegVerse-002 Dispatcher"
+          git config user.email "sv002-dispatcher@stegverse"
+          git add reports/ receipts/ tracking/ dist/ || true
+          git diff --staged --quiet || git commit -m "sv002: intake run — stage=${{ steps.stage.outputs.active_stage }} task=${{ github.event.inputs.task_id }}"
+          git push || true
+
+      # ── ARTIFACTS ─────────────────────────────────────────────────────────
+      - name: Upload run artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sv002-intake-run-${{ github.run_number }}
+          path: |
+            reports/current/
+            receipts/current/
+            tracking/stegverse-002/
+            dist/current/

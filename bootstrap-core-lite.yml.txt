@@ -1,0 +1,67 @@
+name: bootstrap-core-lite
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: "Type BOOTSTRAP to confirm identity declaration"
+        required: true
+        default: ""
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  bootstrap:
+    runs-on: ubuntu-latest
+    if: github.event.inputs.confirm == 'BOOTSTRAP'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install -e .
+
+      - name: Run bootstrap identity declaration
+        run: |
+          python -m tools.scripts.bootstrap_identity \
+            --entity StegVerse-002 \
+            --repo StegVerse-002/core-lite \
+            --gate SV002-M0 \
+            --version 1.0.0-sv002-m10
+
+      - name: Emit bootstrap receipt
+        run: |
+          python -m tools.scripts.emit_receipt \
+            --actor StegVerse-002 \
+            --stage SV002-M0 \
+            --gate bootstrap-core-lite \
+            --decision ALLOW \
+            --basis "Identity and scope declared" \
+            --output receipts/current/bootstrap_receipt.jsonl
+
+      - name: Commit bootstrap evidence
+        run: |
+          git config user.name "StegVerse-002 Bootstrap"
+          git config user.email "sv002-bootstrap@stegverse"
+          git add tracking/ receipts/
+          git diff --staged --quiet || git commit -m "SV002-M0: bootstrap identity declaration receipt"
+          git push
+
+      - name: Upload bootstrap artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: sv002-bootstrap-evidence
+          path: |
+            tracking/stegverse-002/
+            receipts/current/bootstrap_receipt.jsonl
