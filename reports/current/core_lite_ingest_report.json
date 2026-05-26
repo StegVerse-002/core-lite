@@ -1,0 +1,12 @@
+{
+  "schema": "stegverse_core_lite_ingest_report.v1",
+  "entity": "StegVerse-002",
+  "stage": "SV002-M10",
+  "task_id": "",
+  "skip_tasks": true,
+  "started": "2026-05-24T02:10:25.061985+00:00",
+  "cge_decision": "ALLOW",
+  "cge_basis": "Stage SV002-M10 \u2014 action intake \u2014 admissibility checks passed",
+  "cge_fingerprint": "sha256:33aa60e704d4575a17a2459943761aa18c5220e47c1ae25cb0bf676442c0e3fd",
+  "generated_at": "2026-05-24T02:10:25.062397+00:00"
+}

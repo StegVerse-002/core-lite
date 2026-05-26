@@ -1,0 +1,41 @@
+{
+  "schema": "stegverse_core_lite_run_summary.v1",
+  "entity": "StegVerse-002",
+  "stage": "SV002-M10",
+  "task_id": "",
+  "skip_tasks": true,
+  "started": "2026-05-24T02:10:25.061985+00:00",
+  "status": "success",
+  "steps": [
+    {
+      "step": "cge_fingerprint",
+      "status": "ok",
+      "fingerprint": ""
+    },
+    {
+      "step": "cge_admissibility",
+      "status": "ok",
+      "decision": "ALLOW",
+      "basis": "Stage SV002-M10 \u2014 action intake \u2014 admissibility checks passed"
+    },
+    {
+      "step": "declared_task",
+      "status": "skipped",
+      "reason": "skip_tasks=true or task_id blank"
+    },
+    {
+      "step": "ingest_report",
+      "status": "ok",
+      "path": "reports/current/core_lite_ingest_report.json"
+    },
+    {
+      "step": "receipt",
+      "status": "ok",
+      "receipt_hash": "sha256:a151deedbd5ad5d63a42d2c4b91ed2425de7f22ac8ce559b0d8d73473676a910"
+    }
+  ],
+  "cge_decision": "ALLOW",
+  "receipt_hash": "sha256:a151deedbd5ad5d63a42d2c4b91ed2425de7f22ac8ce559b0d8d73473676a910",
+  "completed": "2026-05-24T02:10:25.062977+00:00",
+  "stop_condition_met": true
+}
