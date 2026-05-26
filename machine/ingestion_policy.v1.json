@@ -1,0 +1,22 @@
+{
+  "schema": "stegverse.ingestion_policy.v1",
+  "created_utc": "2026-05-26T01:24:32Z",
+  "default_decision": "DENY",
+  "allow_root_readme_default": false,
+  "allow_workflows_default": false,
+  "deny_target_prefixes": [
+    "incoming/",
+    "quarantine/",
+    "reports/current/",
+    "receipts/current/"
+  ],
+  "deny_target_paths": [
+    "bundle_manifest.json",
+    "manifest.json"
+  ],
+  "deny_root_readme_unless_explicit": true,
+  "deny_workflows_unless_explicit": true,
+  "receipt_required": true,
+  "event_required": true,
+  "report_required": true
+}
