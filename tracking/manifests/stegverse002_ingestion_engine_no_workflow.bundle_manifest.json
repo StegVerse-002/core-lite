@@ -1,0 +1,105 @@
+{
+  "schema": "stegverse.bundle_manifest.v1",
+  "created_utc": "2026-05-26T01:24:32Z",
+  "bundle_name": "stegverse002_ingestion_engine_no_workflow",
+  "purpose": "Adds functional governed bundle ingestion engine without adding workflows or root files.",
+  "manual_upload": true,
+  "incoming_directory_required": true,
+  "new_workflows_added": false,
+  "root_readme_present_in_bundle": false,
+  "root_bundle_manifest_present": false,
+  "replaces": [
+    "core_lite/multimodal/pipeline.py"
+  ],
+  "workflow_integration": "existing core-lite-intake.yml input_type=bundle path",
+  "manifest_target_path": "tracking/manifests/stegverse002_ingestion_engine_no_workflow.bundle_manifest.json",
+  "syntax_verification": {
+    "core_lite/bundles/__init__.py": "ok",
+    "core_lite/bundles/manifest.py": "ok",
+    "core_lite/bundles/validate.py": "ok",
+    "core_lite/bundles/ingest.py": "ok",
+    "core_lite/bundles/quarantine.py": "ok",
+    "core_lite/bundles/receipts.py": "ok",
+    "core_lite/multimodal/pipeline.py": "ok",
+    "tools/scripts/ingest_bundle.py": "ok",
+    "tests/test_bundle_ingestion.py": "ok"
+  },
+  "files": [
+    {
+      "path": "core_lite/bundles/__init__.py",
+      "sha256": "e8425df7e5cb39aa71a54865473c41d927fabcdfdd2ac040bc712c358574d462",
+      "bytes": 83
+    },
+    {
+      "path": "core_lite/bundles/ingest.py",
+      "sha256": "bd48a2174964704b5d6e509a8c96b6b6b6ba67360b12d4dfa00b3627c6e2ae75",
+      "bytes": 7433
+    },
+    {
+      "path": "core_lite/bundles/manifest.py",
+      "sha256": "1ed2f5335855033e39f552bd72d53c94d385ba0da4635ca9bce5d15e756daccd",
+      "bytes": 1718
+    },
+    {
+      "path": "core_lite/bundles/quarantine.py",
+      "sha256": "688f109a0951d6cde0f5d87941f4a885b7e8eca2271985ab882528b19c630a2b",
+      "bytes": 846
+    },
+    {
+      "path": "core_lite/bundles/receipts.py",
+      "sha256": "7c4d628d5dd9706f51c1d7e171f11bfcfbf3900dc93a0288e6f74613377c9b31",
+      "bytes": 927
+    },
+    {
+      "path": "core_lite/bundles/validate.py",
+      "sha256": "5b0b9e3d0a05204b94285a4e30e4a7d81b9d3341a0d8b5fde54852849a714a15",
+      "bytes": 2077
+    },
+    {
+      "path": "core_lite/multimodal/pipeline.py",
+      "sha256": "1b11d778b7efac65f9d2825b04b58d7d0b987dd0f2528b668a0420957610b54d",
+      "bytes": 12569
+    },
+    {
+      "path": "docs/ingestion_engine/MANUAL_UPLOAD_MAP.md",
+      "sha256": "7eae7adc7ca618680e0b0efd5fbd2d16bf5e6d5c49c730fa46469127da7b07bc",
+      "bytes": 794
+    },
+    {
+      "path": "docs/ingestion_engine/README.md",
+      "sha256": "8c56cc27af603d3547a143c38c0ef2eb9690b1a162a3808e89ebe1175a8e5415",
+      "bytes": 2471
+    },
+    {
+      "path": "incoming/README.md",
+      "sha256": "76028a093d02017d3e21f29cf76c62c7a2e7896bf1e645bf468e859aab31ea52",
+      "bytes": 330
+    },
+    {
+      "path": "machine/ingestion_policy.v1.json",
+      "sha256": "7e146edd54b85db9994968b1ba7cd92bb2c7d60eafb2fca07c8ede2ab354bf81",
+      "bytes": 555
+    },
+    {
+      "path": "quarantine/README.md",
+      "sha256": "04f12fe72a15ed40d6f7755a05296d2e80fa39299524e35c63c9cbe6d22d35e9",
+      "bytes": 238
+    },
+    {
+      "path": "schemas/bundle_manifest.v1.json",
+      "sha256": "a8359845cb25c468921a76743020739127a7cd045180ab09fcdd1b66b2ec1cf1",
+      "bytes": 1038
+    },
+    {
+      "path": "tests/test_bundle_ingestion.py",
+      "sha256": "01958591f9ab2a6de705823c4546a6e4961cfd3cc3308f1f412982bbafdc4c1b",
+      "bytes": 2205
+    },
+    {
+      "path": "tools/scripts/ingest_bundle.py",
+      "sha256": "b1a6137eca65e9d08083a85a20c61dae3d7650670077b7bf223375933586b8d3",
+      "bytes": 959
+    }
+  ],
+  "created_utc_repacked": "2026-05-26T01:24:43Z"
+}
