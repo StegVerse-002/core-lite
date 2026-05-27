@@ -1,59 +1,37 @@
 {
   "schema": "stegverse.agent_comparison_report.v1",
   "version": "0.1.2-gllm",
-  "timestamp": "2026-05-26T21:11:36.341803+00:00",
+  "timestamp": "2026-05-27T15:53:54.941086+00:00",
   "decision": "REVIEW_REQUIRED",
-  "basis": "Provider outputs mention broad/unilateral authority; human review required even if framed as denied.",
+  "basis": "Provider outputs do not contain enough shared structure.",
   "providers": {
     "openai": {
       "provider": "openai",
       "output_path": "outputs/chatgpt_response.md",
       "exists": true,
-      "sha256": "sha256:2071b119c233be90e42641ef923128ccb42ac40b8a97a06cdc372c7441aaff94",
-      "bytes": 3078,
-      "mentioned_paths": [
-        ".github/workflows/core-lite-intake.yml",
-        "dist/bundles/",
-        "dist/bundles/proposed_transition_bundle.json",
-        "dist/bundles/proposed_transition_bundle.sha256",
-        "dist/bundles/proposed_transition_bundle.zip",
-        "package_transition_bundle.py",
-        "receipts/current/proposed_transition_bundle_receipt.jsonl",
-        "receipts/current/transition_bundle_ingest_receipt.jsonl",
-        "schemas/transition_bundle.v1.schema.json",
-        "scripts/ingest_transition_bundle.py",
-        "scripts/package_transition_bundle.py"
-      ],
-      "mentioned_risk_terms": [
-        "broad authority"
-      ],
+      "sha256": "sha256:30c5d952a16098f9025f05c9918556b2db6c8164a46f9db28465ef000740e22b",
+      "bytes": 81,
+      "mentioned_paths": [],
+      "mentioned_risk_terms": [],
       "required_sections_present": {
-        "Current State Assessment": true,
-        "Directive Alignment": true,
-        "Next Collaboration Primitive": true,
-        "Proposed Implementation": true,
-        "Authority Boundaries": true,
-        "Receipts and Version History": true,
-        "Risks & Dependencies": true,
-        "Confidence": true
+        "Current State Assessment": false,
+        "Directive Alignment": false,
+        "Next Collaboration Primitive": false,
+        "Proposed Implementation": false,
+        "Authority Boundaries": false,
+        "Receipts and Version History": false,
+        "Risks & Dependencies": false,
+        "Confidence": false
       }
     },
     "claude": {
       "provider": "claude",
       "output_path": "outputs/claude_response.md",
       "exists": true,
-      "sha256": "sha256:b5fe8dade87a953e6b461d056fc680358377103c054bf14aaddf7b782c94ae7f",
-      "bytes": 1708,
-      "mentioned_paths": [
-        ".github/workflows/core-lite-intake.yml:232-244",
-        "outputs/",
-        "outputs/claude_response.md",
-        "receipts/current/transition_bundle_ingest_receipt.jsonl",
-        "scripts/ingest_transition_bundle.py"
-      ],
-      "mentioned_risk_terms": [
-        "broad authority"
-      ],
+      "sha256": "sha256:1778ae05a4f5b162b7bd00127a7dd80e999d7f4b0b68d70b1d632c33a2b05e69",
+      "bytes": 86,
+      "mentioned_paths": [],
+      "mentioned_risk_terms": [],
       "required_sections_present": {
         "Current State Assessment": false,
         "Directive Alignment": false,
@@ -67,14 +45,9 @@
     }
   },
   "analysis": {
-    "path_overlap_ratio": 0.14285714285714285,
-    "high_risk_paths": [
-      ".github/workflows/core-lite-intake.yml",
-      ".github/workflows/core-lite-intake.yml:232-244"
-    ],
-    "risk_terms": [
-      "broad authority"
-    ],
+    "path_overlap_ratio": 1.0,
+    "high_risk_paths": [],
+    "risk_terms": [],
     "missing_providers": [],
     "shared_sections": [],
     "thread_present": true

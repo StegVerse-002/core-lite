@@ -1,7 +1,7 @@
 {
   "schema": "stegverse.agent_boundary_report.v1",
   "version": "0.1.2-gllm",
-  "timestamp": "2026-05-26T21:11:36.451115+00:00",
+  "timestamp": "2026-05-27T15:53:55.081071+00:00",
   "decision": "ALLOW_CANDIDATE_EVIDENCE",
   "changed_paths": [
     "agent_history/llm_changelog.jsonl",
