@@ -2,53 +2,86 @@
   "schema": "stegverse.bundle_ingest_report.v1",
   "entity": "StegVerse-002",
   "stage": "SV002-M10",
-  "input_path": "incoming/sv002_ingestion_smoke_test_20260526T015814Z.zip",
-  "started": "2026-05-26T02:05:02.756326+00:00",
+  "input_path": "incoming/sv002_core_lite_stegverse_output_authority_bundle.zip",
+  "started": "2026-05-27T18:34:04.993314+00:00",
   "dry_run": false,
   "status": "success",
   "decision": "ALLOW",
   "installed": [
     {
-      "path": "docs/ingestion_smoke_test/INGESTION_SMOKE_TEST.md",
-      "sha256": "22560e838720e6a5fa066c825d1416126a320e81ab93ae55f75c8dc37fb6ac14",
-      "bytes": 745,
+      "path": "MANUAL_INSTALL.md",
+      "sha256": "7c1a110febb75cf97635e58a34fe40018f6c897567209683bfc5770722115e2a",
+      "bytes": 1090,
       "dry_run": false
     },
     {
-      "path": "machine/ingestion_smoke_test.v1.json",
-      "sha256": "ecf270c032f5b1565981f7edda69582f9d2141ec1d6dc3850205e0f7c7575a34",
-      "bytes": 442,
+      "path": "docs/STEGVERSE_OUTPUT_AUTHORITY.md",
+      "sha256": "eee3f78e5ec9936f71800f3ea47e63ffa49d97ef09d7a71e0194801a61ba74c1",
+      "bytes": 2179,
+      "dry_run": false
+    },
+    {
+      "path": "iosnoperiod.md",
+      "sha256": "3f8ec8472b161dd093186590e467a6bc63f791e3eea3e23e86616939e2961ec7",
+      "bytes": 325,
+      "dry_run": false
+    },
+    {
+      "path": "scripts/package_stegverse_governed_output.py",
+      "sha256": "d9951d6295f844361ee7b89a022ef3de4657727ffd916577528362027f257cae",
+      "bytes": 9340,
+      "dry_run": false
+    },
+    {
+      "path": "tools/tasks/task_catalog.json",
+      "sha256": "094b2397668467902b777f64c7eb9aa56046d7c5eb203a1ad46373b472fc2c23",
+      "bytes": 7271,
       "dry_run": false
     }
   ],
   "rejected": [],
   "errors": [],
-  "bundle_name": "sv002_ingestion_smoke_test_20260526T015814Z",
-  "manifest_path": "/tmp/tmpsnwziymi/bundle/bundle_manifest.json",
+  "bundle_name": "sv002_core_lite_stegverse_output_authority_bundle",
+  "manifest_path": "/tmp/tmpjvtkv3fo/bundle/bundle_manifest.json",
   "manifest": {
-    "schema": "stegverse.bundle_manifest.v1",
-    "created_utc": "2026-05-26T01:58:14Z",
-    "bundle_name": "sv002_ingestion_smoke_test_20260526T015814Z",
-    "purpose": "Safe smoke-test bundle for StegVerse-002/core-lite ingestion engine.",
     "allow_root_readme": false,
     "allow_workflows": false,
+    "bundle_name": "sv002_core_lite_stegverse_output_authority_bundle",
+    "created_utc": "2026-05-26T00:00:00Z",
     "files": [
       {
-        "path": "docs/ingestion_smoke_test/INGESTION_SMOKE_TEST.md",
-        "sha256": "22560e838720e6a5fa066c825d1416126a320e81ab93ae55f75c8dc37fb6ac14",
-        "bytes": 745
+        "bytes": 1090,
+        "path": "MANUAL_INSTALL.md",
+        "sha256": "7c1a110febb75cf97635e58a34fe40018f6c897567209683bfc5770722115e2a"
       },
       {
-        "path": "machine/ingestion_smoke_test.v1.json",
-        "sha256": "ecf270c032f5b1565981f7edda69582f9d2141ec1d6dc3850205e0f7c7575a34",
-        "bytes": 442
+        "bytes": 2179,
+        "path": "docs/STEGVERSE_OUTPUT_AUTHORITY.md",
+        "sha256": "eee3f78e5ec9936f71800f3ea47e63ffa49d97ef09d7a71e0194801a61ba74c1"
+      },
+      {
+        "bytes": 325,
+        "path": "iosnoperiod.md",
+        "sha256": "3f8ec8472b161dd093186590e467a6bc63f791e3eea3e23e86616939e2961ec7"
+      },
+      {
+        "bytes": 9340,
+        "path": "scripts/package_stegverse_governed_output.py",
+        "sha256": "d9951d6295f844361ee7b89a022ef3de4657727ffd916577528362027f257cae"
+      },
+      {
+        "bytes": 7271,
+        "path": "tools/tasks/task_catalog.json",
+        "sha256": "094b2397668467902b777f64c7eb9aa56046d7c5eb203a1ad46373b472fc2c23"
       }
-    ]
+    ],
+    "purpose": "Establish StegVerse as the sole governed output authority while preserving LLM provider outputs as candidate evidence only.",
+    "schema": "stegverse.bundle_manifest.v1"
   },
   "basis": "Bundle validated and processed.",
-  "completed": "2026-05-26T02:05:02.757850+00:00",
+  "completed": "2026-05-27T18:34:04.996929+00:00",
   "receipt": {
-    "receipt_hash": "sha256:006172e734e01ed749edca26b892501eca7c6b3319dc9f484d56e97ced60e204",
+    "receipt_hash": "sha256:ccc454af0d314feb28324089293b555be688ecae522975040f63579ad5782a3d",
     "receipt_path": "receipts/current/ingestion_receipt.jsonl"
   }
 }

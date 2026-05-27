@@ -1,7 +1,7 @@
 {
   "schema": "stegverse_task_catalog.v1",
   "entity": "StegVerse-002",
-  "version": "1.0.0-sv002-m10",
+  "version": "1.0.1-sv002-output-authority",
   "description": "All capabilities for StegVerse-002/core-lite. No new workflow files needed.",
   "tasks": [
     {
@@ -133,6 +133,16 @@
       "forbidden_actions": [],
       "stop_condition": "Chain verification report emitted",
       "timeout_seconds": 60
+    },
+    {
+      "task_id": "stegverse.output.package",
+      "description": "Package one StegVerse-authored governed output artifact; LLM outputs remain candidate evidence only.",
+      "action": "run",
+      "command": "python scripts/package_stegverse_governed_output.py --repo-root .",
+      "allowed_stages": ["SV002-M7", "SV002-M8", "SV002-M9", "SV002-M10"],
+      "forbidden_actions": ["production_mutation", "publication", "deploy", "self_approve"],
+      "stop_condition": "StegVerse governed output package emitted with receipts; no external consequence bound.",
+      "timeout_seconds": 120
     }
   ]
 }
