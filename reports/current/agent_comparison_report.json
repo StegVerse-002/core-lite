@@ -1,7 +1,7 @@
 {
   "schema": "stegverse.agent_comparison_report.v1",
   "version": "0.1.2-gllm",
-  "timestamp": "2026-05-27T16:09:38.252467+00:00",
+  "timestamp": "2026-05-27T16:14:55.724492+00:00",
   "decision": "REVIEW_REQUIRED",
   "basis": "Provider outputs do not contain enough shared structure.",
   "providers": {
