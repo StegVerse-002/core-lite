@@ -43,6 +43,7 @@ on:
   push:
     branches: [main]
     paths:
+      - ".github/workflows/core-lite-intake.yml"
       - "task.md"
       - "CLAUDE.md"
       - "scripts/openai_task.py"
@@ -73,8 +74,98 @@ env:
 
 jobs:
 
+  declared-input-route:
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.input_type != '' && inputs.input_path != '' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Process declared input route
+        run: |
+          set -euo pipefail
+
+          mkdir -p reports/current receipts/current tracking/ingestion_events
+
+          STAGE="${{ inputs.stage_override }}"
+          if [ -z "${STAGE}" ]; then
+            STAGE="SV002-M10"
+          fi
+
+          DRY_RUN_ARG=""
+          if [ "${{ inputs.dry_run }}" = "true" ]; then
+            DRY_RUN_ARG="--dry-run"
+          fi
+
+          echo "Declared input route selected."
+          echo "input_type=${{ inputs.input_type }}"
+          echo "input_path=${{ inputs.input_path }}"
+          echo "stage=${STAGE}"
+          echo "dry_run=${{ inputs.dry_run }}"
+          echo "agent_provider=${{ inputs.agent_provider }}"
+
+          python -m core_lite.multimodal.pipeline \
+            --repo-root . \
+            --input-type "${{ inputs.input_type }}" \
+            --input-path "${{ inputs.input_path }}" \
+            --entity "${STEGVERSE_ENTITY}" \
+            --stage "${STAGE}" \
+            ${DRY_RUN_ARG}
+
+      - name: Commit declared input outputs
+        if: ${{ inputs.dry_run != 'true' }}
+        run: |
+          set -euo pipefail
+
+          git config user.name "StegVerse-002 Declared Input Router"
+          git config user.email "sv002-declared-input-router@stegverse"
+
+          git add -A \
+            .github/workflows/ \
+            core_lite/ \
+            scripts/ \
+            schemas/ \
+            examples/ \
+            docs/ \
+            tests/ \
+            tools/ \
+            config/ \
+            machine/ \
+            outputs/ \
+            reports/current/ \
+            receipts/current/ \
+            tracking/ \
+            dist/ \
+            agent_history/ \
+            vault_template/ || true
+
+          if git diff --staged --quiet; then
+            echo "No declared input changes to commit."
+          else
+            git commit -m "sv002: process declared input route — ${{ inputs.input_type }} ${{ inputs.input_path }}"
+            git push
+          fi
+
+      - name: Upload declared input evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: declared-input-route-evidence
+          path: |
+            reports/current/
+            receipts/current/
+            tracking/
+            dist/
+          if-no-files-found: warn
+
   claude-agent:
     runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && (inputs.agent_provider == 'claude' || inputs.agent_provider == 'both')) }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -158,6 +249,7 @@ jobs:
 
   openai-agent:
     runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && (inputs.agent_provider == 'openai' || inputs.agent_provider == 'both')) }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -188,7 +280,7 @@ jobs:
   merge-and-commit:
     runs-on: ubuntu-latest
     needs: [claude-agent, openai-agent]
-    if: always()
+    if: ${{ always() && (github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && (inputs.agent_provider == 'openai' || inputs.agent_provider == 'claude' || inputs.agent_provider == 'both'))) }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -257,173 +349,3 @@ jobs:
 
           git diff --staged --quiet || git commit -m "sv002: governed transition bundle v0.1.3 — $(head -1 task.md 2>/dev/null || echo no-task)"
           git push || true
-
-      - name: Upload coordination artifacts
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: governed-llm-llm-collaboration
-          path: |
-            outputs/
-            reports/current/
-            receipts/current/
-            agent_history/
-            dist/bundles/
-          if-no-files-found: warn
-
-  dispatch:
-    runs-on: ubuntu-latest
-    needs: [merge-and-commit]
-    if: always()
-    steps:
-      - name: Checkout latest
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Pull coordination commit if present
-        run: |
-          git pull --ff-only || true
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-
-      - name: Install dependencies
-        run: |
-          pip install --upgrade pip
-          pip install -r requirements.txt
-          pip install -e . || true
-          echo "PYTHONPATH=$GITHUB_WORKSPACE" >> $GITHUB_ENV
-
-      - name: Resolve active stage and gate
-        id: stage
-        run: |
-          PYTHONPATH=$GITHUB_WORKSPACE python -m tools.scripts.resolve_stage \
-            --stage-override "${{ github.event.inputs.stage_override }}" \
-            --state-file tracking/stegverse-002/stage_map.json \
-            --output-env $GITHUB_OUTPUT
-
-      - name: Run Core-Lite Intake
-        if: ${{ github.event.inputs.task_id == '' || github.event.inputs.task_id == null }}
-        run: |
-          python -m core_lite.cli run \
-            --repo-root . \
-            --skip-tasks \
-            --entity StegVerse-002 \
-            --stage "${{ steps.stage.outputs.active_stage }}"
-
-      - name: Run declared task
-        if: ${{ github.event.inputs.task_id != '' && github.event.inputs.task_id != null }}
-        run: |
-          python -m tools.scripts.task_dispatcher \
-            --task-id "${{ github.event.inputs.task_id }}" \
-            --task-catalog tools/tasks/task_catalog.json \
-            --entity StegVerse-002 \
-            --stage "${{ steps.stage.outputs.active_stage }}" \
-            ${{ github.event.inputs.dry_run == 'true' && '--dry-run' || '' }}
-
-      - name: Process multimodal input
-        if: ${{ github.event.inputs.input_type != '' && github.event.inputs.input_type != null }}
-        run: |
-          python -m core_lite.multimodal.pipeline \
-            --input-type "${{ github.event.inputs.input_type }}" \
-            --input-path "${{ github.event.inputs.input_path }}" \
-            --entity StegVerse-002 \
-            --stage "${{ steps.stage.outputs.active_stage }}" \
-            ${{ github.event.inputs.dry_run == 'true' && '--dry-run' || '' }}
-
-      - name: Process KnowledgeVault context packet
-        if: ${{ github.event.inputs.kv_packet != '' && github.event.inputs.kv_packet != null }}
-        run: |
-          python -m core_lite.knowledgevault.intake \
-            --packet-path "${{ github.event.inputs.kv_packet }}" \
-            --entity StegVerse-002 \
-            --stage "${{ steps.stage.outputs.active_stage }}"
-
-      - name: Run StegVerse-001 repair
-        if: ${{ github.event.inputs.repair_target != '' && github.event.inputs.repair_target != null }}
-        run: |
-          python -m tools.repair.sv001_repair \
-            --target-repo "${{ github.event.inputs.repair_target }}" \
-            --entity StegVerse-002 \
-            --stage SV002-M3 \
-            ${{ github.event.inputs.dry_run == 'true' && '--dry-run' || '' }}
-
-      - name: Run TV/TVC authority verification
-        if: ${{ github.event.inputs.task_id == 'tvc.verify.all' }}
-        run: |
-          python -m core_lite.tvc.verify \
-            --registry config/package_registry.json \
-            --entity StegVerse-002
-
-      - name: CGE admissibility check
-        continue-on-error: true
-        run: |
-          python -m core_lite.cge \
-            --repo-root . \
-            --entity StegVerse-002 \
-            --stage "${{ steps.stage.outputs.active_stage }}"
-
-      - name: Emit run receipt
-        if: always()
-        run: |
-          python -m tools.scripts.emit_receipt \
-            --actor StegVerse-002 \
-            --stage "${{ steps.stage.outputs.active_stage }}" \
-            --gate core-lite-intake \
-            --task-id "${{ github.event.inputs.task_id }}" \
-            --decision "${{ job.status == 'success' && 'ALLOW' || 'FAIL_CLOSED' }}" \
-            --basis "Dispatcher run — task_id=${{ github.event.inputs.task_id }} skip_tasks=${{ github.event.inputs.skip_tasks }}" \
-            --output receipts/current/intake_receipt.jsonl
-
-      - name: Update stage state
-        if: success()
-        run: |
-          python -m tools.scripts.update_stage_state \
-            --state-file tracking/stegverse-002/stage_map.json \
-            --stage "${{ steps.stage.outputs.active_stage }}" \
-            --status last_run_success
-
-      - name: Commit run evidence
-        if: always()
-        run: |
-          git config user.name "StegVerse-002 Dispatcher"
-          git config user.email "sv002-dispatcher@stegverse"
-
-          git add -A \
-            reports/ \
-            receipts/ \
-            tracking/ \
-            dist/ \
-            repair/ \
-            docs/ \
-            machine/ \
-            schemas/ \
-            core_lite/ \
-            tools/ \
-            tests/ \
-            incoming/ \
-            failed_bundles/ \
-            quarantine/ || true
-
-          git diff --staged --quiet || git commit -m "sv002: intake run — stage=${{ steps.stage.outputs.active_stage }} task=${{ github.event.inputs.task_id }}"
-          git push || true
-
-      - name: Upload run artifacts
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: sv002-intake-run-${{ github.run_number }}
-          path: |
-            reports/current/
-            receipts/current/
-            tracking/stegverse-002/
-            tracking/ingestion_events/
-            dist/current/
-            dist/master-records/
-            dist/failed_bundles/
-            repair/bundles/
-            outputs/
-            dist/bundles/
