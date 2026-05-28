@@ -1,7 +1,7 @@
 {
   "schema": "stegverse.agent_comparison_report.v1",
   "version": "0.1.2-gllm",
-  "timestamp": "2026-05-28T21:31:34.474124+00:00",
+  "timestamp": "2026-05-28T21:44:40.249396+00:00",
   "decision": "REVIEW_REQUIRED",
   "basis": "Provider outputs mention broad/unilateral authority; human review required even if framed as denied.",
   "providers": {
@@ -28,11 +28,11 @@
       "provider": "claude",
       "output_path": "outputs/claude_response.md",
       "exists": true,
-      "sha256": "sha256:32bee0cf16ddd1619a5b093dfc16b62cbf9c02ebcf67368e4da1b12ab6bf13c3",
-      "bytes": 1882,
+      "sha256": "sha256:fdafe5040a372aab26a22af9ce95d21e43b3e029dca55bd0bf7f788d313265de",
+      "bytes": 1810,
       "mentioned_paths": [
-        "docs/",
-        "outputs/claude_response.md"
+        ".github/workflows/",
+        "docs/"
       ],
       "mentioned_risk_terms": [
         "broad authority",
@@ -52,7 +52,9 @@
   },
   "analysis": {
     "path_overlap_ratio": 0.0,
-    "high_risk_paths": [],
+    "high_risk_paths": [
+      ".github/workflows/"
+    ],
     "risk_terms": [
       "broad authority",
       "secret"

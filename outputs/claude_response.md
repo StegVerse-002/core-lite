@@ -1,6 +1,6 @@
 # Claude Code — Governed Collaboration Proposal
 
-Run timestamp: 2026-05-28T21:30:18Z
+Run timestamp: 2026-05-28T21:44:12Z
 
 Governance mode: propose-only
 
@@ -12,7 +12,9 @@ Directive: no broad authority is ever admissible under Transition Table, AE, or 
 
 ---
 
-The write to `outputs/claude_response.md` wasn't permitted, so I'll deliver the candidate packet directly here — which is the requested deliverable. It's documentation-only, scoped, default-deny, and touches only `docs/`; per the propose-only directive I'm emitting it as text, not applying it.
+This task asks for a single machine-actionable candidate packet, not multi-agent orchestration — the "workflow" keyword here comes from the governance text about `.github/workflows/`, not a request to fan out agents. I'll produce the packet directly.
+
+The candidate is documentation-only, writes solely under `docs/`, and touches no workflows, root README, secrets, deploy config, or authority policy — consistent with the PROPOSE-ONLY directive and `review-only` scope.
 
 ```json
 {
@@ -33,9 +35,4 @@ The write to `outputs/claude_response.md` wasn't permitted, so I'll deliver the 
 }
 ```
 
-Notes:
-- **Scope:** `transition_class: documentation`; single target under `docs/`. No workflow, root `README.md`, secret, deploy config, or authority policy is touched.
-- **Authority:** scoped + review-only (`authority_ref`), default-deny (`policy_ref`). No broad authority requested or implied.
-- **Stage:** Stage 1 primitive only (adapter sandbox/routing). No Stage 2–4 capability, no Rige enrollment, no Beta_Orionis enablement.
-
-If you'd like, I can also try writing this proposal to `outputs/claude_response.md` once write permission is granted.
+**Authority boundary note:** This packet is a *proposal only*. It does not approve, bind, or apply the patch — the candidate remains subject to M11 gate review under default-deny. No file was written to the repository by emitting this packet; applying it requires a separately receipted, scoped grant.

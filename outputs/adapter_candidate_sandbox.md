@@ -1,14 +1,12 @@
 # Adapter Candidate Sandbox Executor
 
-**Decision:** `FAIL_CLOSED_NO_PASSING_CANDIDATE`
+**Decision:** `CANDIDATE_SANDBOXED_GATE_DEFERRED`
 **Human result:** `outputs/SV002_AUTOMATION_PROOF_RESULT.md`
-**Selected candidate:** `none`
+**Selected candidate:** `sv002-m105-sandbox-proof`
 **Applied files:** `none`
-**Receipt hash:** `sha256:bf74957b0033e0d501d869bebf1da9b4d5df0dcdb997d57cdfb9689dbb6a2f3d`
+**Receipt hash:** `sha256:5b6eb5ca6fddb4423c070728b4bd2499efeaad0b9f166dc9f07cb2047add00d9`
 
 ## Candidate Results
 
-- `sv002-m105-sandbox-proof` from `openai-or-claude` → `DENY_CANDIDATE`
-  - error: `pytest_failed`
-- `sv002-m105-sandbox-proof` from `openai-or-claude` → `DENY_CANDIDATE`
-  - error: `pytest_failed`
+- `sv002-m105-sandbox-proof` from `openai` → `SANDBOX_PASS_GATE_DEFER`
+- `sv002-m105-sandbox-proof` from `claude` → `SANDBOX_PASS_GATE_DEFER`
