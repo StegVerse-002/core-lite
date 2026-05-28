@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://stegverse.org/schemas/stegverse_apply_request.schema.json",
+  "title": "StegVerse Apply Request",
+  "type": "object",
+  "required": [
+    "schema",
+    "request_id",
+    "entity",
+    "stage",
+    "capability",
+    "requester",
+    "transition_class",
+    "authority_ref",
+    "policy_ref",
+    "dry_run",
+    "target_files"
+  ],
+  "properties": {
+    "schema": { "const": "stegverse.apply_request.v1" },
+    "request_id": { "type": "string", "minLength": 1 },
+    "entity": { "type": "string", "minLength": 1 },
+    "stage": { "type": "string", "pattern": "^SV002-M" },
+    "capability": { "type": "string", "minLength": 1 },
+    "requester": { "type": "string", "minLength": 1 },
+    "transition_class": {
+      "type": "string",
+      "enum": ["tooling", "schema", "policy", "governance", "repair", "documentation"]
+    },
+    "authority_ref": { "type": "string", "minLength": 1 },
+    "policy_ref": { "type": "string", "minLength": 1 },
+    "dry_run": { "type": "boolean" },
+    "target_files": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["path", "operation"],
+        "properties": {
+          "path": { "type": "string", "minLength": 1 },
+          "operation": { "type": "string" }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true
+}

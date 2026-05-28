@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://stegverse.org/schemas/stegverse_apply_review.schema.json",
+  "title": "StegVerse Apply Review",
+  "type": "object",
+  "required": [
+    "schema",
+    "entity",
+    "stage",
+    "request_id",
+    "capability",
+    "requester",
+    "transition_class",
+    "dry_run",
+    "started",
+    "completed",
+    "decision",
+    "checks",
+    "errors",
+    "warnings",
+    "deny_reason",
+    "receipt"
+  ],
+  "properties": {
+    "schema": { "const": "stegverse.apply_review.v1" },
+    "decision": { "type": "string", "enum": ["ALLOW", "DENY", "DEFER"] },
+    "checks": { "type": "object" },
+    "errors": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "m11_resolver": { "type": "object" }
+  },
+  "additionalProperties": true
+}
