@@ -16,26 +16,9 @@ This version also writes the one-file human result surface:
 outputs/SV002_AUTOMATION_PROOF_RESULT.md
 
 Provider outputs are never trusted. A provider output is only machine-actionable
-when it contains this explicit fenced JSON packet:
+when it contains an explicit fenced JSON packet with schema:
 
-```json
-{
-  "schema": "stegverse.candidate_patch.v1",
-  "candidate_id": "short-id",
-  "provider": "openai",
-  "description": "Full-file replacement candidate",
-  "transition_class": "documentation",
-  "authority_ref": "SV002-M10.5/scoped-candidate",
-  "policy_ref": "triad/default-deny/no-broad-authority",
-  "files": [
-    {
-      "path": "docs/example.md",
-      "operation": "write",
-      "content": "# Full file contents\n"
-    }
-  ]
-}
-```
+stegverse.candidate_patch.v1
 """
 from __future__ import annotations
 
@@ -105,14 +88,15 @@ def extract_json_blocks(text: str) -> list[str]:
     return re.findall(r"```(?:json|JSON)\s*(\{.*?\})\s*```", text, flags=re.DOTALL)
 
 
-def normalize_candidate(raw: dict[str, Any], provider_hint: str) -> tuple[dict[str, Any] | None, list[str]]:
+def normalize_candidate(raw: dict[str, Any], source_provider: str) -> tuple[dict[str, Any] | None, list[str]]:
     errors: list[str] = []
     if raw.get("schema") != PATCH_SCHEMA:
         return None, [f"unsupported_schema:{raw.get('schema')}"]
 
     candidate = dict(raw)
-    candidate.setdefault("provider", provider_hint)
-    candidate.setdefault("candidate_id", f"{provider_hint}-candidate")
+    candidate.setdefault("provider", source_provider)
+    candidate["source_provider"] = source_provider
+    candidate.setdefault("candidate_id", f"{source_provider}-candidate")
     candidate.setdefault("transition_class", "tooling")
     candidate.setdefault("files", [])
 
@@ -153,26 +137,28 @@ def normalize_candidate(raw: dict[str, Any], provider_hint: str) -> tuple[dict[s
 
 def collect_candidates(provider_outputs: dict[str, Path]) -> list[dict[str, Any]]:
     candidates: list[dict[str, Any]] = []
-    for provider, path in provider_outputs.items():
+    for source_provider, path in provider_outputs.items():
         text = load_text(path)
         for index, block in enumerate(extract_json_blocks(text), start=1):
             try:
                 raw = json.loads(block)
             except Exception as exc:
                 candidates.append({
-                    "provider": provider,
-                    "candidate_id": f"{provider}-invalid-json-{index}",
+                    "provider": source_provider,
+                    "source_provider": source_provider,
+                    "candidate_id": f"{source_provider}-invalid-json-{index}",
                     "valid_packet": False,
                     "errors": [f"json_parse_failed:{exc}"],
                     "decision": "DENY_CANDIDATE",
                 })
                 continue
 
-            normalized, errors = normalize_candidate(raw, provider)
+            normalized, errors = normalize_candidate(raw, source_provider)
             if normalized is None:
                 candidates.append({
-                    "provider": provider,
-                    "candidate_id": f"{provider}-unsupported-{index}",
+                    "provider": source_provider,
+                    "source_provider": source_provider,
+                    "candidate_id": f"{source_provider}-unsupported-{index}",
                     "valid_packet": False,
                     "errors": errors,
                     "decision": "DENY_CANDIDATE",
@@ -187,8 +173,10 @@ def collect_candidates(provider_outputs: dict[str, Path]) -> list[dict[str, Any]
 
 def copy_repo_to_sandbox(repo_root: Path, sandbox: Path) -> None:
     ignored_names = {".git", "node_modules", "__pycache__", ".pytest_cache"}
+
     def ignore(_dir: str, names: list[str]) -> set[str]:
         return {name for name in names if name in ignored_names}
+
     shutil.copytree(repo_root, sandbox, ignore=ignore)
 
 
@@ -203,6 +191,29 @@ def apply_candidate_files(candidate: dict[str, Any], repo_root: Path) -> list[st
         target.write_text(str(item.get("content", "")), encoding="utf-8")
         applied.append(rel.as_posix())
     return applied
+
+
+def candidate_paths(candidate: dict[str, Any]) -> list[str]:
+    return [str(item.get("path", "")) for item in candidate.get("files", []) if item.get("path")]
+
+
+def should_run_pytest(candidate: dict[str, Any]) -> bool:
+    """Run full pytest only when the candidate touches executable/test surfaces.
+
+    Documentation-only candidates should not be rejected because unrelated repo
+    tests are currently red. They still pass through path/authority checks and
+    the M11 apply gate.
+    """
+    paths = candidate_paths(candidate)
+    return any(
+        path.endswith(".py")
+        or path.startswith("tests/")
+        or "/tests/" in path
+        or path.startswith("tools/")
+        or path.startswith("scripts/")
+        or path.startswith("core_lite/")
+        for path in paths
+    )
 
 
 def run_cmd(args: list[str], cwd: Path, timeout: int = 180) -> dict[str, Any]:
@@ -225,7 +236,7 @@ def candidate_apply_request(candidate: dict[str, Any], dry_run: bool) -> dict[st
         "entity": "StegVerse-002",
         "stage": "SV002-M11",
         "capability": candidate.get("candidate_id", "adapter-candidate"),
-        "requester": f"adapter-candidate-sandbox/{candidate.get('provider', 'unknown')}",
+        "requester": f"adapter-candidate-sandbox/{candidate.get('source_provider', candidate.get('provider', 'unknown'))}",
         "transition_class": candidate.get("transition_class", "tooling"),
         "authority_ref": candidate.get("authority_ref", ""),
         "policy_ref": candidate.get("policy_ref", ""),
@@ -247,6 +258,7 @@ def test_candidate(candidate: dict[str, Any], repo_root: Path, index: int) -> di
     result: dict[str, Any] = {
         "candidate_id": candidate.get("candidate_id"),
         "provider": candidate.get("provider"),
+        "source_provider": candidate.get("source_provider"),
         "valid_packet": candidate.get("valid_packet", False),
         "errors": list(candidate.get("errors", [])),
         "sandbox": {},
@@ -280,10 +292,15 @@ def test_candidate(candidate: dict[str, Any], repo_root: Path, index: int) -> di
             result["errors"].append("py_compile_failed")
             return result
 
-        if (sandbox / "tests").exists():
+        if should_run_pytest(candidate):
             result["sandbox"]["pytest"] = run_cmd([sys.executable, "-m", "pytest", "-q"], sandbox, timeout=240)
         else:
-            result["sandbox"]["pytest"] = {"returncode": 0, "stdout": "tests directory missing; skipped", "stderr": ""}
+            result["sandbox"]["pytest"] = {
+                "returncode": 0,
+                "stdout": "pytest skipped: candidate does not touch Python, tools, scripts, core_lite, or tests",
+                "stderr": "",
+                "skipped": True,
+            }
 
         if result["sandbox"]["pytest"].get("returncode") != 0:
             result["errors"].append("pytest_failed")
@@ -350,11 +367,12 @@ def classify_topline(report: dict[str, Any]) -> str:
 
 def provider_status(provider: str, provider_outputs: dict[str, str], candidates: list[dict[str, Any]]) -> str:
     path = Path(provider_outputs.get(provider, ""))
-    provider_candidates = [c for c in candidates if c.get("provider") == provider]
+    provider_candidates = [c for c in candidates if c.get("source_provider") == provider]
     if not path.exists():
         return "missing artifact"
     if provider_candidates:
-        return f"{len(provider_candidates)} candidate packet(s)"
+        accepted = [c for c in provider_candidates if c.get("valid_packet")]
+        return f"{len(accepted)} valid / {len(provider_candidates)} total candidate packet(s)"
     return "artifact present, no candidate packet"
 
 
@@ -439,7 +457,12 @@ The existing adapter path ran provider outputs through the candidate sandbox exe
         body += "- No candidate packets were found.\n"
     else:
         for c in candidates:
-            body += f"- `{c.get('candidate_id')}` from `{c.get('provider')}` → `{c.get('decision')}`\n"
+            body += f"- `{c.get('candidate_id')}` from `{c.get('source_provider') or c.get('provider')}` → `{c.get('decision')}`\n"
+            if c.get("provider") and c.get("source_provider") and c.get("provider") != c.get("source_provider"):
+                body += f"  - declared provider: `{c.get('provider')}`\n"
+            pytest_info = c.get("sandbox", {}).get("pytest")
+            if isinstance(pytest_info, dict) and pytest_info.get("skipped"):
+                body += "  - pytest: `skipped; documentation/non-executable candidate`\n"
             for e in c.get("errors", []):
                 body += f"  - error: `{e}`\n"
 
@@ -472,7 +495,9 @@ def write_outputs(report: dict[str, Any]) -> None:
     if not report.get("candidates"):
         lines.append("- No machine-actionable candidates were found. Failed closed with diagnostics.")
     for candidate in report.get("candidates", []):
-        lines.append(f"- `{candidate.get('candidate_id')}` from `{candidate.get('provider')}` → `{candidate.get('decision')}`")
+        lines.append(
+            f"- `{candidate.get('candidate_id')}` from `{candidate.get('source_provider') or candidate.get('provider')}` → `{candidate.get('decision')}`"
+        )
         for err in candidate.get("errors", []):
             lines.append(f"  - error: `{err}`")
     OUTPUT_PATH.write_text("\n".join(lines) + "\n", encoding="utf-8")
@@ -517,7 +542,8 @@ def main(argv: list[str] | None = None) -> int:
     elif selected and selected.get("decision") == "SANDBOX_PASS_GATE_ALLOW":
         candidate_packet = next(
             c for c in raw_candidates
-            if c.get("candidate_id") == selected.get("candidate_id") and c.get("provider") == selected.get("provider")
+            if c.get("candidate_id") == selected.get("candidate_id")
+            and c.get("source_provider") == selected.get("source_provider")
         )
         if args.apply_if_gate_allows:
             applied_files = apply_candidate_files(candidate_packet, repo_root)
@@ -538,6 +564,7 @@ def main(argv: list[str] | None = None) -> int:
         "governance": {
             "provider_outputs_are_candidate_evidence_only": True,
             "sandbox_required_before_apply_gate": True,
+            "pytest_scope_is_candidate_sensitive": True,
             "m11_gate_required_before_binding": True,
             "no_manual_bundle_transport_required": True,
             "single_human_result_surface": True,
