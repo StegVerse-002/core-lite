@@ -1,0 +1,18 @@
+{
+  "schema": "stegverse.candidate_bundle_ref.v1",
+  "candidate_id": "sv002.validation.proof.v1",
+  "source_type": "local_path",
+  "source": "incoming/sv002_m11_validation_proof_bundle.zip",
+  "expected_sha256": "sha256:dd7ebdf3cf7b32e88c51a5b9ec7431c18a255e966222017204c4f37a0e13a9a5",
+  "declared_transition_class": "documentation",
+  "declared_stage": "SV002-M11",
+  "authority_ref": "SV002-M11/validation-proof-only",
+  "policy_ref": "triad/default-deny/no-broad-authority",
+  "operator_context": {
+    "requester": "Rigel",
+    "role": "founder/operator",
+    "approval_intent": "review_only"
+  },
+  "created_utc": "2026-05-28T00:00:00+00:00",
+  "notes": "Synthetic validation ref. Proves M10.5 candidate review path is operational."
+}
