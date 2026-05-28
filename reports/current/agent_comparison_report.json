@@ -1,55 +1,91 @@
 {
   "schema": "stegverse.agent_comparison_report.v1",
   "version": "0.1.2-gllm",
-  "timestamp": "2026-05-27T16:47:54.566504+00:00",
+  "timestamp": "2026-05-28T02:23:27.722623+00:00",
   "decision": "REVIEW_REQUIRED",
-  "basis": "Provider outputs do not contain enough shared structure.",
+  "basis": "Provider outputs mention broad/unilateral authority; human review required even if framed as denied.",
   "providers": {
     "openai": {
       "provider": "openai",
       "output_path": "outputs/chatgpt_response.md",
       "exists": true,
-      "sha256": "sha256:30c5d952a16098f9025f05c9918556b2db6c8164a46f9db28465ef000740e22b",
-      "bytes": 81,
-      "mentioned_paths": [],
-      "mentioned_risk_terms": [],
+      "sha256": "sha256:c52d63346487d99dc77f33d81a8ff40cace68d0b9790e3c21843614b0c7e1544",
+      "bytes": 3331,
+      "mentioned_paths": [
+        ".github/workflows/core-lite-intake.yml",
+        "StegVerse-002/core-lite"
+      ],
+      "mentioned_risk_terms": [
+        "broad authority"
+      ],
       "required_sections_present": {
-        "Current State Assessment": false,
-        "Directive Alignment": false,
-        "Next Collaboration Primitive": false,
-        "Proposed Implementation": false,
-        "Authority Boundaries": false,
-        "Receipts and Version History": false,
-        "Risks & Dependencies": false,
-        "Confidence": false
+        "Current State Assessment": true,
+        "Directive Alignment": true,
+        "Next Collaboration Primitive": true,
+        "Proposed Implementation": true,
+        "Authority Boundaries": true,
+        "Receipts and Version History": true,
+        "Risks & Dependencies": true,
+        "Confidence": true
       }
     },
     "claude": {
       "provider": "claude",
       "output_path": "outputs/claude_response.md",
       "exists": true,
-      "sha256": "sha256:1778ae05a4f5b162b7bd00127a7dd80e999d7f4b0b68d70b1d632c33a2b05e69",
-      "bytes": 86,
-      "mentioned_paths": [],
-      "mentioned_risk_terms": [],
+      "sha256": "sha256:d42ea3e5754f90e14793debc1690f8891a2837b8a00f9e51f11302b55aa9ad6f",
+      "bytes": 36718,
+      "mentioned_paths": [
+        ".github/workflows/core-lite-intake.yml",
+        "/",
+        "; add/expose/rotate secrets; deploy or release; grant broad authority; prepare Rige enrollment or",
+        "StegVerse-002/core-lite",
+        "core-lite-intake.yml",
+        "outputs/claude_response.md",
+        "receipts/current/task_receipt.jsonl",
+        "route detection corrected.** New ordering: push \u2192 declared-input \u2192 declared-task \u2192 llm-collaboration(provider) \u2192 default/no-op. Previous file evaluated",
+        "scripts/package_stegverse_governed_output.py",
+        "tools/scripts/task_dispatcher.py",
+        "tools/tasks/task_catalog.json"
+      ],
+      "mentioned_risk_terms": [
+        "broad authority",
+        "delete",
+        "secret"
+      ],
       "required_sections_present": {
-        "Current State Assessment": false,
-        "Directive Alignment": false,
-        "Next Collaboration Primitive": false,
-        "Proposed Implementation": false,
-        "Authority Boundaries": false,
-        "Receipts and Version History": false,
-        "Risks & Dependencies": false,
-        "Confidence": false
+        "Current State Assessment": true,
+        "Directive Alignment": true,
+        "Next Collaboration Primitive": true,
+        "Proposed Implementation": true,
+        "Authority Boundaries": true,
+        "Receipts and Version History": true,
+        "Risks & Dependencies": true,
+        "Confidence": true
       }
     }
   },
   "analysis": {
-    "path_overlap_ratio": 1.0,
-    "high_risk_paths": [],
-    "risk_terms": [],
+    "path_overlap_ratio": 0.18181818181818182,
+    "high_risk_paths": [
+      ".github/workflows/core-lite-intake.yml"
+    ],
+    "risk_terms": [
+      "broad authority",
+      "delete",
+      "secret"
+    ],
     "missing_providers": [],
-    "shared_sections": [],
+    "shared_sections": [
+      "Current State Assessment",
+      "Directive Alignment",
+      "Next Collaboration Primitive",
+      "Proposed Implementation",
+      "Authority Boundaries",
+      "Receipts and Version History",
+      "Risks & Dependencies",
+      "Confidence"
+    ],
     "thread_present": true
   },
   "authority": {

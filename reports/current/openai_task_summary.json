@@ -1,13 +1,13 @@
 {
   "schema": "stegverse.openai_task_summary.v1",
   "version": "0.1.2-gllm",
-  "timestamp": "2026-05-27T16:47:41.437255+00:00",
+  "timestamp": "2026-05-28T02:13:43.082354+00:00",
   "provider": "openai",
-  "status": "skipped",
+  "status": "completed",
   "mode": "propose_only",
-  "model": "",
+  "model": "gpt-4o",
   "output_path": "outputs/chatgpt_response.md",
-  "output_sha256": "sha256:30c5d952a16098f9025f05c9918556b2db6c8164a46f9db28465ef000740e22b",
+  "output_sha256": "sha256:c3bdb7102359c98dfc276444d4fe2e934b04d26a357499d020960f591616557b",
   "error": "",
   "authority": "candidate_evidence_only"
 }
