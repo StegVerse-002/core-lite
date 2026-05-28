@@ -46,17 +46,22 @@ on:
       - ".github/workflows/core-lite-intake.yml"
       - "task.md"
       - "CLAUDE.md"
+      - "bundle_manifest.json"
+      - "MANUAL_INSTALL.md"
+      - "iosnoperiod.md"
       - "scripts/openai_task.py"
       - "scripts/merge_outputs.py"
       - "scripts/package_transition_bundle.py"
       - "scripts/ingest_transition_bundle.py"
       - "scripts/package_stegverse_governed_output.py"
       - "scripts/adapter_candidate_sandbox.py"
+      - "scripts/stegverse_apply_gate.py"
       - "agent_policy/**"
       - "agent_history/**"
       - "governance/directives/**"
       - "schemas/**"
-      - "docs/methodology/**"
+      - "docs/**"
+      - "tests/**"
       - "tools/agent_governance/**"
       - "tools/tasks/**"
       - "core_lite/**"
@@ -86,10 +91,16 @@ jobs:
           TASK_ID="${{ inputs.task_id }}"
           INPUT_TYPE="${{ inputs.input_type }}"
           INPUT_PATH="${{ inputs.input_path }}"
-          AGENT_PROVIDER="${{ inputs.agent_provider }}"
+          AGENT_PROVIDER="${AGENT_PROVIDER:-${{ inputs.agent_provider }}}"
           DRY_RUN="${{ inputs.dry_run }}"
           STAGE="${{ inputs.stage_override }}"
-          if [ -z "${STAGE}" ]; then STAGE="SV002-M10"; fi
+          if [ -z "${DRY_RUN}" ]; then DRY_RUN="false"; fi
+          if [ -z "${AGENT_PROVIDER}" ]; then AGENT_PROVIDER="none"; fi
+          if [ "${EVENT}" = "push" ]; then
+            AGENT_PROVIDER="both"
+            DRY_RUN="false"
+          fi
+          if [ -z "${STAGE}" ]; then STAGE="SV002-M10.5"; fi
 
           ROUTE="default/no-op"
           EXPECTED="No declared bundle or LLM provider route selected."
@@ -140,7 +151,7 @@ jobs:
           INPUT_TYPE="${{ inputs.input_type }}"
           INPUT_PATH="${{ inputs.input_path }}"
           STAGE="${{ inputs.stage_override }}"
-          if [ -z "${STAGE}" ]; then STAGE="SV002-M10"; fi
+          if [ -z "${STAGE}" ]; then STAGE="SV002-M10.5"; fi
           if [ -z "${INPUT_TYPE}" ]; then echo "::error::input_type is blank"; exit 1; fi
           if [ -z "${INPUT_PATH}" ]; then echo "::error::input_path is blank"; exit 1; fi
           if [ ! -f "${INPUT_PATH}" ]; then
@@ -153,7 +164,7 @@ jobs:
         run: |
           set -euo pipefail
           STAGE="${{ inputs.stage_override }}"
-          if [ -z "${STAGE}" ]; then STAGE="SV002-M10"; fi
+          if [ -z "${STAGE}" ]; then STAGE="SV002-M10.5"; fi
           DRY_RUN_ARG=""
           if [ "${{ inputs.dry_run }}" = "true" ]; then DRY_RUN_ARG="--dry-run"; fi
           python -m core_lite.multimodal.pipeline \
@@ -214,7 +225,7 @@ jobs:
           set -euo pipefail
           mkdir -p outputs reports/current receipts/current tracking/task_runs dist/run_artifacts
           STAGE="${{ inputs.stage_override }}"
-          if [ -z "${STAGE}" ]; then STAGE="SV002-M10"; fi
+          if [ -z "${STAGE}" ]; then STAGE="SV002-M10.5"; fi
           DRY_RUN_ARG=""
           if [ "${{ inputs.dry_run }}" = "true" ]; then DRY_RUN_ARG="--dry-run"; fi
 
