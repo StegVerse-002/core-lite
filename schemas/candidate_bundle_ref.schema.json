@@ -1,0 +1,84 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "StegVerse Candidate Bundle Reference",
+  "description": "A reference identifying a candidate transition bundle for review. Does not grant install authority.",
+  "type": "object",
+  "required": [
+    "schema",
+    "candidate_id",
+    "source_type",
+    "source",
+    "expected_sha256",
+    "declared_transition_class",
+    "declared_stage",
+    "authority_ref",
+    "policy_ref"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "stegverse.candidate_bundle_ref.v1"
+    },
+    "candidate_id": {
+      "type": "string",
+      "description": "Unique identifier for this candidate reference",
+      "minLength": 1
+    },
+    "source_type": {
+      "type": "string",
+      "enum": ["url", "local_path", "release_asset"],
+      "description": "How the candidate bundle is located"
+    },
+    "source": {
+      "type": "string",
+      "description": "URL or path to the candidate bundle zip",
+      "minLength": 1
+    },
+    "expected_sha256": {
+      "type": "string",
+      "description": "Expected sha256 hash of the bundle zip",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "declared_transition_class": {
+      "type": "string",
+      "enum": ["tooling", "schema", "policy", "governance", "repair", "documentation"],
+      "description": "Declared class of transition this bundle represents"
+    },
+    "declared_stage": {
+      "type": "string",
+      "description": "The StegVerse stage this bundle targets",
+      "pattern": "^SV002-M[0-9]+(\\.[0-9]+)?$"
+    },
+    "authority_ref": {
+      "type": "string",
+      "description": "Authority scope reference — must be scoped, not broad",
+      "minLength": 1
+    },
+    "policy_ref": {
+      "type": "string",
+      "description": "Policy reference governing this transition",
+      "minLength": 1
+    },
+    "operator_context": {
+      "type": "object",
+      "description": "Optional operator context — informational only, does not grant authority",
+      "properties": {
+        "requester": { "type": "string" },
+        "role": { "type": "string" },
+        "approval_intent": {
+          "type": "string",
+          "enum": ["review_only", "apply_pending_review"]
+        }
+      },
+      "additionalProperties": false
+    },
+    "created_utc": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "notes": {
+      "type": "string"
+    }
+  }
+}

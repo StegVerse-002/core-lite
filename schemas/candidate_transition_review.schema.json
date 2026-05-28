@@ -1,0 +1,102 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "StegVerse Candidate Transition Review",
+  "description": "Output report from a candidate bundle review. Emitted by the review task.",
+  "type": "object",
+  "required": [
+    "schema",
+    "entity",
+    "stage",
+    "candidate_id",
+    "source",
+    "started",
+    "completed",
+    "decision",
+    "checks",
+    "errors",
+    "receipt"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "stegverse.candidate_transition_review.v1"
+    },
+    "entity": {
+      "type": "string"
+    },
+    "stage": {
+      "type": "string"
+    },
+    "candidate_id": {
+      "type": "string"
+    },
+    "source": {
+      "type": "string"
+    },
+    "started": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "completed": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "decision": {
+      "type": "string",
+      "enum": ["ALLOW_CANDIDATE_REVIEW", "DENY_CANDIDATE", "FAIL_CLOSED"]
+    },
+    "checks": {
+      "type": "object",
+      "description": "Result of each required check",
+      "properties": {
+        "ref_schema_valid":          { "type": "boolean" },
+        "source_type_allowed":       { "type": "boolean" },
+        "source_reachable":          { "type": "boolean" },
+        "hash_matches":              { "type": "boolean" },
+        "bundle_opens":              { "type": "boolean" },
+        "manifest_exists":           { "type": "boolean" },
+        "manifest_schema_valid":     { "type": "boolean" },
+        "no_broad_authority":        { "type": "boolean" },
+        "no_root_readme_overwrite":  { "type": "boolean" },
+        "no_workflow_changes":       { "type": "boolean" },
+        "paths_allowed":             { "type": "boolean" },
+        "file_hashes_match":         { "type": "boolean" },
+        "transition_class_allowed":  { "type": "boolean" },
+        "stage_allowed":             { "type": "boolean" },
+        "authority_ref_present":     { "type": "boolean" },
+        "policy_ref_present":        { "type": "boolean" },
+        "gcat_bcat_admissible":      { "type": ["boolean", "null"] },
+        "ecat_icat_coherent":        { "type": ["boolean", "null"] },
+        "existence_recoverable":     { "type": ["boolean", "null"] }
+      },
+      "additionalProperties": false
+    },
+    "errors": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "warnings": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "bundle_name": {
+      "type": "string"
+    },
+    "declared_transition_class": {
+      "type": "string"
+    },
+    "declared_stage": {
+      "type": "string"
+    },
+    "receipt": {
+      "type": "object",
+      "required": ["receipt_hash", "receipt_path"],
+      "properties": {
+        "receipt_hash": { "type": "string" },
+        "receipt_path": { "type": "string" }
+      },
+      "additionalProperties": false
+    }
+  }
+}

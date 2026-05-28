@@ -1,148 +1,125 @@
 {
-  "schema": "stegverse_task_catalog.v1",
+  "schema": "stegverse.task_catalog.v1",
   "entity": "StegVerse-002",
-  "version": "1.0.1-sv002-output-authority",
-  "description": "All capabilities for StegVerse-002/core-lite. No new workflow files needed.",
+  "updated_utc": "2026-05-28T00:00:00+00:00",
   "tasks": [
     {
-      "task_id": "core.intake.default",
-      "description": "Default Core-Lite Intake run — task_id blank, skip_tasks true",
-      "action": "run",
-      "command": "python -m core_lite.cli run --repo-root . --skip-tasks",
-      "allowed_stages": ["SV002-M5", "SV002-M6", "SV002-M7", "SV002-M8", "SV002-M9", "SV002-M10"],
-      "forbidden_actions": ["production_mutation", "deploy"],
-      "stop_condition": "Core-Lite Intake succeeds with task_id blank and skip_tasks true",
-      "timeout_seconds": 300
+      "task_id": "stegverse.candidate.intake.review",
+      "stage": "SV002-M10.5",
+      "description": "Review a candidate transition bundle reference against Triad-enforced admissibility. Emits a structured review report and receipt. Does not install files.",
+      "capability": "candidate_bundle_review",
+      "transition_class": "tooling",
+      "authority": "review_only",
+      "entry_point": "scripts/candidate_bundle_review.py",
+      "inputs": {
+        "ref": {
+          "type": "file_path",
+          "description": "Path to candidate_bundle_ref.json",
+          "required": true
+        },
+        "entity": {
+          "type": "string",
+          "description": "StegVerse entity identifier",
+          "required": true
+        },
+        "stage": {
+          "type": "string",
+          "description": "Current governed stage",
+          "required": true
+        },
+        "report": {
+          "type": "file_path",
+          "description": "Output path for review report JSON",
+          "required": false,
+          "default": "reports/current/candidate_bundle_review_report.json"
+        },
+        "receipt": {
+          "type": "file_path",
+          "description": "Output path for receipt JSONL",
+          "required": false,
+          "default": "receipts/current/candidate_bundle_review_receipt.jsonl"
+        },
+        "output": {
+          "type": "file_path",
+          "description": "Output path for markdown summary",
+          "required": false,
+          "default": "outputs/candidate_bundle_review.md"
+        }
+      },
+      "expected_outputs": [
+        "reports/current/candidate_bundle_review_report.json",
+        "receipts/current/candidate_bundle_review_receipt.jsonl",
+        "outputs/candidate_bundle_review.md"
+      ],
+      "decision_set": [
+        "ALLOW_CANDIDATE_REVIEW",
+        "DENY_CANDIDATE",
+        "FAIL_CLOSED"
+      ],
+      "stop_condition": "Decision emitted and receipt written",
+      "triad_checks": {
+        "gcat_bcat": "stubbed — must resolve for binding transitions",
+        "ecat_icat": "stubbed — must resolve for binding transitions",
+        "existence": "stubbed — review-only transitions may proceed with warning"
+      },
+      "governance": {
+        "no_broad_authority": true,
+        "no_root_readme_overwrite": true,
+        "no_workflow_changes": true,
+        "default_deny": true,
+        "review_apply_separated": true
+      },
+      "notes": "M10.5 review task. Does not install. Apply is a separate future task."
     },
     {
-      "task_id": "core.status",
-      "description": "Print current status and stage map",
-      "action": "report",
-      "command": "python -m core_lite.cli status",
-      "allowed_stages": ["SV002-M0", "SV002-M1", "SV002-M2", "SV002-M3", "SV002-M4", "SV002-M5", "SV002-M6", "SV002-M7", "SV002-M8", "SV002-M9", "SV002-M10"],
-      "forbidden_actions": [],
-      "stop_condition": "Status report emitted",
-      "timeout_seconds": 60
-    },
-    {
-      "task_id": "cge.check",
-      "description": "Run CGE admissibility check",
-      "action": "run",
-      "command": "python -m core_lite.cge --repo-root . --entity StegVerse-002",
-      "allowed_stages": ["SV002-M5", "SV002-M6", "SV002-M7", "SV002-M8", "SV002-M9", "SV002-M10"],
-      "forbidden_actions": ["production_mutation"],
-      "stop_condition": "CGE fingerprint emitted",
-      "timeout_seconds": 120
-    },
-    {
-      "task_id": "tvc.verify.all",
-      "description": "Run full TVC authority verification",
-      "action": "run",
-      "command": "python -m core_lite.tvc.verify --registry config/package_registry.json --entity StegVerse-002",
-      "allowed_stages": ["SV002-M9", "SV002-M10"],
-      "forbidden_actions": ["production_mutation"],
-      "stop_condition": "TVC evidence manifest emitted",
-      "timeout_seconds": 180
-    },
-    {
-      "task_id": "tv.apply",
-      "description": "TV policy apply — build export, sign, chainlog",
-      "action": "run",
-      "command": "python -c \"from core_lite.tv.policy import TVPolicyEngine; import json; e=TVPolicyEngine(); print(json.dumps(e.apply(), indent=2))\"",
-      "allowed_stages": ["SV002-M9", "SV002-M10"],
-      "forbidden_actions": ["production_mutation"],
-      "stop_condition": "TV export signed and chainlog updated",
-      "timeout_seconds": 120
-    },
-    {
-      "task_id": "tv.verify",
-      "description": "TV policy verify — verify latest export",
-      "action": "run",
-      "command": "python -c \"from core_lite.tv.policy import TVPolicyEngine; import json; e=TVPolicyEngine(); print(json.dumps(e.verify(), indent=2))\"",
-      "allowed_stages": ["SV002-M9", "SV002-M10"],
-      "forbidden_actions": [],
-      "stop_condition": "TV verification entry appended to chainlog",
-      "timeout_seconds": 120
-    },
-    {
-      "task_id": "tv.heal",
-      "description": "TV auto-heal — detect and repair policy drift",
-      "action": "run",
-      "command": "python -c \"from core_lite.tv.policy import TVPolicyEngine; import json; e=TVPolicyEngine(); print(json.dumps(e.heal(), indent=2))\"",
-      "allowed_stages": ["SV002-M9", "SV002-M10"],
-      "forbidden_actions": ["production_mutation"],
-      "stop_condition": "TV heal complete or no heal needed",
-      "timeout_seconds": 180
-    },
-    {
-      "task_id": "multimodal.classify",
-      "description": "Classify a multimodal input through the pipeline",
-      "action": "run",
-      "command": "python -m core_lite.multimodal.pipeline --input-type text --entity StegVerse-002",
-      "allowed_stages": ["SV002-M6", "SV002-M7", "SV002-M8", "SV002-M9", "SV002-M10"],
-      "forbidden_actions": [],
-      "stop_condition": "Input classified and receipt emitted",
-      "timeout_seconds": 120
-    },
-    {
-      "task_id": "kv.context.packet.intake",
-      "description": "Ingest a KnowledgeVault context packet",
-      "action": "run",
-      "command": "python -m core_lite.knowledgevault.intake --packet-path vault_template/context_packets/default_packet.json --entity StegVerse-002",
-      "allowed_stages": ["SV002-M8", "SV002-M9", "SV002-M10"],
-      "forbidden_actions": ["training", "publication", "production_mutation"],
-      "stop_condition": "Context packet admitted and memory-use receipt emitted",
-      "timeout_seconds": 120
-    },
-    {
-      "task_id": "llm.adapter.ingest",
-      "description": "Ingest LLM response through the Adapter Gate",
-      "action": "run",
-      "command": "python -m tools.scripts.llm_adapter_gate --response-file tracking/llm_input.txt --entity StegVerse-002",
-      "allowed_stages": ["SV002-M7", "SV002-M8", "SV002-M9", "SV002-M10"],
-      "forbidden_actions": ["production_mutation", "deploy", "bypass_cge"],
-      "stop_condition": "Instruction packet produced — operator review required",
-      "timeout_seconds": 120
-    },
-    {
-      "task_id": "sv001.repair.intake.enablement",
-      "description": "Repair Data-Continuation/core-lite at stuck SV001-M3 gate",
-      "action": "run",
-      "command": "python -m tools.repair.sv001_repair --target-repo Data-Continuation/core-lite --failure-file tracking/sv001_repair_input.txt --entity StegVerse-002",
-      "allowed_stages": ["SV002-M3", "SV002-M4", "SV002-M5", "SV002-M6", "SV002-M7", "SV002-M8", "SV002-M9", "SV002-M10"],
-      "forbidden_actions": ["production_mutation", "direct_target_mutation"],
-      "stop_condition": "Candidate prepared — operator applies to Data-Continuation/core-lite",
-      "timeout_seconds": 180
-    },
-    {
-      "task_id": "schemas.validate",
-      "description": "Validate all schemas and manifests",
-      "action": "run",
-      "command": "python -m tools.validators.schema_validator --schemas-dir schemas/",
-      "allowed_stages": ["SV002-M0", "SV002-M1", "SV002-M2", "SV002-M3", "SV002-M4", "SV002-M5", "SV002-M6", "SV002-M7", "SV002-M8", "SV002-M9", "SV002-M10"],
-      "forbidden_actions": [],
-      "stop_condition": "Validation report emitted",
-      "timeout_seconds": 60
-    },
-    {
-      "task_id": "receipts.chain.verify",
-      "description": "Verify the receipt chain integrity",
-      "action": "run",
-      "command": "python -m tools.validators.receipt_verifier --receipts-dir receipts/",
-      "allowed_stages": ["SV002-M3", "SV002-M4", "SV002-M5", "SV002-M6", "SV002-M7", "SV002-M8", "SV002-M9", "SV002-M10"],
-      "forbidden_actions": [],
-      "stop_condition": "Chain verification report emitted",
-      "timeout_seconds": 60
-    },
-    {
-      "task_id": "stegverse.output.package",
-      "description": "Package one StegVerse-authored governed output artifact; LLM outputs remain candidate evidence only.",
-      "action": "run",
-      "command": "python scripts/package_stegverse_governed_output.py --repo-root .",
-      "allowed_stages": ["SV002-M7", "SV002-M8", "SV002-M9", "SV002-M10"],
-      "forbidden_actions": ["production_mutation", "publication", "deploy", "self_approve"],
-      "stop_condition": "StegVerse governed output package emitted with receipts; no external consequence bound.",
-      "timeout_seconds": 120
+      "task_id": "stegverse.candidate.intake.apply",
+      "stage": "SV002-M11",
+      "description": "Apply a previously reviewed and approved candidate transition bundle. Requires a passing ALLOW_CANDIDATE_REVIEW receipt before apply is permitted. Installs files under allowed_paths only.",
+      "capability": "candidate_bundle_apply",
+      "transition_class": "tooling",
+      "authority": "apply_pending_review",
+      "entry_point": "scripts/candidate_bundle_apply.py",
+      "status": "declared_not_implemented",
+      "inputs": {
+        "ref": {
+          "type": "file_path",
+          "description": "Path to candidate_bundle_ref.json",
+          "required": true
+        },
+        "review_receipt": {
+          "type": "file_path",
+          "description": "Path to the ALLOW_CANDIDATE_REVIEW receipt from the prior review run",
+          "required": true
+        },
+        "entity": {
+          "type": "string",
+          "required": true
+        },
+        "stage": {
+          "type": "string",
+          "required": true
+        }
+      },
+      "expected_outputs": [
+        "reports/current/candidate_bundle_apply_report.json",
+        "receipts/current/candidate_bundle_apply_receipt.jsonl",
+        "outputs/candidate_bundle_apply.md",
+        "dist/run_artifacts/candidate-bundle-apply.zip"
+      ],
+      "decision_set": [
+        "ALLOW_INSTALL",
+        "DENY_INSTALL",
+        "FAIL_CLOSED"
+      ],
+      "stop_condition": "Install decision emitted and receipt written",
+      "governance": {
+        "requires_prior_review_receipt": true,
+        "no_broad_authority": true,
+        "no_root_readme_overwrite": true,
+        "no_workflow_changes": true,
+        "default_deny": true
+      },
+      "notes": "Declared but not implemented. Do not invoke until M11 implementation is complete."
     }
   ]
 }

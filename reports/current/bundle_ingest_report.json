@@ -1,87 +1,138 @@
 {
   "schema": "stegverse.bundle_ingest_report.v1",
   "entity": "StegVerse-002",
-  "stage": "SV002-M10",
-  "input_path": "incoming/sv002_core_lite_stegverse_output_authority_bundle.zip",
-  "started": "2026-05-28T01:21:08.414989+00:00",
+  "stage": "SV002-M01",
+  "input_path": "incoming/sv002 m10 5 builder decoupled triad enforced candidate intake bundle.zip",
+  "started": "2026-05-28T17:33:30.638152+00:00",
   "dry_run": false,
   "status": "success",
   "decision": "ALLOW",
   "installed": [
     {
-      "path": "MANUAL_INSTALL.md",
-      "sha256": "7c1a110febb75cf97635e58a34fe40018f6c897567209683bfc5770722115e2a",
-      "bytes": 1090,
+      "path": "docs/SV002_M10_5_BUILDER_DECOUPLED_TRIAD_ENFORCED_CONSTRUCTION.md",
+      "sha256": "f5054ef03b248d805a58d496644184f201a6ac75755d883f291c686f5edd3049",
+      "bytes": 3316,
       "dry_run": false
     },
     {
-      "path": "docs/STEGVERSE_OUTPUT_AUTHORITY.md",
-      "sha256": "eee3f78e5ec9936f71800f3ea47e63ffa49d97ef09d7a71e0194801a61ba74c1",
-      "bytes": 2179,
+      "path": "examples/candidate_bundle_ref.example.json",
+      "sha256": "63c991c51bc8734273845985b7b8503286cad76d6a772ccb39cfeb0019ed9171",
+      "bytes": 834,
       "dry_run": false
     },
     {
-      "path": "iosnoperiod.md",
-      "sha256": "3f8ec8472b161dd093186590e467a6bc63f791e3eea3e23e86616939e2961ec7",
-      "bytes": 325,
+      "path": "schemas/candidate_bundle_ref.schema.json",
+      "sha256": "32836ad81667c929de2c90d016d19ac5cf446403264ea22b34e8c36e2a61f4ac",
+      "bytes": 2452,
       "dry_run": false
     },
     {
-      "path": "scripts/package_stegverse_governed_output.py",
-      "sha256": "d9951d6295f844361ee7b89a022ef3de4657727ffd916577528362027f257cae",
-      "bytes": 9340,
+      "path": "schemas/candidate_transition_review.schema.json",
+      "sha256": "869c646530b61eef31f801e6fb026115ed17b0a309679a9c18936d437e2ef67b",
+      "bytes": 2968,
+      "dry_run": false
+    },
+    {
+      "path": "scripts/candidate_bundle_review.py",
+      "sha256": "6767d0f349d124303687afbdb3316a0cd5dcf12c5d59f29f8ac1e5dfa2576ddc",
+      "bytes": 19189,
+      "dry_run": false
+    },
+    {
+      "path": "tests/test_candidate_bundle_review.py",
+      "sha256": "3c0bd0621e8426ae5940716e434959f8d1e4de2b89ea546c0f257db4442563b1",
+      "bytes": 10549,
       "dry_run": false
     },
     {
       "path": "tools/tasks/task_catalog.json",
-      "sha256": "094b2397668467902b777f64c7eb9aa56046d7c5eb203a1ad46373b472fc2c23",
-      "bytes": 7271,
+      "sha256": "776af5220cb78b72e7115ddd6bdbea2311053008ee7ecf28ff2588dfbeb54249",
+      "bytes": 4498,
       "dry_run": false
     }
   ],
   "rejected": [],
   "errors": [],
-  "bundle_name": "sv002_core_lite_stegverse_output_authority_bundle",
-  "manifest_path": "/tmp/tmp9wzqs3oh/bundle/bundle_manifest.json",
+  "bundle_name": "StegVerse-002 Core-Lite M10.5 Builder-Decoupled Triad-Enforced Construction Bundle",
+  "manifest_path": "/tmp/tmpi7a_hl5j/bundle/bundle_manifest.json",
   "manifest": {
+    "schema": "stegverse.bundle_manifest.v1",
+    "bundle_id": "sv002.core-lite.m10-5-builder-decoupled-triad-enforced.v1",
+    "bundle_name": "StegVerse-002 Core-Lite M10.5 Builder-Decoupled Triad-Enforced Construction Bundle",
+    "capability": "candidate_bundle_review",
+    "created_utc": "2026-05-28T00:00:00+00:00",
+    "description": "Installs M10.5 candidate bundle review: schemas, scripts, tests, task catalog entries, docs, and example. Does not install apply authority.",
     "allow_root_readme": false,
     "allow_workflows": false,
-    "bundle_name": "sv002_core_lite_stegverse_output_authority_bundle",
-    "created_utc": "2026-05-26T00:00:00Z",
+    "allowed_paths": [
+      "docs/",
+      "examples/",
+      "schemas/",
+      "scripts/",
+      "tests/",
+      "tools/"
+    ],
+    "expected_outputs": [
+      "reports/current/candidate_bundle_review_report.json",
+      "receipts/current/candidate_bundle_review_receipt.jsonl",
+      "outputs/candidate_bundle_review.md"
+    ],
     "files": [
       {
-        "bytes": 1090,
-        "path": "MANUAL_INSTALL.md",
-        "sha256": "7c1a110febb75cf97635e58a34fe40018f6c897567209683bfc5770722115e2a"
+        "path": "docs/SV002_M10_5_BUILDER_DECOUPLED_TRIAD_ENFORCED_CONSTRUCTION.md",
+        "sha256": "sha256:f5054ef03b248d805a58d496644184f201a6ac75755d883f291c686f5edd3049",
+        "bytes": 3316,
+        "required": true,
+        "mode": "100644"
       },
       {
-        "bytes": 2179,
-        "path": "docs/STEGVERSE_OUTPUT_AUTHORITY.md",
-        "sha256": "eee3f78e5ec9936f71800f3ea47e63ffa49d97ef09d7a71e0194801a61ba74c1"
+        "path": "examples/candidate_bundle_ref.example.json",
+        "sha256": "sha256:63c991c51bc8734273845985b7b8503286cad76d6a772ccb39cfeb0019ed9171",
+        "bytes": 834,
+        "required": true,
+        "mode": "100644"
       },
       {
-        "bytes": 325,
-        "path": "iosnoperiod.md",
-        "sha256": "3f8ec8472b161dd093186590e467a6bc63f791e3eea3e23e86616939e2961ec7"
+        "path": "schemas/candidate_bundle_ref.schema.json",
+        "sha256": "sha256:32836ad81667c929de2c90d016d19ac5cf446403264ea22b34e8c36e2a61f4ac",
+        "bytes": 2452,
+        "required": true,
+        "mode": "100644"
       },
       {
-        "bytes": 9340,
-        "path": "scripts/package_stegverse_governed_output.py",
-        "sha256": "d9951d6295f844361ee7b89a022ef3de4657727ffd916577528362027f257cae"
+        "path": "schemas/candidate_transition_review.schema.json",
+        "sha256": "sha256:869c646530b61eef31f801e6fb026115ed17b0a309679a9c18936d437e2ef67b",
+        "bytes": 2968,
+        "required": true,
+        "mode": "100644"
       },
       {
-        "bytes": 7271,
+        "path": "scripts/candidate_bundle_review.py",
+        "sha256": "sha256:6767d0f349d124303687afbdb3316a0cd5dcf12c5d59f29f8ac1e5dfa2576ddc",
+        "bytes": 19189,
+        "required": true,
+        "mode": "100644"
+      },
+      {
+        "path": "tests/test_candidate_bundle_review.py",
+        "sha256": "sha256:3c0bd0621e8426ae5940716e434959f8d1e4de2b89ea546c0f257db4442563b1",
+        "bytes": 10549,
+        "required": true,
+        "mode": "100644"
+      },
+      {
         "path": "tools/tasks/task_catalog.json",
-        "sha256": "094b2397668467902b777f64c7eb9aa56046d7c5eb203a1ad46373b472fc2c23"
+        "sha256": "sha256:776af5220cb78b72e7115ddd6bdbea2311053008ee7ecf28ff2588dfbeb54249",
+        "bytes": 4498,
+        "required": true,
+        "mode": "100644"
       }
-    ],
-    "purpose": "Establish StegVerse as the sole governed output authority while preserving LLM provider outputs as candidate evidence only.",
-    "schema": "stegverse.bundle_manifest.v1"
+    ]
   },
   "basis": "Bundle validated and processed.",
-  "completed": "2026-05-28T01:21:08.418093+00:00",
+  "completed": "2026-05-28T17:33:30.642982+00:00",
   "receipt": {
-    "receipt_hash": "sha256:8cf335e7cbf4c475e59f84959e8d666f58751d20201b1bf6b586e3a5d1e88914",
+    "receipt_hash": "sha256:77be98aae59d83437915af9ba2d55f5855e0ce7638b7b551ed6806b58762ccd0",
     "receipt_path": "receipts/current/ingestion_receipt.jsonl"
   }
 }
