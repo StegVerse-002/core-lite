@@ -1,14 +1,7 @@
-# incoming/
+# Incoming
 
-Place candidate ingestion bundles here.
+Ephemeral ingestion mailbox.
 
-Supported forms:
+Only `README.md` should remain in this directory after ingestion runs.
 
-```text
-incoming/<bundle>.zip
-incoming/<expanded_bundle>/
-```
-
-Do not place ordinary repo files here unless they are inside a bundle structure with a valid manifest.
-
-The ingestion engine validates manifest, hashes, path policy, and writes reports/receipts.
+Payload bundles/files may be pushed here to activate ingestion, but the workflow removes incoming payloads after processing or failed processing. Durable evidence belongs in reports, receipts, tracking, and dist, not in incoming.
