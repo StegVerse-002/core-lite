@@ -51,6 +51,7 @@ on:
       - "scripts/package_transition_bundle.py"
       - "scripts/ingest_transition_bundle.py"
       - "scripts/package_stegverse_governed_output.py"
+      - "scripts/adapter_candidate_sandbox.py"
       - "agent_policy/**"
       - "agent_history/**"
       - "governance/directives/**"
@@ -94,16 +95,16 @@ jobs:
           EXPECTED="No declared bundle or LLM provider route selected."
           if [ "${EVENT}" = "push" ]; then
             ROUTE="llm-collaboration(push)"
-            EXPECTED="Run OpenAI/Claude proposal path and commit coordination evidence."
+            EXPECTED="Run OpenAI/Claude proposal path, sandbox candidate packets, gate admissible candidates, and commit coordination evidence."
           elif [ "${AGENT_PROVIDER}" != "none" ]; then
             ROUTE="llm-collaboration(${AGENT_PROVIDER})"
-            EXPECTED="Run selected LLM provider path; do not process declared bundle unless separately routed."
+            EXPECTED="Run selected LLM provider path, sandbox candidate packets, gate admissible candidates, and commit coordination evidence."
           elif [ -n "${INPUT_TYPE}" ] || [ -n "${INPUT_PATH}" ]; then
             ROUTE="declared-input-route"
             EXPECTED="Validate input_type/input_path, process bundle/input, commit installed outputs."
           elif [ -n "${TASK_ID}" ]; then
             ROUTE="declared-task-route"
-            EXPECTED="Run the declared task, enforce required output shape, and commit outputs."
+            EXPECTED="Run the declared task, enforce the expected file shape, and commit outputs."
           fi
 
           {
@@ -120,17 +121,6 @@ jobs:
             echo "| stage | \`${STAGE}\` |"
             echo "| dry_run | \`${DRY_RUN:-false}\` |"
             echo "| agent_provider | \`${AGENT_PROVIDER:-none}\` |"
-            echo
-            echo "### Quick Diagnosis"
-            if [ "${ROUTE}" = "declared-input-route" ]; then
-              echo "- Declared input route selected. The run should show a bundle/input report and a persistence check."
-            elif [ "${ROUTE}" = "declared-task-route" ]; then
-              echo "- Declared task route selected. The run must execute the task and enforce the expected file shape."
-            elif [ "${ROUTE}" = "default/no-op" ]; then
-              echo "- No actionable route selected. Fill input_type/input_path for a bundle, task_id for a task, or provider for LLM collaboration."
-            else
-              echo "- Route selected: \`${ROUTE}\`."
-            fi
           } >> "${GITHUB_STEP_SUMMARY}"
 
   declared-input-route:
@@ -158,7 +148,7 @@ jobs:
             find incoming -maxdepth 2 -type f 2>/dev/null | sort || true
             exit 1
           fi
-          echo "- ✅ Declared input preflight passed for \`${INPUT_PATH}\`." >> "${GITHUB_STEP_SUMMARY}"
+          echo "- Declared input preflight passed for \`${INPUT_PATH}\`." >> "${GITHUB_STEP_SUMMARY}"
       - name: Process declared input route
         run: |
           set -euo pipefail
@@ -166,7 +156,13 @@ jobs:
           if [ -z "${STAGE}" ]; then STAGE="SV002-M10"; fi
           DRY_RUN_ARG=""
           if [ "${{ inputs.dry_run }}" = "true" ]; then DRY_RUN_ARG="--dry-run"; fi
-          python -m core_lite.multimodal.pipeline             --repo-root .             --input-type "${{ inputs.input_type }}"             --input-path "${{ inputs.input_path }}"             --entity "${STEGVERSE_ENTITY}"             --stage "${STAGE}"             ${DRY_RUN_ARG}
+          python -m core_lite.multimodal.pipeline \
+            --repo-root . \
+            --input-type "${{ inputs.input_type }}" \
+            --input-path "${{ inputs.input_path }}" \
+            --entity "${STEGVERSE_ENTITY}" \
+            --stage "${STAGE}" \
+            ${DRY_RUN_ARG}
       - name: Summarize declared input result
         if: always()
         run: |
@@ -185,11 +181,11 @@ jobs:
           git config user.email "sv002-declared-input-router@stegverse"
           git add -A .github/workflows/ core_lite/ scripts/ schemas/ examples/ docs/ tests/ tools/ config/ machine/ outputs/ reports/current/ receipts/current/ tracking/ dist/ agent_history/ vault_template/ || true
           if git diff --staged --quiet; then
-            echo "- ⚠️ No declared input changes were staged for commit." >> "${GITHUB_STEP_SUMMARY}"
+            echo "- No declared input changes were staged for commit." >> "${GITHUB_STEP_SUMMARY}"
           else
             git commit -m "sv002: process declared input route — ${{ inputs.input_type }} ${{ inputs.input_path }}"
             git push
-            echo "- ✅ Declared input outputs committed and pushed." >> "${GITHUB_STEP_SUMMARY}"
+            echo "- Declared input outputs committed and pushed." >> "${GITHUB_STEP_SUMMARY}"
           fi
       - name: Upload declared input evidence
         if: always()
@@ -234,23 +230,16 @@ jobs:
           } >> "${GITHUB_STEP_SUMMARY}"
 
           set +e
-          python -m tools.scripts.task_dispatcher             --task-id "${{ inputs.task_id }}"             --task-catalog tools/tasks/task_catalog.json             --entity "${STEGVERSE_ENTITY}"             --stage "${STAGE}"             ${DRY_RUN_ARG} > reports/current/task_dispatcher_result.json 2> reports/current/task_dispatcher_stderr.txt
+          python -m tools.scripts.task_dispatcher \
+            --task-id "${{ inputs.task_id }}" \
+            --task-catalog tools/tasks/task_catalog.json \
+            --entity "${STEGVERSE_ENTITY}" \
+            --stage "${STAGE}" \
+            ${DRY_RUN_ARG} > reports/current/task_dispatcher_result.json 2> reports/current/task_dispatcher_stderr.txt
           TASK_EXIT=$?
           set -e
 
           echo "${TASK_EXIT}" > reports/current/task_dispatcher_exit_code.txt
-
-          {
-            echo
-            echo "### Task Exit"
-            echo
-            echo "| Field | Value |"
-            echo "|---|---|"
-            echo "| exit_code | \`${TASK_EXIT}\` |"
-            echo "| stdout | \`reports/current/task_dispatcher_result.json\` |"
-            echo "| stderr | \`reports/current/task_dispatcher_stderr.txt\` |"
-          } >> "${GITHUB_STEP_SUMMARY}"
-
           if [ "${TASK_EXIT}" -ne 0 ]; then
             echo "::error::Declared task failed with exit code ${TASK_EXIT}."
             cat reports/current/task_dispatcher_result.json || true
@@ -263,20 +252,9 @@ jobs:
           TASK_ID="${{ inputs.task_id }}"
           MISSING=0
 
-          {
-            echo
-            echo "## Declared Task Route — Output Shape"
-            echo
-            echo "| Path | Required | Exists |"
-            echo "|---|---:|---:|"
-          } >> "${GITHUB_STEP_SUMMARY}"
-
           require_file() {
             path="$1"
-            if [ -f "$path" ]; then
-              echo "| \`$path\` | yes | ✅ |" >> "${GITHUB_STEP_SUMMARY}"
-            else
-              echo "| \`$path\` | yes | ❌ |" >> "${GITHUB_STEP_SUMMARY}"
+            if [ ! -f "$path" ]; then
               echo "::error::Missing required task output: $path"
               MISSING=1
             fi
@@ -288,15 +266,13 @@ jobs:
             require_file "reports/current/stegverse_output_report.json"
             require_file "receipts/current/stegverse_output_receipt.jsonl"
             require_file "dist/run_artifacts/stegverse-governed-output.zip"
-          else
-            echo "| non-specialized task | no fixed file shape | n/a |" >> "${GITHUB_STEP_SUMMARY}"
           fi
 
           if [ "${MISSING}" -ne 0 ]; then
             echo "The task exited successfully, but required output files are missing. Failed closed." >> "${GITHUB_STEP_SUMMARY}"
             exit 1
           fi
-          echo "- ✅ Required output shape present." >> "${GITHUB_STEP_SUMMARY}"
+          echo "- Required output shape present." >> "${GITHUB_STEP_SUMMARY}"
       - name: Commit declared task outputs
         if: ${{ inputs.dry_run != 'true' && success() }}
         run: |
@@ -305,12 +281,12 @@ jobs:
           git config user.email "sv002-task-dispatcher@stegverse"
           git add -A outputs/ reports/current/ receipts/current/ tracking/ dist/ agent_history/ || true
           if git diff --staged --quiet; then
-            echo "- ⚠️ Declared task produced no changes to commit." >> "${GITHUB_STEP_SUMMARY}"
+            echo "- Declared task produced no changes to commit." >> "${GITHUB_STEP_SUMMARY}"
             echo "::warning::Declared task produced no changes to commit."
           else
             git commit -m "sv002: run declared task — ${{ inputs.task_id }}"
             git push
-            echo "- ✅ Declared task outputs committed and pushed." >> "${GITHUB_STEP_SUMMARY}"
+            echo "- Declared task outputs committed and pushed." >> "${GITHUB_STEP_SUMMARY}"
           fi
       - name: Upload declared task evidence
         if: always()
@@ -449,6 +425,11 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+      - name: Run adapter candidate sandbox executor
+        run: |
+          set -euo pipefail
+          mkdir -p outputs reports/current receipts/current dist/run_artifacts
+          python scripts/adapter_candidate_sandbox.py --repo-root . --apply-if-gate-allows
       - name: Run deterministic synthesis
         run: |
           mkdir -p outputs reports/current receipts/current agent_history
@@ -458,10 +439,20 @@ jobs:
           python tools/agent_governance/agent_compare.py --fail-on-high
       - name: Enforce coordination boundary
         run: |
-          python tools/agent_governance/enforce_agent_boundary.py             --allowed agent_policy/allowed_paths.json             --forbidden agent_policy/forbidden_paths.json             --report reports/current/agent_boundary_report.json             --receipt receipts/current/agent_boundary_receipt.jsonl
+          python tools/agent_governance/enforce_agent_boundary.py \
+            --allowed agent_policy/allowed_paths.json \
+            --forbidden agent_policy/forbidden_paths.json \
+            --report reports/current/agent_boundary_report.json \
+            --receipt receipts/current/agent_boundary_receipt.jsonl
       - name: Record LLM-LLM coordination change
         run: |
-          python tools/agent_governance/record_llm_change.py             --provider coordinator             --conversation current-workflow-run             --version "${GOVERNED_LLM_LLM_VERSION}"             --change-type coordination_run             --summary "Recorded governed LLM-LLM collaboration outputs, comparison evidence, no-broad-authority directive, and boundary enforcement."             --files outputs/thread.md reports/current/agent_coordination_report.json reports/current/agent_comparison_report.json reports/current/agent_boundary_report.json receipts/current/agent_coordination_receipt.jsonl receipts/current/agent_comparison_receipt.jsonl receipts/current/agent_boundary_receipt.jsonl
+          python tools/agent_governance/record_llm_change.py \
+            --provider coordinator \
+            --conversation current-workflow-run \
+            --version "${GOVERNED_LLM_LLM_VERSION}" \
+            --change-type coordination_run \
+            --summary "Recorded governed LLM-LLM collaboration outputs, adapter candidate sandbox decision, comparison evidence, no-broad-authority directive, and boundary enforcement." \
+            --files outputs/thread.md outputs/adapter_candidate_sandbox.md reports/current/adapter_candidate_sandbox_report.json reports/current/agent_coordination_report.json reports/current/agent_comparison_report.json reports/current/agent_boundary_report.json receipts/current/adapter_candidate_sandbox_receipt.jsonl receipts/current/agent_coordination_receipt.jsonl receipts/current/agent_comparison_receipt.jsonl receipts/current/agent_boundary_receipt.jsonl
       - name: Package proposed-transition bundle
         run: |
           python scripts/package_transition_bundle.py
@@ -469,6 +460,6 @@ jobs:
         run: |
           git config user.name "StegVerse-002 Agent Coordinator"
           git config user.email "sv002-agent-coordinator@stegverse"
-          git add -A outputs/ reports/current/ receipts/current/ agent_history/ dist/bundles/ || true
+          git add -A outputs/ reports/current/ receipts/current/ agent_history/ dist/bundles/ dist/run_artifacts/ docs/ scripts/ schemas/ tests/ tools/ config/ machine/ examples/ || true
           git diff --staged --quiet || git commit -m "sv002: governed transition bundle v0.1.3 — $(head -1 task.md 2>/dev/null || echo no-task)"
           git push || true
