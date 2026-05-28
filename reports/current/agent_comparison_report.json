@@ -1,7 +1,7 @@
 {
   "schema": "stegverse.agent_comparison_report.v1",
   "version": "0.1.2-gllm",
-  "timestamp": "2026-05-28T02:23:27.722623+00:00",
+  "timestamp": "2026-05-28T02:39:39.194393+00:00",
   "decision": "REVIEW_REQUIRED",
   "basis": "Provider outputs mention broad/unilateral authority; human review required even if framed as denied.",
   "providers": {
@@ -9,15 +9,17 @@
       "provider": "openai",
       "output_path": "outputs/chatgpt_response.md",
       "exists": true,
-      "sha256": "sha256:c52d63346487d99dc77f33d81a8ff40cace68d0b9790e3c21843614b0c7e1544",
-      "bytes": 3331,
+      "sha256": "sha256:1d710a345df5b9a69c7883038fdf54286342bd0302558f2aff4b1e8e1b837461",
+      "bytes": 2551,
       "mentioned_paths": [
         ".github/workflows/core-lite-intake.yml",
-        "StegVerse-002/core-lite"
+        "dist/run_artifacts/stegverse-governed-output.zip",
+        "outputs/stegverse_output.json",
+        "outputs/stegverse_output.md",
+        "receipts/current/stegverse_output_receipt.jsonl",
+        "reports/current/stegverse_output_report.json"
       ],
-      "mentioned_risk_terms": [
-        "broad authority"
-      ],
+      "mentioned_risk_terms": [],
       "required_sections_present": {
         "Current State Assessment": true,
         "Directive Alignment": true,
@@ -33,59 +35,40 @@
       "provider": "claude",
       "output_path": "outputs/claude_response.md",
       "exists": true,
-      "sha256": "sha256:d42ea3e5754f90e14793debc1690f8891a2837b8a00f9e51f11302b55aa9ad6f",
-      "bytes": 36718,
+      "sha256": "sha256:0b3ed643b29fdcb30ef29d4ceb92f85d5a2ac30a05307d7bf407ff41b0a52511",
+      "bytes": 2081,
       "mentioned_paths": [
         ".github/workflows/core-lite-intake.yml",
-        "/",
-        "; add/expose/rotate secrets; deploy or release; grant broad authority; prepare Rige enrollment or",
-        "StegVerse-002/core-lite",
-        "core-lite-intake.yml",
+        "outputs/ reports/current/ receipts/current/ dist/ tracking/ agent_history/",
         "outputs/claude_response.md",
-        "receipts/current/task_receipt.jsonl",
-        "route detection corrected.** New ordering: push \u2192 declared-input \u2192 declared-task \u2192 llm-collaboration(provider) \u2192 default/no-op. Previous file evaluated",
-        "scripts/package_stegverse_governed_output.py",
-        "tools/scripts/task_dispatcher.py",
-        "tools/tasks/task_catalog.json"
+        "python -m tools.scripts.task_dispatcher --task-id \u2026 --task-catalog tools/tasks/task_catalog.json --entity \"${STEGVERSE_ENTITY}\" --stage \"${STAGE}\"",
+        "reports/current/"
       ],
       "mentioned_risk_terms": [
-        "broad authority",
-        "delete",
-        "secret"
+        "broad authority"
       ],
       "required_sections_present": {
-        "Current State Assessment": true,
-        "Directive Alignment": true,
-        "Next Collaboration Primitive": true,
-        "Proposed Implementation": true,
-        "Authority Boundaries": true,
-        "Receipts and Version History": true,
-        "Risks & Dependencies": true,
-        "Confidence": true
+        "Current State Assessment": false,
+        "Directive Alignment": false,
+        "Next Collaboration Primitive": false,
+        "Proposed Implementation": false,
+        "Authority Boundaries": false,
+        "Receipts and Version History": false,
+        "Risks & Dependencies": false,
+        "Confidence": false
       }
     }
   },
   "analysis": {
-    "path_overlap_ratio": 0.18181818181818182,
+    "path_overlap_ratio": 0.1,
     "high_risk_paths": [
       ".github/workflows/core-lite-intake.yml"
     ],
     "risk_terms": [
-      "broad authority",
-      "delete",
-      "secret"
+      "broad authority"
     ],
     "missing_providers": [],
-    "shared_sections": [
-      "Current State Assessment",
-      "Directive Alignment",
-      "Next Collaboration Primitive",
-      "Proposed Implementation",
-      "Authority Boundaries",
-      "Receipts and Version History",
-      "Risks & Dependencies",
-      "Confidence"
-    ],
+    "shared_sections": [],
     "thread_present": true
   },
   "authority": {

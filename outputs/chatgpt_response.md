@@ -2,74 +2,50 @@
 
 ## Current State Assessment
 
-The current workflow in `StegVerse-002/core-lite` is not reliably producing and persisting expected output files when executing the `stegverse.output.package` task. The workflow needs to be repaired to ensure it executes tasks correctly, captures results, and commits outputs.
+The current workflow in `.github/workflows/core-lite-intake.yml` does not ensure that the expected file shape exists on `main` after a task execution. This can lead to a false positive success in GitHub Actions runs.
 
 ## Directive Alignment
 
-The proposal aligns with the "no broad authority" directive by ensuring all actions are scoped, staged, and explicitly receipted. The workflow will be modified to adhere to these constraints, ensuring no broad authority is granted.
+The proposal aligns with the no-broad-authority directive by ensuring scoped and explicit authority in task execution and output validation. It adheres to the governance model by requiring evidence of output before marking a task as successful.
 
 ## Next Collaboration Primitive
 
-The next step is to repair the `.github/workflows/core-lite-intake.yml` file to ensure the declared task route executes correctly and commits the expected outputs.
+The next step involves modifying the workflow to enforce output validation and ensure that all expected files are present before a task is considered successful.
 
 ## Proposed Implementation
 
-### Modify `.github/workflows/core-lite-intake.yml`
+1. **Modify `.github/workflows/core-lite-intake.yml`:**
 
-1. **Add `declared-task-route` Job:**
-   - Trigger on `workflow_dispatch` with `task_id` provided and `agent_provider` set to `none`.
-   - Steps:
-     - Check out the repository.
-     - Set up Python.
-     - Determine the stage:
-       ```bash
-       STAGE="${{ inputs.stage_override }}"
-       if [ -z "${STAGE}" ]; then STAGE="SV002-M10"; fi
-       ```
-     - Execute the task dispatcher:
-       ```bash
-       python -m tools.scripts.task_dispatcher \
-         --task-id "${{ inputs.task_id }}" \
-         --task-catalog tools/tasks/task_catalog.json \
-         --entity "${STEGVERSE_ENTITY}" \
-         --stage "${STAGE}"
-       ```
-     - Handle `dry_run` input.
-     - Capture outputs:
-       - Write stdout to `reports/current/task_dispatcher_result.json`.
-       - Write stderr to `reports/current/task_dispatcher_stderr.txt`.
-       - Write exit code to `reports/current/task_dispatcher_exit_code.txt`.
-     - Append a GitHub Actions summary.
-     - Commit generated outputs.
-     - Upload evidence artifact.
+   Add a job to validate the output files after task execution. The job should:
 
-2. **Ensure Expected Output Checks:**
-   - For `task_id == stegverse.output.package`, verify the presence of:
+   - Execute the task using the provided command.
+   - Capture stdout, stderr, and exit code.
+   - Validate the presence of the following files:
      - `outputs/stegverse_output.md`
      - `outputs/stegverse_output.json`
      - `reports/current/stegverse_output_report.json`
      - `receipts/current/stegverse_output_receipt.jsonl`
      - `dist/run_artifacts/stegverse-governed-output.zip`
-   - Fail closed if any are missing.
+   - Fail the workflow if any file is missing.
+   - Commit and push the files to `main` if all are present.
 
-### Documentation Update
+2. **GitHub Actions Step Summary:**
 
-If useful, update `docs/WORKFLOW_SUMMARY_DIAGNOSTICS.md` to reflect changes in workflow behavior and summary diagnostics.
+   - Display the selected route, task_id, command executed, exit code, presence of each expected file, and commit status.
 
 ## Authority Boundaries
 
-The proposal strictly adheres to scoped and staged authority. No broad authority is granted, and all actions are explicitly receipted and bounded by transition class.
+The proposal respects authority boundaries by modifying only the workflow logic and not altering any scripts or creating new tasks. It ensures that the workflow remains local to repository artifacts and does not involve external deployments.
 
 ## Receipts and Version History
 
-All changes will be documented in the version history and receipts will be generated for each workflow execution, ensuring traceability and compliance with governance directives.
+The workflow will generate receipts and reports for each run, ensuring traceability and adherence to governance rules. These artifacts will be committed to the repository for audit purposes.
 
 ## Risks & Dependencies
 
-- **Risk:** Misconfiguration could lead to incomplete task execution.
-- **Mitigation:** Thorough testing and validation of the workflow changes.
-- **Dependency:** Requires correct setup of Python and task dispatcher script.
+- **Risk:** The workflow might fail if the task execution does not produce the expected files.
+- **Dependency:** The task execution relies on the correct functioning of `tools.scripts.task_dispatcher`.
 
 ## Confidence
 
-High confidence in the proposed changes as they directly address the task requirements and align with governance directives. The implementation plan is clear and follows best practices for workflow management.
+The proposed changes are straightforward and align with the existing governance model. The implementation should effectively enforce the required output validation, ensuring that only successful task executions are marked as such.
