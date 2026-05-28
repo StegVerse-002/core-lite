@@ -1,146 +1,328 @@
-# Task: v0.1.3-gllm — Transition Bundle Packaging and Ingestion Handoff
+# Task: Repair StegVerse-002 Declared Task Route and Workflow Diagnostics
 
-## Version
+## Operator Intent
 
-`0.1.3-gllm`
+Repair `StegVerse-002/core-lite` so connected LLM agents inside the repo can complete the workflow repair without requiring repeated manual intervention from the human operator.
 
-## Absolute Directive
+The immediate failure pattern is:
 
-There is never a valid StegVerse state in which any entity receives broad authority.
+- The output-authority bundle has been ingested and persisted.
+- `scripts/package_stegverse_governed_output.py` exists on `main`.
+- `tools/tasks/task_catalog.json` contains `stegverse.output.package`.
+- Running the workflow with `task_id=stegverse.output.package` can show workflow success, but the expected output files are not reliably proven or persisted on `main`.
 
-No exceptions. No temporary grants. No bootstrap shortcuts.
+The workflow must be repaired so a declared task route actually executes the requested task, captures results, writes a clear GitHub Actions summary, checks expected output files, commits generated outputs, and fails closed when the task does not produce expected artifacts.
 
-All authority must remain scoped, staged, explicit, receipted, bounded by transition class, checked at the commit/execution boundary, recoverable, containable, and denied by default unless specifically granted.
+## Absolute Governance Directive
 
-## Ecosystem Build Sequence
+No broad authority is admissible.
 
-### Stage 1 — Current Target
+The connected LLMs may propose and implement this bounded workflow repair only. They must not grant themselves ongoing authority, secret access, deployment authority, production mutation authority, release authority, or approval authority.
 
-```text
-Cross-repo and cross-org communication substrate
-→ Governed LLM-LLM collaboration operational
-→ Machine-readable version history
-→ Human mediator support
-→ Repo-safe proposal outputs
-→ Proposed-transition bundle packaging             ← THIS TASK
-→ Ingestion gate operational
-→ Cross-repo routing through ingestion only
-```
+The repair must preserve StegVerse's principle:
 
-### Stage 2 — Next
+> LLMs produce candidate evidence. StegVerse produces governed output.
+
+## Current Known Facts
+
+The repository is:
 
 ```text
-AI presence in each framework / repo / org as scoped candidate-evidence producers
+StegVerse-002/core-lite
 ```
 
-### Stage 3 — Future
+The relevant existing files are:
 
 ```text
-Rigel founder/user enrollment
-Beta_Orionis enabled as counterpart
+.github/workflows/core-lite-intake.yml
+tools/scripts/task_dispatcher.py
+tools/tasks/task_catalog.json
+scripts/package_stegverse_governed_output.py
+docs/STEGVERSE_OUTPUT_AUTHORITY.md
 ```
 
-Stage 3 is not part of this task.
-
-## What This Task Is
-
-The collaboration chain does not end at `outputs/thread.md`.
-
-Every successful governed LLM collaboration run produces proposed-transition evidence. That evidence must be packaged into a self-contained, self-verifying transition bundle before it can move, be reviewed, be routed, or be considered by another repo/org.
-
-The bundle is the universal transport object for proposed state transitions inside StegVerse.
-
-Ingestion is the only admissible mechanism for admitting, routing, transferring, or binding proposed state changes across repo/org boundaries.
-
-There is no direct write across org boundaries.
-
-There is no privileged channel.
-
-The bundle format plus ingestion receipt chain is the protocol.
-
-## Current State
-
-The v0.1.2-gllm collaboration gate proved:
+The task catalog already includes:
 
 ```text
-outputs/thread.md                         produced
-outputs/claude_response.md                produced
-outputs/chatgpt_response.md               produced
-reports/current/*                         produced
-receipts/current/*                        produced
-agent_history/llm_changelog.jsonl         operational
-agent_history/version_state.json          operational
+task_id: stegverse.output.package
+command: python scripts/package_stegverse_governed_output.py --repo-root .
 ```
 
-The next missing link is:
+Expected output files from that task are:
 
 ```text
-governed collaboration outputs
-→ proposed-transition bundle
-→ bundle hash
-→ evidence-chain link
-→ ingestion intake
-→ candidate admission / repair / denial / quarantine
-→ next receipt-bearing chain link
+outputs/stegverse_output.md
+outputs/stegverse_output.json
+reports/current/stegverse_output_report.json
+receipts/current/stegverse_output_receipt.jsonl
+dist/run_artifacts/stegverse-governed-output.zip
 ```
 
-## Required Files
+## Required Repair
+
+Modify only the minimum necessary files.
+
+Primary target:
 
 ```text
-scripts/package_transition_bundle.py
-scripts/ingest_transition_bundle.py
-schemas/transition_bundle.v1.schema.json
-docs/methodology/LLM_OUTPUT_TO_INGESTION_CHAIN.md
-docs/methodology/TASK_AS_INTERFACE_METHODOLOGY.md
-docs/methodology/FOUNDER_FAMILY_PRESERVATION_BOUNDARY.md
+.github/workflows/core-lite-intake.yml
 ```
 
-## Required Workflow Wiring
+Secondary documentation target, only if useful:
 
-After the `Record LLM-LLM coordination change` step in `github/workflows/core-lite-intake.yml` — actual repo path has a leading dot: `.github/workflows/core-lite-intake.yml` — run:
+```text
+docs/WORKFLOW_SUMMARY_DIAGNOSTICS.md
+```
+
+Do not modify unrelated files.
+
+## Required Workflow Behavior
+
+The workflow must route as follows:
+
+```text
+IF workflow_dispatch AND input_type/input_path are provided:
+    run declared-input-route
+    process the input through core_lite.multimodal.pipeline
+    commit installed bundle files/reports/receipts/tracking/dist
+    write GitHub Actions summary showing route, input, report, decision, installed_count, rejected_count, key file checks
+
+ELSE IF workflow_dispatch AND task_id is provided AND agent_provider == none:
+    run declared-task-route
+    execute tools.scripts.task_dispatcher
+    capture stdout/stderr/exit code
+    check expected output files for known tasks
+    commit outputs/reports/receipts/tracking/dist
+    write GitHub Actions summary showing task_id, exit code, output checks, commit status
+    fail closed if task exits nonzero or expected artifacts are missing for a task that declares expected artifacts
+
+ELSE IF agent_provider is openai/claude/both:
+    run governed LLM collaboration route
+
+ELSE:
+    run default intake/status route or write an explicit no-op summary
+```
+
+## Declared Task Route Requirements
+
+Add or repair a `declared-task-route` job in `.github/workflows/core-lite-intake.yml`.
+
+It must run when:
+
+```yaml
+github.event_name == 'workflow_dispatch'
+inputs.task_id != ''
+inputs.input_type == ''
+inputs.input_path == ''
+inputs.agent_provider == 'none'
+```
+
+It must:
+
+1. Check out repo.
+2. Set up Python.
+3. Determine stage:
 
 ```bash
-python scripts/package_transition_bundle.py
+STAGE="${{ inputs.stage_override }}"
+if [ -z "${STAGE}" ]; then STAGE="SV002-M10"; fi
 ```
 
-Then include `dist/bundles/` in the coordination commit and coordination artifact.
+4. Run:
 
-## Constraints
+```bash
+python -m tools.scripts.task_dispatcher \
+  --task-id "${{ inputs.task_id }}" \
+  --task-catalog tools/tasks/task_catalog.json \
+  --entity "${STEGVERSE_ENTITY}" \
+  --stage "${STAGE}"
+```
 
-- PROPOSE-ONLY for LLM provider runs.
-- No direct cross-repo/org mutation.
-- No founder/user enrollment.
-- No Beta_Orionis enablement.
-- No broad authority.
-- No canonical authority from ingestion intake alone.
-- Ingestion intake may only admit as candidate evidence, route to repair, deny, quarantine, or fail closed.
-
-## Expected Runtime Outputs
+5. If `inputs.dry_run == 'true'`, pass `--dry-run`.
+6. Write stdout to:
 
 ```text
-dist/bundles/proposed_transition_bundle.json
-dist/bundles/proposed_transition_bundle.zip
-dist/bundles/proposed_transition_bundle.sha256
-receipts/current/proposed_transition_bundle_receipt.jsonl
-receipts/current/transition_bundle_ingest_receipt.jsonl
+reports/current/task_dispatcher_result.json
 ```
+
+7. Write stderr to:
+
+```text
+reports/current/task_dispatcher_stderr.txt
+```
+
+8. Write exit code to:
+
+```text
+reports/current/task_dispatcher_exit_code.txt
+```
+
+9. Append a GitHub Actions summary containing:
+
+```text
+route
+task_id
+stage
+dry_run
+exit_code
+stdout/stderr report paths
+expected output checks
+commit status
+```
+
+10. Commit generated task outputs:
+
+```text
+outputs/
+reports/current/
+receipts/current/
+tracking/
+dist/
+agent_history/
+```
+
+11. Upload one evidence artifact named:
+
+```text
+declared-task-route-evidence
+```
+
+containing:
+
+```text
+outputs/
+reports/current/
+receipts/current/
+tracking/
+dist/
+```
+
+## Expected Output Checks for stegverse.output.package
+
+For `task_id == stegverse.output.package`, check these files after task execution:
+
+```text
+outputs/stegverse_output.md
+outputs/stegverse_output.json
+reports/current/stegverse_output_report.json
+receipts/current/stegverse_output_receipt.jsonl
+dist/run_artifacts/stegverse-governed-output.zip
+```
+
+If any are missing after a non-dry-run successful task execution, the workflow must fail closed with a clear summary.
+
+Failure should say:
+
+```text
+Declared task executed but expected StegVerse output artifacts are missing.
+```
+
+## Declared Input Route Requirements
+
+Preserve the existing declared-input-route, but ensure it:
+
+1. Runs when `input_type` and `input_path` are provided with `agent_provider=none`.
+2. Fails clearly if either field is missing.
+3. Lists `incoming/` files if `input_path` does not exist.
+4. Runs:
+
+```bash
+python -m core_lite.multimodal.pipeline \
+  --repo-root . \
+  --input-type "${{ inputs.input_type }}" \
+  --input-path "${{ inputs.input_path }}" \
+  --entity "${STEGVERSE_ENTITY}" \
+  --stage "${STAGE}"
+```
+
+5. Commits installed paths, including at minimum:
+
+```text
+.github/workflows/
+core_lite/
+scripts/
+schemas/
+examples/
+docs/
+tests/
+tools/
+config/
+machine/
+outputs/
+reports/current/
+receipts/current/
+tracking/
+dist/
+agent_history/
+vault_template/
+```
+
+6. Writes summary diagnostics from `reports/current/bundle_ingest_report.json`.
+
+## Summary Requirement
+
+Every workflow_dispatch run must write a quick-glance summary to `$GITHUB_STEP_SUMMARY`.
+
+The summary must make the following immediately visible:
+
+```text
+route selected
+task_id
+input_type
+input_path
+stage
+dry_run
+agent_provider
+exit code
+decision/status
+installed_count, if bundle
+expected output checks, if task
+commit status
+```
+
+## Safety Constraints
+
+Do not:
+
+- Add new secrets.
+- Expose secrets.
+- Deploy anything.
+- Create a release tag.
+- Grant broad authority.
+- Modify production deployment behavior.
+- Add unbounded file write paths.
+- Make LLM outputs authoritative.
+- Bypass CGE/TVC concepts.
+- Remove existing governance receipts.
+- Delete existing reports unless replacing current run output files under `reports/current/`.
 
 ## Done Condition
 
-This task is complete when the repo can produce a proposed-transition bundle whose manifest hash verifies under ingestion and whose contents include:
+This task is done only when all of the following are true:
+
+1. `.github/workflows/core-lite-intake.yml` has a working `declared-task-route`.
+2. `.github/workflows/core-lite-intake.yml` has a working `declared-input-route`.
+3. Workflow summaries clearly show route diagnosis.
+4. Running `task_id=stegverse.output.package` with `agent_provider=none` creates and commits:
 
 ```text
-outputs/thread.md
-outputs/claude_response.md
-outputs/chatgpt_response.md
-reports/current/agent_coordination_report.json
-reports/current/agent_comparison_report.json
-reports/current/agent_boundary_report.json
-receipts/current/agent_coordination_receipt.jsonl
-receipts/current/agent_comparison_receipt.jsonl
-receipts/current/agent_boundary_receipt.jsonl
-agent_history/llm_changelog.jsonl
-agent_history/version_state.json
+outputs/stegverse_output.md
+outputs/stegverse_output.json
+reports/current/stegverse_output_report.json
+receipts/current/stegverse_output_receipt.jsonl
+dist/run_artifacts/stegverse-governed-output.zip
 ```
 
-The bundle must preserve path structure and must not grant canonical authority.
+5. No release tag is created.
+
+## Requested Output from Connected LLMs
+
+Return a concise implementation summary and commit the repaired workflow to `main`.
+
+If the connected LLMs cannot commit directly, they must produce a single complete replacement for:
+
+```text
+.github/workflows/core-lite-intake.yml
+```
+
+and explain the exact manual placement path.
