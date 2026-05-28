@@ -5,7 +5,7 @@
   "versions": [
     {
       "version": "0.1.2-gllm",
-      "timestamp": "2026-05-28T20:39:39.168767+00:00",
+      "timestamp": "2026-05-28T20:40:37.691561+00:00",
       "decision": "COORDINATION_THREAD_READY",
       "basis": "Both provider outputs were present and merged into candidate evidence.",
       "llm_change_log": "agent_history/llm_changelog.jsonl",
@@ -26,13 +26,13 @@
       "last_output_sha256": "sha256:62726099322929b672f15b5247f23e2eca181dc3390b90aaad37ea9d636bde41"
     },
     "claude": {
-      "last_output_sha256": "sha256:ca621266ff29127fbcd23d898d904b4960bc4636f055eda430c7f3ea4b5114fe"
+      "last_output_sha256": "sha256:fc657ab3b7a6d63fc5207abb8facb63a897d1128bed104c6f3b9efe6d7ad15b8"
     },
     "coordinator": {
-      "last_thread_sha256": "sha256:cd0953b58edba6677097d30dacdfd2d6f5aaefb6735e9b31918c12495c030ec1",
+      "last_thread_sha256": "sha256:ac38dfb658a11e3f9fcfebf34962e3e8716bd0bda09836ed7c30d89b1daeddc9",
       "last_change": {
         "schema": "stegverse.llm_changelog_entry.v1",
-        "timestamp": "2026-05-28T20:39:39.401408+00:00",
+        "timestamp": "2026-05-28T20:40:37.920420+00:00",
         "version": "0.1.3-gllm",
         "provider": "coordinator",
         "conversation": "current-workflow-run",
@@ -41,52 +41,52 @@
         "files": [
           {
             "path": "outputs/thread.md",
-            "sha256": "sha256:cd0953b58edba6677097d30dacdfd2d6f5aaefb6735e9b31918c12495c030ec1",
+            "sha256": "sha256:ac38dfb658a11e3f9fcfebf34962e3e8716bd0bda09836ed7c30d89b1daeddc9",
             "exists": true
           },
           {
             "path": "outputs/adapter_candidate_sandbox.md",
-            "sha256": "sha256:2340175948086364dc53da505abc0f1770851455398efdd00b157cc900cdcf64",
+            "sha256": "sha256:d68c9473fcbc73d36764d6c3ccb064394301a88c1d55e359095a34c7c5dc7fe0",
             "exists": true
           },
           {
             "path": "reports/current/adapter_candidate_sandbox_report.json",
-            "sha256": "sha256:90c07719765081c30fc81764f845c27fa97a932fab889d4583683ecf489d2aa4",
+            "sha256": "sha256:684883079c6bac4a130ae7c4957b670ce9baab6eb10d2e8a637e293a1c707490",
             "exists": true
           },
           {
             "path": "reports/current/agent_coordination_report.json",
-            "sha256": "sha256:1366f0fbffeea5af098b727e97c183eb203a64d0477088f91613f786c74793ec",
+            "sha256": "sha256:9961818b56f43cdf55c2995f00a3069d55da944b20e0cabb2aa6a701af9d7e6e",
             "exists": true
           },
           {
             "path": "reports/current/agent_comparison_report.json",
-            "sha256": "sha256:9524199ccae4062259daef1f36304b515ba29a35a2afa0c1416c0d81c4684c98",
+            "sha256": "sha256:cd38fa425283d112c22f77445bb0b3e97f9a62a160e53f546a7c9e0c75f90d73",
             "exists": true
           },
           {
             "path": "reports/current/agent_boundary_report.json",
-            "sha256": "sha256:b8c998c7c9eadc630c550ee8d03643423d2615ca0b7a8b50d4a81b189cceed8b",
+            "sha256": "sha256:820af5a9f00956496a8277b54f3ea2e71a4d71f61f08db575d20c2a896754e3f",
             "exists": true
           },
           {
             "path": "receipts/current/adapter_candidate_sandbox_receipt.jsonl",
-            "sha256": "sha256:7651aea1f00c6834f20f0d2c479c3284b1803c4bb7fe0f63ecde4c228403aaff",
+            "sha256": "sha256:228a76d7fba87f8291616cc085f43cb636fd61696e5fed72af8acd66399d4ff4",
             "exists": true
           },
           {
             "path": "receipts/current/agent_coordination_receipt.jsonl",
-            "sha256": "sha256:8d19a93afea1c55778cc75c7a5c5970aeb0b0d111fce2f7e5174a348c2887a51",
+            "sha256": "sha256:47d9157e17c1d5b7ad439f768c805af7bfd1654d300b7aa7868f696697acbfc0",
             "exists": true
           },
           {
             "path": "receipts/current/agent_comparison_receipt.jsonl",
-            "sha256": "sha256:2da155dedfe54052cc9427d37c91d9da3258ad7eea357d85b5f618080bc0de20",
+            "sha256": "sha256:dce003a6e1c03d576be59e0a9c133aa2197cceb127063402bb5b9ca7c034a2bb",
             "exists": true
           },
           {
             "path": "receipts/current/agent_boundary_receipt.jsonl",
-            "sha256": "sha256:aa7ad14960ccc9c48ccf3f2099b958411851943977355d91a0f222757d452ffe",
+            "sha256": "sha256:d3a9b1c069a72d0a410829f6bfd258308e10bd78146e67a5e0b0fe4346ebae5a",
             "exists": true
           }
         ],
@@ -97,6 +97,6 @@
     },
     "human": {}
   },
-  "updated_utc": "2026-05-28T20:39:39.401408+00:00",
+  "updated_utc": "2026-05-28T20:40:37.920420+00:00",
   "absolute_directive": "No broad authority is ever admissible under Transition Table, AE, or GCAT/BCAT enforcement."
 }

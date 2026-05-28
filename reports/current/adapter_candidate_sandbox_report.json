@@ -50,7 +50,7 @@
       "valid_packet": true
     }
   ],
-  "completed": "2026-05-28T20:39:39.107420+00:00",
+  "completed": "2026-05-28T20:40:37.637246+00:00",
   "decision": "FAIL_CLOSED_NO_PASSING_CANDIDATE",
   "governance": {
     "default_fail_closed": true,
@@ -63,8 +63,8 @@
     "claude": "/home/runner/work/core-lite/core-lite/outputs/claude_response.md",
     "openai": "/home/runner/work/core-lite/core-lite/outputs/chatgpt_response.md"
   },
-  "receipt_hash": "sha256:7651aea1f00c6834f20f0d2c479c3284b1803c4bb7fe0f63ecde4c228403aaff",
+  "receipt_hash": "sha256:d6abd7a00b8b86ad70ed423a31215735f6286566ed55f34cec7512c14ce75c1e",
   "schema": "stegverse.adapter_candidate_sandbox_report.v1",
   "selected_candidate_id": null,
-  "started": "2026-05-28T20:39:39.046552+00:00"
+  "started": "2026-05-28T20:40:37.571226+00:00"
 }

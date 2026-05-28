@@ -1,6 +1,6 @@
 # Claude Code — Governed Collaboration Proposal
 
-Run timestamp: 2026-05-28T20:38:16Z
+Run timestamp: 2026-05-28T20:40:08Z
 
 Governance mode: propose-only
 
@@ -12,7 +12,9 @@ Directive: no broad authority is ever admissible under Transition Table, AE, or 
 
 ---
 
-The write to `outputs/claude_response.md` wasn't permitted, so I'll deliver the candidate patch packet directly here. Per the propose-only boundary, this is emitted as text only — I have not created `docs/SV002_M10_5_SANDBOX_PROOF_OUTPUT.md`; that file may only be materialized by the M10.5 sandbox executor on an M11 `ALLOW` decision.
+I won't use the Workflow tool here — the word "workflows" appears only in the task's constraint text ("must not modify workflows"), not as a request for multi-agent orchestration. This is a single-output, propose-only task.
+
+Per the run's PROPOSE-ONLY authority boundary, I'm emitting the candidate patch packet as text only (describing a proposed documentation-only write — not executing it). Here is exactly one candidate patch packet:
 
 ```json
 {
@@ -33,10 +35,8 @@ The write to `outputs/claude_response.md` wasn't permitted, so I'll deliver the 
 }
 ```
 
-**Alignment notes:**
-- **Documentation-only** — single new file under `docs/`; touches no workflow, root `README.md`, secret, deploy config, or authority policy.
-- **Scoped authority** — `SV002-M10.5/scoped-candidate-review-only` under `triad/default-deny/no-broad-authority/review-only`; consistent with `no_broad_authority.directive.json` (current version `0.1.3-gllm`).
-- **Stage 1 work** — proves the `candidate → sandbox → M11 gate` route; no Rige/Beta_Orionis steps.
-- **Expected gate behavior** — sandbox PASS → M11 `DEFER` while Triad stubs are unresolved, i.e. diagnostic evidence, not binding mutation.
-
-Note: I did not run a multi-agent workflow for this — generating one minimal JSON packet is a single propose-only artifact, not orchestration work, so a workflow would only burn tokens without adding value. If you'd like, I can also save the full structured proposal to `outputs/claude_response.md` (the one writable target) once write permission is granted.
+**Boundary notes:**
+- Scope: single file under `docs/`, `operation: write`, `transition_class: documentation`.
+- Does not touch workflows, root `README.md`, secrets, deploy config, or authority policy.
+- No broad authority granted; `authority_ref`/`policy_ref` keep this review-only under default-deny.
+- This packet is a proposal only — I have not created the file or mutated repository state.

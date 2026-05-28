@@ -3,7 +3,7 @@
 **Decision:** `FAIL_CLOSED_NO_PASSING_CANDIDATE`
 **Selected candidate:** `none`
 **Applied files:** `none`
-**Receipt hash:** `sha256:7651aea1f00c6834f20f0d2c479c3284b1803c4bb7fe0f63ecde4c228403aaff`
+**Receipt hash:** `sha256:d6abd7a00b8b86ad70ed423a31215735f6286566ed55f34cec7512c14ce75c1e`
 
 ## Candidate Results
 
