@@ -74,7 +74,7 @@ jobs:
           STAGE="${{ inputs.stage_override }}"
 
           if [ "${EVENT}" = "push" ]; then
-            INPUT_TYPE="ephemeral-incoming-files"
+            INPUT_TYPE="incoming-disposition-gate"
             INPUT_PATH="incoming/** changed in this push, excluding incoming/README.md"
             AGENT_PROVIDER="none"
             DRY_RUN="false"
@@ -87,8 +87,8 @@ jobs:
           ROUTE="default/no-op"
           EXPECTED="No declared bundle or LLM provider route selected."
           if [ "${EVENT}" = "push" ]; then
-            ROUTE="declared-input-route(push:ephemeral-incoming-mailbox)"
-            EXPECTED="Process only incoming files changed by this push, then remove every incoming payload so incoming/ retains only README.md."
+            ROUTE="declared-input-route(push:incoming-disposition-gate)"
+            EXPECTED="For each changed incoming payload: hash, stage, evaluate, record disposition, then remove from incoming only after disposition evidence exists."
           elif [ "${AGENT_PROVIDER}" != "none" ]; then
             ROUTE="llm-collaboration(${AGENT_PROVIDER})"
             EXPECTED="Run selected LLM provider path, sandbox candidate packets, gate admissible candidates, and commit coordination evidence."
@@ -134,7 +134,7 @@ jobs:
         id: resolve-input
         run: |
           set -euo pipefail
-          mkdir -p reports/current receipts/current tracking/ingestion_events
+          mkdir -p reports/current receipts/current tracking/ingestion_events tracking/incoming_mailbox dist/run_artifacts quarantine/incoming
 
           EVENT="${{ github.event_name }}"
           INPUT_TYPE="${{ inputs.input_type }}"
@@ -169,12 +169,7 @@ jobs:
                   done > reports/current/incoming_changed_files.txt
             fi
 
-            if [ ! -s reports/current/incoming_changed_files.txt ]; then
-              echo "::notice::Push activation fired, but only incoming/README.md or no processable incoming payload changed."
-              echo "No incoming payload was selected. Existing incoming payloads are never replayed." >> "${GITHUB_STEP_SUMMARY}"
-            fi
-
-            INPUT_TYPE="push_ephemeral_incoming"
+            INPUT_TYPE="push_incoming_disposition_gate"
             INPUT_PATH="@reports/current/incoming_changed_files.txt"
             DRY_RUN="false"
           else
@@ -215,9 +210,14 @@ jobs:
             fi
           } >> "${GITHUB_STEP_SUMMARY}"
 
-      - name: Process declared input route
+      - name: Process incoming payloads through disposition gate
+        id: disposition-gate
         run: |
           set -euo pipefail
+          mkdir -p reports/current receipts/current tracking/incoming_mailbox quarantine/incoming dist/run_artifacts
+          : > reports/current/incoming_disposition_summary.jsonl
+          : > receipts/current/incoming_disposition_receipt.jsonl
+
           DRY_RUN_ARG=""
           if [ "${{ steps.resolve-input.outputs.dry_run }}" = "true" ]; then DRY_RUN_ARG="--dry-run"; fi
 
@@ -226,27 +226,79 @@ jobs:
             exit 0
           fi
 
+          RUN_FAILED=0
+
           while IFS= read -r INPUT_PATH; do
             [ -n "${INPUT_PATH}" ] || continue
+
+            SHA="$(sha256sum "${INPUT_PATH}" | awk '{print $1}')"
+            SHORT_SHA="$(printf "%s" "${SHA}" | cut -c1-16)"
+            BASE="$(basename "${INPUT_PATH}")"
+            EVENT_DIR="tracking/incoming_mailbox/${SHORT_SHA}"
+            STAGED_PAYLOAD="${EVENT_DIR}/${BASE}"
+            mkdir -p "${EVENT_DIR}" "quarantine/incoming/${SHORT_SHA}"
+
+            cp "${INPUT_PATH}" "${STAGED_PAYLOAD}"
+
             case "${INPUT_PATH}" in
-              *.zip) INPUT_TYPE="bundle" ;;
-              *.json|*.jsonl|*.yml|*.yaml) INPUT_TYPE="structured_data" ;;
-              *.md|*.txt) INPUT_TYPE="document" ;;
-              *) INPUT_TYPE="document" ;;
+              *.zip) INFERRED_TYPE="bundle" ;;
+              *.json|*.jsonl|*.yml|*.yaml) INFERRED_TYPE="structured_data" ;;
+              *.md|*.txt) INFERRED_TYPE="document" ;;
+              *) INFERRED_TYPE="document" ;;
             esac
 
-            echo "Processing ${INPUT_TYPE}: ${INPUT_PATH}"
+            STATUS="UNKNOWN"
+            DISPOSITION="UNKNOWN"
+            REASON=""
 
+            set +e
             python -m core_lite.multimodal.pipeline \
               --repo-root . \
-              --input-type "${INPUT_TYPE}" \
-              --input-path "${INPUT_PATH}" \
+              --input-type "${INFERRED_TYPE}" \
+              --input-path "${STAGED_PAYLOAD}" \
               --entity "${STEGVERSE_ENTITY}" \
               --stage "${{ steps.resolve-input.outputs.stage }}" \
               ${DRY_RUN_ARG}
-          done < reports/current/incoming_changed_files.txt
+            EXIT_CODE=$?
+            set -e
 
-      - name: Enforce ephemeral incoming mailbox
+            if [ "${EXIT_CODE}" -eq 0 ]; then
+              STATUS="EVALUATED"
+              DISPOSITION="INSTALLED_OR_ACCEPTED"
+              REASON="pipeline exited 0; payload staged and may be removed from incoming"
+            else
+              STATUS="EVALUATED"
+              DISPOSITION="QUARANTINED"
+              REASON="pipeline exited ${EXIT_CODE}; payload copied to quarantine before removal from incoming"
+              cp "${STAGED_PAYLOAD}" "quarantine/incoming/${SHORT_SHA}/${BASE}"
+              RUN_FAILED=1
+            fi
+
+            python - <<PY
+import json, datetime
+record = {
+  "schema": "stegverse.incoming_disposition.v1",
+  "timestamp_utc": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+  "source_path": "${INPUT_PATH}",
+  "staged_payload": "${STAGED_PAYLOAD}",
+  "sha256": "${SHA}",
+  "input_type": "${INFERRED_TYPE}",
+  "status": "${STATUS}",
+  "disposition": "${DISPOSITION}",
+  "reason": "${REASON}",
+  "pipeline_exit_code": ${EXIT_CODE}
+}
+print(json.dumps(record, sort_keys=True))
+PY
+          done < reports/current/incoming_changed_files.txt | tee -a reports/current/incoming_disposition_summary.jsonl receipts/current/incoming_disposition_receipt.jsonl
+
+          echo "${RUN_FAILED}" > reports/current/incoming_disposition_exit_code.txt
+
+          if [ "${RUN_FAILED}" -ne 0 ]; then
+            echo "::warning::One or more incoming payloads were quarantined after evaluation."
+          fi
+
+      - name: Enforce ephemeral incoming mailbox after disposition
         if: always()
         run: |
           set -euo pipefail
@@ -259,7 +311,7 @@ jobs:
 
           Only `README.md` should remain in this directory after ingestion runs.
 
-          Payload bundles/files may be pushed here to activate ingestion, but the workflow removes incoming payloads after processing or failed processing. Durable evidence belongs in reports, receipts, tracking, and dist, not in incoming.
+          Payload bundles/files may be pushed here to activate ingestion, but the workflow removes incoming payloads only after a disposition record is written. Durable evidence belongs in reports, receipts, tracking, quarantine, and dist, not in incoming.
           EOF
           fi
 
@@ -275,7 +327,7 @@ jobs:
           echo "## Incoming Mailbox Cleanup" >> "${GITHUB_STEP_SUMMARY}"
           echo >> "${GITHUB_STEP_SUMMARY}"
           if [ -s reports/current/incoming_cleanup_candidates.txt ]; then
-            echo "Removed incoming payloads:" >> "${GITHUB_STEP_SUMMARY}"
+            echo "Removed incoming payloads after disposition records were written:" >> "${GITHUB_STEP_SUMMARY}"
             sed 's/^/- `/' reports/current/incoming_cleanup_candidates.txt | sed 's/$/`/' >> "${GITHUB_STEP_SUMMARY}"
           else
             echo "- No incoming payload cleanup required." >> "${GITHUB_STEP_SUMMARY}"
@@ -294,6 +346,13 @@ jobs:
             echo "- none" >> "${GITHUB_STEP_SUMMARY}"
           fi
           echo >> "${GITHUB_STEP_SUMMARY}"
+          echo "### Dispositions" >> "${GITHUB_STEP_SUMMARY}"
+          if [ -s reports/current/incoming_disposition_summary.jsonl ]; then
+            cat reports/current/incoming_disposition_summary.jsonl >> "${GITHUB_STEP_SUMMARY}"
+          else
+            echo "- none" >> "${GITHUB_STEP_SUMMARY}"
+          fi
+          echo >> "${GITHUB_STEP_SUMMARY}"
           if [ -f reports/current/bundle_ingest_report.json ]; then
             python -m json.tool reports/current/bundle_ingest_report.json >> "${GITHUB_STEP_SUMMARY}" || true
           else
@@ -306,14 +365,14 @@ jobs:
           set -euo pipefail
           git config user.name "StegVerse-002 Declared Input Router"
           git config user.email "sv002-declared-input-router@stegverse"
-          git add -A incoming/ .github/workflows/ core_lite/ scripts/ schemas/ examples/ docs/ tests/ tools/ config/ machine/ outputs/ reports/current/ receipts/current/ tracking/ dist/ agent_history/ vault_template/ iosnoperiod/ MANUAL_INSTALL.md iosnoperiod.md bundle_manifest.json || true
+          git add -A incoming/ .github/workflows/ core_lite/ scripts/ schemas/ examples/ docs/ tests/ tools/ config/ machine/ outputs/ reports/current/ receipts/current/ tracking/ quarantine/ dist/ agent_history/ vault_template/ iosnoperiod/ MANUAL_INSTALL.md iosnoperiod.md bundle_manifest.json || true
           if git diff --staged --quiet; then
-            echo "- No declared input or incoming cleanup changes were staged for commit." >> "${GITHUB_STEP_SUMMARY}"
+            echo "- No declared input, disposition, or incoming cleanup changes were staged for commit." >> "${GITHUB_STEP_SUMMARY}"
           else
             FIRST_INPUT="$(head -n 1 reports/current/incoming_changed_files.txt 2>/dev/null || echo incoming-cleanup)"
-            git commit -m "sv002: process ephemeral incoming input — ${FIRST_INPUT}"
+            git commit -m "sv002: process incoming disposition — ${FIRST_INPUT}"
             git push
-            echo "- Declared input outputs and incoming cleanup committed and pushed." >> "${GITHUB_STEP_SUMMARY}"
+            echo "- Declared input outputs, disposition records, and incoming cleanup committed and pushed." >> "${GITHUB_STEP_SUMMARY}"
           fi
 
       - name: Upload declared input evidence
@@ -325,6 +384,7 @@ jobs:
             reports/current/
             receipts/current/
             tracking/
+            quarantine/
             dist/
           if-no-files-found: warn
 
