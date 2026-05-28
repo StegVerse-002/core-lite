@@ -3,7 +3,7 @@
   "entity": "StegVerse-002",
   "stage": "SV002-M10",
   "input_path": "incoming/sv002_core_lite_stegverse_output_authority_bundle.zip",
-  "started": "2026-05-27T21:25:49.284391+00:00",
+  "started": "2026-05-28T01:21:08.414989+00:00",
   "dry_run": false,
   "status": "success",
   "decision": "ALLOW",
@@ -42,7 +42,7 @@
   "rejected": [],
   "errors": [],
   "bundle_name": "sv002_core_lite_stegverse_output_authority_bundle",
-  "manifest_path": "/tmp/tmpjl_1dejo/bundle/bundle_manifest.json",
+  "manifest_path": "/tmp/tmp9wzqs3oh/bundle/bundle_manifest.json",
   "manifest": {
     "allow_root_readme": false,
     "allow_workflows": false,
@@ -79,9 +79,9 @@
     "schema": "stegverse.bundle_manifest.v1"
   },
   "basis": "Bundle validated and processed.",
-  "completed": "2026-05-27T21:25:49.288799+00:00",
+  "completed": "2026-05-28T01:21:08.418093+00:00",
   "receipt": {
-    "receipt_hash": "sha256:d04931cdaa478af5116e61fdf43babe6b00cfad8b31ad843498e899674765327",
+    "receipt_hash": "sha256:8cf335e7cbf4c475e59f84959e8d666f58751d20201b1bf6b586e3a5d1e88914",
     "receipt_path": "receipts/current/ingestion_receipt.jsonl"
   }
 }
