@@ -1,205 +1,71 @@
-# Task: Repair StegVerse-002 Declared Task Route and Workflow Diagnostics
+# StegVerse-002 / core-lite Task
 
-## Operator Intent
+## Title
 
-Repair `StegVerse-002/core-lite` so connected LLM agents inside the repo can complete the workflow repair without requiring repeated manual intervention from the human operator.
+Repair declared-task execution so output-package success requires the expected file shape on `main`.
 
-The immediate failure pattern is:
+## Operator Context
 
-- The output-authority bundle has been ingested and persisted.
-- `scripts/package_stegverse_governed_output.py` exists on `main`.
-- `tools/tasks/task_catalog.json` contains `stegverse.output.package`.
-- Running the workflow with `task_id=stegverse.output.package` can show workflow success, but the expected output files are not reliably proven or persisted on `main`.
+The repo has already accepted and persisted the StegVerse output-authority bundle.
 
-The workflow must be repaired so a declared task route actually executes the requested task, captures results, writes a clear GitHub Actions summary, checks expected output files, commits generated outputs, and fails closed when the task does not produce expected artifacts.
+The following are present on `main`:
 
-## Absolute Governance Directive
+- `scripts/package_stegverse_governed_output.py`
+- `tools/tasks/task_catalog.json`
+- task catalog entry: `stegverse.output.package`
 
-No broad authority is admissible.
+The script itself declares and writes the expected output shape:
 
-The connected LLMs may propose and implement this bounded workflow repair only. They must not grant themselves ongoing authority, secret access, deployment authority, production mutation authority, release authority, or approval authority.
+- `outputs/stegverse_output.md`
+- `outputs/stegverse_output.json`
+- `reports/current/stegverse_output_report.json`
+- `receipts/current/stegverse_output_receipt.jsonl`
+- `dist/run_artifacts/stegverse-governed-output.zip`
 
-The repair must preserve StegVerse's principle:
+However, a GitHub Actions run can currently appear successful without proving that this file shape exists on `main`.
 
-> LLMs produce candidate evidence. StegVerse produces governed output.
+This means the failure boundary is not the output-authority script and not the task catalog. The failure boundary is the workflow/task execution and persistence path.
 
-## Current Known Facts
+## Objective
 
-The repository is:
-
-```text
-StegVerse-002/core-lite
-```
-
-The relevant existing files are:
-
-```text
-.github/workflows/core-lite-intake.yml
-tools/scripts/task_dispatcher.py
-tools/tasks/task_catalog.json
-scripts/package_stegverse_governed_output.py
-docs/STEGVERSE_OUTPUT_AUTHORITY.md
-```
-
-The task catalog already includes:
+Modify `.github/workflows/core-lite-intake.yml` so a `workflow_dispatch` run with:
 
 ```text
 task_id: stegverse.output.package
-command: python scripts/package_stegverse_governed_output.py --repo-root .
+input_type: [blank]
+input_path: [blank]
+dry_run: false
+agent_provider: none
 ```
 
-Expected output files from that task are:
+does all of the following:
 
-```text
-outputs/stegverse_output.md
-outputs/stegverse_output.json
-reports/current/stegverse_output_report.json
-receipts/current/stegverse_output_receipt.jsonl
-dist/run_artifacts/stegverse-governed-output.zip
-```
-
-## Required Repair
-
-Modify only the minimum necessary files.
-
-Primary target:
-
-```text
-.github/workflows/core-lite-intake.yml
-```
-
-Secondary documentation target, only if useful:
-
-```text
-docs/WORKFLOW_SUMMARY_DIAGNOSTICS.md
-```
-
-Do not modify unrelated files.
-
-## Required Workflow Behavior
-
-The workflow must route as follows:
-
-```text
-IF workflow_dispatch AND input_type/input_path are provided:
-    run declared-input-route
-    process the input through core_lite.multimodal.pipeline
-    commit installed bundle files/reports/receipts/tracking/dist
-    write GitHub Actions summary showing route, input, report, decision, installed_count, rejected_count, key file checks
-
-ELSE IF workflow_dispatch AND task_id is provided AND agent_provider == none:
-    run declared-task-route
-    execute tools.scripts.task_dispatcher
-    capture stdout/stderr/exit code
-    check expected output files for known tasks
-    commit outputs/reports/receipts/tracking/dist
-    write GitHub Actions summary showing task_id, exit code, output checks, commit status
-    fail closed if task exits nonzero or expected artifacts are missing for a task that declares expected artifacts
-
-ELSE IF agent_provider is openai/claude/both:
-    run governed LLM collaboration route
-
-ELSE:
-    run default intake/status route or write an explicit no-op summary
-```
-
-## Declared Task Route Requirements
-
-Add or repair a `declared-task-route` job in `.github/workflows/core-lite-intake.yml`.
-
-It must run when:
-
-```yaml
-github.event_name == 'workflow_dispatch'
-inputs.task_id != ''
-inputs.input_type == ''
-inputs.input_path == ''
-inputs.agent_provider == 'none'
-```
-
-It must:
-
-1. Check out repo.
-2. Set up Python.
-3. Determine stage:
-
-```bash
-STAGE="${{ inputs.stage_override }}"
-if [ -z "${STAGE}" ]; then STAGE="SV002-M10"; fi
-```
-
-4. Run:
+1. Routes into a real declared-task execution job.
+2. Executes:
 
 ```bash
 python -m tools.scripts.task_dispatcher \
-  --task-id "${{ inputs.task_id }}" \
+  --task-id "stegverse.output.package" \
   --task-catalog tools/tasks/task_catalog.json \
-  --entity "${STEGVERSE_ENTITY}" \
-  --stage "${STAGE}"
+  --entity "StegVerse-002" \
+  --stage "SV002-M10"
 ```
 
-5. If `inputs.dry_run == 'true'`, pass `--dry-run`.
-6. Write stdout to:
+3. Captures stdout, stderr, and exit code into `reports/current/`.
+4. Checks that the expected output shape exists after task execution.
+5. Fails the workflow if any expected file is missing.
+6. Commits and pushes the expected outputs/reports/receipts/dist artifacts back to `main`.
+7. Writes a clear GitHub Actions step summary showing:
+   - selected route
+   - task_id
+   - command executed
+   - exit code
+   - each expected output file present/missing
+   - commit status: `pushed`, `no_changes`, or `failed`
 
-```text
-reports/current/task_dispatcher_result.json
-```
+## Required Expected Output Contract
 
-7. Write stderr to:
-
-```text
-reports/current/task_dispatcher_stderr.txt
-```
-
-8. Write exit code to:
-
-```text
-reports/current/task_dispatcher_exit_code.txt
-```
-
-9. Append a GitHub Actions summary containing:
-
-```text
-route
-task_id
-stage
-dry_run
-exit_code
-stdout/stderr report paths
-expected output checks
-commit status
-```
-
-10. Commit generated task outputs:
-
-```text
-outputs/
-reports/current/
-receipts/current/
-tracking/
-dist/
-agent_history/
-```
-
-11. Upload one evidence artifact named:
-
-```text
-declared-task-route-evidence
-```
-
-containing:
-
-```text
-outputs/
-reports/current/
-receipts/current/
-tracking/
-dist/
-```
-
-## Expected Output Checks for stegverse.output.package
-
-For `task_id == stegverse.output.package`, check these files after task execution:
+After `stegverse.output.package` runs, the workflow must require these files:
 
 ```text
 outputs/stegverse_output.md
@@ -209,120 +75,78 @@ receipts/current/stegverse_output_receipt.jsonl
 dist/run_artifacts/stegverse-governed-output.zip
 ```
 
-If any are missing after a non-dry-run successful task execution, the workflow must fail closed with a clear summary.
+If any are missing, the workflow must fail.
 
-Failure should say:
+Do not allow a green workflow result unless all five files exist.
 
-```text
-Declared task executed but expected StegVerse output artifacts are missing.
-```
+## Scope
 
-## Declared Input Route Requirements
+Only modify the minimum required workflow logic.
 
-Preserve the existing declared-input-route, but ensure it:
-
-1. Runs when `input_type` and `input_path` are provided with `agent_provider=none`.
-2. Fails clearly if either field is missing.
-3. Lists `incoming/` files if `input_path` does not exist.
-4. Runs:
-
-```bash
-python -m core_lite.multimodal.pipeline \
-  --repo-root . \
-  --input-type "${{ inputs.input_type }}" \
-  --input-path "${{ inputs.input_path }}" \
-  --entity "${STEGVERSE_ENTITY}" \
-  --stage "${STAGE}"
-```
-
-5. Commits installed paths, including at minimum:
-
-```text
-.github/workflows/
-core_lite/
-scripts/
-schemas/
-examples/
-docs/
-tests/
-tools/
-config/
-machine/
-outputs/
-reports/current/
-receipts/current/
-tracking/
-dist/
-agent_history/
-vault_template/
-```
-
-6. Writes summary diagnostics from `reports/current/bundle_ingest_report.json`.
-
-## Summary Requirement
-
-Every workflow_dispatch run must write a quick-glance summary to `$GITHUB_STEP_SUMMARY`.
-
-The summary must make the following immediately visible:
-
-```text
-route selected
-task_id
-input_type
-input_path
-stage
-dry_run
-agent_provider
-exit code
-decision/status
-installed_count, if bundle
-expected output checks, if task
-commit status
-```
-
-## Safety Constraints
-
-Do not:
-
-- Add new secrets.
-- Expose secrets.
-- Deploy anything.
-- Create a release tag.
-- Grant broad authority.
-- Modify production deployment behavior.
-- Add unbounded file write paths.
-- Make LLM outputs authoritative.
-- Bypass CGE/TVC concepts.
-- Remove existing governance receipts.
-- Delete existing reports unless replacing current run output files under `reports/current/`.
-
-## Done Condition
-
-This task is done only when all of the following are true:
-
-1. `.github/workflows/core-lite-intake.yml` has a working `declared-task-route`.
-2. `.github/workflows/core-lite-intake.yml` has a working `declared-input-route`.
-3. Workflow summaries clearly show route diagnosis.
-4. Running `task_id=stegverse.output.package` with `agent_provider=none` creates and commits:
-
-```text
-outputs/stegverse_output.md
-outputs/stegverse_output.json
-reports/current/stegverse_output_report.json
-receipts/current/stegverse_output_receipt.jsonl
-dist/run_artifacts/stegverse-governed-output.zip
-```
-
-5. No release tag is created.
-
-## Requested Output from Connected LLMs
-
-Return a concise implementation summary and commit the repaired workflow to `main`.
-
-If the connected LLMs cannot commit directly, they must produce a single complete replacement for:
+Preferred target file:
 
 ```text
 .github/workflows/core-lite-intake.yml
 ```
 
-and explain the exact manual placement path.
+Do not change the output-authority script unless inspection proves it is the direct cause.
+
+Do not rename the existing task.
+
+Do not create a second task for the same purpose.
+
+Do not create a new workflow if the existing workflow can be repaired.
+
+## Safety / Governance Rules
+
+- LLM providers may propose code, but they do not become output authority.
+- The workflow repair must preserve the rule that provider outputs are candidate evidence only.
+- The task run must remain local to repository artifacts.
+- No external deploy, publication, or consequence-bearing action is allowed.
+- Do not add broad write patterns that commit `incoming/` bundles unless explicitly required.
+- Prefer committing only:
+  - `outputs/`
+  - `reports/current/`
+  - `receipts/current/`
+  - `dist/`
+  - `tracking/`
+  - `agent_history/` if generated
+
+## Done Definition
+
+This task is done only when:
+
+1. `.github/workflows/core-lite-intake.yml` has a declared-task route for `agent_provider=none` and nonblank `task_id`.
+2. The declared-task route executes `tools.scripts.task_dispatcher`.
+3. The route validates the exact output file shape for `stegverse.output.package`.
+4. Missing expected files cause workflow failure.
+5. Successful output package runs commit/push the generated files to `main`.
+6. The GitHub Actions summary gives quick-glance diagnosis without opening logs.
+
+## Verification Run
+
+After repair, run:
+
+```text
+task_id: stegverse.output.package
+skip_tasks: false
+stage_override: SV002-M10
+repair_target: [blank]
+input_type: [blank]
+input_path: [blank]
+kv_packet: [blank]
+dry_run: false
+agent_provider: none
+```
+
+Expected result on `main`:
+
+```text
+outputs/stegverse_output.md
+outputs/stegverse_output.json
+reports/current/stegverse_output_report.json
+receipts/current/stegverse_output_receipt.jsonl
+dist/run_artifacts/stegverse-governed-output.zip
+```
+
+If the workflow completes green without those files on `main`, the repair is incomplete.
