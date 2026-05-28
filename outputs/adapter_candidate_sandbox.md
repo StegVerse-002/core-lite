@@ -1,9 +1,10 @@
 # Adapter Candidate Sandbox Executor
 
 **Decision:** `FAIL_CLOSED_NO_PASSING_CANDIDATE`
+**Human result:** `outputs/SV002_AUTOMATION_PROOF_RESULT.md`
 **Selected candidate:** `none`
 **Applied files:** `none`
-**Receipt hash:** `sha256:d6abd7a00b8b86ad70ed423a31215735f6286566ed55f34cec7512c14ce75c1e`
+**Receipt hash:** `sha256:bf74957b0033e0d501d869bebf1da9b4d5df0dcdb997d57cdfb9689dbb6a2f3d`
 
 ## Candidate Results
 

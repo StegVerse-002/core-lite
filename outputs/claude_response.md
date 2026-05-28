@@ -1,6 +1,6 @@
 # Claude Code — Governed Collaboration Proposal
 
-Run timestamp: 2026-05-28T20:40:08Z
+Run timestamp: 2026-05-28T21:30:18Z
 
 Governance mode: propose-only
 
@@ -12,9 +12,7 @@ Directive: no broad authority is ever admissible under Transition Table, AE, or 
 
 ---
 
-I won't use the Workflow tool here — the word "workflows" appears only in the task's constraint text ("must not modify workflows"), not as a request for multi-agent orchestration. This is a single-output, propose-only task.
-
-Per the run's PROPOSE-ONLY authority boundary, I'm emitting the candidate patch packet as text only (describing a proposed documentation-only write — not executing it). Here is exactly one candidate patch packet:
+The write to `outputs/claude_response.md` wasn't permitted, so I'll deliver the candidate packet directly here — which is the requested deliverable. It's documentation-only, scoped, default-deny, and touches only `docs/`; per the propose-only directive I'm emitting it as text, not applying it.
 
 ```json
 {
@@ -35,8 +33,9 @@ Per the run's PROPOSE-ONLY authority boundary, I'm emitting the candidate patch 
 }
 ```
 
-**Boundary notes:**
-- Scope: single file under `docs/`, `operation: write`, `transition_class: documentation`.
-- Does not touch workflows, root `README.md`, secrets, deploy config, or authority policy.
-- No broad authority granted; `authority_ref`/`policy_ref` keep this review-only under default-deny.
-- This packet is a proposal only — I have not created the file or mutated repository state.
+Notes:
+- **Scope:** `transition_class: documentation`; single target under `docs/`. No workflow, root `README.md`, secret, deploy config, or authority policy is touched.
+- **Authority:** scoped + review-only (`authority_ref`), default-deny (`policy_ref`). No broad authority requested or implied.
+- **Stage:** Stage 1 primitive only (adapter sandbox/routing). No Stage 2–4 capability, no Rige enrollment, no Beta_Orionis enablement.
+
+If you'd like, I can also try writing this proposal to `outputs/claude_response.md` once write permission is granted.

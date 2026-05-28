@@ -50,21 +50,23 @@
       "valid_packet": true
     }
   ],
-  "completed": "2026-05-28T20:40:37.637246+00:00",
+  "completed": "2026-05-28T21:31:34.301080+00:00",
   "decision": "FAIL_CLOSED_NO_PASSING_CANDIDATE",
   "governance": {
     "default_fail_closed": true,
     "m11_gate_required_before_binding": true,
     "no_manual_bundle_transport_required": true,
     "provider_outputs_are_candidate_evidence_only": true,
-    "sandbox_required_before_apply_gate": true
+    "sandbox_required_before_apply_gate": true,
+    "single_human_result_surface": true
   },
+  "human_result": "outputs/SV002_AUTOMATION_PROOF_RESULT.md",
   "provider_outputs": {
     "claude": "/home/runner/work/core-lite/core-lite/outputs/claude_response.md",
     "openai": "/home/runner/work/core-lite/core-lite/outputs/chatgpt_response.md"
   },
-  "receipt_hash": "sha256:d6abd7a00b8b86ad70ed423a31215735f6286566ed55f34cec7512c14ce75c1e",
+  "receipt_hash": "sha256:bf74957b0033e0d501d869bebf1da9b4d5df0dcdb997d57cdfb9689dbb6a2f3d",
   "schema": "stegverse.adapter_candidate_sandbox_report.v1",
   "selected_candidate_id": null,
-  "started": "2026-05-28T20:40:37.571226+00:00"
+  "started": "2026-05-28T21:31:34.240390+00:00"
 }

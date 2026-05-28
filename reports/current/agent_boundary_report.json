@@ -1,11 +1,12 @@
 {
   "schema": "stegverse.agent_boundary_report.v1",
   "version": "0.1.2-gllm",
-  "timestamp": "2026-05-28T20:40:37.876831+00:00",
+  "timestamp": "2026-05-28T21:31:34.525285+00:00",
   "decision": "ALLOW_CANDIDATE_EVIDENCE",
   "changed_paths": [
     "agent_history/llm_changelog.jsonl",
     "agent_history/version_state.json",
+    "outputs/SV002_AUTOMATION_PROOF_RESULT.md",
     "outputs/adapter_candidate_sandbox.md",
     "outputs/claude_response.md",
     "outputs/thread.md",
@@ -21,6 +22,7 @@
   "allowed_effects": [
     "agent_history/llm_changelog.jsonl",
     "agent_history/version_state.json",
+    "outputs/SV002_AUTOMATION_PROOF_RESULT.md",
     "outputs/adapter_candidate_sandbox.md",
     "outputs/claude_response.md",
     "outputs/thread.md",
