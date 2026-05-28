@@ -11,6 +11,10 @@ task.md
 → apply only if the binding gate returns ALLOW
 → otherwise deny/defer with receipts
 
+This version also writes the one-file human result surface:
+
+outputs/SV002_AUTOMATION_PROOF_RESULT.md
+
 Provider outputs are never trusted. A provider output is only machine-actionable
 when it contains this explicit fenced JSON packet:
 
@@ -51,6 +55,7 @@ from typing import Any
 REPORT_PATH = Path("reports/current/adapter_candidate_sandbox_report.json")
 RECEIPT_PATH = Path("receipts/current/adapter_candidate_sandbox_receipt.jsonl")
 OUTPUT_PATH = Path("outputs/adapter_candidate_sandbox.md")
+HUMAN_RESULT_PATH = Path("outputs/SV002_AUTOMATION_PROOF_RESULT.md")
 ARTIFACT_PATH = Path("dist/run_artifacts/adapter-candidate-sandbox.zip")
 
 PATCH_SCHEMA = "stegverse.candidate_patch.v1"
@@ -78,6 +83,7 @@ def append_receipt(report: dict[str, Any]) -> str:
         "schema": "stegverse.adapter_candidate_sandbox_receipt.v1",
         "timestamp": utc_now(),
         "decision": report["decision"],
+        "human_result": str(HUMAN_RESULT_PATH),
         "selected_candidate_id": report.get("selected_candidate_id"),
         "candidate_count": len(report.get("candidates", [])),
         "applied_files": report.get("applied_files", []),
@@ -330,10 +336,122 @@ def test_candidate(candidate: dict[str, Any], repo_root: Path, index: int) -> di
     return result
 
 
+def classify_topline(report: dict[str, Any]) -> str:
+    decision = report.get("decision", "")
+    if decision == "CANDIDATE_APPLIED_AFTER_SANDBOX_AND_GATE":
+        return "PASS"
+    if decision in {
+        "CANDIDATE_SANDBOXED_GATE_DEFERRED",
+        "CANDIDATE_SANDBOXED_GATE_ALLOWED_NOT_APPLIED",
+    }:
+        return "DEFER"
+    return "FAIL_CLOSED"
+
+
+def provider_status(provider: str, provider_outputs: dict[str, str], candidates: list[dict[str, Any]]) -> str:
+    path = Path(provider_outputs.get(provider, ""))
+    provider_candidates = [c for c in candidates if c.get("provider") == provider]
+    if not path.exists():
+        return "missing artifact"
+    if provider_candidates:
+        return f"{len(provider_candidates)} candidate packet(s)"
+    return "artifact present, no candidate packet"
+
+
+def next_action_for(report: dict[str, Any]) -> str:
+    decision = report.get("decision")
+    if decision == "CANDIDATE_APPLIED_AFTER_SANDBOX_AND_GATE":
+        return "Review committed files and advance to the next governed milestone."
+    if decision == "CANDIDATE_SANDBOXED_GATE_DEFERRED":
+        return "No rerun needed. Resolve/implement the M11 Triad binding gate if real auto-apply is now desired."
+    if decision == "CANDIDATE_SANDBOXED_GATE_ALLOWED_NOT_APPLIED":
+        return "Rerun with --apply-if-gate-allows only when binding is intentionally allowed."
+    if decision == "FAIL_CLOSED_NO_ACTIONABLE_CANDIDATE":
+        return "Update task.md to require one fenced JSON candidate packet with schema stegverse.candidate_patch.v1."
+    if decision == "FAIL_CLOSED_NO_PASSING_CANDIDATE":
+        return "Read this file only, then adjust task.md or candidate constraints; no artifact scavenging required."
+    return "Investigate adapter_candidate_sandbox_report.json if this summary is insufficient."
+
+
+def write_human_result(report: dict[str, Any]) -> None:
+    HUMAN_RESULT_PATH.parent.mkdir(parents=True, exist_ok=True)
+
+    candidates = report.get("candidates", [])
+    provider_outputs = report.get("provider_outputs", {})
+    selected = report.get("selected_candidate_id") or "none"
+    topline = classify_topline(report)
+
+    candidate_packet_status = "none"
+    if candidates:
+        accepted = [c for c in candidates if c.get("valid_packet")]
+        candidate_packet_status = f"{len(accepted)} valid / {len(candidates)} total"
+
+    sandbox_pass = [c for c in candidates if c.get("decision") in {"SANDBOX_PASS_GATE_ALLOW", "SANDBOX_PASS_GATE_DEFER"}]
+    sandbox_status = "pass" if sandbox_pass else ("not reached" if not candidates else "failed/denied")
+
+    gate_status = "not reached"
+    if sandbox_pass:
+        gate_status = sandbox_pass[0].get("m11_gate", {}).get("binding_decision") or "unknown"
+
+    body = f"""# SV002 Automation Proof Result
+
+## Result
+
+```text
+{topline}
+```
+
+## Final decision
+
+```text
+{report.get("decision")}
+```
+
+## One-paragraph explanation
+
+The existing adapter path ran provider outputs through the candidate sandbox executor. OpenAI status: {provider_status("openai", provider_outputs, candidates)}. Claude status: {provider_status("claude", provider_outputs, candidates)}. Candidate packet status: {candidate_packet_status}. Sandbox status: {sandbox_status}. M11 binding gate status: {gate_status}. Selected candidate: {selected}.
+
+## Next action
+
+```text
+{next_action_for(report)}
+```
+
+## Compact status table
+
+| Field | Value |
+|---|---|
+| route | existing core-lite-intake adapter path |
+| OpenAI | {provider_status("openai", provider_outputs, candidates)} |
+| Claude | {provider_status("claude", provider_outputs, candidates)} |
+| candidate packets | {candidate_packet_status} |
+| sandbox | {sandbox_status} |
+| M11 binding gate | {gate_status} |
+| selected candidate | {selected} |
+| applied files | {", ".join(report.get("applied_files", [])) or "none"} |
+| detailed report | `{REPORT_PATH}` |
+| receipt | `{RECEIPT_PATH}` |
+
+## Candidate details
+
+"""
+    if not candidates:
+        body += "- No candidate packets were found.\n"
+    else:
+        for c in candidates:
+            body += f"- `{c.get('candidate_id')}` from `{c.get('provider')}` → `{c.get('decision')}`\n"
+            for e in c.get("errors", []):
+                body += f"  - error: `{e}`\n"
+
+    HUMAN_RESULT_PATH.write_text(body, encoding="utf-8")
+
+
 def write_outputs(report: dict[str, Any]) -> None:
     REPORT_PATH.parent.mkdir(parents=True, exist_ok=True)
     OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
     ARTIFACT_PATH.parent.mkdir(parents=True, exist_ok=True)
+
+    write_human_result(report)
 
     receipt_hash = append_receipt(report)
     report["receipt_hash"] = receipt_hash
@@ -343,6 +461,7 @@ def write_outputs(report: dict[str, Any]) -> None:
         "# Adapter Candidate Sandbox Executor",
         "",
         f"**Decision:** `{report['decision']}`",
+        f"**Human result:** `{HUMAN_RESULT_PATH}`",
         f"**Selected candidate:** `{report.get('selected_candidate_id') or 'none'}`",
         f"**Applied files:** `{', '.join(report.get('applied_files', [])) or 'none'}`",
         f"**Receipt hash:** `{receipt_hash}`",
@@ -359,7 +478,7 @@ def write_outputs(report: dict[str, Any]) -> None:
     OUTPUT_PATH.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
     with zipfile.ZipFile(ARTIFACT_PATH, "w", zipfile.ZIP_DEFLATED) as zf:
-        for path in [REPORT_PATH, RECEIPT_PATH, OUTPUT_PATH]:
+        for path in [REPORT_PATH, RECEIPT_PATH, OUTPUT_PATH, HUMAN_RESULT_PATH]:
             if path.exists():
                 zf.write(path, path.as_posix())
 
@@ -414,12 +533,14 @@ def main(argv: list[str] | None = None) -> int:
         "selected_candidate_id": selected.get("candidate_id") if selected else None,
         "applied_files": applied_files,
         "provider_outputs": {k: str(v) for k, v in provider_outputs.items()},
+        "human_result": str(HUMAN_RESULT_PATH),
         "candidates": tested,
         "governance": {
             "provider_outputs_are_candidate_evidence_only": True,
             "sandbox_required_before_apply_gate": True,
             "m11_gate_required_before_binding": True,
             "no_manual_bundle_transport_required": True,
+            "single_human_result_surface": True,
             "default_fail_closed": True,
         },
     }
