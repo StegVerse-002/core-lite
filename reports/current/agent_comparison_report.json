@@ -1,7 +1,7 @@
 {
   "schema": "stegverse.agent_comparison_report.v1",
   "version": "0.1.2-gllm",
-  "timestamp": "2026-05-28T02:39:39.194393+00:00",
+  "timestamp": "2026-05-28T13:47:25.558738+00:00",
   "decision": "REVIEW_REQUIRED",
   "basis": "Provider outputs mention broad/unilateral authority; human review required even if framed as denied.",
   "providers": {
@@ -9,17 +9,27 @@
       "provider": "openai",
       "output_path": "outputs/chatgpt_response.md",
       "exists": true,
-      "sha256": "sha256:1d710a345df5b9a69c7883038fdf54286342bd0302558f2aff4b1e8e1b837461",
-      "bytes": 2551,
+      "sha256": "sha256:ac2030e0d4e7283d6c929c200bfd1733c62884be21216c4f921eecb2fbf7a1fc",
+      "bytes": 3836,
       "mentioned_paths": [
-        ".github/workflows/core-lite-intake.yml",
-        "dist/run_artifacts/stegverse-governed-output.zip",
-        "outputs/stegverse_output.json",
-        "outputs/stegverse_output.md",
-        "receipts/current/stegverse_output_receipt.jsonl",
-        "reports/current/stegverse_output_report.json"
+        "SV002_M11_GOVERNED_APPLY_REVIEW_BOUNDARY.md",
+        "docs/SV002_M11_GOVERNED_APPLY_REVIEW_BOUNDARY.md",
+        "examples/stegverse_apply_request.example.json",
+        "receipts/current/stegverse_apply_review_receipt.jsonl",
+        "reports/current/stegverse_apply_review_report.json",
+        "review_stegverse_apply_request.py",
+        "schemas/stegverse_apply_request.schema.json",
+        "schemas/stegverse_apply_result.schema.json",
+        "scripts/review_stegverse_apply_request.py",
+        "stegverse_apply_request.schema.json",
+        "stegverse_apply_result.schema.json",
+        "stegverse_output_receipt.jsonl",
+        "stegverse_output_report.json",
+        "tools/tasks/task_catalog.json"
       ],
-      "mentioned_risk_terms": [],
+      "mentioned_risk_terms": [
+        "broad authority"
+      ],
       "required_sections_present": {
         "Current State Assessment": true,
         "Directive Alignment": true,
@@ -35,14 +45,10 @@
       "provider": "claude",
       "output_path": "outputs/claude_response.md",
       "exists": true,
-      "sha256": "sha256:0b3ed643b29fdcb30ef29d4ceb92f85d5a2ac30a05307d7bf407ff41b0a52511",
-      "bytes": 2081,
+      "sha256": "sha256:aa45f11aa626ab5e5ffc2572b253bea26beed0bf2a4564d2ca2bdc548cfc40ae",
+      "bytes": 961,
       "mentioned_paths": [
-        ".github/workflows/core-lite-intake.yml",
-        "outputs/ reports/current/ receipts/current/ dist/ tracking/ agent_history/",
-        "outputs/claude_response.md",
-        "python -m tools.scripts.task_dispatcher --task-id \u2026 --task-catalog tools/tasks/task_catalog.json --entity \"${STEGVERSE_ENTITY}\" --stage \"${STAGE}\"",
-        "reports/current/"
+        "outputs/claude_response.md"
       ],
       "mentioned_risk_terms": [
         "broad authority"
@@ -60,10 +66,8 @@
     }
   },
   "analysis": {
-    "path_overlap_ratio": 0.1,
-    "high_risk_paths": [
-      ".github/workflows/core-lite-intake.yml"
-    ],
+    "path_overlap_ratio": 0.0,
+    "high_risk_paths": [],
     "risk_terms": [
       "broad authority"
     ],
