@@ -91,14 +91,8 @@
           "description": "Path to the ALLOW_CANDIDATE_REVIEW receipt from the prior review run",
           "required": true
         },
-        "entity": {
-          "type": "string",
-          "required": true
-        },
-        "stage": {
-          "type": "string",
-          "required": true
-        }
+        "entity": { "type": "string", "required": true },
+        "stage": { "type": "string", "required": true }
       },
       "expected_outputs": [
         "reports/current/candidate_bundle_apply_report.json",
@@ -120,6 +114,61 @@
         "default_deny": true
       },
       "notes": "Declared but not implemented. Do not invoke until M11 implementation is complete."
+    },
+    {
+      "task_id": "stegverse.apply.gate",
+      "stage": "SV002-M11",
+      "description": "Governed apply/review gate. Evaluates an apply request against Triad-enforced admissibility before any execution. Emits a structured review decision and receipt. ALLOW proceeds. DENY and DEFER halt.",
+      "capability": "governed_apply_review_boundary",
+      "transition_class": "tooling",
+      "authority": "gate_only",
+      "entry_point": "scripts/stegverse_apply_gate.py",
+      "inputs": {
+        "request": {
+          "type": "file_path",
+          "description": "Path to apply_request.json",
+          "required": true
+        },
+        "entity": { "type": "string", "required": true },
+        "stage": { "type": "string", "required": true },
+        "report": {
+          "type": "file_path",
+          "required": false,
+          "default": "reports/current/stegverse_apply_review_report.json"
+        },
+        "receipt": {
+          "type": "file_path",
+          "required": false,
+          "default": "receipts/current/stegverse_apply_review_receipt.jsonl"
+        },
+        "output": {
+          "type": "file_path",
+          "required": false,
+          "default": "outputs/stegverse_apply_review.md"
+        }
+      },
+      "expected_outputs": [
+        "outputs/stegverse_apply_review.md",
+        "reports/current/stegverse_apply_review_report.json",
+        "receipts/current/stegverse_apply_review_receipt.jsonl",
+        "dist/run_artifacts/stegverse-apply-review.zip"
+      ],
+      "decision_set": ["ALLOW", "DENY", "DEFER"],
+      "stop_condition": "Decision emitted and receipt written before any apply execution",
+      "triad_checks": {
+        "gcat_bcat": "stubbed — returns False for broad authority, None otherwise",
+        "ecat_icat": "stubbed — returns False if entity/requester missing, None otherwise",
+        "existence": "stubbed — returns None for create/update, None for delete (defers)"
+      },
+      "governance": {
+        "no_broad_authority": true,
+        "no_root_readme_overwrite": true,
+        "no_workflow_changes": true,
+        "default_deny": true,
+        "receipt_before_execution": true,
+        "dry_run_bypasses_triad_defer": true
+      },
+      "notes": "M11 apply gate. dry_run=true allows ALLOW even with unresolved Triad. dry_run=false with unresolved Triad produces DEFER."
     }
   ]
 }

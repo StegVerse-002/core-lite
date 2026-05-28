@@ -2,66 +2,66 @@
   "schema": "stegverse.bundle_ingest_report.v1",
   "entity": "StegVerse-002",
   "stage": "SV002-M01",
-  "input_path": "incoming/sv002 m10 5 builder decoupled triad enforced candidate intake bundle.zip",
-  "started": "2026-05-28T17:33:30.638152+00:00",
+  "input_path": "incoming/sv002 m11 governed apply review boundary bundle.zip",
+  "started": "2026-05-28T18:45:27.376266+00:00",
   "dry_run": false,
   "status": "success",
   "decision": "ALLOW",
   "installed": [
     {
-      "path": "docs/SV002_M10_5_BUILDER_DECOUPLED_TRIAD_ENFORCED_CONSTRUCTION.md",
-      "sha256": "f5054ef03b248d805a58d496644184f201a6ac75755d883f291c686f5edd3049",
-      "bytes": 3316,
+      "path": "docs/SV002_M11_GOVERNED_APPLY_REVIEW_BOUNDARY.md",
+      "sha256": "e699fd6baed2579212de2200491ff31c6972bcb574be3b15cf93ec68c01f8dae",
+      "bytes": 2350,
       "dry_run": false
     },
     {
-      "path": "examples/candidate_bundle_ref.example.json",
-      "sha256": "63c991c51bc8734273845985b7b8503286cad76d6a772ccb39cfeb0019ed9171",
-      "bytes": 834,
+      "path": "examples/apply_request.example.json",
+      "sha256": "0119e2f95c64ef01652bd72463ab7d2c334f9877f1482d2e672a86e670fa0cfa",
+      "bytes": 709,
       "dry_run": false
     },
     {
-      "path": "schemas/candidate_bundle_ref.schema.json",
-      "sha256": "32836ad81667c929de2c90d016d19ac5cf446403264ea22b34e8c36e2a61f4ac",
-      "bytes": 2452,
+      "path": "schemas/apply_request.schema.json",
+      "sha256": "a63c16526f17fdfa8ef443368c4728d130f4e991320971d91afbeb35daf9d52f",
+      "bytes": 2444,
       "dry_run": false
     },
     {
-      "path": "schemas/candidate_transition_review.schema.json",
-      "sha256": "869c646530b61eef31f801e6fb026115ed17b0a309679a9c18936d437e2ef67b",
-      "bytes": 2968,
+      "path": "schemas/apply_review.schema.json",
+      "sha256": "68569e7fc2f7cbcbf9c408f0f30239c920ab987f963022feebbf3f1ec05dc136",
+      "bytes": 2472,
       "dry_run": false
     },
     {
-      "path": "scripts/candidate_bundle_review.py",
-      "sha256": "6767d0f349d124303687afbdb3316a0cd5dcf12c5d59f29f8ac1e5dfa2576ddc",
-      "bytes": 19189,
+      "path": "scripts/stegverse_apply_gate.py",
+      "sha256": "979b170f2c6ad20b2fdfe2d8acd2589b90cdd96952dcfbdb4aa47be370179e41",
+      "bytes": 15758,
       "dry_run": false
     },
     {
-      "path": "tests/test_candidate_bundle_review.py",
-      "sha256": "3c0bd0621e8426ae5940716e434959f8d1e4de2b89ea546c0f257db4442563b1",
-      "bytes": 10549,
+      "path": "tests/test_stegverse_apply_gate.py",
+      "sha256": "b1ce6401252f52aa50aa22e1a60b9fe50cf860982bb9e040ad2e5fc99bca8b97",
+      "bytes": 9480,
       "dry_run": false
     },
     {
       "path": "tools/tasks/task_catalog.json",
-      "sha256": "776af5220cb78b72e7115ddd6bdbea2311053008ee7ecf28ff2588dfbeb54249",
-      "bytes": 4498,
+      "sha256": "7c272a7c9a3b340bbb8dabb1147b0bfe221fded62c58958cd5d4049aac69af05",
+      "bytes": 6807,
       "dry_run": false
     }
   ],
   "rejected": [],
   "errors": [],
-  "bundle_name": "StegVerse-002 Core-Lite M10.5 Builder-Decoupled Triad-Enforced Construction Bundle",
-  "manifest_path": "/tmp/tmpi7a_hl5j/bundle/bundle_manifest.json",
+  "bundle_name": "StegVerse-002 Core-Lite M11 Governed Apply Review Boundary Bundle",
+  "manifest_path": "/tmp/tmphw297ii9/bundle/bundle_manifest.json",
   "manifest": {
     "schema": "stegverse.bundle_manifest.v1",
-    "bundle_id": "sv002.core-lite.m10-5-builder-decoupled-triad-enforced.v1",
-    "bundle_name": "StegVerse-002 Core-Lite M10.5 Builder-Decoupled Triad-Enforced Construction Bundle",
-    "capability": "candidate_bundle_review",
+    "bundle_id": "sv002.core-lite.m11-governed-apply-review-boundary.v1",
+    "bundle_name": "StegVerse-002 Core-Lite M11 Governed Apply Review Boundary Bundle",
+    "capability": "governed_apply_review_boundary",
     "created_utc": "2026-05-28T00:00:00+00:00",
-    "description": "Installs M10.5 candidate bundle review: schemas, scripts, tests, task catalog entries, docs, and example. Does not install apply authority.",
+    "description": "Installs the M11 apply/review boundary: gate script, schemas, tests, task catalog entries, docs, and example request. Does not grant broad apply authority.",
     "allow_root_readme": false,
     "allow_workflows": false,
     "allowed_paths": [
@@ -73,66 +73,67 @@
       "tools/"
     ],
     "expected_outputs": [
-      "reports/current/candidate_bundle_review_report.json",
-      "receipts/current/candidate_bundle_review_receipt.jsonl",
-      "outputs/candidate_bundle_review.md"
+      "outputs/stegverse_apply_review.md",
+      "reports/current/stegverse_apply_review_report.json",
+      "receipts/current/stegverse_apply_review_receipt.jsonl",
+      "dist/run_artifacts/stegverse-apply-review.zip"
     ],
     "files": [
       {
-        "path": "docs/SV002_M10_5_BUILDER_DECOUPLED_TRIAD_ENFORCED_CONSTRUCTION.md",
-        "sha256": "sha256:f5054ef03b248d805a58d496644184f201a6ac75755d883f291c686f5edd3049",
-        "bytes": 3316,
+        "path": "docs/SV002_M11_GOVERNED_APPLY_REVIEW_BOUNDARY.md",
+        "sha256": "sha256:e699fd6baed2579212de2200491ff31c6972bcb574be3b15cf93ec68c01f8dae",
+        "bytes": 2350,
         "required": true,
         "mode": "100644"
       },
       {
-        "path": "examples/candidate_bundle_ref.example.json",
-        "sha256": "sha256:63c991c51bc8734273845985b7b8503286cad76d6a772ccb39cfeb0019ed9171",
-        "bytes": 834,
+        "path": "examples/apply_request.example.json",
+        "sha256": "sha256:0119e2f95c64ef01652bd72463ab7d2c334f9877f1482d2e672a86e670fa0cfa",
+        "bytes": 709,
         "required": true,
         "mode": "100644"
       },
       {
-        "path": "schemas/candidate_bundle_ref.schema.json",
-        "sha256": "sha256:32836ad81667c929de2c90d016d19ac5cf446403264ea22b34e8c36e2a61f4ac",
-        "bytes": 2452,
+        "path": "schemas/apply_request.schema.json",
+        "sha256": "sha256:a63c16526f17fdfa8ef443368c4728d130f4e991320971d91afbeb35daf9d52f",
+        "bytes": 2444,
         "required": true,
         "mode": "100644"
       },
       {
-        "path": "schemas/candidate_transition_review.schema.json",
-        "sha256": "sha256:869c646530b61eef31f801e6fb026115ed17b0a309679a9c18936d437e2ef67b",
-        "bytes": 2968,
+        "path": "schemas/apply_review.schema.json",
+        "sha256": "sha256:68569e7fc2f7cbcbf9c408f0f30239c920ab987f963022feebbf3f1ec05dc136",
+        "bytes": 2472,
         "required": true,
         "mode": "100644"
       },
       {
-        "path": "scripts/candidate_bundle_review.py",
-        "sha256": "sha256:6767d0f349d124303687afbdb3316a0cd5dcf12c5d59f29f8ac1e5dfa2576ddc",
-        "bytes": 19189,
+        "path": "scripts/stegverse_apply_gate.py",
+        "sha256": "sha256:979b170f2c6ad20b2fdfe2d8acd2589b90cdd96952dcfbdb4aa47be370179e41",
+        "bytes": 15758,
         "required": true,
         "mode": "100644"
       },
       {
-        "path": "tests/test_candidate_bundle_review.py",
-        "sha256": "sha256:3c0bd0621e8426ae5940716e434959f8d1e4de2b89ea546c0f257db4442563b1",
-        "bytes": 10549,
+        "path": "tests/test_stegverse_apply_gate.py",
+        "sha256": "sha256:b1ce6401252f52aa50aa22e1a60b9fe50cf860982bb9e040ad2e5fc99bca8b97",
+        "bytes": 9480,
         "required": true,
         "mode": "100644"
       },
       {
         "path": "tools/tasks/task_catalog.json",
-        "sha256": "sha256:776af5220cb78b72e7115ddd6bdbea2311053008ee7ecf28ff2588dfbeb54249",
-        "bytes": 4498,
+        "sha256": "sha256:7c272a7c9a3b340bbb8dabb1147b0bfe221fded62c58958cd5d4049aac69af05",
+        "bytes": 6807,
         "required": true,
         "mode": "100644"
       }
     ]
   },
   "basis": "Bundle validated and processed.",
-  "completed": "2026-05-28T17:33:30.642982+00:00",
+  "completed": "2026-05-28T18:45:27.381381+00:00",
   "receipt": {
-    "receipt_hash": "sha256:77be98aae59d83437915af9ba2d55f5855e0ce7638b7b551ed6806b58762ccd0",
+    "receipt_hash": "sha256:ff3319b494bbfc845d5a081475cd9c8c6c78b67004c891c9aa65d31e0d411e26",
     "receipt_path": "receipts/current/ingestion_receipt.jsonl"
   }
 }

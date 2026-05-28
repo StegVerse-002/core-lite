@@ -1,0 +1,92 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "StegVerse Apply Request",
+  "description": "A request to apply a governed transition. Evaluated by the apply gate before any execution.",
+  "type": "object",
+  "required": [
+    "schema",
+    "request_id",
+    "entity",
+    "stage",
+    "capability",
+    "requester",
+    "transition_class",
+    "authority_ref",
+    "policy_ref"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "stegverse.apply_request.v1"
+    },
+    "request_id": {
+      "type": "string",
+      "description": "Unique identifier for this apply request",
+      "minLength": 1
+    },
+    "entity": {
+      "type": "string",
+      "description": "StegVerse entity submitting the request",
+      "minLength": 1
+    },
+    "stage": {
+      "type": "string",
+      "description": "Current governed stage",
+      "pattern": "^SV002-M[0-9]+(\\.[0-9]+)?$"
+    },
+    "capability": {
+      "type": "string",
+      "description": "The capability being applied",
+      "minLength": 1
+    },
+    "requester": {
+      "type": "string",
+      "description": "Identity of the requester — informational only, does not grant authority",
+      "minLength": 1
+    },
+    "transition_class": {
+      "type": "string",
+      "enum": ["tooling", "schema", "policy", "governance", "repair", "documentation"],
+      "description": "Class of transition being applied"
+    },
+    "authority_ref": {
+      "type": "string",
+      "description": "Scoped authority reference — must not be broad",
+      "minLength": 1
+    },
+    "policy_ref": {
+      "type": "string",
+      "description": "Policy reference governing this apply",
+      "minLength": 1
+    },
+    "target_files": {
+      "type": "array",
+      "description": "Files this apply intends to modify or create",
+      "items": {
+        "type": "object",
+        "required": ["path", "operation"],
+        "properties": {
+          "path": { "type": "string" },
+          "operation": {
+            "type": "string",
+            "enum": ["create", "update", "delete"]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "dry_run": {
+      "type": "boolean",
+      "description": "If true, evaluate but do not execute",
+      "default": false
+    },
+    "created_utc": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "notes": {
+      "type": "string"
+    }
+  }
+}

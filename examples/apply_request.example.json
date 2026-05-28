@@ -1,0 +1,24 @@
+{
+  "schema": "stegverse.apply_request.v1",
+  "request_id": "sv002.m11.apply.example.v1",
+  "entity": "StegVerse-002",
+  "stage": "SV002-M11",
+  "capability": "governed_apply_review_boundary",
+  "requester": "Rigel",
+  "transition_class": "tooling",
+  "authority_ref": "SV002-M11/apply-review-gate-only",
+  "policy_ref": "triad/default-deny/no-broad-authority",
+  "target_files": [
+    {
+      "path": "scripts/stegverse_apply_gate.py",
+      "operation": "create"
+    },
+    {
+      "path": "schemas/apply_request.schema.json",
+      "operation": "create"
+    }
+  ],
+  "dry_run": false,
+  "created_utc": "2026-05-28T00:00:00+00:00",
+  "notes": "Example only. Demonstrates a valid apply request structure."
+}

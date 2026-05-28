@@ -1,0 +1,79 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "StegVerse Apply Review Decision",
+  "description": "Output record from the apply gate. Emitted before any apply execution.",
+  "type": "object",
+  "required": [
+    "schema",
+    "entity",
+    "stage",
+    "request_id",
+    "capability",
+    "requester",
+    "started",
+    "completed",
+    "decision",
+    "checks",
+    "errors",
+    "receipt"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "stegverse.apply_review.v1"
+    },
+    "entity": { "type": "string" },
+    "stage": { "type": "string" },
+    "request_id": { "type": "string" },
+    "capability": { "type": "string" },
+    "requester": { "type": "string" },
+    "transition_class": { "type": "string" },
+    "dry_run": { "type": "boolean" },
+    "started": { "type": "string", "format": "date-time" },
+    "completed": { "type": "string", "format": "date-time" },
+    "decision": {
+      "type": "string",
+      "enum": ["ALLOW", "DENY", "DEFER"]
+    },
+    "checks": {
+      "type": "object",
+      "properties": {
+        "request_schema_valid":      { "type": "boolean" },
+        "entity_declared":           { "type": "boolean" },
+        "stage_valid":               { "type": "boolean" },
+        "capability_declared":       { "type": "boolean" },
+        "transition_class_allowed":  { "type": "boolean" },
+        "authority_ref_scoped":      { "type": "boolean" },
+        "policy_ref_present":        { "type": "boolean" },
+        "no_broad_authority":        { "type": "boolean" },
+        "target_paths_allowed":      { "type": "boolean" },
+        "gcat_bcat_admissible":      { "type": ["boolean", "null"] },
+        "ecat_icat_coherent":        { "type": ["boolean", "null"] },
+        "existence_recoverable":     { "type": ["boolean", "null"] }
+      },
+      "additionalProperties": false
+    },
+    "errors": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "warnings": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "deny_reason": {
+      "type": "string",
+      "description": "Human-readable explanation when decision is DENY or DEFER"
+    },
+    "receipt": {
+      "type": "object",
+      "required": ["receipt_hash", "receipt_path"],
+      "properties": {
+        "receipt_hash": { "type": "string" },
+        "receipt_path": { "type": "string" }
+      },
+      "additionalProperties": false
+    }
+  }
+}
