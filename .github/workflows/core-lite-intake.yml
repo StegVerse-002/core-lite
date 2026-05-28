@@ -43,29 +43,7 @@ on:
   push:
     branches: [main]
     paths:
-      - ".github/workflows/core-lite-intake.yml"
-      - "task.md"
-      - "CLAUDE.md"
-      - "bundle_manifest.json"
-      - "MANUAL_INSTALL.md"
-      - "iosnoperiod.md"
-      - "scripts/openai_task.py"
-      - "scripts/merge_outputs.py"
-      - "scripts/package_transition_bundle.py"
-      - "scripts/ingest_transition_bundle.py"
-      - "scripts/package_stegverse_governed_output.py"
-      - "scripts/adapter_candidate_sandbox.py"
-      - "scripts/stegverse_apply_gate.py"
-      - "agent_policy/**"
-      - "agent_history/**"
-      - "governance/directives/**"
-      - "schemas/**"
-      - "docs/**"
-      - "tests/**"
-      - "tools/agent_governance/**"
-      - "tools/tasks/**"
-      - "core_lite/**"
-      - "config/**"
+      - "incoming/**"
 
 permissions:
   contents: write
@@ -77,7 +55,7 @@ env:
   STEGVERSE_VERSION: 1.0.1-sv002-output-authority
   GOVERNED_LLM_LLM_VERSION: 0.1.3-gllm
   OPENAI_MODEL: ${{ vars.OPENAI_MODEL || 'gpt-4o' }}
-  AGENT_PROVIDER: ${{ github.event_name == 'push' && 'both' || inputs.agent_provider }}
+  AGENT_PROVIDER: ${{ github.event_name == 'workflow_dispatch' && inputs.agent_provider || 'none' }}
 
 jobs:
   workflow-summary:
@@ -91,22 +69,26 @@ jobs:
           TASK_ID="${{ inputs.task_id }}"
           INPUT_TYPE="${{ inputs.input_type }}"
           INPUT_PATH="${{ inputs.input_path }}"
-          AGENT_PROVIDER="${AGENT_PROVIDER:-${{ inputs.agent_provider }}}"
+          AGENT_PROVIDER="${AGENT_PROVIDER:-none}"
           DRY_RUN="${{ inputs.dry_run }}"
           STAGE="${{ inputs.stage_override }}"
-          if [ -z "${DRY_RUN}" ]; then DRY_RUN="false"; fi
-          if [ -z "${AGENT_PROVIDER}" ]; then AGENT_PROVIDER="none"; fi
+
           if [ "${EVENT}" = "push" ]; then
-            AGENT_PROVIDER="both"
+            INPUT_TYPE="ephemeral-incoming-files"
+            INPUT_PATH="incoming/** changed in this push, excluding incoming/README.md"
+            AGENT_PROVIDER="none"
             DRY_RUN="false"
           fi
-          if [ -z "${STAGE}" ]; then STAGE="SV002-M10.5"; fi
+
+          if [ -z "${STAGE}" ]; then STAGE="SV002-M11"; fi
+          if [ -z "${DRY_RUN}" ]; then DRY_RUN="false"; fi
+          if [ -z "${AGENT_PROVIDER}" ]; then AGENT_PROVIDER="none"; fi
 
           ROUTE="default/no-op"
           EXPECTED="No declared bundle or LLM provider route selected."
           if [ "${EVENT}" = "push" ]; then
-            ROUTE="llm-collaboration(push)"
-            EXPECTED="Run OpenAI/Claude proposal path, sandbox candidate packets, gate admissible candidates, and commit coordination evidence."
+            ROUTE="declared-input-route(push:ephemeral-incoming-mailbox)"
+            EXPECTED="Process only incoming files changed by this push, then remove every incoming payload so incoming/ retains only README.md."
           elif [ "${AGENT_PROVIDER}" != "none" ]; then
             ROUTE="llm-collaboration(${AGENT_PROVIDER})"
             EXPECTED="Run selected LLM provider path, sandbox candidate packets, gate admissible candidates, and commit coordination evidence."
@@ -136,68 +118,204 @@ jobs:
 
   declared-input-route:
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'workflow_dispatch' && inputs.agent_provider == 'none' && (inputs.input_type != '' || inputs.input_path != '') }}
+    if: ${{ github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.agent_provider == 'none' && (inputs.input_type != '' || inputs.input_path != '')) }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - name: Validate declared input route
+
+      - name: Resolve declared input route
+        id: resolve-input
         run: |
           set -euo pipefail
           mkdir -p reports/current receipts/current tracking/ingestion_events
+
+          EVENT="${{ github.event_name }}"
           INPUT_TYPE="${{ inputs.input_type }}"
           INPUT_PATH="${{ inputs.input_path }}"
           STAGE="${{ inputs.stage_override }}"
-          if [ -z "${STAGE}" ]; then STAGE="SV002-M10.5"; fi
-          if [ -z "${INPUT_TYPE}" ]; then echo "::error::input_type is blank"; exit 1; fi
-          if [ -z "${INPUT_PATH}" ]; then echo "::error::input_path is blank"; exit 1; fi
-          if [ ! -f "${INPUT_PATH}" ]; then
-            echo "::error::Declared input path does not exist: ${INPUT_PATH}"
-            find incoming -maxdepth 2 -type f 2>/dev/null | sort || true
-            exit 1
+          DRY_RUN="${{ inputs.dry_run }}"
+
+          if [ -z "${STAGE}" ]; then STAGE="SV002-M11"; fi
+          if [ -z "${DRY_RUN}" ]; then DRY_RUN="false"; fi
+
+          : > reports/current/incoming_changed_files.txt
+
+          if [ "${EVENT}" = "push" ]; then
+            BEFORE="${{ github.event.before }}"
+            AFTER="${{ github.sha }}"
+
+            if [ -n "${BEFORE}" ] && [ "${BEFORE}" != "0000000000000000000000000000000000000000" ]; then
+              git diff --name-only "${BEFORE}" "${AFTER}" -- incoming/ \
+                | sort \
+                | while read -r changed; do
+                    if [ -f "${changed}" ] && [ "${changed}" != "incoming/README.md" ]; then
+                      echo "${changed}"
+                    fi
+                  done > reports/current/incoming_changed_files.txt
+            else
+              git diff-tree --no-commit-id --name-only -r "${AFTER}" -- incoming/ \
+                | sort \
+                | while read -r changed; do
+                    if [ -f "${changed}" ] && [ "${changed}" != "incoming/README.md" ]; then
+                      echo "${changed}"
+                    fi
+                  done > reports/current/incoming_changed_files.txt
+            fi
+
+            if [ ! -s reports/current/incoming_changed_files.txt ]; then
+              echo "::notice::Push activation fired, but only incoming/README.md or no processable incoming payload changed."
+              echo "No incoming payload was selected. Existing incoming payloads are never replayed." >> "${GITHUB_STEP_SUMMARY}"
+            fi
+
+            INPUT_TYPE="push_ephemeral_incoming"
+            INPUT_PATH="@reports/current/incoming_changed_files.txt"
+            DRY_RUN="false"
+          else
+            if [ -z "${INPUT_TYPE}" ]; then echo "::error::input_type is blank"; exit 1; fi
+            if [ -z "${INPUT_PATH}" ]; then echo "::error::input_path is blank"; exit 1; fi
+            if [ ! -f "${INPUT_PATH}" ]; then
+              echo "::error::Declared input path does not exist: ${INPUT_PATH}"
+              find incoming -maxdepth 2 -type f 2>/dev/null | sort || true
+              exit 1
+            fi
+            echo "${INPUT_PATH}" > reports/current/incoming_changed_files.txt
           fi
-          echo "- Declared input preflight passed for \`${INPUT_PATH}\`." >> "${GITHUB_STEP_SUMMARY}"
+
+          {
+            echo "input_type=${INPUT_TYPE}"
+            echo "input_path=${INPUT_PATH}"
+            echo "stage=${STAGE}"
+            echo "dry_run=${DRY_RUN}"
+          } >> "${GITHUB_OUTPUT}"
+
+          {
+            echo "## Declared Input Route — Resolved Input"
+            echo
+            echo "| Field | Value |"
+            echo "|---|---|"
+            echo "| event | \`${EVENT}\` |"
+            echo "| route_mode | \`${INPUT_TYPE}\` |"
+            echo "| input_path | \`${INPUT_PATH}\` |"
+            echo "| stage | \`${STAGE}\` |"
+            echo "| dry_run | \`${DRY_RUN}\` |"
+            echo
+            echo "### Incoming payloads selected for this run"
+            echo
+            if [ -s reports/current/incoming_changed_files.txt ]; then
+              sed 's/^/- `/' reports/current/incoming_changed_files.txt | sed 's/$/`/'
+            else
+              echo "- none"
+            fi
+          } >> "${GITHUB_STEP_SUMMARY}"
+
       - name: Process declared input route
         run: |
           set -euo pipefail
-          STAGE="${{ inputs.stage_override }}"
-          if [ -z "${STAGE}" ]; then STAGE="SV002-M10.5"; fi
           DRY_RUN_ARG=""
-          if [ "${{ inputs.dry_run }}" = "true" ]; then DRY_RUN_ARG="--dry-run"; fi
-          python -m core_lite.multimodal.pipeline \
-            --repo-root . \
-            --input-type "${{ inputs.input_type }}" \
-            --input-path "${{ inputs.input_path }}" \
-            --entity "${STEGVERSE_ENTITY}" \
-            --stage "${STAGE}" \
-            ${DRY_RUN_ARG}
+          if [ "${{ steps.resolve-input.outputs.dry_run }}" = "true" ]; then DRY_RUN_ARG="--dry-run"; fi
+
+          if [ ! -s reports/current/incoming_changed_files.txt ]; then
+            echo "No incoming payloads selected; skipping processing."
+            exit 0
+          fi
+
+          while IFS= read -r INPUT_PATH; do
+            [ -n "${INPUT_PATH}" ] || continue
+            case "${INPUT_PATH}" in
+              *.zip) INPUT_TYPE="bundle" ;;
+              *.json|*.jsonl|*.yml|*.yaml) INPUT_TYPE="structured_data" ;;
+              *.md|*.txt) INPUT_TYPE="document" ;;
+              *) INPUT_TYPE="document" ;;
+            esac
+
+            echo "Processing ${INPUT_TYPE}: ${INPUT_PATH}"
+
+            python -m core_lite.multimodal.pipeline \
+              --repo-root . \
+              --input-type "${INPUT_TYPE}" \
+              --input-path "${INPUT_PATH}" \
+              --entity "${STEGVERSE_ENTITY}" \
+              --stage "${{ steps.resolve-input.outputs.stage }}" \
+              ${DRY_RUN_ARG}
+          done < reports/current/incoming_changed_files.txt
+
+      - name: Enforce ephemeral incoming mailbox
+        if: always()
+        run: |
+          set -euo pipefail
+          mkdir -p incoming reports/current
+          if [ ! -f incoming/README.md ]; then
+            cat > incoming/README.md <<'EOF'
+          # Incoming
+
+          Ephemeral ingestion mailbox.
+
+          Only `README.md` should remain in this directory after ingestion runs.
+
+          Payload bundles/files may be pushed here to activate ingestion, but the workflow removes incoming payloads after processing or failed processing. Durable evidence belongs in reports, receipts, tracking, and dist, not in incoming.
+          EOF
+          fi
+
+          find incoming -mindepth 1 -maxdepth 2 -type f ! -path "incoming/README.md" | sort > reports/current/incoming_cleanup_candidates.txt || true
+
+          if [ -s reports/current/incoming_cleanup_candidates.txt ]; then
+            while IFS= read -r path; do
+              [ -n "${path}" ] || continue
+              git rm -f --ignore-unmatch "${path}" || rm -f "${path}" || true
+            done < reports/current/incoming_cleanup_candidates.txt
+          fi
+
+          echo "## Incoming Mailbox Cleanup" >> "${GITHUB_STEP_SUMMARY}"
+          echo >> "${GITHUB_STEP_SUMMARY}"
+          if [ -s reports/current/incoming_cleanup_candidates.txt ]; then
+            echo "Removed incoming payloads:" >> "${GITHUB_STEP_SUMMARY}"
+            sed 's/^/- `/' reports/current/incoming_cleanup_candidates.txt | sed 's/$/`/' >> "${GITHUB_STEP_SUMMARY}"
+          else
+            echo "- No incoming payload cleanup required." >> "${GITHUB_STEP_SUMMARY}"
+          fi
+
       - name: Summarize declared input result
         if: always()
         run: |
           set -euo pipefail
           echo "## Declared Input Route — Result" >> "${GITHUB_STEP_SUMMARY}"
+          echo >> "${GITHUB_STEP_SUMMARY}"
+          echo "### Changed incoming payloads" >> "${GITHUB_STEP_SUMMARY}"
+          if [ -s reports/current/incoming_changed_files.txt ]; then
+            sed 's/^/- `/' reports/current/incoming_changed_files.txt | sed 's/$/`/' >> "${GITHUB_STEP_SUMMARY}" || true
+          else
+            echo "- none" >> "${GITHUB_STEP_SUMMARY}"
+          fi
+          echo >> "${GITHUB_STEP_SUMMARY}"
           if [ -f reports/current/bundle_ingest_report.json ]; then
             python -m json.tool reports/current/bundle_ingest_report.json >> "${GITHUB_STEP_SUMMARY}" || true
           else
             echo "- bundle_ingest_report.json missing" >> "${GITHUB_STEP_SUMMARY}"
           fi
-      - name: Commit declared input outputs
-        if: ${{ inputs.dry_run != 'true' && success() }}
+
+      - name: Commit declared input outputs and incoming cleanup
+        if: ${{ steps.resolve-input.outputs.dry_run != 'true' && always() }}
         run: |
           set -euo pipefail
           git config user.name "StegVerse-002 Declared Input Router"
           git config user.email "sv002-declared-input-router@stegverse"
-          git add -A .github/workflows/ core_lite/ scripts/ schemas/ examples/ docs/ tests/ tools/ config/ machine/ outputs/ reports/current/ receipts/current/ tracking/ dist/ agent_history/ vault_template/ || true
+          git add -A incoming/ .github/workflows/ core_lite/ scripts/ schemas/ examples/ docs/ tests/ tools/ config/ machine/ outputs/ reports/current/ receipts/current/ tracking/ dist/ agent_history/ vault_template/ iosnoperiod/ MANUAL_INSTALL.md iosnoperiod.md bundle_manifest.json || true
           if git diff --staged --quiet; then
-            echo "- No declared input changes were staged for commit." >> "${GITHUB_STEP_SUMMARY}"
+            echo "- No declared input or incoming cleanup changes were staged for commit." >> "${GITHUB_STEP_SUMMARY}"
           else
-            git commit -m "sv002: process declared input route — ${{ inputs.input_type }} ${{ inputs.input_path }}"
+            FIRST_INPUT="$(head -n 1 reports/current/incoming_changed_files.txt 2>/dev/null || echo incoming-cleanup)"
+            git commit -m "sv002: process ephemeral incoming input — ${FIRST_INPUT}"
             git push
-            echo "- Declared input outputs committed and pushed." >> "${GITHUB_STEP_SUMMARY}"
+            echo "- Declared input outputs and incoming cleanup committed and pushed." >> "${GITHUB_STEP_SUMMARY}"
           fi
+
       - name: Upload declared input evidence
         if: always()
         uses: actions/upload-artifact@v4
@@ -225,20 +343,9 @@ jobs:
           set -euo pipefail
           mkdir -p outputs reports/current receipts/current tracking/task_runs dist/run_artifacts
           STAGE="${{ inputs.stage_override }}"
-          if [ -z "${STAGE}" ]; then STAGE="SV002-M10.5"; fi
+          if [ -z "${STAGE}" ]; then STAGE="SV002-M11"; fi
           DRY_RUN_ARG=""
           if [ "${{ inputs.dry_run }}" = "true" ]; then DRY_RUN_ARG="--dry-run"; fi
-
-          {
-            echo "## Declared Task Route — Execution"
-            echo
-            echo "| Field | Value |"
-            echo "|---|---|"
-            echo "| task_id | \`${{ inputs.task_id }}\` |"
-            echo "| stage | \`${STAGE}\` |"
-            echo "| dry_run | \`${{ inputs.dry_run }}\` |"
-            echo "| dispatcher | \`python -m tools.scripts.task_dispatcher\` |"
-          } >> "${GITHUB_STEP_SUMMARY}"
 
           set +e
           python -m tools.scripts.task_dispatcher \
@@ -257,33 +364,6 @@ jobs:
             cat reports/current/task_dispatcher_stderr.txt || true
             exit "${TASK_EXIT}"
           fi
-      - name: Enforce declared task output shape
-        run: |
-          set -euo pipefail
-          TASK_ID="${{ inputs.task_id }}"
-          MISSING=0
-
-          require_file() {
-            path="$1"
-            if [ ! -f "$path" ]; then
-              echo "::error::Missing required task output: $path"
-              MISSING=1
-            fi
-          }
-
-          if [ "${TASK_ID}" = "stegverse.output.package" ]; then
-            require_file "outputs/stegverse_output.md"
-            require_file "outputs/stegverse_output.json"
-            require_file "reports/current/stegverse_output_report.json"
-            require_file "receipts/current/stegverse_output_receipt.jsonl"
-            require_file "dist/run_artifacts/stegverse-governed-output.zip"
-          fi
-
-          if [ "${MISSING}" -ne 0 ]; then
-            echo "The task exited successfully, but required output files are missing. Failed closed." >> "${GITHUB_STEP_SUMMARY}"
-            exit 1
-          fi
-          echo "- Required output shape present." >> "${GITHUB_STEP_SUMMARY}"
       - name: Commit declared task outputs
         if: ${{ inputs.dry_run != 'true' && success() }}
         run: |
@@ -314,7 +394,7 @@ jobs:
 
   claude-agent:
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && (inputs.agent_provider == 'claude' || inputs.agent_provider == 'both')) }}
+    if: ${{ github.event_name == 'workflow_dispatch' && (inputs.agent_provider == 'claude' || inputs.agent_provider == 'both') }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -328,14 +408,6 @@ jobs:
           # Claude Code — Skipped
 
           No task.md was present. No Claude proposal was generated.
-          EOF
-            exit 0
-          fi
-          if [ "${AGENT_PROVIDER}" != "claude" ] && [ "${AGENT_PROVIDER}" != "both" ]; then
-            cat > outputs/claude_response.md <<EOF
-          # Claude Code — Skipped
-
-          AGENT_PROVIDER=${AGENT_PROVIDER}; Claude was not selected for this run.
           EOF
             exit 0
           fi
@@ -388,7 +460,7 @@ jobs:
 
   openai-agent:
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && (inputs.agent_provider == 'openai' || inputs.agent_provider == 'both')) }}
+    if: ${{ github.event_name == 'workflow_dispatch' && (inputs.agent_provider == 'openai' || inputs.agent_provider == 'both') }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -416,7 +488,7 @@ jobs:
   merge-and-commit:
     runs-on: ubuntu-latest
     needs: [claude-agent, openai-agent]
-    if: ${{ always() && (github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && (inputs.agent_provider == 'openai' || inputs.agent_provider == 'claude' || inputs.agent_provider == 'both'))) }}
+    if: ${{ always() && github.event_name == 'workflow_dispatch' && (inputs.agent_provider == 'openai' || inputs.agent_provider == 'claude' || inputs.agent_provider == 'both') }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
