@@ -1,7 +1,7 @@
 {
   "schema": "stegverse.agent_comparison_report.v1",
   "version": "0.1.2-gllm",
-  "timestamp": "2026-05-28T13:47:25.558738+00:00",
+  "timestamp": "2026-05-28T20:39:39.313902+00:00",
   "decision": "REVIEW_REQUIRED",
   "basis": "Provider outputs mention broad/unilateral authority; human review required even if framed as denied.",
   "providers": {
@@ -9,49 +9,35 @@
       "provider": "openai",
       "output_path": "outputs/chatgpt_response.md",
       "exists": true,
-      "sha256": "sha256:ac2030e0d4e7283d6c929c200bfd1733c62884be21216c4f921eecb2fbf7a1fc",
-      "bytes": 3836,
-      "mentioned_paths": [
-        "SV002_M11_GOVERNED_APPLY_REVIEW_BOUNDARY.md",
-        "docs/SV002_M11_GOVERNED_APPLY_REVIEW_BOUNDARY.md",
-        "examples/stegverse_apply_request.example.json",
-        "receipts/current/stegverse_apply_review_receipt.jsonl",
-        "reports/current/stegverse_apply_review_report.json",
-        "review_stegverse_apply_request.py",
-        "schemas/stegverse_apply_request.schema.json",
-        "schemas/stegverse_apply_result.schema.json",
-        "scripts/review_stegverse_apply_request.py",
-        "stegverse_apply_request.schema.json",
-        "stegverse_apply_result.schema.json",
-        "stegverse_output_receipt.jsonl",
-        "stegverse_output_report.json",
-        "tools/tasks/task_catalog.json"
-      ],
-      "mentioned_risk_terms": [
-        "broad authority"
-      ],
+      "sha256": "sha256:62726099322929b672f15b5247f23e2eca181dc3390b90aaad37ea9d636bde41",
+      "bytes": 747,
+      "mentioned_paths": [],
+      "mentioned_risk_terms": [],
       "required_sections_present": {
-        "Current State Assessment": true,
-        "Directive Alignment": true,
-        "Next Collaboration Primitive": true,
-        "Proposed Implementation": true,
-        "Authority Boundaries": true,
-        "Receipts and Version History": true,
-        "Risks & Dependencies": true,
-        "Confidence": true
+        "Current State Assessment": false,
+        "Directive Alignment": false,
+        "Next Collaboration Primitive": false,
+        "Proposed Implementation": false,
+        "Authority Boundaries": false,
+        "Receipts and Version History": false,
+        "Risks & Dependencies": false,
+        "Confidence": false
       }
     },
     "claude": {
       "provider": "claude",
       "output_path": "outputs/claude_response.md",
       "exists": true,
-      "sha256": "sha256:aa45f11aa626ab5e5ffc2572b253bea26beed0bf2a4564d2ca2bdc548cfc40ae",
-      "bytes": 961,
+      "sha256": "sha256:ca621266ff29127fbcd23d898d904b4960bc4636f055eda430c7f3ea4b5114fe",
+      "bytes": 2358,
       "mentioned_paths": [
+        "docs/SV002_M10_5_SANDBOX_PROOF_OUTPUT.md",
         "outputs/claude_response.md"
       ],
       "mentioned_risk_terms": [
-        "broad authority"
+        "broad authority",
+        "secret",
+        "token"
       ],
       "required_sections_present": {
         "Current State Assessment": false,
@@ -69,7 +55,9 @@
     "path_overlap_ratio": 0.0,
     "high_risk_paths": [],
     "risk_terms": [
-      "broad authority"
+      "broad authority",
+      "secret",
+      "token"
     ],
     "missing_providers": [],
     "shared_sections": [],

@@ -1,0 +1,70 @@
+{
+  "applied_files": [],
+  "candidates": [
+    {
+      "candidate_id": "sv002-m105-sandbox-proof",
+      "decision": "DENY_CANDIDATE",
+      "errors": [
+        "pytest_failed"
+      ],
+      "m11_gate": {},
+      "provider": "openai-or-claude",
+      "sandbox": {
+        "py_compile": [],
+        "pytest": {
+          "args": [
+            "/opt/hostedtoolcache/Python/3.11.15/x64/bin/python",
+            "-m",
+            "pytest",
+            "-q"
+          ],
+          "returncode": 1,
+          "stderr": "/opt/hostedtoolcache/Python/3.11.15/x64/bin/python: No module named pytest\n",
+          "stdout": ""
+        }
+      },
+      "valid_packet": true
+    },
+    {
+      "candidate_id": "sv002-m105-sandbox-proof",
+      "decision": "DENY_CANDIDATE",
+      "errors": [
+        "pytest_failed"
+      ],
+      "m11_gate": {},
+      "provider": "openai-or-claude",
+      "sandbox": {
+        "py_compile": [],
+        "pytest": {
+          "args": [
+            "/opt/hostedtoolcache/Python/3.11.15/x64/bin/python",
+            "-m",
+            "pytest",
+            "-q"
+          ],
+          "returncode": 1,
+          "stderr": "/opt/hostedtoolcache/Python/3.11.15/x64/bin/python: No module named pytest\n",
+          "stdout": ""
+        }
+      },
+      "valid_packet": true
+    }
+  ],
+  "completed": "2026-05-28T20:39:39.107420+00:00",
+  "decision": "FAIL_CLOSED_NO_PASSING_CANDIDATE",
+  "governance": {
+    "default_fail_closed": true,
+    "m11_gate_required_before_binding": true,
+    "no_manual_bundle_transport_required": true,
+    "provider_outputs_are_candidate_evidence_only": true,
+    "sandbox_required_before_apply_gate": true
+  },
+  "provider_outputs": {
+    "claude": "/home/runner/work/core-lite/core-lite/outputs/claude_response.md",
+    "openai": "/home/runner/work/core-lite/core-lite/outputs/chatgpt_response.md"
+  },
+  "receipt_hash": "sha256:7651aea1f00c6834f20f0d2c479c3284b1803c4bb7fe0f63ecde4c228403aaff",
+  "schema": "stegverse.adapter_candidate_sandbox_report.v1",
+  "selected_candidate_id": null,
+  "started": "2026-05-28T20:39:39.046552+00:00"
+}

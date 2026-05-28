@@ -1,7 +1,7 @@
 # StegVerse-002 Governed Collaboration Thread
 
 Version: `0.1.2-gllm`
-Generated: `2026-05-28T13:47:25.383461+00:00`
+Generated: `2026-05-28T20:39:39.168767+00:00`
 
 ## Absolute Directive
 
@@ -24,15 +24,13 @@ This thread is candidate evidence only. It does not approve, deploy, or bind rep
 ## Deterministic Comparison Summary
 
 - Shared declared sections detected: `none`
-- Claude mentioned paths: `1`
-- OpenAI mentioned paths: `14`
-- Risk terms detected: `broad authority`
+- Claude mentioned paths: `2`
+- OpenAI mentioned paths: `0`
+- Risk terms detected: `broad authority, secret, token`
 
 ## Recent Machine-Readable Changelog Entries
 
 ```jsonl
-{"authority": "candidate_evidence_only", "change_type": "coordination_synthesis", "conversation": "workflow", "files": ["outputs/thread.md", "reports/current/agent_coordination_report.json", "receipts/current/agent_coordination_receipt.jsonl"], "output_hashes": {"claude": "sha256:128a7db05f7c6e178322cc4a63fd3e42692ff4db4dc6b65695a039468724928e", "openai": "sha256:e647e1ef9514d8e49cdef13c57d49e2a42be1ff286f461b8ed76c55c398d5ab6", "thread": "sha256:436d7badf1c5d21c8ce5c850daad8c441778d9a8f30c99e84dbed5d38f9e8042"}, "provider": "coordinator", "schema": "stegverse.llm_changelog_entry.v1", "summary": "Both provider outputs were present and merged into candidate evidence.", "timestamp": "2026-05-26T19:50:43.687042+00:00", "version": "0.1.2-gllm"}
-{"authority": "candidate_evidence_only", "broad_authority": false, "change_type": "coordination_run", "conversation": "current-workflow-run", "decision": "RECORDED", "files": [{"exists": true, "path": "outputs/thread.md", "sha256": "sha256:436d7badf1c5d21c8ce5c850daad8c441778d9a8f30c99e84dbed5d38f9e8042"}, {"exists": true, "path": "reports/current/agent_coordination_report.json", "sha256": "sha256:05679ac7ce9abb9a893db555242cffb79c6dc9e5f9fedeb6cf631b2dc2ed064c"}, {"exists": true, "path": "reports/current/agent_comparison_report.json", "sha256": "sha256:d6c0aa2d17ca15246f010fa100b3a3ea5a5c759f2e1831c4f5b041b5f073f73f"}, {"exists": true, "path": "reports/current/agent_boundary_report.json", "sha256": "sha256:1f47e8e3aadb6c15ef2601c0c10fdda2a821065f50ab3c90f3ee71b155bd1714"}, {"exists": true, "path": "receipts/current/agent_coordination_receipt.jsonl", "sha256": "sha256:ea6cb65f347d319bc5f603412fb40450968753f6126c5443f5a9b9b3a381ea29"}, {"exists": true, "path": "receipts/current/agent_comparison_receipt.jsonl", "sha256": "sha256:a8818e99c1ae208caf75c752d77ac47d1d62a15a2d5bdbd0c4e11493e4995f26"}, {"exists": true, "path": "receipts/current/agent_boundary_receipt.jsonl", "sha256": "sha256:b52cede1f1c324d0a5ef2341e8ea6124d6669a8c17cccdb9165fa20ec5e78b5e"}], "provider": "coordinator", "schema": "stegverse.llm_changelog_entry.v1", "summary": "Recorded governed LLM-LLM collaboration outputs, comparison evidence, no-broad-authority directive, and boundary enforcement.", "timestamp": "2026-05-26T19:50:43.993040+00:00", "version": "0.1.3-gllm"}
 {"authority": "candidate_evidence_only", "change_type": "coordination_synthesis", "conversation": "workflow", "files": ["outputs/thread.md", "reports/current/agent_coordination_report.json", "receipts/current/agent_coordination_receipt.jsonl"], "output_hashes": {"claude": "sha256:b5fe8dade87a953e6b461d056fc680358377103c054bf14aaddf7b782c94ae7f", "openai": "sha256:2071b119c233be90e42641ef923128ccb42ac40b8a97a06cdc372c7441aaff94", "thread": "sha256:5bcb7f2cbf0e46286d8f149e93fc1e06de02bc97b8b8e6b2a6bf73c716d53437"}, "provider": "coordinator", "schema": "stegverse.llm_changelog_entry.v1", "summary": "Both provider outputs were present and merged into candidate evidence.", "timestamp": "2026-05-26T21:11:36.271362+00:00", "version": "0.1.2-gllm"}
 {"authority": "candidate_evidence_only", "broad_authority": false, "change_type": "coordination_run", "conversation": "current-workflow-run", "decision": "RECORDED", "files": [{"exists": true, "path": "outputs/thread.md", "sha256": "sha256:5bcb7f2cbf0e46286d8f149e93fc1e06de02bc97b8b8e6b2a6bf73c716d53437"}, {"exists": true, "path": "reports/current/agent_coordination_report.json", "sha256": "sha256:b94b9ef8364a708522747d41490eb5e41a4b09e2401ba02fd4cc32cde7a09427"}, {"exists": true, "path": "reports/current/agent_comparison_report.json", "sha256": "sha256:f107b6c9fd4f1b4c559faaac86eeaf3fa16cfd83e1c80830f15c1bb2cc556ed3"}, {"exists": true, "path": "reports/current/agent_boundary_report.json", "sha256": "sha256:e97e5bd88c3403f1146f17c92d661558531c6c731929a8fb49fa8abf872758e9"}, {"exists": true, "path": "receipts/current/agent_coordination_receipt.jsonl", "sha256": "sha256:0059f25017ea6fd9cc3393f86b100ca89737ef5c3d2449c6c97364b149b18de6"}, {"exists": true, "path": "receipts/current/agent_comparison_receipt.jsonl", "sha256": "sha256:25a63f425ea310774254613f25ae242c2af4e65a544cad5f9c89f32dd2508cb4"}, {"exists": true, "path": "receipts/current/agent_boundary_receipt.jsonl", "sha256": "sha256:4297ed045acf0bfbef6bc7057e5e11deff72b65ce3720f36087d94851e54e170"}], "provider": "coordinator", "schema": "stegverse.llm_changelog_entry.v1", "summary": "Recorded governed LLM-LLM collaboration outputs, comparison evidence, no-broad-authority directive, and boundary enforcement.", "timestamp": "2026-05-26T21:11:36.493313+00:00", "version": "0.1.3-gllm"}
 {"authority": "candidate_evidence_only", "change_type": "coordination_synthesis", "conversation": "workflow", "files": ["outputs/thread.md", "reports/current/agent_coordination_report.json", "receipts/current/agent_coordination_receipt.jsonl"], "output_hashes": {"claude": "sha256:1778ae05a4f5b162b7bd00127a7dd80e999d7f4b0b68d70b1d632c33a2b05e69", "openai": "sha256:30c5d952a16098f9025f05c9918556b2db6c8164a46f9db28465ef000740e22b", "thread": "sha256:3200fe539c8582ce020991543187bcb6ae75d3dfeb1d34cdf9dfb2b0fbe039b3"}, "provider": "coordinator", "schema": "stegverse.llm_changelog_entry.v1", "summary": "Both provider outputs were present and merged into candidate evidence.", "timestamp": "2026-05-27T15:53:54.680224+00:00", "version": "0.1.2-gllm"}
@@ -51,13 +49,15 @@ This thread is candidate evidence only. It does not approve, deploy, or bind rep
 {"authority": "candidate_evidence_only", "broad_authority": false, "change_type": "coordination_run", "conversation": "current-workflow-run", "decision": "RECORDED", "files": [{"exists": true, "path": "outputs/thread.md", "sha256": "sha256:03292ee0914197c5ddc2fc8fbf8c029d5e39bee3a318167ebbcc7cb4edfe0439"}, {"exists": true, "path": "reports/current/agent_coordination_report.json", "sha256": "sha256:cb249097f589a9eda7ab995245d06fcb930774eed355b4a01d022b6d7993baed"}, {"exists": true, "path": "reports/current/agent_comparison_report.json", "sha256": "sha256:f023f906fe8192b38299de37ef044db48a39d7e7b5cebdf9b5e228956a2afca6"}, {"exists": true, "path": "reports/current/agent_boundary_report.json", "sha256": "sha256:072a1b447deaab8580a6153f955c55efbb2bac2244a2a372280c4c165c94de87"}, {"exists": true, "path": "receipts/current/agent_coordination_receipt.jsonl", "sha256": "sha256:9314151aa9bcd2541da7d4882ac773d323b64a6fa2a46b64a1b1a789966a21b3"}, {"exists": true, "path": "receipts/current/agent_comparison_receipt.jsonl", "sha256": "sha256:10006caa706f6dba25ba32ea74dfc08e0e9a55f4a54d0e9b19ae8db33515f2cd"}, {"exists": true, "path": "receipts/current/agent_boundary_receipt.jsonl", "sha256": "sha256:67079958ce66a36a8639ef96b9b7d5bdc69abe42099701838b0133f31d36b760"}], "provider": "coordinator", "schema": "stegverse.llm_changelog_entry.v1", "summary": "Recorded governed LLM-LLM collaboration outputs, comparison evidence, no-broad-authority directive, and boundary enforcement.", "timestamp": "2026-05-28T02:23:27.864350+00:00", "version": "0.1.3-gllm"}
 {"authority": "candidate_evidence_only", "change_type": "coordination_synthesis", "conversation": "workflow", "files": ["outputs/thread.md", "reports/current/agent_coordination_report.json", "receipts/current/agent_coordination_receipt.jsonl"], "output_hashes": {"claude": "sha256:0b3ed643b29fdcb30ef29d4ceb92f85d5a2ac30a05307d7bf407ff41b0a52511", "openai": "sha256:1d710a345df5b9a69c7883038fdf54286342bd0302558f2aff4b1e8e1b837461", "thread": "sha256:33200216d97a40b6906d6e71b65113975946e63616e0f513380af4af06d792a2"}, "provider": "coordinator", "schema": "stegverse.llm_changelog_entry.v1", "summary": "Both provider outputs were present and merged into candidate evidence.", "timestamp": "2026-05-28T02:39:39.023246+00:00", "version": "0.1.2-gllm"}
 {"authority": "candidate_evidence_only", "broad_authority": false, "change_type": "coordination_run", "conversation": "current-workflow-run", "decision": "RECORDED", "files": [{"exists": true, "path": "outputs/thread.md", "sha256": "sha256:33200216d97a40b6906d6e71b65113975946e63616e0f513380af4af06d792a2"}, {"exists": true, "path": "reports/current/agent_coordination_report.json", "sha256": "sha256:c5894f55e260aef06cd202080074cdc79701ae3f3b139fc0fce5cfedbfbb5b61"}, {"exists": true, "path": "reports/current/agent_comparison_report.json", "sha256": "sha256:ccb0e59f523cd4f8dea45bf5378cd7b022a764b4ecd6cd4d35cd6f1daa9d8c9a"}, {"exists": true, "path": "reports/current/agent_boundary_report.json", "sha256": "sha256:d60d47616a023896c867378886714a9bd649e670ef76e53451695b6b2042c846"}, {"exists": true, "path": "receipts/current/agent_coordination_receipt.jsonl", "sha256": "sha256:97490f740dbff5c39b32194863a9b37e83856117d041344bb358a2c6f722785d"}, {"exists": true, "path": "receipts/current/agent_comparison_receipt.jsonl", "sha256": "sha256:76376292b74292845b579d0b78fd8390100feae2266bb61d2795c9d45eda86f4"}, {"exists": true, "path": "receipts/current/agent_boundary_receipt.jsonl", "sha256": "sha256:251212b0b55f4f81436258787665071f99367579108a5b773df813068f1f8cb1"}], "provider": "coordinator", "schema": "stegverse.llm_changelog_entry.v1", "summary": "Recorded governed LLM-LLM collaboration outputs, comparison evidence, no-broad-authority directive, and boundary enforcement.", "timestamp": "2026-05-28T02:39:39.324061+00:00", "version": "0.1.3-gllm"}
+{"authority": "candidate_evidence_only", "change_type": "coordination_synthesis", "conversation": "workflow", "files": ["outputs/thread.md", "reports/current/agent_coordination_report.json", "receipts/current/agent_coordination_receipt.jsonl"], "output_hashes": {"claude": "sha256:aa45f11aa626ab5e5ffc2572b253bea26beed0bf2a4564d2ca2bdc548cfc40ae", "openai": "sha256:ac2030e0d4e7283d6c929c200bfd1733c62884be21216c4f921eecb2fbf7a1fc", "thread": "sha256:d8b74b9d741ac7298c019c87c0a169a84e9528269149159b7116552e1681a1e4"}, "provider": "coordinator", "schema": "stegverse.llm_changelog_entry.v1", "summary": "Both provider outputs were present and merged into candidate evidence.", "timestamp": "2026-05-28T13:47:25.383461+00:00", "version": "0.1.2-gllm"}
+{"authority": "candidate_evidence_only", "broad_authority": false, "change_type": "coordination_run", "conversation": "current-workflow-run", "decision": "RECORDED", "files": [{"exists": true, "path": "outputs/thread.md", "sha256": "sha256:d8b74b9d741ac7298c019c87c0a169a84e9528269149159b7116552e1681a1e4"}, {"exists": true, "path": "reports/current/agent_coordination_report.json", "sha256": "sha256:18a04bb2602ba4066601770834343af69047203a4d9a32b412edc5864a083c15"}, {"exists": true, "path": "reports/current/agent_comparison_report.json", "sha256": "sha256:b09d9b660e10cd2950a9402d005bcd5ad396e10c63310f914581196bd6e1732a"}, {"exists": true, "path": "reports/current/agent_boundary_report.json", "sha256": "sha256:03238458f6427a508851d5f50d899737b0aeb066537bf0d4f451a3dba19327c7"}, {"exists": true, "path": "receipts/current/agent_coordination_receipt.jsonl", "sha256": "sha256:847917085279ae19a3b91081a5b2f9b2c73e81c5d449f97044bf3518a355697e"}, {"exists": true, "path": "receipts/current/agent_comparison_receipt.jsonl", "sha256": "sha256:de281cae76a3f74c244f9bae8fcb8e69e015bdb4c1e38614104113137d22ddbd"}, {"exists": true, "path": "receipts/current/agent_boundary_receipt.jsonl", "sha256": "sha256:d5b7e92586f31bdc29e692a094f89034d475c3fe06716fb709525f807b0d9037"}], "provider": "coordinator", "schema": "stegverse.llm_changelog_entry.v1", "summary": "Recorded governed LLM-LLM collaboration outputs, comparison evidence, no-broad-authority directive, and boundary enforcement.", "timestamp": "2026-05-28T13:47:25.703549+00:00", "version": "0.1.3-gllm"}
 ```
 
 ## Claude Output
 
 # Claude Code — Governed Collaboration Proposal
 
-Run timestamp: 2026-05-28T13:44:47Z
+Run timestamp: 2026-05-28T20:38:16Z
 
 Governance mode: propose-only
 
@@ -69,104 +69,57 @@ Directive: no broad authority is ever admissible under Transition Table, AE, or 
 
 ---
 
-The edit was denied — I'll wait for permission. The proposal is fully drafted; I just need approval to write it to `outputs/claude_response.md`, which is the only file CLAUDE.md authorizes me to modify. Task tracking isn't useful for a single-file write, so I'll skip it.
+The write to `outputs/claude_response.md` wasn't permitted, so I'll deliver the candidate patch packet directly here. Per the propose-only boundary, this is emitted as text only — I have not created `docs/SV002_M10_5_SANDBOX_PROOF_OUTPUT.md`; that file may only be materialized by the M10.5 sandbox executor on an M11 `ALLOW` decision.
 
-Would you like me to retry the write to `outputs/claude_response.md`? It appends the full M11 proposal (sections: Current State Assessment, Directive Alignment, Ecosystem Stage Assessment, Next Collaboration Primitive, Proposed Implementation §§1–10, Authority Boundaries, Receipts and Version History, Risks & Dependencies, Confidence) below the existing `---` separator and modifies no other file.
+```json
+{
+  "schema": "stegverse.candidate_patch.v1",
+  "candidate_id": "sv002-m105-sandbox-proof",
+  "provider": "openai-or-claude",
+  "description": "Minimal documentation-only candidate to prove adapter sandbox routing.",
+  "transition_class": "documentation",
+  "authority_ref": "SV002-M10.5/scoped-candidate-review-only",
+  "policy_ref": "triad/default-deny/no-broad-authority/review-only",
+  "files": [
+    {
+      "path": "docs/SV002_M10_5_SANDBOX_PROOF_OUTPUT.md",
+      "operation": "write",
+      "content": "# SV002 M10.5 Sandbox Proof Output\n\nThis file is a documentation-only candidate generated to prove that provider output can be sandbox-tested and routed through the M11 gate without manual bundle transport.\n"
+    }
+  ]
+}
+```
+
+**Alignment notes:**
+- **Documentation-only** — single new file under `docs/`; touches no workflow, root `README.md`, secret, deploy config, or authority policy.
+- **Scoped authority** — `SV002-M10.5/scoped-candidate-review-only` under `triad/default-deny/no-broad-authority/review-only`; consistent with `no_broad_authority.directive.json` (current version `0.1.3-gllm`).
+- **Stage 1 work** — proves the `candidate → sandbox → M11 gate` route; no Rige/Beta_Orionis steps.
+- **Expected gate behavior** — sandbox PASS → M11 `DEFER` while Triad stubs are unresolved, i.e. diagnostic evidence, not binding mutation.
+
+Note: I did not run a multi-agent workflow for this — generating one minimal JSON packet is a single propose-only artifact, not orchestration work, so a workflow would only burn tokens without adding value. If you'd like, I can also save the full structured proposal to `outputs/claude_response.md` (the one writable target) once write permission is granted.
 
 ---
 
 ## OpenAI Output
 
-# OpenAI — Governed Collaboration Proposal
-
-## Current State Assessment
-
-StegVerse-002 has successfully completed SV002-M10, establishing itself as the governed output authority. The next step, SV002-M11, aims to ensure that any proposed repository mutation undergoes a strict apply/review gate before execution.
-
-## Directive Alignment
-
-The proposal aligns with the absolute directive that no entity receives broad authority. Authority must be scoped, staged, explicit, and receipted, ensuring that any mutation is validated through a separate apply/review gate.
-
-## Next Collaboration Primitive
-
-The next step is to design and implement the apply/review gate for SV002-M11, ensuring that all proposed mutations are thoroughly reviewed and validated before execution.
-
-## Proposed Implementation
-
-### Summary
-
-Implement an apply/review gate to validate proposed repository mutations. This gate will ensure compliance with the directive by requiring explicit operator approval, path-scoped authority, and validation of all necessary receipts and reports.
-
-### Exact File Plan
-
-1. **New Files:**
-   - `scripts/review_stegverse_apply_request.py`
-   - `schemas/stegverse_apply_request.schema.json`
-   - `schemas/stegverse_apply_result.schema.json`
-   - `examples/stegverse_apply_request.example.json`
-   - `reports/current/stegverse_apply_review_report.json`
-   - `receipts/current/stegverse_apply_review_receipt.jsonl`
-   - `docs/SV002_M11_GOVERNED_APPLY_REVIEW_BOUNDARY.md`
-
-### Minimal Implementation Steps
-
-1. **Create Schema for Apply Request:**
-   - Define `stegverse_apply_request.schema.json` to validate apply requests.
-
-2. **Create Schema for Apply Result:**
-   - Define `stegverse_apply_result.schema.json` to validate the results of the apply review.
-
-3. **Implement Review Script:**
-   - Develop `review_stegverse_apply_request.py` to process apply requests, validate conditions, and produce results.
-
-4. **Documentation:**
-   - Document the apply/review process in `SV002_M11_GOVERNED_APPLY_REVIEW_BOUNDARY.md`.
-
-### Expected Command/Task Entry
-
-- Add a task entry in `tools/tasks/task_catalog.json` for executing the apply/review process.
-
-### Expected Reports/Receipts
-
-- `reports/current/stegverse_apply_review_report.json`
-- `receipts/current/stegverse_apply_review_receipt.jsonl`
-
-### Fail-Closed Logic
-
-The apply/review gate must deny by default unless all conditions are met:
-- Existence of `stegverse_output_report.json` and `stegverse_output_receipt.jsonl`.
-- Compatibility of the StegVerse output decision with apply review.
-- Explicit task identity and listed target paths.
-- Compliance with allowed paths policy.
-- No forbidden paths are touched.
-- Valid receipt chain and operator approval.
-- Dry-run mode does not mutate repository state.
-
-### Verification Plan
-
-1. **Unit Tests:**
-   - Validate schema compliance for apply requests and results.
-   - Test the review script for all boundary conditions.
-
-2. **Integration Tests:**
-   - Simulate apply requests and ensure the gate processes them correctly, producing expected reports and receipts.
-
-## Authority Boundaries
-
-The proposal ensures that StegVerse output is not execution authority until validated by the apply/review gate, preserving scoped and explicit authority.
-
-## Receipts and Version History
-
-All actions will be receipted, and version history will be maintained to ensure traceability and compliance with governance directives.
-
-## Risks & Dependencies
-
-- **Risks:** Misconfiguration of path policies or operator approval could lead to unauthorized mutations.
-- **Dependencies:** Accurate and up-to-date path policies and operator approval mechanisms.
-
-## Confidence
-
-High confidence in the proposal's ability to enforce the governed collaboration model, ensuring that all repository mutations are validated and authorized before execution.
+```json
+{
+  "schema": "stegverse.candidate_patch.v1",
+  "candidate_id": "sv002-m105-sandbox-proof",
+  "provider": "openai-or-claude",
+  "description": "Minimal documentation-only candidate to prove adapter sandbox routing.",
+  "transition_class": "documentation",
+  "authority_ref": "SV002-M10.5/scoped-candidate-review-only",
+  "policy_ref": "triad/default-deny/no-broad-authority/review-only",
+  "files": [
+    {
+      "path": "docs/SV002_M10_5_SANDBOX_PROOF_OUTPUT.md",
+      "operation": "write",
+      "content": "# SV002 M10.5 Sandbox Proof Output\n\nThis file is a documentation-only candidate generated to prove that provider output can be sandbox-tested and routed through the M11 gate without manual bundle transport.\n"
+    }
+  ]
+}
+```
 
 ---
 
