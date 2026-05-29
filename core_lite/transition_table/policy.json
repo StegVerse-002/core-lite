@@ -1,0 +1,100 @@
+{
+  "schema": "stegverse.transition_table_policy.v1",
+  "version": "0.1.0",
+  "stage": "SV002-M11",
+  "formalism_refs": [
+    {
+      "formalism": "Stage32-AdmissibilitySpaceCoordinates",
+      "repo": "Data-Continuation/formalism-tests",
+      "artifact": "stage32_admissibility_space_coordinates_tests",
+      "report_path": "formalisms/transition-table/reports/stage32_admissibility_space_report.json"
+    },
+    {
+      "formalism": "Stage33-TransitionGraphGeometry",
+      "repo": "Data-Continuation/formalism-tests",
+      "artifact": "stage33_transition_graph_geometry_tests",
+      "report_path": "formalisms/transition-table/reports/stage33_transition_graph_geometry_report.json"
+    },
+    {
+      "formalism": "Stage34-RepairNearestAdmissible",
+      "repo": "Data-Continuation/formalism-tests",
+      "artifact": "stage34_repair_nearest_admissible_transition_tests",
+      "report_path": "formalisms/transition-table/reports/stage34_repair_nearest_admissible_transition_report.json"
+    }
+  ],
+  "boundary_metrics": {
+    "d_A":     {"symbol": "distance_to_admissible_region",  "measurable": true},
+    "d_bnd_A": {"symbol": "distance_to_boundary",           "measurable": true},
+    "delta_R": {"symbol": "recoverability_deficit",         "measurable": true},
+    "delta_P": {"symbol": "purpose_convergence_deficit",    "measurable": true},
+    "delta_U": {"symbol": "operator_authority_deficit",     "measurable": true},
+    "delta_O": {"symbol": "observability_deficit",          "measurable": true},
+    "delta_C": {"symbol": "coherence_deficit",              "measurable": true}
+  },
+  "decision_regions": {
+    "ALLOW":       {"region": "interior_admissible_region",       "boundary_role": "inside_A"},
+    "DENY":        {"region": "coherent_exterior_region",         "boundary_role": "boundary_crossing"},
+    "SANDBOX":     {"region": "bounded_uncertain_boundary_shell", "boundary_role": "search_shell"},
+    "REVIEW":      {"region": "observability_deficit_shell",      "boundary_role": "classification_insufficient"},
+    "FAIL_CLOSED": {"region": "coherence_collapse",               "boundary_role": "collapse_not_crossing"},
+    "QUARANTINE":  {"region": "isolated_preservation_state",      "boundary_role": "metric_preservation"}
+  },
+  "classes": {
+    "candidate": {
+      "allowed_authority_classes": ["candidate_evidence_only"],
+      "allowed_state_effects":     ["evidence_state"],
+      "allowed_binding_levels":    ["non_binding"],
+      "required_fields":           ["task_ref", "task_hash", "candidate_provider", "candidate_round"],
+      "disposition_policy":        "fail_closed_if_unusable_else_compare",
+      "execution_scope":           "none",
+      "installs_code":             false,
+      "fail_closed_conditions": [
+        "missing_manifest",
+        "malformed_manifest",
+        "missing_task_hash",
+        "missing_candidate_payload",
+        "invalid_schema",
+        "forbidden_authority_claim",
+        "references_fake_critical_paths",
+        "cannot_be_parsed",
+        "cannot_be_compared"
+      ]
+    },
+    "repair": {
+      "allowed_authority_classes": ["scoped_repo_write"],
+      "allowed_state_effects":     ["code_state"],
+      "allowed_binding_levels":    ["commit_candidate"],
+      "required_fields":           ["task_ref", "task_hash", "repair_target", "broken_behavior", "rollback_policy"],
+      "disposition_policy":        "validate_then_repair_or_quarantine",
+      "execution_scope":           "bounded_paths_only",
+      "installs_code":             true
+    },
+    "install": {
+      "allowed_authority_classes": ["scoped_repo_write"],
+      "allowed_state_effects":     ["code_state"],
+      "allowed_binding_levels":    ["commit_candidate"],
+      "required_fields":           ["allowed_paths", "forbidden_paths", "rollback_policy"],
+      "disposition_policy":        "validate_then_install_or_quarantine",
+      "execution_scope":           "bounded_paths_only",
+      "installs_code":             true
+    },
+    "evidence": {
+      "allowed_authority_classes": ["evidence_only"],
+      "allowed_state_effects":     ["evidence_state"],
+      "allowed_binding_levels":    ["non_binding"],
+      "required_fields":           ["task_ref", "task_hash"],
+      "disposition_policy":        "store_evidence_only",
+      "execution_scope":           "none",
+      "installs_code":             false
+    },
+    "execution": {
+      "allowed_authority_classes": ["execution_request"],
+      "allowed_state_effects":     ["runtime_state"],
+      "allowed_binding_levels":    ["potentially_binding"],
+      "required_fields":           ["operator_authority_ref", "approval_ref", "runtime_scope"],
+      "disposition_policy":        "fail_closed_without_higher_authority",
+      "execution_scope":           "explicit_only",
+      "installs_code":             false
+    }
+  }
+}
