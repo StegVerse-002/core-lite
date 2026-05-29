@@ -1,0 +1,91 @@
+{
+  "decision": "ALLOW",
+  "exception": "",
+  "exception_tail": "",
+  "expected_outputs": {
+    "dist/run_artifacts/bundle-ingestion-smoke-test.zip": true,
+    "outputs/bundle_ingestion_smoke_test.md": true,
+    "receipts/current/bundle_ingestion_smoke_test_receipt.jsonl": true,
+    "reports/current/bundle_ingestion_smoke_test_report.json": true
+  },
+  "failure_class": "none",
+  "finished_at": "2026-05-29T16:28:41.564317+00:00",
+  "fixture": {
+    "fixture_zip": "tests/fixtures/bundles/minimal_ingestible_bundle.zip",
+    "manifest": {
+      "allow_root_readme": false,
+      "allow_workflows": false,
+      "bundle_name": "sv002_bundle_ingestion_smoke_test_minimal",
+      "files": [
+        {
+          "bytes": 136,
+          "path": "outputs/bundle_ingestion_smoke_probe.txt",
+          "sha256": "sha256:fba324d891cdce827b9fe3542160da38a84380a9079d42fea14ff78ea7917e48"
+        }
+      ],
+      "purpose": "Controlled direct BundleIngestor smoke test outside incoming mailbox",
+      "schema": "stegverse.bundle_manifest.v1"
+    },
+    "payload_path": "outputs/bundle_ingestion_smoke_probe.txt",
+    "payload_sha256": "sha256:fba324d891cdce827b9fe3542160da38a84380a9079d42fea14ff78ea7917e48"
+  },
+  "ingest_report": {
+    "basis": "Bundle validated and processed.",
+    "bundle_name": "sv002_bundle_ingestion_smoke_test_minimal",
+    "completed": "2026-05-29T16:28:41.563491+00:00",
+    "decision": "ALLOW",
+    "dry_run": false,
+    "entity": "StegVerse-002",
+    "errors": [],
+    "input_path": "tests/fixtures/bundles/minimal_ingestible_bundle.zip",
+    "installed": [
+      {
+        "bytes": 136,
+        "dry_run": false,
+        "path": "outputs/bundle_ingestion_smoke_probe.txt",
+        "sha256": "fba324d891cdce827b9fe3542160da38a84380a9079d42fea14ff78ea7917e48"
+      }
+    ],
+    "manifest": {
+      "allow_root_readme": false,
+      "allow_workflows": false,
+      "bundle_name": "sv002_bundle_ingestion_smoke_test_minimal",
+      "files": [
+        {
+          "bytes": 136,
+          "path": "outputs/bundle_ingestion_smoke_probe.txt",
+          "sha256": "sha256:fba324d891cdce827b9fe3542160da38a84380a9079d42fea14ff78ea7917e48"
+        }
+      ],
+      "purpose": "Controlled direct BundleIngestor smoke test outside incoming mailbox",
+      "schema": "stegverse.bundle_manifest.v1"
+    },
+    "manifest_path": "/tmp/tmpuels2wdy/bundle/bundle_manifest.json",
+    "receipt": {
+      "receipt_hash": "sha256:ab51c93d629f7ca54501923cbce6e5f9c4f4e7fb1972d4c34681e7ea41ecd133",
+      "receipt_path": "receipts/current/ingestion_receipt.jsonl"
+    },
+    "rejected": [],
+    "schema": "stegverse.bundle_ingest_report.v1",
+    "stage": "SV002-M11",
+    "started": "2026-05-29T16:28:41.561326+00:00",
+    "status": "success"
+  },
+  "probe": {
+    "exists": true,
+    "path": "outputs/bundle_ingestion_smoke_probe.txt",
+    "sha256": "sha256:fba324d891cdce827b9fe3542160da38a84380a9079d42fea14ff78ea7917e48",
+    "text_preview": "SV002 bundle ingestion smoke-test probe\ngenerated_at=2026-05-29T16:28:41.534950+00:00\npurpose=verify BundleIngestor direct fixture path\n"
+  },
+  "pythonpath_head": [
+    "/home/runner/work/core-lite/core-lite",
+    "/home/runner/work/core-lite/core-lite/scripts",
+    "/opt/hostedtoolcache/Python/3.11.15/x64/lib/python311.zip",
+    "/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11",
+    "/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/lib-dynload"
+  ],
+  "repo_root": "/home/runner/work/core-lite/core-lite",
+  "schema": "stegverse.bundle_ingestion_smoke_test_report.v2",
+  "started_at": "2026-05-29T16:28:41.534915+00:00",
+  "success": true
+}

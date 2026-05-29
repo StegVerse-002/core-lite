@@ -1,0 +1,3 @@
+SV002 bundle ingestion smoke-test probe
+generated_at=2026-05-29T16:28:41.534950+00:00
+purpose=verify BundleIngestor direct fixture path
