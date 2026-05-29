@@ -1,0 +1,47 @@
+# Patch for declared-task-route job in core-lite-intake.yml
+#
+# Add these steps after "Set up Python" and before "Execute declared task":
+#
+#   1. Install core_lite (fixes bundle_ingestor_exception)
+#   2. Fetch formalism reports (Option A live, Option B snapshot fallback)
+#
+# Also add FORCE_JAVASCRIPT_ACTIONS_TO_NODE24 env to suppress Node.js 20 warning.
+
+# ---------------------------------------------------------------------------
+# Add to top-level env: block
+# ---------------------------------------------------------------------------
+# env:
+#   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"     ← add this line
+
+# ---------------------------------------------------------------------------
+# Steps to insert after "Set up Python", before "Execute declared task"
+# ---------------------------------------------------------------------------
+
+      - name: Install core_lite and dependencies
+        run: pip install -e . --break-system-packages -q
+
+      - name: Fetch formalism reports (live then snapshot fallback)
+        id: fetch-formalism
+        run: |
+          set -euo pipefail
+          set +e
+          python3 scripts/fetch_formalism_reports.py \
+            --dest-dir formalisms/transition-table/reports \
+            --snapshot-manifest formalisms/transition-table/snapshot_manifest.json \
+            --report-dir reports/current \
+            --receipt-dir receipts/current \
+            --timeout 120
+          FETCH_EXIT=$?
+          set -e
+          if [ "${FETCH_EXIT}" -eq 0 ]; then
+            echo "formalism_route=ALLOW" >> "${GITHUB_OUTPUT}"
+            echo "formalism_available=true" >> "${GITHUB_OUTPUT}"
+          elif [ "${FETCH_EXIT}" -eq 2 ]; then
+            echo "formalism_route=REVIEW" >> "${GITHUB_OUTPUT}"
+            echo "formalism_available=false" >> "${GITHUB_OUTPUT}"
+            echo "::warning::Formalism snapshot hash mismatch — Transition Table will route to REVIEW"
+          else
+            echo "formalism_route=REVIEW" >> "${GITHUB_OUTPUT}"
+            echo "formalism_available=false" >> "${GITHUB_OUTPUT}"
+            echo "::warning::Formalism reports unavailable — Transition Table will route to REVIEW"
+          fi
