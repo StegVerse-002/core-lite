@@ -1,0 +1,61 @@
+{
+  "schema": "stegverse.test_report.v1",
+  "timestamp_utc": "2026-05-29T02:07:51.828609+00:00",
+  "candidate": "outputs/synthesized_candidate.json",
+  "verdict": "PASS",
+  "passed": 10,
+  "failed": 0,
+  "total": 10,
+  "results": [
+    {
+      "test": "yaml_parses",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "test": "push_trigger_incoming",
+      "passed": true,
+      "detail": "push trigger with incoming/** path filter"
+    },
+    {
+      "test": "readme_excluded",
+      "passed": true,
+      "detail": "incoming/README.md exclusion found"
+    },
+    {
+      "test": "changed_files_from_diff",
+      "passed": true,
+      "detail": "git diff used to select changed files"
+    },
+    {
+      "test": "legacy_inventoried_not_deleted",
+      "passed": true,
+      "detail": "legacy inventory present, no mass delete"
+    },
+    {
+      "test": "pipeline_stdout_not_in_jsonl",
+      "passed": true,
+      "detail": "no loop|tee pattern found"
+    },
+    {
+      "test": "jsonl_deterministic_emitter",
+      "passed": true,
+      "detail": "python3 -c JSON emitter found"
+    },
+    {
+      "test": "quarantine_before_removal",
+      "passed": true,
+      "detail": "quarantine at 5132, cleanup at 14321"
+    },
+    {
+      "test": "only_dispositioned_removed",
+      "passed": true,
+      "detail": "processed-files gate found for cleanup"
+    },
+    {
+      "test": "dispatch_inputs_complete",
+      "passed": true,
+      "detail": "all required inputs present"
+    }
+  ]
+}
