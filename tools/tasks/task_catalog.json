@@ -11,41 +11,6 @@
       "transition_class": "tooling",
       "authority": "review_only",
       "entry_point": "scripts/candidate_bundle_review.py",
-      "inputs": {
-        "ref": {
-          "type": "file_path",
-          "description": "Path to candidate_bundle_ref.json",
-          "required": true
-        },
-        "entity": {
-          "type": "string",
-          "description": "StegVerse entity identifier",
-          "required": true
-        },
-        "stage": {
-          "type": "string",
-          "description": "Current governed stage",
-          "required": true
-        },
-        "report": {
-          "type": "file_path",
-          "description": "Output path for review report JSON",
-          "required": false,
-          "default": "reports/current/candidate_bundle_review_report.json"
-        },
-        "receipt": {
-          "type": "file_path",
-          "description": "Output path for receipt JSONL",
-          "required": false,
-          "default": "receipts/current/candidate_bundle_review_receipt.jsonl"
-        },
-        "output": {
-          "type": "file_path",
-          "description": "Output path for markdown summary",
-          "required": false,
-          "default": "outputs/candidate_bundle_review.md"
-        }
-      },
       "expected_outputs": [
         "reports/current/candidate_bundle_review_report.json",
         "receipts/current/candidate_bundle_review_receipt.jsonl",
@@ -57,11 +22,6 @@
         "FAIL_CLOSED"
       ],
       "stop_condition": "Decision emitted and receipt written",
-      "triad_checks": {
-        "gcat_bcat": "stubbed \u2014 must resolve for binding transitions",
-        "ecat_icat": "stubbed \u2014 must resolve for binding transitions",
-        "existence": "stubbed \u2014 review-only transitions may proceed with warning"
-      },
       "governance": {
         "no_broad_authority": true,
         "no_root_readme_overwrite": true,
@@ -80,26 +40,6 @@
       "authority": "apply_pending_review",
       "entry_point": "scripts/candidate_bundle_apply.py",
       "status": "declared_not_implemented",
-      "inputs": {
-        "ref": {
-          "type": "file_path",
-          "description": "Path to candidate_bundle_ref.json",
-          "required": true
-        },
-        "review_receipt": {
-          "type": "file_path",
-          "description": "Path to the ALLOW_CANDIDATE_REVIEW receipt from the prior review run",
-          "required": true
-        },
-        "entity": {
-          "type": "string",
-          "required": true
-        },
-        "stage": {
-          "type": "string",
-          "required": true
-        }
-      },
       "expected_outputs": [
         "reports/current/candidate_bundle_apply_report.json",
         "receipts/current/candidate_bundle_apply_receipt.jsonl",
@@ -129,36 +69,6 @@
       "transition_class": "tooling",
       "authority": "gate_only",
       "entry_point": "scripts/stegverse_apply_gate.py",
-      "inputs": {
-        "request": {
-          "type": "file_path",
-          "description": "Path to apply_request.json",
-          "required": true
-        },
-        "entity": {
-          "type": "string",
-          "required": true
-        },
-        "stage": {
-          "type": "string",
-          "required": true
-        },
-        "report": {
-          "type": "file_path",
-          "required": false,
-          "default": "reports/current/stegverse_apply_review_report.json"
-        },
-        "receipt": {
-          "type": "file_path",
-          "required": false,
-          "default": "receipts/current/stegverse_apply_review_receipt.jsonl"
-        },
-        "output": {
-          "type": "file_path",
-          "required": false,
-          "default": "outputs/stegverse_apply_review.md"
-        }
-      },
       "expected_outputs": [
         "outputs/stegverse_apply_review.md",
         "reports/current/stegverse_apply_review_report.json",
@@ -171,11 +81,6 @@
         "DEFER"
       ],
       "stop_condition": "Decision emitted and receipt written before any apply execution",
-      "triad_checks": {
-        "gcat_bcat": "stubbed \u2014 returns False for broad authority, None otherwise",
-        "ecat_icat": "stubbed \u2014 returns False if entity/requester missing, None otherwise",
-        "existence": "stubbed \u2014 returns None for create/update, None for delete (defers)"
-      },
       "governance": {
         "no_broad_authority": true,
         "no_root_readme_overwrite": true,
@@ -220,6 +125,42 @@
         "receipt_before_claim": true
       },
       "notes": "Use this task after manual installation of core_lite/transition_table and related tests. This task does not ingest or install bundles."
+    },
+    {
+      "task_id": "sv002.bundle.ingestion.smoke_test",
+      "stage": "SV002-M11",
+      "allowed_stages": [
+        "SV002-M11",
+        "SV002-M12"
+      ],
+      "description": "Run a controlled bundle ingestion smoke test outside incoming/. Creates a known-good bundle fixture, runs BundleIngestor directly, and captures exact status/errors.",
+      "capability": "bundle_ingestion_smoke_test",
+      "transition_class": "tooling",
+      "authority": "test_only",
+      "entry_point": "scripts/run_bundle_ingestion_smoke_test.py",
+      "command": "python scripts/run_bundle_ingestion_smoke_test.py",
+      "timeout_seconds": 300,
+      "expected_outputs": [
+        "reports/current/bundle_ingestion_smoke_test_report.json",
+        "receipts/current/bundle_ingestion_smoke_test_receipt.jsonl",
+        "outputs/bundle_ingestion_smoke_test.md",
+        "dist/run_artifacts/bundle-ingestion-smoke-test.zip"
+      ],
+      "decision_set": [
+        "ALLOW",
+        "FAIL_CLOSED"
+      ],
+      "stop_condition": "Controlled bundle fixture created, BundleIngestor executed, report and receipt written",
+      "governance": {
+        "no_broad_authority": true,
+        "no_root_readme_overwrite": true,
+        "no_workflow_changes": true,
+        "default_deny": true,
+        "test_only": true,
+        "does_not_use_incoming_mailbox": true,
+        "receipt_before_claim": true
+      },
+      "notes": "Use this to isolate bundle ingestion failures without relying on crowded incoming/ mailbox state."
     }
   ]
 }
