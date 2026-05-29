@@ -1,0 +1,47 @@
+{
+  "schema": "stegverse.task_catalog_patch.v1",
+  "description": "Patch entries to add to tools/tasks/task_catalog.json",
+  "note": "Merge these entries into the existing task_catalog.json tasks array",
+  "tasks": [
+    {
+      "task_id": "sv002.incoming.cleanup",
+      "description": "Retroactive and forward cleanup of the incoming/ directory. Classifies all files, writes disposition receipts, removes processed payloads, quarantines unknown files, retains README.md and .gitkeep.",
+      "command": [
+        "python",
+        "scripts/incoming_cleanup.py",
+        "--incoming-dir", "incoming",
+        "--repo-root", ".",
+        "--receipt-dir", "receipts",
+        "--report-dir", "reports/current",
+        "--quarantine-dir", "quarantine/incoming"
+      ],
+      "expected_outputs": {
+        "reports/current/incoming_cleanup_report.json": true,
+        "receipts/incoming_cleanup_receipt.jsonl": true
+      },
+      "stage": "SV002-M11",
+      "authority": "scoped_repo_write",
+      "stop_condition": "incoming/ contains only README.md and .gitkeep"
+    },
+    {
+      "task_id": "sv002.incoming.cleanup.dry_run",
+      "description": "Dry run of incoming/ cleanup — reports what would be removed without making changes.",
+      "command": [
+        "python",
+        "scripts/incoming_cleanup.py",
+        "--incoming-dir", "incoming",
+        "--repo-root", ".",
+        "--receipt-dir", "receipts",
+        "--report-dir", "reports/current",
+        "--quarantine-dir", "quarantine/incoming",
+        "--dry-run"
+      ],
+      "expected_outputs": {
+        "reports/current/incoming_cleanup_report.json": true
+      },
+      "stage": "SV002-M11",
+      "authority": "read_only",
+      "stop_condition": "dry run report produced"
+    }
+  ]
+}
