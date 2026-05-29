@@ -123,6 +123,11 @@ class EvidencePlaneContribution:
     candidate_provider: str = ""
     candidate_round: int = 0
 
+    # Formalism anchor — set on first governed cycle
+    formalism_anchor: bool = False
+    formalism_anchor_entity: str = ""
+    formalism_anchor_stage: str = ""
+
     # Receipt hash of this contribution
     contribution_hash: str = ""
 
@@ -155,6 +160,11 @@ class EvidencePlaneContribution:
             "provider_signal": {
                 "candidate_provider": self.candidate_provider,
                 "candidate_round": self.candidate_round,
+            },
+            "formalism_anchor": {
+                "is_anchor": self.formalism_anchor,
+                "entity": self.formalism_anchor_entity,
+                "stage": self.formalism_anchor_stage,
             },
             "contribution_hash": self.contribution_hash,
         }
@@ -227,6 +237,11 @@ class EvidencePlaneBuilder:
             candidate_provider=t.get("candidate_provider", ""),
             candidate_round=int(t.get("candidate_round", 0) or 0),
         )
+        # Mark as formalism anchor if this is the first contribution
+        if not os.path.exists(os.path.join(self.evidence_plane_root, "evidence_plane.jsonl")):
+            c.formalism_anchor = True
+            c.formalism_anchor_entity = "StegVerse-002"
+            c.formalism_anchor_stage = "SV002-M11"
         c.finalize()
         self._append(c)
         return c
