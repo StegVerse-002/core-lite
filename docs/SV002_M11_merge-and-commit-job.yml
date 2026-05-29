@@ -1,0 +1,147 @@
+  merge-and-commit:
+    runs-on: ubuntu-latest
+    needs: [claude-agent, openai-agent]
+    if: ${{ always() && github.event_name == 'workflow_dispatch' && (inputs.agent_provider == 'openai' || inputs.agent_provider == 'claude' || inputs.agent_provider == 'both') }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install PyYAML
+        run: pip install pyyaml --break-system-packages
+
+      - name: Download Claude output
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: claude-response
+          path: downloaded/claude
+
+      - name: Download OpenAI output
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: openai-response
+          path: downloaded/openai
+
+      - name: Stage downloaded artifacts
+        run: |
+          set -euo pipefail
+          mkdir -p outputs reports/current receipts/current dist/bundles
+          [ -f downloaded/claude/outputs/claude_response.md ] && cp downloaded/claude/outputs/claude_response.md outputs/claude_response.md || true
+          [ -f downloaded/openai/outputs/chatgpt_response.md ] && cp downloaded/openai/outputs/chatgpt_response.md outputs/chatgpt_response.md || true
+          [ -f downloaded/openai/receipts/current/openai_task_receipt.jsonl ] && cp downloaded/openai/receipts/current/openai_task_receipt.jsonl receipts/current/openai_task_receipt.jsonl || true
+
+      - name: Validate Claude candidate
+        id: validate-claude
+        continue-on-error: true
+        run: |
+          python scripts/candidate_validator.py \
+            --input outputs/claude_response.md \
+            --provider claude \
+            --output-dir outputs \
+            --report-dir reports/current \
+            --receipt-dir receipts/current
+
+      - name: Validate OpenAI candidate
+        id: validate-openai
+        continue-on-error: true
+        run: |
+          python scripts/candidate_validator.py \
+            --input outputs/chatgpt_response.md \
+            --provider openai \
+            --output-dir outputs \
+            --report-dir reports/current \
+            --receipt-dir receipts/current
+
+      - name: Check at least one valid candidate
+        run: |
+          set -euo pipefail
+          CLAUDE_OK=false
+          OPENAI_OK=false
+          [ -f outputs/claude_candidate.json ] && CLAUDE_OK=true
+          [ -f outputs/openai_candidate.json ] && OPENAI_OK=true
+          if [ "${CLAUDE_OK}" = "false" ] && [ "${OPENAI_OK}" = "false" ]; then
+            echo "::error::Both candidates failed validation. No synthesis possible."
+            echo "## Merge-and-Commit — BLOCKED" >> "${GITHUB_STEP_SUMMARY}"
+            echo "Both candidates rejected by validator. No bundle produced." >> "${GITHUB_STEP_SUMMARY}"
+            exit 1
+          fi
+          echo "claude_valid=${CLAUDE_OK}" >> "${GITHUB_STEP_SUMMARY}"
+          echo "openai_valid=${OPENAI_OK}" >> "${GITHUB_STEP_SUMMARY}"
+
+      - name: Synthesize candidates
+        run: |
+          python scripts/candidate_synthesizer.py \
+            --claude outputs/claude_candidate.json \
+            --openai outputs/openai_candidate.json \
+            --output-dir outputs \
+            --report-dir reports/current \
+            --receipt-dir receipts/current
+
+      - name: Run deterministic tests against synthesized candidate
+        id: run-tests
+        run: |
+          python tests/test_candidate_workflow.py
+          echo "test_verdict=PASS" >> "${GITHUB_OUTPUT}"
+
+      - name: Package synthesized candidate bundle
+        run: |
+          python scripts/package_candidate_bundle.py \
+            --synthesized-candidate outputs/synthesized_candidate.json \
+            --output-dir outputs \
+            --report-dir reports/current \
+            --receipt-dir receipts/current \
+            --dist-dir dist/bundles
+
+      - name: Route bundle to incoming for governed ingestion
+        run: |
+          set -euo pipefail
+          BUNDLE_PATH="$(cat reports/current/winning_candidate_bundle_path.txt | tr -d '[:space:]')"
+          if [ -z "${BUNDLE_PATH}" ] || [ ! -f "${BUNDLE_PATH}" ]; then
+            echo "::error::Bundle path missing or file not found."
+            exit 1
+          fi
+          DEST="incoming/$(basename ${BUNDLE_PATH})"
+          cp "${BUNDLE_PATH}" "${DEST}"
+          git config user.name "StegVerse-002 Agent Coordinator"
+          git config user.email "sv002-agent-coordinator@stegverse"
+          git add \
+            "${DEST}" \
+            outputs/ \
+            reports/current/ \
+            receipts/current/ \
+            dist/bundles/ \
+            scripts/candidate_validator.py \
+            scripts/candidate_synthesizer.py \
+            scripts/package_candidate_bundle.py \
+            tests/test_candidate_workflow.py \
+            SV002_M11_SYNTHESIZED_INTAKE_REPAIR_UPLOAD.md || true
+          git commit -m "sv002: route synthesized candidate bundle to incoming for governed ingestion"
+          git push
+          {
+            echo "## Merge-and-Commit — Bundle Routed"
+            echo
+            echo "Bundle: \`$(basename ${BUNDLE_PATH})\`"
+            echo
+            echo "Destination: \`${DEST}\`"
+            echo
+            echo "Push trigger will fire \`declared-input-route\` for disposition gate ingestion."
+          } >> "${GITHUB_STEP_SUMMARY}"
+
+      - name: Upload coordination evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: merge-coordination-evidence
+          path: |
+            outputs/
+            reports/current/
+            receipts/current/
+            dist/bundles/
+            SV002_M11_SYNTHESIZED_INTAKE_REPAIR_UPLOAD.md
+          if-no-files-found: warn
