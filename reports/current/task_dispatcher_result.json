@@ -1,7 +1,7 @@
 {
   "status": "success",
-  "task_id": "sv002.bundle.ingestion.smoke_test",
+  "task_id": "sv002.incoming.cleanup",
   "returncode": 0,
-  "stdout": "{\n  \"artifact_path\": \"dist/run_artifacts/bundle-ingestion-smoke-test.zip\",\n  \"decision\": \"ALLOW\",\n  \"exception_tail\": \"\",\n  \"failure_class\": \"none\",\n  \"fixture_zip\": \"tests/fixtures/bundles/minimal_ingestible_bundle.zip\",\n  \"ingest_decision\": \"ALLOW\",\n  \"ingest_errors\": [],\n  \"ingest_status\": \"success\",\n  \"probe_exists\": true,\n  \"receipt_path\": \"receipts/current/bundle_ingestion_smoke_test_receipt.jsonl\",\n  \"report_path\": \"reports/current/bundle_ingestion_smoke_test_report.json\",\n  \"success\": true\n}\n",
+  "stdout": "{\n  \"status\": \"success\",\n  \"dry_run\": false,\n  \"total_scanned\": 15,\n  \"total_removed\": 13,\n  \"total_retained\": 2,\n  \"total_quarantined\": 0,\n  \"retained\": [\n    \".gitkeep\",\n    \"README.md\"\n  ],\n  \"removed\": [\n    \"sv002 m10 5 builder decoupled triad enforced candidate intake bundle.zip\",\n    \"sv002 m11 governed apply review boundary bundle.zip\",\n    \"sv002 m11 synthesized intake repair bundle.zip\",\n    \"sv002 m11 validation proof bundle.zip\",\n    \"sv002 validation candidate bundle ref.json\",\n    \"sv002_core_lite_operational_sandbox_ingestible_bundle.zip\",\n    \"sv002_core_lite_stegverse_output_authority_bundle.zip\",\n    \"sv002_ingestion_smoke_test_20260526T015814Z.zip\",\n    \"sv002_m11_disposition_gate_test_payload.zip\",\n    \"sv002_m11_disposition_gate_test_payload_20260528t235307z.zip\",\n    \"sv002_m11_governed_apply_review_boundary_bundle.zip\",\n    \"sv002_m11_incoming_only_push_ingestion_bundle.zip\"\n  ],\n  \"misplaced_moved\": [\n    \"core-lite-intake.yml\"\n  ],\n  \"quarantined\": [],\n  \"errors\": []\n}\n",
   "stderr": ""
 }
