@@ -1,0 +1,27 @@
+{
+  "schema": "stegverse.formalism_snapshot_manifest.v1",
+  "generated_utc": "2026-05-29T15:51:07.349467+00:00",
+  "source": "initial_commit",
+  "formalism_repo": "https://github.com/Data-Continuation/formalism-tests.git",
+  "formalism_commit": "pending-first-live-run",
+  "reports": [
+    {
+      "stage": 32,
+      "artifact": "stage32_tests",
+      "path": "formalisms/transition-table/reports/stage32_admissibility_space_report.json",
+      "sha256": "sha256:2473a681096939485a9f917090968e4a323d6b6e0ec96b394fdda0e822ac67b6"
+    },
+    {
+      "stage": 33,
+      "artifact": "stage33_tests",
+      "path": "formalisms/transition-table/reports/stage33_transition_graph_geometry_report.json",
+      "sha256": "sha256:e7bf048055f8cc0c5292fc9c9d10b07f3ecb51a3aee6d65f2ac22eb267b89ab6"
+    },
+    {
+      "stage": 34,
+      "artifact": "stage34_tests",
+      "path": "formalisms/transition-table/reports/stage34_repair_nearest_admissible_transition_report.json",
+      "sha256": "sha256:29ca8decfd6a20c7fabefad7f8008e7c7cfaaf919babd47cde457f7fbeb688b5"
+    }
+  ]
+}
