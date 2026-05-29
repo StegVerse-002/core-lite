@@ -1,7 +1,7 @@
 {
   "schema": "stegverse.task_catalog.v1",
   "entity": "StegVerse-002",
-  "updated_utc": "2026-05-29T00:00:00+00:00",
+  "updated_utc": "2026-05-29T12:26:00+00:00",
   "tasks": [
     {
       "task_id": "stegverse.candidate.intake.review",
@@ -161,6 +161,70 @@
         "receipt_before_claim": true
       },
       "notes": "Use this to isolate bundle ingestion failures without relying on crowded incoming/ mailbox state."
+    },
+    {
+      "task_id": "sv002.incoming.cleanup.dry_run",
+      "stage": "SV002-M11",
+      "allowed_stages": [
+        "SV002-M11",
+        "SV002-M12"
+      ],
+      "description": "Dry run of incoming/ cleanup. Reports what would be removed, moved, or quarantined without making any filesystem changes. Run this before sv002.incoming.cleanup.",
+      "capability": "incoming_cleanup_dry_run",
+      "transition_class": "tooling",
+      "authority": "read_only",
+      "command": "python scripts/incoming_cleanup.py --incoming-dir incoming --repo-root . --receipt-dir receipts --report-dir reports/current --quarantine-dir quarantine/incoming --dry-run",
+      "timeout_seconds": 120,
+      "expected_outputs": [
+        "reports/current/incoming_cleanup_report.json"
+      ],
+      "decision_set": [
+        "ALLOW",
+        "FAIL_CLOSED"
+      ],
+      "stop_condition": "Dry run report produced",
+      "governance": {
+        "no_broad_authority": true,
+        "no_root_readme_overwrite": true,
+        "no_workflow_changes": true,
+        "default_deny": true,
+        "read_only": true,
+        "no_filesystem_mutations": true
+      },
+      "notes": "Safe to run at any time. Makes no changes. Use to preview cleanup before running sv002.incoming.cleanup."
+    },
+    {
+      "task_id": "sv002.incoming.cleanup",
+      "stage": "SV002-M11",
+      "allowed_stages": [
+        "SV002-M11",
+        "SV002-M12"
+      ],
+      "description": "Retroactive and forward cleanup of the incoming/ directory. Classifies all files, writes disposition receipts, removes processed payloads, moves misplaced files to correct locations, quarantines unknown files, and retains README.md and .gitkeep.",
+      "capability": "incoming_cleanup",
+      "transition_class": "tooling",
+      "authority": "scoped_repo_write",
+      "command": "python scripts/incoming_cleanup.py --incoming-dir incoming --repo-root . --receipt-dir receipts --report-dir reports/current --quarantine-dir quarantine/incoming",
+      "timeout_seconds": 120,
+      "expected_outputs": [
+        "reports/current/incoming_cleanup_report.json",
+        "receipts/incoming_cleanup_receipt.jsonl"
+      ],
+      "decision_set": [
+        "ALLOW",
+        "FAIL_CLOSED"
+      ],
+      "stop_condition": "incoming/ contains only README.md and .gitkeep, receipts written for all removed files",
+      "governance": {
+        "no_broad_authority": true,
+        "no_root_readme_overwrite": true,
+        "no_workflow_changes": true,
+        "default_deny": true,
+        "receipt_before_claim": true,
+        "retains_readme_and_gitkeep": true,
+        "quarantines_unknown_files": true
+      },
+      "notes": "Run sv002.incoming.cleanup.dry_run first to preview. Misplaced files are moved to correct repo locations before removal from incoming/."
     }
   ]
 }
