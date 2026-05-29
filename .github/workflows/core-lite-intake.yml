@@ -306,91 +306,80 @@ jobs:
             echo "| dry_run | \`${DRY_RUN}\` |"
           } >> "${GITHUB_STEP_SUMMARY}"
 
-      - name: Process incoming payloads through disposition gate
-        id: disposition-gate
-        if: ${{ steps.bundle-handler.outputs.bundle_detected != 'true' }}
-        env:
-          STAGE_REF: ${{ steps.resolve-input.outputs.stage }}
+      - name: Run batch ingestion controller
+        id: batch-ingestion
         run: |
           set -euo pipefail
-          mkdir -p reports/current receipts/current tracking/incoming_mailbox quarantine/incoming dist/run_artifacts
-          : > reports/current/incoming_disposition_summary.jsonl
-          : > receipts/current/incoming_disposition_receipt.jsonl
+          mkdir -p reports/current receipts/current \
+            tracking/task_graph tracking/bundle_graph \
+            tracking/transition_graph tracking/comparison_graph \
+            tracking/evidence_plane \
+            incoming/mailbox quarantine/incoming \
+            dist/bundles dist/sandbox
           : > reports/current/incoming_disposition_processed_files.txt
 
           DRY_RUN_ARG=""
           if [ "${{ steps.resolve-input.outputs.dry_run }}" = "true" ]; then DRY_RUN_ARG="--dry-run"; fi
 
           if [ ! -s reports/current/incoming_changed_files.txt ]; then
-            echo "No changed incoming payloads selected; skipping processing."
+            echo "No changed incoming payloads to process."
             exit 0
           fi
 
-          RUN_FAILED=0
-
-          while IFS= read -r INPUT_PATH; do
-            [ -n "${INPUT_PATH}" ] || continue
-            [ "${INPUT_PATH}" != "incoming/README.md" ] || continue
-            [ -f "${INPUT_PATH}" ] || continue
-
-            SHA="$(sha256sum "${INPUT_PATH}" | awk '{print $1}')"
-            SHORT_SHA="$(printf "%s" "${SHA}" | cut -c1-16)"
-            BASE="$(basename "${INPUT_PATH}")"
-            EVENT_DIR="tracking/incoming_mailbox/${SHORT_SHA}"
-            STAGED_PAYLOAD="${EVENT_DIR}/${BASE}"
-            PIPELINE_LOG="${EVENT_DIR}/pipeline.log"
-            mkdir -p "${EVENT_DIR}"
-
-            cp "${INPUT_PATH}" "${STAGED_PAYLOAD}"
-
-            case "${INPUT_PATH}" in
-              *.zip) INFERRED_TYPE="bundle" ;;
-              *.json|*.jsonl|*.yml|*.yaml) INFERRED_TYPE="structured_data" ;;
-              *.md|*.txt) INFERRED_TYPE="document" ;;
-              *) INFERRED_TYPE="document" ;;
+          BUNDLES=""
+          while IFS= read -r f; do
+            [ -n "${f}" ] || continue
+            [ "${f}" != "incoming/README.md" ] || continue
+            [ -f "${f}" ] || continue
+            case "${f}" in
+              *.zip|*.tar.gz)
+                BUNDLES="${BUNDLES} ${f}"
+                ;;
+              *)
+                SHA="$(sha256sum "${f}" | awk '{print $1}')"
+                python3 -c "import os,json,datetime; print(json.dumps({'schema':'stegverse.incoming_disposition.v1','timestamp_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'source_path':os.environ['F'],'sha256':os.environ['SHA'],'disposition':'NON_BUNDLE_SKIPPED'},sort_keys=True))" F="${f}" SHA="${SHA}" >> reports/current/incoming_disposition_summary.jsonl || true
+                echo "${f}" >> reports/current/incoming_disposition_processed_files.txt
+                ;;
             esac
-
-            STATUS="UNKNOWN"
-            DISPOSITION="UNKNOWN"
-            REASON=""
-
-            set +e
-            python -m core_lite.multimodal.pipeline \
-              --repo-root . \
-              --input-type "${INFERRED_TYPE}" \
-              --input-path "${STAGED_PAYLOAD}" \
-              --entity "${STEGVERSE_ENTITY}" \
-              --stage "${STAGE_REF}" \
-              ${DRY_RUN_ARG} > "${PIPELINE_LOG}" 2>&1
-            EXIT_CODE=$?
-            set -e
-
-            if [ "${EXIT_CODE}" -eq 0 ]; then
-              STATUS="EVALUATED"
-              DISPOSITION="INSTALLED_OR_ACCEPTED"
-              REASON="pipeline exited 0; payload staged, recorded, and eligible for removal from incoming"
-            else
-              STATUS="EVALUATED"
-              DISPOSITION="QUARANTINED"
-              REASON="pipeline exited ${EXIT_CODE}; payload copied to quarantine before removal from incoming"
-              mkdir -p "quarantine/incoming/${SHORT_SHA}"
-              cp "${STAGED_PAYLOAD}" "quarantine/incoming/${SHORT_SHA}/${BASE}"
-              RUN_FAILED=1
-            fi
-
-            export INPUT_PATH STAGED_PAYLOAD SHA INFERRED_TYPE STATUS DISPOSITION REASON EXIT_CODE STAGE_REF
-            RECORD="$(python3 -c "import os, json, datetime; print(json.dumps({'schema': 'stegverse.incoming_disposition.v1', 'timestamp_utc': datetime.datetime.now(datetime.timezone.utc).isoformat(), 'stage': os.environ.get('STAGE_REF', ''), 'source_path': os.environ['INPUT_PATH'], 'staged_payload': os.environ['STAGED_PAYLOAD'], 'sha256': os.environ['SHA'], 'input_type': os.environ['INFERRED_TYPE'], 'status': os.environ['STATUS'], 'disposition': os.environ['DISPOSITION'], 'reason': os.environ['REASON'], 'pipeline_exit_code': int(os.environ.get('EXIT_CODE', '0') or '0')}, sort_keys=True))")"
-
-            printf '%s\n' "${RECORD}" >> reports/current/incoming_disposition_summary.jsonl
-            printf '%s\n' "${RECORD}" >> receipts/current/incoming_disposition_receipt.jsonl
-            echo "${INPUT_PATH}" >> reports/current/incoming_disposition_processed_files.txt
           done < reports/current/incoming_changed_files.txt
 
-          echo "${RUN_FAILED}" > reports/current/incoming_disposition_exit_code.txt
-
-          if [ "${RUN_FAILED}" -ne 0 ]; then
-            echo "::warning::One or more changed incoming payloads were quarantined after evaluation."
+          if [ -z "${BUNDLES}" ]; then
+            echo "No bundle files found in changed payloads."
+            exit 0
           fi
+
+          set +e
+          python3 scripts/run_batch_ingestion.py \
+            --bundles ${BUNDLES} \
+            --entity "${STEGVERSE_ENTITY}" \
+            --stage "${{ steps.resolve-input.outputs.stage }}" \
+            --repo-root . \
+            --report-dir reports/current \
+            --receipt-dir receipts/current \
+            --mailbox-root incoming/mailbox \
+            --tracking-root tracking \
+            --quarantine-dir quarantine/incoming \
+            --dist-dir dist/bundles \
+            --sandbox-dist-dir dist/sandbox \
+            ${DRY_RUN_ARG} > reports/current/batch_ingestion_run_output.json 2>&1
+          BATCH_EXIT=$?
+          set -e
+
+          cat reports/current/batch_ingestion_run_output.json || true
+
+          for b in ${BUNDLES}; do
+            echo "${b}" >> reports/current/incoming_disposition_processed_files.txt
+          done
+
+          if [ "${BATCH_EXIT}" -ne 0 ]; then
+            echo "::warning::Batch ingestion exit ${BATCH_EXIT} — check batch_ingestion_report.json"
+          fi
+
+          {
+            echo "## Batch Ingestion Result"
+            echo
+            cat reports/current/batch_ingestion_run_output.json || echo "no output"
+          } >> "${GITHUB_STEP_SUMMARY}"
 
       - name: Cleanup only dispositioned changed incoming payloads
         if: always()
