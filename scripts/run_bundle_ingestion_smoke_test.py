@@ -3,10 +3,18 @@ from __future__ import annotations
 
 import hashlib
 import json
+import sys
 import traceback
 import zipfile
 from datetime import datetime, timezone
 from pathlib import Path
+
+# Critical for script execution from scripts/*.py:
+# `python scripts/run_*.py` sets sys.path[0] to scripts/, not the repository root.
+# Insert the repo root so `import core_lite...` resolves under headless GitHub Actions.
+REPO_ROOT = Path(__file__).resolve().parents[1]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
 
 REPORT_PATH = Path("reports/current/bundle_ingestion_smoke_test_report.json")
 RECEIPT_PATH = Path("receipts/current/bundle_ingestion_smoke_test_receipt.jsonl")
@@ -72,6 +80,23 @@ def run_ingestor(fixture_zip: Path) -> dict:
     ingestor = BundleIngestor(Path("."), entity="StegVerse-002", stage="SV002-M11", dry_run=False)
     return ingestor.ingest(fixture_zip)
 
+def classify_failure(ingest_report, exception_text: str, probe_exists: bool) -> str:
+    if exception_text:
+        if "ModuleNotFoundError" in exception_text and "core_lite" in exception_text:
+            return "repo_root_not_on_pythonpath"
+        if "emit_ingestion_receipt" in exception_text or "ReceiptRecorder" in exception_text:
+            return "bundle_ingestor_receipt_emission_exception"
+        return "bundle_ingestor_exception"
+    if ingest_report is None:
+        return "bundle_ingestor_returned_no_report"
+    if ingest_report.get("errors"):
+        return "bundle_ingestor_reported_errors"
+    if ingest_report.get("status") != "success":
+        return "bundle_ingestor_non_success_status"
+    if not probe_exists:
+        return "probe_file_not_installed"
+    return "unknown"
+
 def main() -> int:
     started_at = utc_now()
     fixture_info = build_fixture()
@@ -91,46 +116,30 @@ def main() -> int:
         and ingest_report.get("status") == "success"
         and ingest_report.get("decision") == "ALLOW"
         and probe_exists
+        and not exception_text
     )
-
-    if success:
-        failure_class = "none"
-    elif exception_text:
-        failure_class = "bundle_ingestor_exception"
-    elif ingest_report is None:
-        failure_class = "bundle_ingestor_returned_no_report"
-    elif ingest_report.get("errors"):
-        failure_class = "bundle_ingestor_reported_errors"
-    elif ingest_report.get("status") != "success":
-        failure_class = "bundle_ingestor_non_success_status"
-    elif not probe_exists:
-        failure_class = "probe_file_not_installed"
-    else:
-        failure_class = "unknown"
+    failure_class = "none" if success else classify_failure(ingest_report, exception_text, probe_exists)
+    exception_tail = exception_text[-6000:] if exception_text else ""
 
     report = {
-        "schema": "stegverse.bundle_ingestion_smoke_test_report.v1",
+        "schema": "stegverse.bundle_ingestion_smoke_test_report.v2",
         "success": success,
         "decision": "ALLOW" if success else "FAIL_CLOSED",
         "started_at": started_at,
         "finished_at": utc_now(),
         "failure_class": failure_class,
+        "repo_root": str(REPO_ROOT),
+        "pythonpath_head": sys.path[:5],
         "fixture": fixture_info,
         "ingest_report": ingest_report,
         "exception": exception_text,
+        "exception_tail": exception_tail,
         "probe": {
             "path": str(PROBE_PATH),
             "exists": probe_exists,
             "sha256": "sha256:" + sha256_bytes(probe_text.encode("utf-8")) if probe_exists else "",
             "text_preview": probe_text[:500] if probe_exists else "",
         },
-        "diagnostic_notes": [
-            "This smoke test does not use incoming/.",
-            "This smoke test creates a minimal stegverse.bundle_manifest.v1 zip fixture.",
-            "This smoke test calls core_lite.bundles.ingest.BundleIngestor directly.",
-            "If this passes, the remaining bundle problem is likely workflow/incoming routing or manifest-schema mismatch in user bundles.",
-            "If this fails, the failure_class and ingest_report errors identify the BundleIngestor-level repair target."
-        ],
         "expected_outputs": {
             "reports/current/bundle_ingestion_smoke_test_report.json": True,
             "receipts/current/bundle_ingestion_smoke_test_receipt.jsonl": True,
@@ -140,7 +149,8 @@ def main() -> int:
     }
 
     write_outputs(report)
-    print(json.dumps({
+
+    compact = {
         "success": report["success"],
         "decision": report["decision"],
         "failure_class": report["failure_class"],
@@ -149,17 +159,19 @@ def main() -> int:
         "ingest_decision": ingest_report.get("decision") if isinstance(ingest_report, dict) else None,
         "ingest_errors": ingest_report.get("errors") if isinstance(ingest_report, dict) else None,
         "probe_exists": probe_exists,
+        "exception_tail": exception_tail,
         "report_path": str(REPORT_PATH),
         "receipt_path": str(RECEIPT_PATH),
         "artifact_path": str(ARTIFACT_PATH),
-    }, indent=2, sort_keys=True))
+    }
+    print(json.dumps(compact, indent=2, sort_keys=True))
     return 0 if success else 1
 
 def write_outputs(report: dict) -> None:
     write_json(REPORT_PATH, report)
     report_text = json.dumps(report, sort_keys=True)
     receipt = {
-        "schema": "stegverse.bundle_ingestion_smoke_test_receipt.v1",
+        "schema": "stegverse.bundle_ingestion_smoke_test_receipt.v2",
         "timestamp_utc": utc_now(),
         "stage": "SV002-M11",
         "gate": "bundle_ingestion_smoke_test",
@@ -201,10 +213,10 @@ def write_outputs(report: dict) -> None:
             json.dumps(ingest_summary, indent=2, sort_keys=True),
             "```",
             "",
-            "## Exception",
+            "## Exception Tail",
             "",
             "```text",
-            report.get("exception", ""),
+            report.get("exception_tail", ""),
             "```",
             "",
             "## Probe",
