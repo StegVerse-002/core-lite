@@ -1,0 +1,21 @@
+{
+  "schema": "stegverse.fixture_index.v1",
+  "generated_utc": "2026-05-29T15:50:58.049449+00:00",
+  "fixtures": [
+    {
+      "name": "minimal_ingestible_bundle.zip",
+      "transition_class": "evidence",
+      "purpose": "smoke test \u2014 simplest valid ingestible bundle"
+    },
+    {
+      "name": "candidate_fixture_bundle.zip",
+      "transition_class": "candidate",
+      "purpose": "candidate ingestion gate tests"
+    },
+    {
+      "name": "install_fixture_bundle.zip",
+      "transition_class": "install",
+      "purpose": "install gate tests"
+    }
+  ]
+}
