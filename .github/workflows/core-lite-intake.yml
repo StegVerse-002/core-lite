@@ -494,6 +494,8 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+      - name: Install core_lite and dependencies
+        run: pip install -e . --break-system-packages -q
       - name: Execute declared task
         run: |
           set -euo pipefail
@@ -504,7 +506,7 @@ jobs:
           if [ "${{ inputs.dry_run }}" = "true" ]; then DRY_RUN_ARG="--dry-run"; fi
 
           set +e
-          python -m tools.scripts.task_dispatcher \
+          python3 -m tools.scripts.task_dispatcher \
             --task-id "${{ inputs.task_id }}" \
             --task-catalog tools/tasks/task_catalog.json \
             --entity "${STEGVERSE_ENTITY}" \
@@ -526,7 +528,7 @@ jobs:
           set -euo pipefail
           git config user.name "StegVerse-002 Task Dispatcher"
           git config user.email "sv002-task-dispatcher@stegverse"
-          git add -A outputs/ reports/current/ receipts/current/ tracking/ dist/ agent_history/ || true
+          git add -A incoming/ outputs/ reports/current/ receipts/current/ tracking/ quarantine/ dist/ agent_history/ || true
           if git diff --staged --quiet; then
             echo "- Declared task produced no changes to commit." >> "${GITHUB_STEP_SUMMARY}"
             echo "::warning::Declared task produced no changes to commit."
