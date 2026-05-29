@@ -1,6 +1,6 @@
 {
   "schema": "stegverse.incoming_cleanup_report.v1",
-  "timestamp_utc": "2026-05-29T18:33:25.156903+00:00",
+  "timestamp_utc": "2026-05-29T18:59:35.666817+00:00",
   "incoming_dir": "incoming",
   "dry_run": false,
   "retained": [
