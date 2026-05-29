@@ -1,0 +1,81 @@
+{
+  "schema": "stegverse.test_report.v1",
+  "timestamp_utc": "2026-05-29T14:17:26.943980+00:00",
+  "test_suite": "test_transition_table_resolver",
+  "verdict": "PASS",
+  "passed": 14,
+  "failed": 0,
+  "total": 14,
+  "results": [
+    {
+      "test": "valid_candidate_decision",
+      "passed": true,
+      "detail": "decision=ALLOW_CANDIDATE_ONLY"
+    },
+    {
+      "test": "valid_candidate_disposition",
+      "passed": true,
+      "detail": "disposition=CANDIDATE_ACCEPTED_FOR_COMPARISON"
+    },
+    {
+      "test": "valid_candidate_no_errors",
+      "passed": true,
+      "detail": "errors=[]"
+    },
+    {
+      "test": "missing_transition_fail_closed",
+      "passed": true,
+      "detail": "decision=FAIL_CLOSED"
+    },
+    {
+      "test": "unknown_class_fail_closed",
+      "passed": true,
+      "detail": "decision=FAIL_CLOSED, errors=[\"FAIL_CLOSED: transition_class 'quantum_leap' is unknown (known: ['candidate', 'evidence', 'execution', 'install', 'repair'])\"]"
+    },
+    {
+      "test": "missing_task_hash_has_errors",
+      "passed": true,
+      "detail": "errors=[\"missing required field 'task_hash' for transition_class 'candidate'\"]"
+    },
+    {
+      "test": "missing_task_hash_high_delta_P",
+      "passed": true,
+      "detail": "delta_P=0.5"
+    },
+    {
+      "test": "authority_mismatch_has_errors",
+      "passed": true,
+      "detail": "errors=[\"authority_class 'scoped_repo_write' not allowed for 'candidate' (allowed: ['candidate_evidence_only'])\"]"
+    },
+    {
+      "test": "state_effect_mismatch_has_errors",
+      "passed": true,
+      "detail": "errors=[\"state_effect 'code_state' not allowed for 'candidate' (allowed: ['evidence_state'])\"]"
+    },
+    {
+      "test": "install_decision_allow",
+      "passed": true,
+      "detail": "decision=ALLOW"
+    },
+    {
+      "test": "install_installs_code",
+      "passed": true,
+      "detail": "installs_code=True"
+    },
+    {
+      "test": "execution_no_authority_high_delta_U",
+      "passed": true,
+      "detail": "delta_U=0.9, decision=FAIL_CLOSED"
+    },
+    {
+      "test": "all_coordinate_keys_present",
+      "passed": true,
+      "detail": "missing=set()"
+    },
+    {
+      "test": "allows_candidate_processing",
+      "passed": true,
+      "detail": "decision=ALLOW_CANDIDATE_ONLY, installs_code=False"
+    }
+  ]
+}

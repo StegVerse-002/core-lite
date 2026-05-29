@@ -1,0 +1,71 @@
+{
+  "schema": "stegverse.test_report.v1",
+  "timestamp_utc": "2026-05-29T14:17:27.011739+00:00",
+  "test_suite": "test_bundle_ingest_cge_transition_gate",
+  "verdict": "PASS",
+  "passed": 12,
+  "failed": 0,
+  "total": 12,
+  "results": [
+    {
+      "test": "candidate_decision_allow_candidate_only",
+      "passed": true,
+      "detail": "decision=ALLOW_CANDIDATE_ONLY"
+    },
+    {
+      "test": "candidate_disposition_accepted",
+      "passed": true,
+      "detail": "disposition=CANDIDATE_ACCEPTED_FOR_COMPARISON"
+    },
+    {
+      "test": "candidate_no_code_install",
+      "passed": true,
+      "detail": "installs_code=False"
+    },
+    {
+      "test": "candidate_receipt_hash_present",
+      "passed": true,
+      "detail": "receipt_hash=sha256:3dfbe8f0a8b52..."
+    },
+    {
+      "test": "no_manifest_fail_closed",
+      "passed": true,
+      "detail": "decision=FAIL_CLOSED"
+    },
+    {
+      "test": "install_decision_allow",
+      "passed": true,
+      "detail": "decision=ALLOW"
+    },
+    {
+      "test": "install_installs_code",
+      "passed": true,
+      "detail": "installs_code=True"
+    },
+    {
+      "test": "transition_table_receipt_written",
+      "passed": true,
+      "detail": "path=/tmp/tmptgei10ej/receipts/current/transition_table_receipt.jsonl"
+    },
+    {
+      "test": "cge_receipt_written",
+      "passed": true,
+      "detail": "path=/tmp/tmptgei10ej/receipts/current/cge_admissibility_receipt.jsonl"
+    },
+    {
+      "test": "report_written",
+      "passed": true,
+      "detail": "path=/tmp/tmptgei10ej/reports/current/transition_table_report.json"
+    },
+    {
+      "test": "dry_run_preserved",
+      "passed": true,
+      "detail": "dry_run=True"
+    },
+    {
+      "test": "coordinates_present",
+      "passed": true,
+      "detail": "keys=['delta_C', 'delta_R', 'delta_P', 'delta_U', 'delta_O', 'd_boundary_A', 'd_A']"
+    }
+  ]
+}
