@@ -1,0 +1,63 @@
+{
+  "schema": "stegverse.stage32.admissibility_space_report.v1",
+  "stage": 32,
+  "name": "Admissibility-Space Coordinates",
+  "success": true,
+  "generated_at": "2026-05-29T05:22:31.965050+00:00",
+  "boundary_metrics": {
+    "delta_C": {
+      "symbol": "coherence_deficit",
+      "measurable": true
+    },
+    "delta_R": {
+      "symbol": "recoverability_deficit",
+      "measurable": true
+    },
+    "delta_P": {
+      "symbol": "purpose_convergence_deficit",
+      "measurable": true
+    },
+    "delta_U": {
+      "symbol": "operator_authority_deficit",
+      "measurable": true
+    },
+    "delta_O": {
+      "symbol": "observability_deficit",
+      "measurable": true
+    },
+    "d_boundary_A": {
+      "symbol": "distance_to_boundary",
+      "measurable": true
+    },
+    "d_A": {
+      "symbol": "distance_to_admissible_region",
+      "measurable": true
+    }
+  },
+  "decision_regions": {
+    "ALLOW": {
+      "region": "interior_admissible_region",
+      "boundary_role": "inside_A"
+    },
+    "DENY": {
+      "region": "coherent_exterior_region",
+      "boundary_role": "boundary_crossing"
+    },
+    "SANDBOX": {
+      "region": "bounded_uncertain_boundary_shell",
+      "boundary_role": "search_shell"
+    },
+    "REVIEW": {
+      "region": "observability_deficit_shell",
+      "boundary_role": "classification_insufficient"
+    },
+    "FAIL_CLOSED": {
+      "region": "coherence_collapse",
+      "boundary_role": "collapse_not_crossing"
+    },
+    "QUARANTINE": {
+      "region": "isolated_preservation_state",
+      "boundary_role": "metric_preservation"
+    }
+  }
+}

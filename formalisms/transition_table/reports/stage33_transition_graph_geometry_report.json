@@ -1,0 +1,35 @@
+{
+  "schema": "stegverse.stage33.transition_graph_geometry_report.v1",
+  "stage": 33,
+  "name": "Transition Graph as Geometric Structure",
+  "success": true,
+  "generated_at": "2026-05-29T05:22:31.998567+00:00",
+  "graph_definition": {
+    "graph": "G=(V,E)",
+    "nodes": [
+      "task",
+      "bundle",
+      "candidate",
+      "merged_candidate",
+      "test_result",
+      "install_bundle",
+      "receipt",
+      "formalism_registry",
+      "quarantine_state"
+    ],
+    "edges": [
+      "produced_candidate",
+      "contained_in_bundle",
+      "references_formalism",
+      "validated_by",
+      "compared_with",
+      "synthesized_into",
+      "tested_by",
+      "packaged_into",
+      "supersedes",
+      "quarantined_as",
+      "installed_as"
+    ],
+    "discovery": "constrained_shortest_path_over_directed_receipt_bound_graph"
+  }
+}

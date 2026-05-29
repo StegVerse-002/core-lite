@@ -1,0 +1,16 @@
+{
+  "schema": "stegverse.stage34.repair_nearest_admissible_transition_report.v1",
+  "stage": 34,
+  "name": "Repair as Nearest-Admissible-Transition",
+  "success": true,
+  "generated_at": "2026-05-29T05:22:32.032737+00:00",
+  "repair_problem": {
+    "objective": "find T_repair in R such that T_repair(S0) in A and repair_cost is minimized"
+  },
+  "sandbox_definition": {
+    "role": "bounded_search_space_for_repair_candidates"
+  },
+  "quarantine_definition": {
+    "role": "metric_preservation_state"
+  }
+}
