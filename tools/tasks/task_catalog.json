@@ -1,7 +1,7 @@
 {
   "schema": "stegverse.task_catalog.v1",
   "entity": "StegVerse-002",
-  "updated_utc": "2026-05-28T00:00:00+00:00",
+  "updated_utc": "2026-05-29T00:00:00+00:00",
   "tasks": [
     {
       "task_id": "stegverse.candidate.intake.review",
@@ -58,9 +58,9 @@
       ],
       "stop_condition": "Decision emitted and receipt written",
       "triad_checks": {
-        "gcat_bcat": "stubbed — must resolve for binding transitions",
-        "ecat_icat": "stubbed — must resolve for binding transitions",
-        "existence": "stubbed — review-only transitions may proceed with warning"
+        "gcat_bcat": "stubbed \u2014 must resolve for binding transitions",
+        "ecat_icat": "stubbed \u2014 must resolve for binding transitions",
+        "existence": "stubbed \u2014 review-only transitions may proceed with warning"
       },
       "governance": {
         "no_broad_authority": true,
@@ -91,8 +91,14 @@
           "description": "Path to the ALLOW_CANDIDATE_REVIEW receipt from the prior review run",
           "required": true
         },
-        "entity": { "type": "string", "required": true },
-        "stage": { "type": "string", "required": true }
+        "entity": {
+          "type": "string",
+          "required": true
+        },
+        "stage": {
+          "type": "string",
+          "required": true
+        }
       },
       "expected_outputs": [
         "reports/current/candidate_bundle_apply_report.json",
@@ -129,8 +135,14 @@
           "description": "Path to apply_request.json",
           "required": true
         },
-        "entity": { "type": "string", "required": true },
-        "stage": { "type": "string", "required": true },
+        "entity": {
+          "type": "string",
+          "required": true
+        },
+        "stage": {
+          "type": "string",
+          "required": true
+        },
         "report": {
           "type": "file_path",
           "required": false,
@@ -153,12 +165,16 @@
         "receipts/current/stegverse_apply_review_receipt.jsonl",
         "dist/run_artifacts/stegverse-apply-review.zip"
       ],
-      "decision_set": ["ALLOW", "DENY", "DEFER"],
+      "decision_set": [
+        "ALLOW",
+        "DENY",
+        "DEFER"
+      ],
       "stop_condition": "Decision emitted and receipt written before any apply execution",
       "triad_checks": {
-        "gcat_bcat": "stubbed — returns False for broad authority, None otherwise",
-        "ecat_icat": "stubbed — returns False if entity/requester missing, None otherwise",
-        "existence": "stubbed — returns None for create/update, None for delete (defers)"
+        "gcat_bcat": "stubbed \u2014 returns False for broad authority, None otherwise",
+        "ecat_icat": "stubbed \u2014 returns False if entity/requester missing, None otherwise",
+        "existence": "stubbed \u2014 returns None for create/update, None for delete (defers)"
       },
       "governance": {
         "no_broad_authority": true,
@@ -169,6 +185,41 @@
         "dry_run_bypasses_triad_defer": true
       },
       "notes": "M11 apply gate. dry_run=true allows ALLOW even with unresolved Triad. dry_run=false with unresolved Triad produces DEFER."
+    },
+    {
+      "task_id": "sv002.transition_table_gate.tests",
+      "stage": "SV002-M11",
+      "allowed_stages": [
+        "SV002-M11",
+        "SV002-M12"
+      ],
+      "description": "Run the manually installed Transition Table resolver and CGE ingestion-gate tests. Emits report, receipt, markdown summary, and zipped run evidence.",
+      "capability": "transition_table_gate_test",
+      "transition_class": "tooling",
+      "authority": "test_only",
+      "entry_point": "scripts/run_transition_table_gate_tests.py",
+      "command": "python scripts/run_transition_table_gate_tests.py",
+      "timeout_seconds": 300,
+      "expected_outputs": [
+        "reports/current/transition_table_gate_test_report.json",
+        "receipts/current/transition_table_gate_test_receipt.jsonl",
+        "outputs/transition_table_gate_tests.md",
+        "dist/run_artifacts/transition-table-gate-tests.zip"
+      ],
+      "decision_set": [
+        "ALLOW",
+        "FAIL_CLOSED"
+      ],
+      "stop_condition": "Both transition table gate test files executed and report/receipt written",
+      "governance": {
+        "no_broad_authority": true,
+        "no_root_readme_overwrite": true,
+        "no_workflow_changes": true,
+        "default_deny": true,
+        "test_only": true,
+        "receipt_before_claim": true
+      },
+      "notes": "Use this task after manual installation of core_lite/transition_table and related tests. This task does not ingest or install bundles."
     }
   ]
 }
