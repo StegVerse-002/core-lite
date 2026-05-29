@@ -74,7 +74,7 @@ jobs:
           STAGE="${{ inputs.stage_override }}"
 
           if [ "${EVENT}" = "push" ]; then
-            INPUT_TYPE="incoming-disposition-gate-no-mass-cleanup"
+            INPUT_TYPE="incoming-disposition-gate"
             INPUT_PATH="incoming/** changed in this push, excluding incoming/README.md"
             AGENT_PROVIDER="none"
             DRY_RUN="false"
@@ -87,8 +87,8 @@ jobs:
           ROUTE="default/no-op"
           EXPECTED="No declared bundle or LLM provider route selected."
           if [ "${EVENT}" = "push" ]; then
-            ROUTE="declared-input-route(push:incoming-disposition-gate-no-mass-cleanup)"
-            EXPECTED="Evaluate changed incoming payloads only; remove only those payloads with disposition records; inventory legacy incoming files without deleting them."
+            ROUTE="declared-input-route(push:incoming-disposition-gate)"
+            EXPECTED="For each changed incoming payload: hash, stage, evaluate, record disposition, then remove from incoming only after disposition evidence exists."
           elif [ "${AGENT_PROVIDER}" != "none" ]; then
             ROUTE="llm-collaboration(${AGENT_PROVIDER})"
             EXPECTED="Run selected LLM provider path, sandbox candidate packets, gate admissible candidates, and commit coordination evidence."
@@ -146,7 +146,6 @@ jobs:
           if [ -z "${DRY_RUN}" ]; then DRY_RUN="false"; fi
 
           : > reports/current/incoming_changed_files.txt
-          : > reports/current/incoming_legacy_inventory.txt
 
           if [ "${EVENT}" = "push" ]; then
             BEFORE="${{ github.event.before }}"
@@ -170,10 +169,7 @@ jobs:
                   done > reports/current/incoming_changed_files.txt
             fi
 
-            find incoming -mindepth 1 -maxdepth 2 -type f ! -path "incoming/README.md" | sort \
-              | grep -vxF -f reports/current/incoming_changed_files.txt > reports/current/incoming_legacy_inventory.txt || true
-
-            INPUT_TYPE="push_incoming_disposition_gate_no_mass_cleanup"
+            INPUT_TYPE="push_incoming_disposition_gate"
             INPUT_PATH="@reports/current/incoming_changed_files.txt"
             DRY_RUN="false"
           else
@@ -205,18 +201,10 @@ jobs:
             echo "| stage | \`${STAGE}\` |"
             echo "| dry_run | \`${DRY_RUN}\` |"
             echo
-            echo "### Changed incoming payloads selected for this run"
+            echo "### Incoming payloads selected for this run"
             echo
             if [ -s reports/current/incoming_changed_files.txt ]; then
               sed 's/^/- `/' reports/current/incoming_changed_files.txt | sed 's/$/`/'
-            else
-              echo "- none"
-            fi
-            echo
-            echo "### Legacy incoming payloads inventoried, not deleted"
-            echo
-            if [ -s reports/current/incoming_legacy_inventory.txt ]; then
-              sed 's/^/- `/' reports/current/incoming_legacy_inventory.txt | sed 's/$/`/'
             else
               echo "- none"
             fi
@@ -229,13 +217,12 @@ jobs:
           mkdir -p reports/current receipts/current tracking/incoming_mailbox quarantine/incoming dist/run_artifacts
           : > reports/current/incoming_disposition_summary.jsonl
           : > receipts/current/incoming_disposition_receipt.jsonl
-          : > reports/current/incoming_disposition_processed_files.txt
 
           DRY_RUN_ARG=""
           if [ "${{ steps.resolve-input.outputs.dry_run }}" = "true" ]; then DRY_RUN_ARG="--dry-run"; fi
 
           if [ ! -s reports/current/incoming_changed_files.txt ]; then
-            echo "No changed incoming payloads selected; skipping processing."
+            echo "No incoming payloads selected; skipping processing."
             exit 0
           fi
 
@@ -278,7 +265,7 @@ jobs:
             if [ "${EXIT_CODE}" -eq 0 ]; then
               STATUS="EVALUATED"
               DISPOSITION="INSTALLED_OR_ACCEPTED"
-              REASON="pipeline exited 0; payload staged, recorded, and eligible for removal from incoming"
+              REASON="pipeline exited 0; payload staged and may be removed from incoming"
             else
               STATUS="EVALUATED"
               DISPOSITION="QUARANTINED"
@@ -303,16 +290,15 @@ record = {
 }
 print(json.dumps(record, sort_keys=True))
 PY
-            echo "${INPUT_PATH}" >> reports/current/incoming_disposition_processed_files.txt
           done < reports/current/incoming_changed_files.txt | tee -a reports/current/incoming_disposition_summary.jsonl receipts/current/incoming_disposition_receipt.jsonl
 
           echo "${RUN_FAILED}" > reports/current/incoming_disposition_exit_code.txt
 
           if [ "${RUN_FAILED}" -ne 0 ]; then
-            echo "::warning::One or more changed incoming payloads were quarantined after evaluation."
+            echo "::warning::One or more incoming payloads were quarantined after evaluation."
           fi
 
-      - name: Cleanup only dispositioned changed incoming payloads
+      - name: Enforce ephemeral incoming mailbox after disposition
         if: always()
         run: |
           set -euo pipefail
@@ -325,35 +311,26 @@ PY
 
           Only `README.md` should remain in this directory after ingestion runs.
 
-          Payload bundles/files may be pushed here to activate ingestion, but the workflow removes only payloads with disposition records. Durable evidence belongs in reports, receipts, tracking, quarantine, and dist, not in incoming.
+          Payload bundles/files may be pushed here to activate ingestion, but the workflow removes incoming payloads only after a disposition record is written. Durable evidence belongs in reports, receipts, tracking, quarantine, and dist, not in incoming.
           EOF
           fi
 
-          : > reports/current/incoming_cleanup_candidates.txt
+          find incoming -mindepth 1 -maxdepth 2 -type f ! -path "incoming/README.md" | sort > reports/current/incoming_cleanup_candidates.txt || true
 
-          if [ -s reports/current/incoming_disposition_processed_files.txt ]; then
+          if [ -s reports/current/incoming_cleanup_candidates.txt ]; then
             while IFS= read -r path; do
               [ -n "${path}" ] || continue
-              if [ -f "${path}" ]; then
-                echo "${path}" >> reports/current/incoming_cleanup_candidates.txt
-                git rm -f --ignore-unmatch "${path}" || rm -f "${path}" || true
-              fi
-            done < reports/current/incoming_disposition_processed_files.txt
+              git rm -f --ignore-unmatch "${path}" || rm -f "${path}" || true
+            done < reports/current/incoming_cleanup_candidates.txt
           fi
 
           echo "## Incoming Mailbox Cleanup" >> "${GITHUB_STEP_SUMMARY}"
           echo >> "${GITHUB_STEP_SUMMARY}"
           if [ -s reports/current/incoming_cleanup_candidates.txt ]; then
-            echo "Removed only changed incoming payloads with disposition records:" >> "${GITHUB_STEP_SUMMARY}"
+            echo "Removed incoming payloads after disposition records were written:" >> "${GITHUB_STEP_SUMMARY}"
             sed 's/^/- `/' reports/current/incoming_cleanup_candidates.txt | sed 's/$/`/' >> "${GITHUB_STEP_SUMMARY}"
           else
-            echo "- No dispositioned changed incoming payloads were removed." >> "${GITHUB_STEP_SUMMARY}"
-          fi
-
-          if [ -s reports/current/incoming_legacy_inventory.txt ]; then
-            echo >> "${GITHUB_STEP_SUMMARY}"
-            echo "Legacy incoming payloads were inventoried but intentionally left in place:" >> "${GITHUB_STEP_SUMMARY}"
-            sed 's/^/- `/' reports/current/incoming_legacy_inventory.txt | sed 's/$/`/' >> "${GITHUB_STEP_SUMMARY}"
+            echo "- No incoming payload cleanup required." >> "${GITHUB_STEP_SUMMARY}"
           fi
 
       - name: Summarize declared input result
@@ -382,7 +359,7 @@ PY
             echo "- bundle_ingest_report.json missing" >> "${GITHUB_STEP_SUMMARY}"
           fi
 
-      - name: Commit declared input outputs and dispositioned cleanup
+      - name: Commit declared input outputs and incoming cleanup
         if: ${{ steps.resolve-input.outputs.dry_run != 'true' && always() }}
         run: |
           set -euo pipefail
@@ -390,12 +367,12 @@ PY
           git config user.email "sv002-declared-input-router@stegverse"
           git add -A incoming/ .github/workflows/ core_lite/ scripts/ schemas/ examples/ docs/ tests/ tools/ config/ machine/ outputs/ reports/current/ receipts/current/ tracking/ quarantine/ dist/ agent_history/ vault_template/ iosnoperiod/ MANUAL_INSTALL.md iosnoperiod.md bundle_manifest.json || true
           if git diff --staged --quiet; then
-            echo "- No declared input, disposition, or allowed incoming cleanup changes were staged for commit." >> "${GITHUB_STEP_SUMMARY}"
+            echo "- No declared input, disposition, or incoming cleanup changes were staged for commit." >> "${GITHUB_STEP_SUMMARY}"
           else
-            FIRST_INPUT="$(head -n 1 reports/current/incoming_changed_files.txt 2>/dev/null || echo incoming-disposition)"
+            FIRST_INPUT="$(head -n 1 reports/current/incoming_changed_files.txt 2>/dev/null || echo incoming-cleanup)"
             git commit -m "sv002: process incoming disposition — ${FIRST_INPUT}"
             git push
-            echo "- Declared input outputs, disposition records, and allowed incoming cleanup committed and pushed." >> "${GITHUB_STEP_SUMMARY}"
+            echo "- Declared input outputs, disposition records, and incoming cleanup committed and pushed." >> "${GITHUB_STEP_SUMMARY}"
           fi
 
       - name: Upload declared input evidence
