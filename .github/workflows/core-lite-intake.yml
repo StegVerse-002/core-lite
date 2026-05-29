@@ -1,6 +1,6 @@
 name: core-lite-intake
 
-on:
+"on":
   workflow_dispatch:
     inputs:
       task_id:
