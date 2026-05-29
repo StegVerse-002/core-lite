@@ -2,134 +2,34 @@
   "applied_files": [],
   "candidates": [
     {
-      "candidate_id": "sv002-m105-sandbox-proof",
-      "decision": "SANDBOX_PASS_GATE_DEFER",
-      "errors": [],
-      "m11_gate": {
-        "binding_command": {
-          "args": [
-            "/opt/hostedtoolcache/Python/3.11.15/x64/bin/python",
-            "scripts/stegverse_apply_gate.py",
-            "--request",
-            "/tmp/tmpgvx3npts/apply_request_binding.json",
-            "--entity",
-            "StegVerse-002",
-            "--stage",
-            "SV002-M11",
-            "--report",
-            "reports/current/adapter_candidate_1_apply_binding_report.json",
-            "--receipt",
-            "receipts/current/adapter_candidate_apply_gate_receipt.jsonl",
-            "--output",
-            "outputs/adapter_candidate_1_apply_binding.md"
-          ],
-          "returncode": 1,
-          "stderr": "",
-          "stdout": "{\n  \"schema\": \"stegverse.apply_review.v1\",\n  \"entity\": \"StegVerse-002\",\n  \"stage\": \"SV002-M11\",\n  \"request_id\": \"adapter-sandbox-sv002-m105-sandbox-proof-binding\",\n  \"capability\": \"sv002-m105-sandbox-proof\",\n  \"requester\": \"adapter-candidate-sandbox/openai\",\n  \"transition_class\": \"documentation\",\n  \"dry_run\": false,\n  \"started\": \"2026-05-28T21:44:39.989309+00:00\",\n  \"completed\": \"2026-05-28T21:44:39.989392+00:00\",\n  \"decision\": \"DEFER\",\n  \"checks\": {\n    \"request_schema_valid\": true,\n    \"entity_declared\": true,\n    \"stage_valid\": true,\n    \"capability_declared\": true,\n    \"transition_class_allowed\": true,\n    \"authority_ref_scoped\": true,\n    \"policy_ref_present\": true,\n    \"no_broad_authority\": true,\n    \"target_paths_allowed\": true,\n    \"gcat_bcat_admissible\": null,\n    \"ecat_icat_coherent\": null,\n    \"existence_recoverable\": null\n  },\n  \"errors\": [],\n  \"warnings\": [\n    \"gcat_bcat_unresolved\",\n    \"ecat_icat_unresolved\",\n    \"existence_unresolved\"\n  ],\n  \"deny_reason\": \"Triad checks unresolved for binding transition: gcat_bcat_admissible, ecat_icat_coherent, existence_recoverable. Resolve or set dry_run=true for review-only evaluation.\",\n  \"receipt\": {\n    \"receipt_hash\": \"sha256:877937836e4f182bf08123b803aa0d437b0f0f7cdbc78b2eacdae8f7e110cb5f\",\n    \"receipt_path\": \"receipts/current/adapter_candidate_apply_gate_receipt.jsonl\"\n  }\n}\n"
-        },
-        "binding_decision": "DEFER",
-        "dry_run_command": {
-          "args": [
-            "/opt/hostedtoolcache/Python/3.11.15/x64/bin/python",
-            "scripts/stegverse_apply_gate.py",
-            "--request",
-            "/tmp/tmpgvx3npts/apply_request_dry.json",
-            "--entity",
-            "StegVerse-002",
-            "--stage",
-            "SV002-M11",
-            "--report",
-            "reports/current/adapter_candidate_1_apply_dry_report.json",
-            "--receipt",
-            "receipts/current/adapter_candidate_apply_gate_receipt.jsonl",
-            "--output",
-            "outputs/adapter_candidate_1_apply_dry.md"
-          ],
-          "returncode": 0,
-          "stderr": "",
-          "stdout": "{\n  \"schema\": \"stegverse.apply_review.v1\",\n  \"entity\": \"StegVerse-002\",\n  \"stage\": \"SV002-M11\",\n  \"request_id\": \"adapter-sandbox-sv002-m105-sandbox-proof-dry\",\n  \"capability\": \"sv002-m105-sandbox-proof\",\n  \"requester\": \"adapter-candidate-sandbox/openai\",\n  \"transition_class\": \"documentation\",\n  \"dry_run\": true,\n  \"started\": \"2026-05-28T21:44:39.948480+00:00\",\n  \"completed\": \"2026-05-28T21:44:39.948556+00:00\",\n  \"decision\": \"ALLOW\",\n  \"checks\": {\n    \"request_schema_valid\": true,\n    \"entity_declared\": true,\n    \"stage_valid\": true,\n    \"capability_declared\": true,\n    \"transition_class_allowed\": true,\n    \"authority_ref_scoped\": true,\n    \"policy_ref_present\": true,\n    \"no_broad_authority\": true,\n    \"target_paths_allowed\": true,\n    \"gcat_bcat_admissible\": null,\n    \"ecat_icat_coherent\": null,\n    \"existence_recoverable\": null\n  },\n  \"errors\": [],\n  \"warnings\": [\n    \"gcat_bcat_unresolved\",\n    \"ecat_icat_unresolved\",\n    \"existence_unresolved\"\n  ],\n  \"deny_reason\": \"\",\n  \"receipt\": {\n    \"receipt_hash\": \"sha256:de5835b931cb5c10820fbc01e686a52c168637cca4dfba661adc081155b4234b\",\n    \"receipt_path\": \"receipts/current/adapter_candidate_apply_gate_receipt.jsonl\"\n  }\n}\n"
-        },
-        "dry_run_decision": "ALLOW"
-      },
+      "candidate_id": "sv002-m11-incoming-disposition-gate-repair",
+      "decision": "DENY_CANDIDATE",
+      "errors": [
+        "transition_class_denied:workflow-repair",
+        "target_prefix_denied:.github/workflows/core-lite-intake.yml"
+      ],
+      "m11_gate": {},
       "provider": "openai-or-claude",
-      "sandbox": {
-        "py_compile": [],
-        "pytest": {
-          "returncode": 0,
-          "skipped": true,
-          "stderr": "",
-          "stdout": "pytest skipped: candidate does not touch Python, tools, scripts, core_lite, or tests"
-        }
-      },
+      "sandbox": {},
       "source_provider": "openai",
-      "valid_packet": true
+      "valid_packet": false
     },
     {
-      "candidate_id": "sv002-m105-sandbox-proof",
-      "decision": "SANDBOX_PASS_GATE_DEFER",
-      "errors": [],
-      "m11_gate": {
-        "binding_command": {
-          "args": [
-            "/opt/hostedtoolcache/Python/3.11.15/x64/bin/python",
-            "scripts/stegverse_apply_gate.py",
-            "--request",
-            "/tmp/tmppzndh39p/apply_request_binding.json",
-            "--entity",
-            "StegVerse-002",
-            "--stage",
-            "SV002-M11",
-            "--report",
-            "reports/current/adapter_candidate_2_apply_binding_report.json",
-            "--receipt",
-            "receipts/current/adapter_candidate_apply_gate_receipt.jsonl",
-            "--output",
-            "outputs/adapter_candidate_2_apply_binding.md"
-          ],
-          "returncode": 1,
-          "stderr": "",
-          "stdout": "{\n  \"schema\": \"stegverse.apply_review.v1\",\n  \"entity\": \"StegVerse-002\",\n  \"stage\": \"SV002-M11\",\n  \"request_id\": \"adapter-sandbox-sv002-m105-sandbox-proof-binding\",\n  \"capability\": \"sv002-m105-sandbox-proof\",\n  \"requester\": \"adapter-candidate-sandbox/claude\",\n  \"transition_class\": \"documentation\",\n  \"dry_run\": false,\n  \"started\": \"2026-05-28T21:44:40.092686+00:00\",\n  \"completed\": \"2026-05-28T21:44:40.092765+00:00\",\n  \"decision\": \"DEFER\",\n  \"checks\": {\n    \"request_schema_valid\": true,\n    \"entity_declared\": true,\n    \"stage_valid\": true,\n    \"capability_declared\": true,\n    \"transition_class_allowed\": true,\n    \"authority_ref_scoped\": true,\n    \"policy_ref_present\": true,\n    \"no_broad_authority\": true,\n    \"target_paths_allowed\": true,\n    \"gcat_bcat_admissible\": null,\n    \"ecat_icat_coherent\": null,\n    \"existence_recoverable\": null\n  },\n  \"errors\": [],\n  \"warnings\": [\n    \"gcat_bcat_unresolved\",\n    \"ecat_icat_unresolved\",\n    \"existence_unresolved\"\n  ],\n  \"deny_reason\": \"Triad checks unresolved for binding transition: gcat_bcat_admissible, ecat_icat_coherent, existence_recoverable. Resolve or set dry_run=true for review-only evaluation.\",\n  \"receipt\": {\n    \"receipt_hash\": \"sha256:0e7341728d94ceaf06b0a4ae209f58c4e52ea4f299ba85910322ac3d02694c51\",\n    \"receipt_path\": \"receipts/current/adapter_candidate_apply_gate_receipt.jsonl\"\n  }\n}\n"
-        },
-        "binding_decision": "DEFER",
-        "dry_run_command": {
-          "args": [
-            "/opt/hostedtoolcache/Python/3.11.15/x64/bin/python",
-            "scripts/stegverse_apply_gate.py",
-            "--request",
-            "/tmp/tmppzndh39p/apply_request_dry.json",
-            "--entity",
-            "StegVerse-002",
-            "--stage",
-            "SV002-M11",
-            "--report",
-            "reports/current/adapter_candidate_2_apply_dry_report.json",
-            "--receipt",
-            "receipts/current/adapter_candidate_apply_gate_receipt.jsonl",
-            "--output",
-            "outputs/adapter_candidate_2_apply_dry.md"
-          ],
-          "returncode": 0,
-          "stderr": "",
-          "stdout": "{\n  \"schema\": \"stegverse.apply_review.v1\",\n  \"entity\": \"StegVerse-002\",\n  \"stage\": \"SV002-M11\",\n  \"request_id\": \"adapter-sandbox-sv002-m105-sandbox-proof-dry\",\n  \"capability\": \"sv002-m105-sandbox-proof\",\n  \"requester\": \"adapter-candidate-sandbox/claude\",\n  \"transition_class\": \"documentation\",\n  \"dry_run\": true,\n  \"started\": \"2026-05-28T21:44:40.056948+00:00\",\n  \"completed\": \"2026-05-28T21:44:40.057024+00:00\",\n  \"decision\": \"ALLOW\",\n  \"checks\": {\n    \"request_schema_valid\": true,\n    \"entity_declared\": true,\n    \"stage_valid\": true,\n    \"capability_declared\": true,\n    \"transition_class_allowed\": true,\n    \"authority_ref_scoped\": true,\n    \"policy_ref_present\": true,\n    \"no_broad_authority\": true,\n    \"target_paths_allowed\": true,\n    \"gcat_bcat_admissible\": null,\n    \"ecat_icat_coherent\": null,\n    \"existence_recoverable\": null\n  },\n  \"errors\": [],\n  \"warnings\": [\n    \"gcat_bcat_unresolved\",\n    \"ecat_icat_unresolved\",\n    \"existence_unresolved\"\n  ],\n  \"deny_reason\": \"\",\n  \"receipt\": {\n    \"receipt_hash\": \"sha256:387fe1aefdd305da4d86b004b1494e1730dab064c1b626d2adb55c883529ff05\",\n    \"receipt_path\": \"receipts/current/adapter_candidate_apply_gate_receipt.jsonl\"\n  }\n}\n"
-        },
-        "dry_run_decision": "ALLOW"
-      },
-      "provider": "openai-or-claude",
-      "sandbox": {
-        "py_compile": [],
-        "pytest": {
-          "returncode": 0,
-          "skipped": true,
-          "stderr": "",
-          "stdout": "pytest skipped: candidate does not touch Python, tools, scripts, core_lite, or tests"
-        }
-      },
+      "candidate_id": "sv002-m11-incoming-disposition-gate-repair",
+      "decision": "DENY_CANDIDATE",
+      "errors": [
+        "transition_class_denied:workflow-repair",
+        "target_prefix_denied:.github/workflows/core-lite-intake.yml"
+      ],
+      "m11_gate": {},
+      "provider": "claude",
+      "sandbox": {},
       "source_provider": "claude",
-      "valid_packet": true
+      "valid_packet": false
     }
   ],
-  "completed": "2026-05-28T21:44:40.104723+00:00",
-  "decision": "CANDIDATE_SANDBOXED_GATE_DEFERRED",
+  "completed": "2026-05-29T01:14:12.481320+00:00",
+  "decision": "FAIL_CLOSED_NO_PASSING_CANDIDATE",
   "governance": {
     "default_fail_closed": true,
     "m11_gate_required_before_binding": true,
@@ -144,8 +44,8 @@
     "claude": "/home/runner/work/core-lite/core-lite/outputs/claude_response.md",
     "openai": "/home/runner/work/core-lite/core-lite/outputs/chatgpt_response.md"
   },
-  "receipt_hash": "sha256:5b6eb5ca6fddb4423c070728b4bd2499efeaad0b9f166dc9f07cb2047add00d9",
+  "receipt_hash": "sha256:370f534bd75cf7b17cb60f38d818ab7d1bbb6a75a9646f120e6f1a4fc2d3e818",
   "schema": "stegverse.adapter_candidate_sandbox_report.v1",
-  "selected_candidate_id": "sv002-m105-sandbox-proof",
-  "started": "2026-05-28T21:44:39.891749+00:00"
+  "selected_candidate_id": null,
+  "started": "2026-05-29T01:14:12.480036+00:00"
 }

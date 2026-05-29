@@ -1,12 +1,16 @@
 # Adapter Candidate Sandbox Executor
 
-**Decision:** `CANDIDATE_SANDBOXED_GATE_DEFERRED`
+**Decision:** `FAIL_CLOSED_NO_PASSING_CANDIDATE`
 **Human result:** `outputs/SV002_AUTOMATION_PROOF_RESULT.md`
-**Selected candidate:** `sv002-m105-sandbox-proof`
+**Selected candidate:** `none`
 **Applied files:** `none`
-**Receipt hash:** `sha256:5b6eb5ca6fddb4423c070728b4bd2499efeaad0b9f166dc9f07cb2047add00d9`
+**Receipt hash:** `sha256:370f534bd75cf7b17cb60f38d818ab7d1bbb6a75a9646f120e6f1a4fc2d3e818`
 
 ## Candidate Results
 
-- `sv002-m105-sandbox-proof` from `openai` → `SANDBOX_PASS_GATE_DEFER`
-- `sv002-m105-sandbox-proof` from `claude` → `SANDBOX_PASS_GATE_DEFER`
+- `sv002-m11-incoming-disposition-gate-repair` from `openai` → `DENY_CANDIDATE`
+  - error: `transition_class_denied:workflow-repair`
+  - error: `target_prefix_denied:.github/workflows/core-lite-intake.yml`
+- `sv002-m11-incoming-disposition-gate-repair` from `claude` → `DENY_CANDIDATE`
+  - error: `transition_class_denied:workflow-repair`
+  - error: `target_prefix_denied:.github/workflows/core-lite-intake.yml`
