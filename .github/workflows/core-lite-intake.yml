@@ -47,7 +47,7 @@ name: core-lite-intake
 
 permissions:
   contents: write
-  actions: read
+  actions: write
 
 env:
   STEGVERSE_ENTITY: StegVerse-002
@@ -222,8 +222,93 @@ jobs:
             fi
           } >> "${GITHUB_STEP_SUMMARY}"
 
+      - name: Detect and handle candidate patch bundle
+        id: bundle-handler
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          mkdir -p reports/current receipts/current
+
+          BUNDLE_FILE=""
+          if [ -s reports/current/incoming_changed_files.txt ]; then
+            while IFS= read -r f; do
+              case "${f}" in *.zip) BUNDLE_FILE="${f}"; break ;; esac
+            done < reports/current/incoming_changed_files.txt
+          fi
+
+          if [ -z "${BUNDLE_FILE}" ] || [ ! -f "${BUNDLE_FILE}" ]; then
+            echo "bundle_detected=false" >> "${GITHUB_OUTPUT}"
+            exit 0
+          fi
+
+          SCHEMA="$(python3 -c "import zipfile, json, sys; z=zipfile.ZipFile('${BUNDLE_FILE}'); print(json.loads(z.read('bundle_manifest.json')).get('schema','') if 'bundle_manifest.json' in z.namelist() else '')" 2>/dev/null || echo "")"
+
+          if [ "${SCHEMA}" != "stegverse.bundle_manifest.v1" ]; then
+            echo "bundle_detected=false" >> "${GITHUB_OUTPUT}"
+            exit 0
+          fi
+
+          echo "bundle_detected=true" >> "${GITHUB_OUTPUT}"
+          echo "bundle_file=${BUNDLE_FILE}" >> "${GITHUB_OUTPUT}"
+
+          set +e
+          python3 scripts/bundle_manifest_reader.py \
+            --bundle "${BUNDLE_FILE}" \
+            --report-dir reports/current
+          READER_EXIT=$?
+          set -e
+
+          if [ "${READER_EXIT}" -eq 3 ]; then
+            echo "bundle_quarantine=true" >> "${GITHUB_OUTPUT}"
+          elif [ "${READER_EXIT}" -eq 0 ]; then
+            echo "bundle_quarantine=false" >> "${GITHUB_OUTPUT}"
+          else
+            echo "::error::bundle_manifest_reader failed (exit ${READER_EXIT})"
+            exit 1
+          fi
+
+      - name: Re-dispatch from bundle manifest
+        if: ${{ steps.bundle-handler.outputs.bundle_detected == 'true' && steps.bundle-handler.outputs.bundle_quarantine != 'true' }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          AGENT_PROVIDER="$(python3 -c "import json; print(json.load(open('reports/current/next_dispatch_inputs.json')).get('agent_provider','none'))")"
+          INPUT_TYPE="$(python3 -c "import json; print(json.load(open('reports/current/next_dispatch_inputs.json')).get('input_type','bundle'))")"
+          INPUT_PATH="$(python3 -c "import json; print(json.load(open('reports/current/next_dispatch_inputs.json')).get('input_path',''))")"
+          STAGE="$(python3 -c "import json; print(json.load(open('reports/current/next_dispatch_inputs.json')).get('stage_override',''))")"
+          DRY_RUN="$(python3 -c "import json; print(json.load(open('reports/current/next_dispatch_inputs.json')).get('dry_run','false'))")"
+          TASK_ID="$(python3 -c "import json; print(json.load(open('reports/current/next_dispatch_inputs.json')).get('task_id',''))")"
+          SKIP_TASKS="$(python3 -c "import json; print(json.load(open('reports/current/next_dispatch_inputs.json')).get('skip_tasks','true'))")"
+          REPAIR_TARGET="$(python3 -c "import json; print(json.load(open('reports/current/next_dispatch_inputs.json')).get('repair_target',''))")"
+          KV_PACKET="$(python3 -c "import json; print(json.load(open('reports/current/next_dispatch_inputs.json')).get('kv_packet',''))")"
+
+          gh workflow run core-lite-intake.yml \
+            --ref main \
+            --field agent_provider="${AGENT_PROVIDER}" \
+            --field input_type="${INPUT_TYPE}" \
+            --field input_path="${INPUT_PATH}" \
+            --field stage_override="${STAGE}" \
+            --field dry_run="${DRY_RUN}" \
+            --field task_id="${TASK_ID}" \
+            --field skip_tasks="${SKIP_TASKS}" \
+            --field repair_target="${REPAIR_TARGET}" \
+            --field kv_packet="${KV_PACKET}"
+
+          {
+            echo "## Re-Dispatch Triggered"
+            echo "| Input | Value |"
+            echo "|---|---|"
+            echo "| agent_provider | \`${AGENT_PROVIDER}\` |"
+            echo "| input_type | \`${INPUT_TYPE}\` |"
+            echo "| dry_run | \`${DRY_RUN}\` |"
+          } >> "${GITHUB_STEP_SUMMARY}"
+
       - name: Process incoming payloads through disposition gate
         id: disposition-gate
+        if: ${{ steps.bundle-handler.outputs.bundle_detected != 'true' }}
         env:
           STAGE_REF: ${{ steps.resolve-input.outputs.stage }}
         run: |
@@ -313,15 +398,7 @@ jobs:
           set -euo pipefail
           mkdir -p incoming reports/current
           if [ ! -f incoming/README.md ]; then
-            cat > incoming/README.md <<'EOF'
-          # Incoming
-
-          Ephemeral ingestion mailbox.
-
-          Only README.md should remain in this directory after ingestion runs.
-
-          Payload bundles/files may be pushed here to activate ingestion, but the workflow removes only payloads with disposition records. Durable evidence belongs in reports, receipts, tracking, quarantine, and dist, not in incoming.
-          EOF
+            printf '# Incoming\n\nEphemeral ingestion mailbox.\n\nOnly README.md should remain in this directory after ingestion runs.\n\nPayload bundles/files may be pushed here to activate ingestion, but the workflow removes only payloads with disposition records. Durable evidence belongs in reports, receipts, tracking, quarantine, and dist, not in incoming.\n' > incoming/README.md
           fi
 
           : > reports/current/incoming_cleanup_candidates.txt
@@ -483,19 +560,11 @@ jobs:
         run: |
           mkdir -p outputs reports/current receipts/current
           if [ ! -f task.md ]; then
-            cat > outputs/claude_response.md <<'EOF'
-          # Claude Code — Skipped
-
-          No task.md was present. No Claude proposal was generated.
-          EOF
+            printf '# Claude Code — Skipped\n\nNo task.md was present. No Claude proposal was generated.\n' > outputs/claude_response.md
             exit 0
           fi
           if [ -z "${ANTHROPIC_API_KEY}" ]; then
-            cat > outputs/claude_response.md <<'EOF'
-          # Claude Code — Skipped
-
-          ANTHROPIC_API_KEY is not configured. Claude proposal was not generated.
-          EOF
+            printf '# Claude Code — Skipped\n\nANTHROPIC_API_KEY is not configured. Claude proposal was not generated.\n' > outputs/claude_response.md
             exit 0
           fi
           npm install -g @anthropic-ai/claude-code
@@ -516,17 +585,7 @@ jobs:
             echo
           } > outputs/claude_response.md
           claude -p "$(cat task.md)" >> outputs/claude_response.md 2>&1 || true
-          cat > reports/current/claude_task_summary.json <<JSON
-          {
-            "schema": "stegverse.claude_task_summary.v1",
-            "version": "${GOVERNED_LLM_LLM_VERSION}",
-            "provider": "claude",
-            "status": "completed",
-            "mode": "propose_only",
-            "output_path": "outputs/claude_response.md",
-            "authority": "candidate_evidence_only"
-          }
-          JSON
+          python3 -c "import json, os; print(json.dumps({'schema': 'stegverse.claude_task_summary.v1', 'version': os.environ['GOVERNED_LLM_LLM_VERSION'], 'provider': 'claude', 'status': 'completed', 'mode': 'propose_only', 'output_path': 'outputs/claude_response.md', 'authority': 'candidate_evidence_only'}, indent=2))" > reports/current/claude_task_summary.json
       - name: Upload Claude output
         if: always()
         uses: actions/upload-artifact@v4
@@ -637,8 +696,13 @@ jobs:
             echo "Both candidates rejected by validator. No bundle produced." >> "${GITHUB_STEP_SUMMARY}"
             exit 1
           fi
-          echo "claude_valid=${CLAUDE_OK}" >> "${GITHUB_STEP_SUMMARY}"
-          echo "openai_valid=${OPENAI_OK}" >> "${GITHUB_STEP_SUMMARY}"
+          {
+            echo "## Candidate Validation"
+            echo "| Provider | Valid |"
+            echo "|---|---|"
+            echo "| claude | \`${CLAUDE_OK}\` |"
+            echo "| openai | \`${OPENAI_OK}\` |"
+          } >> "${GITHUB_STEP_SUMMARY}"
 
       - name: Synthesize candidates
         run: |
@@ -653,15 +717,38 @@ jobs:
         run: |
           python tests/test_candidate_workflow.py
 
+      - name: Record completed pass into manifest history
+        id: record-pass
+        run: |
+          set -euo pipefail
+
+          TEST_VERDICT="UNKNOWN"
+          if [ -f reports/current/synthesized_candidate_test_report.json ]; then
+            TEST_VERDICT="$(python3 -c "import json; print(json.load(open('reports/current/synthesized_candidate_test_report.json')).get('verdict','UNKNOWN'))")"
+          fi
+
+          BUNDLE_PATH="dist/bundles/sv002_m11_synthesized_intake_repair_bundle.zip"
+          PASS_RECORD="$(python3 scripts/pass_recorder.py \
+            --bundle "${BUNDLE_PATH}" \
+            --verdict "${TEST_VERDICT}" \
+            --agent-provider "${{ inputs.agent_provider }}" \
+            --run-id "${{ github.run_id }}" \
+            --run-url "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}")"
+
+          echo "pass_record=${PASS_RECORD}" >> "${GITHUB_OUTPUT}"
+          echo "Recorded: ${PASS_RECORD}"
+
       - name: Package synthesized candidate bundle
         run: |
+          PASS_RECORD="${{ steps.record-pass.outputs.pass_record }}"
           python scripts/package_candidate_bundle.py \
             --synthesized-candidate outputs/synthesized_candidate.json \
             --output-dir outputs \
             --report-dir reports/current \
             --receipt-dir receipts/current \
             --dist-dir dist/bundles \
-            --require-tests-pass
+            --require-tests-pass \
+            --record-pass "${PASS_RECORD}"
 
       - name: Route bundle to incoming for governed ingestion
         run: |
@@ -684,6 +771,8 @@ jobs:
             scripts/candidate_validator.py \
             scripts/candidate_synthesizer.py \
             scripts/package_candidate_bundle.py \
+            scripts/bundle_manifest_reader.py \
+            scripts/pass_recorder.py \
             tests/test_candidate_workflow.py || true
           git commit -m "sv002: route synthesized candidate bundle to incoming for governed ingestion"
           git push
@@ -691,9 +780,7 @@ jobs:
             echo "## Merge-and-Commit — Bundle Routed"
             echo
             echo "Bundle: \`$(basename ${BUNDLE_PATH})\`"
-            echo
             echo "Destination: \`${DEST}\`"
-            echo
             echo "Push trigger will fire \`declared-input-route\` for disposition gate ingestion."
           } >> "${GITHUB_STEP_SUMMARY}"
 
