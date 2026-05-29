@@ -105,15 +105,15 @@ jobs:
             echo
             echo "| Field | Value |"
             echo "|---|---|"
-            echo "| event | \`${EVENT}\` |"
-            echo "| route | \`${ROUTE}\` |"
+            echo "| event | ${EVENT} |"
+            echo "| route | ${ROUTE} |"
             echo "| expected behavior | ${EXPECTED} |"
-            echo "| task_id | \`${TASK_ID:-[blank]}\` |"
-            echo "| input_type | \`${INPUT_TYPE:-[blank]}\` |"
-            echo "| input_path | \`${INPUT_PATH:-[blank]}\` |"
-            echo "| stage | \`${STAGE}\` |"
-            echo "| dry_run | \`${DRY_RUN:-false}\` |"
-            echo "| agent_provider | \`${AGENT_PROVIDER:-none}\` |"
+            echo "| task_id | ${TASK_ID:-[blank]} |"
+            echo "| input_type | ${INPUT_TYPE:-[blank]} |"
+            echo "| input_path | ${INPUT_PATH:-[blank]} |"
+            echo "| stage | ${STAGE} |"
+            echo "| dry_run | ${DRY_RUN:-false} |"
+            echo "| agent_provider | ${AGENT_PROVIDER:-none} |"
           } >> "${GITHUB_STEP_SUMMARY}"
 
   declared-input-route:
@@ -153,25 +153,24 @@ jobs:
             AFTER="${{ github.sha }}"
 
             if [ -n "${BEFORE}" ] && [ "${BEFORE}" != "0000000000000000000000000000000000000000" ]; then
-              git diff --name-only "${BEFORE}" "${AFTER}" -- incoming/ \
-                | sort \
-                | while read -r changed; do
-                    if [ -f "${changed}" ] && [ "${changed}" != "incoming/README.md" ]; then
-                      echo "${changed}"
-                    fi
-                  done > reports/current/incoming_changed_files.txt
+              git diff --name-only "${BEFORE}" "${AFTER}" -- incoming/ | sort | while read -r changed; do
+                if [ -f "${changed}" ] && [ "${changed}" != "incoming/README.md" ]; then
+                  echo "${changed}"
+                fi
+              done > reports/current/incoming_changed_files.txt
             else
-              git diff-tree --no-commit-id --name-only -r "${AFTER}" -- incoming/ \
-                | sort \
-                | while read -r changed; do
-                    if [ -f "${changed}" ] && [ "${changed}" != "incoming/README.md" ]; then
-                      echo "${changed}"
-                    fi
-                  done > reports/current/incoming_changed_files.txt
+              git diff-tree --no-commit-id --name-only -r "${AFTER}" -- incoming/ | sort | while read -r changed; do
+                if [ -f "${changed}" ] && [ "${changed}" != "incoming/README.md" ]; then
+                  echo "${changed}"
+                fi
+              done > reports/current/incoming_changed_files.txt
             fi
 
-            find incoming -mindepth 1 -maxdepth 2 -type f ! -path "incoming/README.md" | sort \
-              | grep -vxF -f reports/current/incoming_changed_files.txt > reports/current/incoming_legacy_inventory.txt || true
+            if [ -s reports/current/incoming_changed_files.txt ]; then
+              find incoming -mindepth 1 -maxdepth 2 -type f ! -path "incoming/README.md" | sort | grep -vxF -f reports/current/incoming_changed_files.txt > reports/current/incoming_legacy_inventory.txt || true
+            else
+              find incoming -mindepth 1 -maxdepth 2 -type f ! -path "incoming/README.md" | sort > reports/current/incoming_legacy_inventory.txt || true
+            fi
 
             INPUT_TYPE="push_incoming_disposition_gate_no_mass_cleanup"
             INPUT_PATH="@reports/current/incoming_changed_files.txt"
@@ -185,6 +184,7 @@ jobs:
               exit 1
             fi
             echo "${INPUT_PATH}" > reports/current/incoming_changed_files.txt
+            find incoming -mindepth 1 -maxdepth 2 -type f ! -path "incoming/README.md" | sort | grep -vxF -f reports/current/incoming_changed_files.txt > reports/current/incoming_legacy_inventory.txt || true
           fi
 
           {
@@ -199,16 +199,16 @@ jobs:
             echo
             echo "| Field | Value |"
             echo "|---|---|"
-            echo "| event | \`${EVENT}\` |"
-            echo "| route_mode | \`${INPUT_TYPE}\` |"
-            echo "| input_path | \`${INPUT_PATH}\` |"
-            echo "| stage | \`${STAGE}\` |"
-            echo "| dry_run | \`${DRY_RUN}\` |"
+            echo "| event | ${EVENT} |"
+            echo "| route_mode | ${INPUT_TYPE} |"
+            echo "| input_path | ${INPUT_PATH} |"
+            echo "| stage | ${STAGE} |"
+            echo "| dry_run | ${DRY_RUN} |"
             echo
             echo "### Changed incoming payloads selected for this run"
             echo
             if [ -s reports/current/incoming_changed_files.txt ]; then
-              sed 's/^/- `/' reports/current/incoming_changed_files.txt | sed 's/$/`/'
+              sed 's/^/- /' reports/current/incoming_changed_files.txt
             else
               echo "- none"
             fi
@@ -216,7 +216,7 @@ jobs:
             echo "### Legacy incoming payloads inventoried, not deleted"
             echo
             if [ -s reports/current/incoming_legacy_inventory.txt ]; then
-              sed 's/^/- `/' reports/current/incoming_legacy_inventory.txt | sed 's/$/`/'
+              sed 's/^/- /' reports/current/incoming_legacy_inventory.txt
             else
               echo "- none"
             fi
@@ -224,6 +224,8 @@ jobs:
 
       - name: Process incoming payloads through disposition gate
         id: disposition-gate
+        env:
+          STAGE_REF: ${{ steps.resolve-input.outputs.stage }}
         run: |
           set -euo pipefail
           mkdir -p reports/current receipts/current tracking/incoming_mailbox quarantine/incoming dist/run_artifacts
@@ -243,13 +245,16 @@ jobs:
 
           while IFS= read -r INPUT_PATH; do
             [ -n "${INPUT_PATH}" ] || continue
+            [ "${INPUT_PATH}" != "incoming/README.md" ] || continue
+            [ -f "${INPUT_PATH}" ] || continue
 
             SHA="$(sha256sum "${INPUT_PATH}" | awk '{print $1}')"
             SHORT_SHA="$(printf "%s" "${SHA}" | cut -c1-16)"
             BASE="$(basename "${INPUT_PATH}")"
             EVENT_DIR="tracking/incoming_mailbox/${SHORT_SHA}"
             STAGED_PAYLOAD="${EVENT_DIR}/${BASE}"
-            mkdir -p "${EVENT_DIR}" "quarantine/incoming/${SHORT_SHA}"
+            PIPELINE_LOG="${EVENT_DIR}/pipeline.log"
+            mkdir -p "${EVENT_DIR}"
 
             cp "${INPUT_PATH}" "${STAGED_PAYLOAD}"
 
@@ -270,8 +275,8 @@ jobs:
               --input-type "${INFERRED_TYPE}" \
               --input-path "${STAGED_PAYLOAD}" \
               --entity "${STEGVERSE_ENTITY}" \
-              --stage "${{ steps.resolve-input.outputs.stage }}" \
-              ${DRY_RUN_ARG}
+              --stage "${STAGE_REF}" \
+              ${DRY_RUN_ARG} > "${PIPELINE_LOG}" 2>&1
             EXIT_CODE=$?
             set -e
 
@@ -283,31 +288,18 @@ jobs:
               STATUS="EVALUATED"
               DISPOSITION="QUARANTINED"
               REASON="pipeline exited ${EXIT_CODE}; payload copied to quarantine before removal from incoming"
+              mkdir -p "quarantine/incoming/${SHORT_SHA}"
               cp "${STAGED_PAYLOAD}" "quarantine/incoming/${SHORT_SHA}/${BASE}"
               RUN_FAILED=1
             fi
 
-            export INPUT_PATH STAGED_PAYLOAD SHA INFERRED_TYPE STATUS DISPOSITION REASON EXIT_CODE
-            python3 - <<'PYEOF'
-            import json, datetime, os
+            export INPUT_PATH STAGED_PAYLOAD SHA INFERRED_TYPE STATUS DISPOSITION REASON EXIT_CODE STAGE_REF
+            RECORD="$(python3 -c "import os, json, datetime; print(json.dumps({'schema': 'stegverse.incoming_disposition.v1', 'timestamp_utc': datetime.datetime.now(datetime.timezone.utc).isoformat(), 'stage': os.environ.get('STAGE_REF', ''), 'source_path': os.environ['INPUT_PATH'], 'staged_payload': os.environ['STAGED_PAYLOAD'], 'sha256': os.environ['SHA'], 'input_type': os.environ['INFERRED_TYPE'], 'status': os.environ['STATUS'], 'disposition': os.environ['DISPOSITION'], 'reason': os.environ['REASON'], 'pipeline_exit_code': int(os.environ.get('EXIT_CODE', '0') or '0')}, sort_keys=True))")"
 
-            record = {
-                "schema": "stegverse.incoming_disposition.v1",
-                "timestamp_utc": datetime.datetime.now(datetime.timezone.utc).isoformat(),
-                "source_path": os.environ["INPUT_PATH"],
-                "staged_payload": os.environ["STAGED_PAYLOAD"],
-                "sha256": os.environ["SHA"],
-                "input_type": os.environ["INFERRED_TYPE"],
-                "status": os.environ["STATUS"],
-                "disposition": os.environ["DISPOSITION"],
-                "reason": os.environ["REASON"],
-                "pipeline_exit_code": int(os.environ["EXIT_CODE"]),
-            }
-
-            print(json.dumps(record, sort_keys=True))
-            PYEOF
+            printf '%s\n' "${RECORD}" >> reports/current/incoming_disposition_summary.jsonl
+            printf '%s\n' "${RECORD}" >> receipts/current/incoming_disposition_receipt.jsonl
             echo "${INPUT_PATH}" >> reports/current/incoming_disposition_processed_files.txt
-          done < reports/current/incoming_changed_files.txt | tee -a reports/current/incoming_disposition_summary.jsonl receipts/current/incoming_disposition_receipt.jsonl
+          done < reports/current/incoming_changed_files.txt
 
           echo "${RUN_FAILED}" > reports/current/incoming_disposition_exit_code.txt
 
@@ -326,7 +318,7 @@ jobs:
 
           Ephemeral ingestion mailbox.
 
-          Only `README.md` should remain in this directory after ingestion runs.
+          Only README.md should remain in this directory after ingestion runs.
 
           Payload bundles/files may be pushed here to activate ingestion, but the workflow removes only payloads with disposition records. Durable evidence belongs in reports, receipts, tracking, quarantine, and dist, not in incoming.
           EOF
@@ -337,6 +329,7 @@ jobs:
           if [ -s reports/current/incoming_disposition_processed_files.txt ]; then
             while IFS= read -r path; do
               [ -n "${path}" ] || continue
+              [ "${path}" != "incoming/README.md" ] || continue
               if [ -f "${path}" ]; then
                 echo "${path}" >> reports/current/incoming_cleanup_candidates.txt
                 git rm -f --ignore-unmatch "${path}" || rm -f "${path}" || true
@@ -348,7 +341,7 @@ jobs:
           echo >> "${GITHUB_STEP_SUMMARY}"
           if [ -s reports/current/incoming_cleanup_candidates.txt ]; then
             echo "Removed only changed incoming payloads with disposition records:" >> "${GITHUB_STEP_SUMMARY}"
-            sed 's/^/- `/' reports/current/incoming_cleanup_candidates.txt | sed 's/$/`/' >> "${GITHUB_STEP_SUMMARY}"
+            sed 's/^/- /' reports/current/incoming_cleanup_candidates.txt >> "${GITHUB_STEP_SUMMARY}"
           else
             echo "- No dispositioned changed incoming payloads were removed." >> "${GITHUB_STEP_SUMMARY}"
           fi
@@ -356,7 +349,7 @@ jobs:
           if [ -s reports/current/incoming_legacy_inventory.txt ]; then
             echo >> "${GITHUB_STEP_SUMMARY}"
             echo "Legacy incoming payloads were inventoried but intentionally left in place:" >> "${GITHUB_STEP_SUMMARY}"
-            sed 's/^/- `/' reports/current/incoming_legacy_inventory.txt | sed 's/$/`/' >> "${GITHUB_STEP_SUMMARY}"
+            sed 's/^/- /' reports/current/incoming_legacy_inventory.txt >> "${GITHUB_STEP_SUMMARY}"
           fi
 
       - name: Summarize declared input result
@@ -367,7 +360,7 @@ jobs:
           echo >> "${GITHUB_STEP_SUMMARY}"
           echo "### Changed incoming payloads" >> "${GITHUB_STEP_SUMMARY}"
           if [ -s reports/current/incoming_changed_files.txt ]; then
-            sed 's/^/- `/' reports/current/incoming_changed_files.txt | sed 's/$/`/' >> "${GITHUB_STEP_SUMMARY}" || true
+            sed 's/^/- /' reports/current/incoming_changed_files.txt >> "${GITHUB_STEP_SUMMARY}" || true
           else
             echo "- none" >> "${GITHUB_STEP_SUMMARY}"
           fi
@@ -578,57 +571,140 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install PyYAML
+        run: pip install pyyaml --break-system-packages
+
       - name: Download Claude output
         uses: actions/download-artifact@v4
         continue-on-error: true
         with:
           name: claude-response
-          path: .
+          path: downloaded/claude
+
       - name: Download OpenAI output
         uses: actions/download-artifact@v4
         continue-on-error: true
         with:
           name: openai-response
-          path: .
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-      - name: Run adapter candidate sandbox executor
+          path: downloaded/openai
+
+      - name: Stage downloaded artifacts
         run: |
           set -euo pipefail
-          mkdir -p outputs reports/current receipts/current dist/run_artifacts
-          python scripts/adapter_candidate_sandbox.py --repo-root . --apply-if-gate-allows
-      - name: Run deterministic synthesis
+          mkdir -p outputs reports/current receipts/current dist/bundles
+          [ -f downloaded/claude/outputs/claude_response.md ] && cp downloaded/claude/outputs/claude_response.md outputs/claude_response.md || true
+          [ -f downloaded/openai/outputs/chatgpt_response.md ] && cp downloaded/openai/outputs/chatgpt_response.md outputs/chatgpt_response.md || true
+          [ -f downloaded/openai/receipts/current/openai_task_receipt.jsonl ] && cp downloaded/openai/receipts/current/openai_task_receipt.jsonl receipts/current/openai_task_receipt.jsonl || true
+
+      - name: Validate Claude candidate
+        id: validate-claude
+        continue-on-error: true
         run: |
-          mkdir -p outputs reports/current receipts/current agent_history
-          python scripts/merge_outputs.py
-      - name: Compare agent outputs
+          python scripts/candidate_validator.py \
+            --input outputs/claude_response.md \
+            --provider claude \
+            --output-dir outputs \
+            --report-dir reports/current \
+            --receipt-dir receipts/current
+
+      - name: Validate OpenAI candidate
+        id: validate-openai
+        continue-on-error: true
         run: |
-          python tools/agent_governance/agent_compare.py --fail-on-high
-      - name: Enforce coordination boundary
+          python scripts/candidate_validator.py \
+            --input outputs/chatgpt_response.md \
+            --provider openai \
+            --output-dir outputs \
+            --report-dir reports/current \
+            --receipt-dir receipts/current
+
+      - name: Check at least one valid candidate
         run: |
-          python tools/agent_governance/enforce_agent_boundary.py \
-            --allowed agent_policy/allowed_paths.json \
-            --forbidden agent_policy/forbidden_paths.json \
-            --report reports/current/agent_boundary_report.json \
-            --receipt receipts/current/agent_boundary_receipt.jsonl
-      - name: Record LLM-LLM coordination change
+          set -euo pipefail
+          CLAUDE_OK=false
+          OPENAI_OK=false
+          [ -f outputs/claude_candidate.json ] && CLAUDE_OK=true
+          [ -f outputs/openai_candidate.json ] && OPENAI_OK=true
+          if [ "${CLAUDE_OK}" = "false" ] && [ "${OPENAI_OK}" = "false" ]; then
+            echo "::error::Both candidates failed validation. No synthesis possible."
+            echo "## Merge-and-Commit — BLOCKED" >> "${GITHUB_STEP_SUMMARY}"
+            echo "Both candidates rejected by validator. No bundle produced." >> "${GITHUB_STEP_SUMMARY}"
+            exit 1
+          fi
+          echo "claude_valid=${CLAUDE_OK}" >> "${GITHUB_STEP_SUMMARY}"
+          echo "openai_valid=${OPENAI_OK}" >> "${GITHUB_STEP_SUMMARY}"
+
+      - name: Synthesize candidates
         run: |
-          python tools/agent_governance/record_llm_change.py \
-            --provider coordinator \
-            --conversation current-workflow-run \
-            --version "${GOVERNED_LLM_LLM_VERSION}" \
-            --change-type coordination_run \
-            --summary "Recorded governed LLM-LLM collaboration outputs, adapter candidate sandbox decision, comparison evidence, no-broad-authority directive, and boundary enforcement." \
-            --files outputs/thread.md outputs/adapter_candidate_sandbox.md reports/current/adapter_candidate_sandbox_report.json reports/current/agent_coordination_report.json reports/current/agent_comparison_report.json reports/current/agent_boundary_report.json receipts/current/adapter_candidate_sandbox_receipt.jsonl receipts/current/agent_coordination_receipt.jsonl receipts/current/agent_comparison_receipt.jsonl receipts/current/agent_boundary_receipt.jsonl
-      - name: Package proposed-transition bundle
+          python scripts/candidate_synthesizer.py \
+            --claude outputs/claude_candidate.json \
+            --openai outputs/openai_candidate.json \
+            --output-dir outputs \
+            --report-dir reports/current \
+            --receipt-dir receipts/current
+
+      - name: Run deterministic tests against synthesized candidate
         run: |
-          python scripts/package_transition_bundle.py
-      - name: Commit governed coordination outputs
+          python tests/test_candidate_workflow.py
+
+      - name: Package synthesized candidate bundle
         run: |
+          python scripts/package_candidate_bundle.py \
+            --synthesized-candidate outputs/synthesized_candidate.json \
+            --output-dir outputs \
+            --report-dir reports/current \
+            --receipt-dir receipts/current \
+            --dist-dir dist/bundles \
+            --require-tests-pass
+
+      - name: Route bundle to incoming for governed ingestion
+        run: |
+          set -euo pipefail
+          BUNDLE_PATH="$(cat reports/current/winning_candidate_bundle_path.txt | tr -d '[:space:]')"
+          if [ -z "${BUNDLE_PATH}" ] || [ ! -f "${BUNDLE_PATH}" ]; then
+            echo "::error::Bundle path missing or file not found."
+            exit 1
+          fi
+          DEST="incoming/$(basename ${BUNDLE_PATH})"
+          cp "${BUNDLE_PATH}" "${DEST}"
           git config user.name "StegVerse-002 Agent Coordinator"
           git config user.email "sv002-agent-coordinator@stegverse"
-          git add -A outputs/ reports/current/ receipts/current/ agent_history/ dist/bundles/ dist/run_artifacts/ docs/ scripts/ schemas/ tests/ tools/ config/ machine/ examples/ || true
-          git diff --staged --quiet || git commit -m "sv002: governed transition bundle v0.1.3 — $(head -1 task.md 2>/dev/null || echo no-task)"
-          git push || true
+          git add \
+            "${DEST}" \
+            outputs/ \
+            reports/current/ \
+            receipts/current/ \
+            dist/bundles/ \
+            scripts/candidate_validator.py \
+            scripts/candidate_synthesizer.py \
+            scripts/package_candidate_bundle.py \
+            tests/test_candidate_workflow.py || true
+          git commit -m "sv002: route synthesized candidate bundle to incoming for governed ingestion"
+          git push
+          {
+            echo "## Merge-and-Commit — Bundle Routed"
+            echo
+            echo "Bundle: \`$(basename ${BUNDLE_PATH})\`"
+            echo
+            echo "Destination: \`${DEST}\`"
+            echo
+            echo "Push trigger will fire \`declared-input-route\` for disposition gate ingestion."
+          } >> "${GITHUB_STEP_SUMMARY}"
+
+      - name: Upload coordination evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: merge-coordination-evidence
+          path: |
+            outputs/
+            reports/current/
+            receipts/current/
+            dist/bundles/
+          if-no-files-found: warn
