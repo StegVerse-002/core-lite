@@ -160,6 +160,13 @@ def run_tests():
                os.path.exists(ep_receipt),
                "evidence_plane_receipt.jsonl")
 
+        # Formalism anchor test — first contribution should be marked
+        contributions = ep.load_all()
+        first = contributions[0] if contributions else {}
+        record("ep_first_contribution_is_anchor",
+               first.get("formalism_anchor", {}).get("is_anchor") is True,
+               f"anchor={first.get('formalism_anchor', {})}")
+
         # ===== GRAPH WITH EVIDENCE PLANE TESTS =====
 
         graph = BatchIngestionGraph(tracking_root=tracking)
