@@ -4,10 +4,16 @@ bundle_manifest_reader.py — StegVerse-002 SV002-M11
 Reads a candidate patch bundle, extracts manifest dispatch inputs,
 checks for runaway loops, and writes next dispatch inputs to a JSON file.
 
+Fix v2:
+  - Validates input_path from dispatch block exists in repo before writing
+  - Writes STALE_MANIFEST receipt and exits 0 if input_path is gone
+  - Prevents bot re-dispatch loops from stale manifests
+
 Exits:
   0 — manifest valid, next_dispatch_inputs.json written
   2 — not a candidate patch bundle (schema mismatch or no manifest)
   3 — runaway loop detected, quarantine flag written
+  4 — stale manifest (input_path no longer exists) — exits cleanly
   1 — other error
 """
 import argparse
@@ -26,6 +32,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--bundle", required=True)
     parser.add_argument("--report-dir", default="reports/current")
+    parser.add_argument("--repo-root", default=".")
     args = parser.parse_args()
 
     os.makedirs(args.report_dir, exist_ok=True)
@@ -72,6 +79,41 @@ def main():
         with open(os.path.join(args.report_dir, "bundle_loop_quarantine.json"), "w") as f:
             json.dump(quarantine, f, indent=2)
         sys.exit(3)
+
+    # Stale manifest check — verify input_path still exists in repo
+    # This prevents bot re-dispatch loops when the referenced bundle
+    # has already been cleaned up from incoming/
+    input_path = dispatch.get("input_path", "")
+    if input_path:
+        abs_input_path = os.path.join(args.repo_root, input_path)
+        if not os.path.exists(abs_input_path):
+            stale_record = {
+                "schema": "stegverse.stale_manifest_receipt.v1",
+                "timestamp_utc": now_utc(),
+                "bundle": args.bundle,
+                "dispatch_input_path": input_path,
+                "resolved_path": abs_input_path,
+                "reason": (
+                    f"input_path '{input_path}' declared in manifest dispatch "
+                    f"no longer exists in repo — bundle already processed or "
+                    f"cleaned up. Skipping re-dispatch to prevent loop."
+                ),
+                "history_passes": len(history),
+            }
+            stale_path = os.path.join(args.report_dir, "stale_manifest_receipt.json")
+            with open(stale_path, "w") as f:
+                json.dump(stale_record, f, indent=2)
+
+            summary_path = os.environ.get("GITHUB_STEP_SUMMARY", "")
+            if summary_path:
+                with open(summary_path, "a") as f:
+                    f.write("## Bundle Manifest — Stale Dispatch Skipped\n\n")
+                    f.write(f"input_path `{input_path}` no longer exists. ")
+                    f.write("Re-dispatch skipped — bundle already processed.\n")
+
+            print(f"STALE_MANIFEST: input_path '{input_path}' not found — "
+                  f"skipping re-dispatch cleanly")
+            sys.exit(4)
 
     # Write next dispatch inputs
     dispatch_path = os.path.join(args.report_dir, "next_dispatch_inputs.json")
