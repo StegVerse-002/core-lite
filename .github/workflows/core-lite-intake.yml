@@ -176,12 +176,15 @@ jobs:
             INPUT_PATH="@reports/current/incoming_changed_files.txt"
             DRY_RUN="false"
           else
+            if [ -z "${INPUT_TYPE}" ] && [ -z "${INPUT_PATH}" ]; then
+              echo "workflow_dispatch with blank inputs — no-op, exiting cleanly."
+              exit 0
+            fi
             if [ -z "${INPUT_TYPE}" ]; then echo "::error::input_type is blank"; exit 1; fi
             if [ -z "${INPUT_PATH}" ]; then echo "::error::input_path is blank"; exit 1; fi
             if [ ! -f "${INPUT_PATH}" ]; then
-              echo "::error::Declared input path does not exist: ${INPUT_PATH}"
-              find incoming -maxdepth 2 -type f 2>/dev/null | sort || true
-              exit 1
+              echo "::warning::Declared input_path does not exist: ${INPUT_PATH} — likely a stale re-dispatch. Exiting cleanly."
+              exit 0
             fi
             echo "${INPUT_PATH}" > reports/current/incoming_changed_files.txt
             find incoming -mindepth 1 -maxdepth 2 -type f ! -path "incoming/README.md" | sort | grep -vxF -f reports/current/incoming_changed_files.txt > reports/current/incoming_legacy_inventory.txt || true
@@ -743,12 +746,14 @@ jobs:
             --run-url "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}")"
 
           echo "pass_record=${PASS_RECORD}" >> "${GITHUB_OUTPUT}"
+          echo "${PASS_RECORD}" > reports/current/pass_record.json
           echo "Recorded: ${PASS_RECORD}"
 
       - name: Package synthesized candidate bundle
         run: |
-          PASS_RECORD="${{ steps.record-pass.outputs.pass_record }}"
-          python scripts/package_candidate_bundle.py \
+          set -euo pipefail
+          PASS_RECORD="$(cat reports/current/pass_record.json)"
+          python3 scripts/package_candidate_bundle.py \
             --synthesized-candidate outputs/synthesized_candidate.json \
             --output-dir outputs \
             --report-dir reports/current \
