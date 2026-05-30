@@ -1,0 +1,66 @@
+{
+  "schema": "stegverse.test_report.v1",
+  "timestamp_utc": "2026-05-30T15:25:48.409125+00:00",
+  "candidate": "outputs/synthesized_candidate.json",
+  "verdict": "PASS",
+  "passed": 11,
+  "failed": 0,
+  "total": 11,
+  "results": [
+    {
+      "test": "schema_valid",
+      "passed": true,
+      "detail": "schema=stegverse.candidate_patch.v1"
+    },
+    {
+      "test": "has_files",
+      "passed": true,
+      "detail": "file_count=1"
+    },
+    {
+      "test": "files_have_required_fields",
+      "passed": true,
+      "detail": "all fields present"
+    },
+    {
+      "test": "no_forbidden_patterns",
+      "passed": true,
+      "detail": "none found"
+    },
+    {
+      "test": "no_forbidden_authority",
+      "passed": true,
+      "detail": "none found"
+    },
+    {
+      "test": "provider_field_set",
+      "passed": true,
+      "detail": "provider=merged-openai-claude"
+    },
+    {
+      "test": "candidate_type",
+      "passed": true,
+      "detail": "pipeline candidate: core_lite/multimodal/pipeline.py"
+    },
+    {
+      "test": "python_syntax_valid",
+      "passed": true,
+      "detail": "ast.parse passed"
+    },
+    {
+      "test": "batch_ingestion_referenced",
+      "passed": true,
+      "detail": "BatchIngestionController found"
+    },
+    {
+      "test": "zip_bundle_routing_present",
+      "passed": true,
+      "detail": "zip/bundle routing found"
+    },
+    {
+      "test": "disposition_records_written",
+      "passed": true,
+      "detail": "disposition/receipt reference found"
+    }
+  ]
+}

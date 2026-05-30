@@ -1,0 +1,28 @@
+[
+  {
+    "schema": "stegverse.candidate_validation_result.v1",
+    "timestamp_utc": "2026-05-30T15:25:48.288071+00:00",
+    "provider": "claude",
+    "input": "outputs/claude_response.md",
+    "parse_error": null,
+    "errors": [],
+    "warnings": [
+      "files[0] path 'core_lite/multimodal/pipeline.py' is not in the explicit allowed list"
+    ],
+    "verdict": "VALID",
+    "output_path": "outputs/claude_candidate.json"
+  },
+  {
+    "schema": "stegverse.candidate_validation_result.v1",
+    "timestamp_utc": "2026-05-30T15:25:48.322199+00:00",
+    "provider": "openai",
+    "input": "outputs/chatgpt_response.md",
+    "parse_error": null,
+    "errors": [],
+    "warnings": [
+      "files[0] path 'core_lite/multimodal/pipeline.py' is not in the explicit allowed list"
+    ],
+    "verdict": "VALID",
+    "output_path": "outputs/openai_candidate.json"
+  }
+]

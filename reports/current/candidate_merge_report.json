@@ -1,0 +1,17 @@
+{
+  "schema": "stegverse.candidate_merge_report.v1",
+  "timestamp_utc": "2026-05-30T15:25:48.364754+00:00",
+  "claude_candidate": "outputs/claude_candidate.json",
+  "openai_candidate": "outputs/openai_candidate.json",
+  "errors": [],
+  "decisions": [
+    {
+      "path": "core_lite/multimodal/pipeline.py",
+      "decision": "prefer-claude",
+      "claude_score": 0,
+      "openai_score": 0
+    }
+  ],
+  "merged_file_count": 1,
+  "output_path": "outputs/synthesized_candidate.json"
+}

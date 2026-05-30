@@ -1,10 +1,10 @@
 {
   "schema": "stegverse.candidate_patch.v1",
-  "candidate_id": "sv002-m11-synthesized-intake-repair",
-  "provider": "merged-openai-claude",
-  "description": "Synthesized repair of core-lite-intake.yml: fixes inline Python heredoc causing YAML parse failure, fixes pipe corruption of JSONL disposition records, quotes 'on:' key to prevent boolean coercion, and adds per-payload pipeline log redirection. Preserves all inputs, triggers, job structure, and governance layer.",
-  "transition_class": "workflow-repair",
-  "authority_ref": "SV002-M11/scoped-merged-candidate",
+  "candidate_id": "sv002-m11-pipeline-batch-ingestion-bridge",
+  "provider": "claude",
+  "description": "Wire core_lite.multimodal.pipeline to route .zip bundles through BatchIngestionController, writing disposition records to receipts/current/ and evidence plane contributions to tracking/evidence_plane/, with exit 0 = admitted/installed and exit 1 = quarantined; all non-bundle input types fall through to the existing MultimodalPipeline logic unchanged.",
+  "transition_class": "candidate",
+  "authority_ref": "SV002-M11/pipeline-batch-ingestion-bridge",
   "policy_ref": "triad/default-deny/no-broad-authority",
   "files": [
     {

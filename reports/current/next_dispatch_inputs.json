@@ -1,0 +1,14 @@
+{
+  "pass": 2,
+  "label": "sandbox-test",
+  "description": "Sandbox testing only \u2014 candidates already evaluated",
+  "agent_provider": "none",
+  "input_type": "bundle",
+  "input_path": "incoming/sv002_m11_synthesized_intake_repair_bundle.zip",
+  "stage_override": "SV002-M11",
+  "dry_run": "false",
+  "task_id": "",
+  "skip_tasks": "true",
+  "repair_target": "",
+  "kv_packet": ""
+}
