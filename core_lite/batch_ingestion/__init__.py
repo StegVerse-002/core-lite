@@ -22,6 +22,7 @@ from .graph import BatchIngestionGraph, GraphNode, GraphEdge
 from .mailbox import MailboxRouter
 from .discovery import DiscoveryEngine, DiscoveryResult
 from .sandbox import EphemeralSandbox, SandboxResult
+from .task_awareness import TaskAwarenessChecker, TaskAwarenessResult
 from .evidence_plane import (
     EvidencePlaneBuilder,
     EvidencePlaneContribution,
@@ -46,4 +47,6 @@ __all__ = [
     "EVENT_TYPES",
     "TRANSITION_CLASS_TO_BLOCK",
     "DECISION_TO_REGION",
+    "TaskAwarenessChecker",
+    "TaskAwarenessResult",
 ]
