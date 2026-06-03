@@ -42,6 +42,7 @@ class MultimodalInputManifest:
     input_id: str = ""
     input_type: str = "unknown"
     source: str = ""
+    stage: str = ""
     storage_target: str = "KnowledgeVault"
     actor: str = ""
     submitted_by: str = ""
@@ -254,16 +255,26 @@ def main() -> None:
     args = parser.parse_args()
 
     if args.input_type == "bundle":
-        from core_lite.bundles.ingest import BundleIngestor
+        # Governed loop (SV002-M11): .zip bundles route through the
+        # BatchIngestionController, which performs the transition-table gate,
+        # ephemeral sandbox repair/test, writes disposition records to
+        # receipts/current/, and contributes to tracking/evidence_plane/.
+        # The prior BundleIngestor path bypassed receipts + evidence plane.
+        from core_lite.batch_ingestion.controller import BatchIngestionController
 
-        result = BundleIngestor(
-            Path(args.repo_root),
+        controller = BatchIngestionController(
+            repo_root=args.repo_root,
             entity=args.entity,
             stage=args.stage,
             dry_run=args.dry_run,
-        ).ingest(args.input_path)
-        print(json.dumps(result, indent=2))
-        raise SystemExit(0 if result.get("status") == "success" else 1)
+        )
+        proc = controller.process_bundle(args.input_path)
+        print(json.dumps(proc, indent=2, sort_keys=True))
+
+        # Exit code contract: 0 = admitted/installed, 1 = quarantined/failed.
+        disposition = proc.get("final_disposition", "UNKNOWN")
+        admitted = ("INSTALLED" in disposition) or ("ADMITTED" in disposition)
+        raise SystemExit(0 if admitted else 1)
 
     pipeline = MultimodalPipeline(repo_root=Path(args.repo_root), entity=args.entity, stage=args.stage)
     manifest = MultimodalInputManifest(
