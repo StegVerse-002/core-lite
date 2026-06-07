@@ -229,17 +229,12 @@
     {
       "task_id": "sv002.ingestion.loop.ci_smoke",
       "stage": "SV002-M11",
-      "allowed_stages": [
-        "SV002-M11",
-        "SV002-M12"
-      ],
       "description": "CI smoke check: drive the known-good diagnostic bundle through BatchIngestionController, the M11-wired governed loop, and assert disposition, receipt, and evidence-plane contribution under the real CI runner.",
       "capability": "ingestion_loop_ci_smoke",
       "transition_class": "tooling",
       "authority": "test_only",
       "entry_point": "tools/scripts/ci_smoke_ingestion_loop.py",
       "command": "python tools/scripts/ci_smoke_ingestion_loop.py --repo-root . --bundle incoming/sv002_diagnostics_bundle.zip",
-      "timeout_seconds": 300,
       "expected_outputs": [
         "reports/current/ci_smoke_ingestion_report.json"
       ],
@@ -258,7 +253,12 @@
         "receipt_before_claim": true,
         "diagnostic_bundle_only": true
       },
-      "notes": "Complements sv002.bundle.ingestion.smoke_test, which tests the BundleIngestor fixture path. This task tests the BatchIngestionController path wired by M11. Run only with the known-good diagnostic bundle whose allowed effects are receipt, report, and evidence emission."
+      "notes": "Complements sv002.bundle.ingestion.smoke_test, which tests the BundleIngestor fixture path. This task tests the BatchIngestionController path wired by M11. Run only with the known-good diagnostic bundle whose allowed effects are receipt, report, and evidence emission.",
+      "allowed_stages": [
+        "SV002-M11",
+        "SV002-M12"
+      ],
+      "timeout_seconds": 300
     }
   ]
 }
