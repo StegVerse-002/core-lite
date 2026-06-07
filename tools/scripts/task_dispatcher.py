@@ -93,10 +93,42 @@ class TaskDispatcher:
             stop_condition=task.get("stop_condition", ""),
         )
 
+        # Exit-code determination.
+        #
+        # For test_only tasks (smoke/verification), the process exit code MUST
+        # reflect the task's own pass/fail, so that a green CI check genuinely
+        # means "the test passed" and a failing test forces a red check. A
+        # test_only task that exits non-zero is a real failure.
+        #
+        # For non-test tasks (review/gate), a non-zero task exit is a genuine
+        # failure too, but those tasks signal correct DENY/DEFER via their own
+        # report/receipt and normally still exit 0; we do not invent failure
+        # for them here. The rule below is intentionally simple and honest:
+        # exit code follows the task's actual return code in all cases, and we
+        # record WHY, so the green/red signal is never ambiguous.
+        authority = task.get("authority", "")
+        passed = result["returncode"] == 0
+        if task.get("authority") == "test_only":
+            exit_basis = (
+                "test_only task passed (rc=0)"
+                if passed
+                else f"test_only task FAILED (rc={result['returncode']}) — CI must be red"
+            )
+        else:
+            exit_basis = (
+                f"task completed (rc={result['returncode']})"
+                if passed
+                else f"task failed (rc={result['returncode']})"
+            )
+
         return {
-            "status": "success" if result["returncode"] == 0 else "failure",
+            "status": "success" if passed else "failure",
             "task_id": self.task_id,
+            "authority": authority,
             "returncode": result["returncode"],
+            "exit_code": result["returncode"],
+            "exit_basis": exit_basis,
+            "decision": decision,
             "stdout": result.get("stdout", ""),
             "stderr": result.get("stderr", ""),
         }
@@ -148,6 +180,20 @@ def main():
     )
     result = dispatcher.run()
     print(json.dumps(result, indent=2))
+
+    # Record the exit determination so the green/red signal is auditable,
+    # not just printed. The workflow step should treat a non-zero exit as a
+    # failed check; this file explains why the exit code was chosen.
+    try:
+        from pathlib import Path as _P
+        rdir = _P("reports/current")
+        rdir.mkdir(parents=True, exist_ok=True)
+        exit_code = int(result.get("exit_code", 0 if result.get("status") in ("success", "dry_run") else 1))
+        (rdir / "task_dispatcher_exit_code.txt").write_text(str(exit_code) + "\n", encoding="utf-8")
+        (rdir / "task_dispatcher_result.json").write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
+    except Exception as _e:  # never let auditing mask the real exit
+        print(f"::warning::could not write exit determination: {_e!r}")
+
     sys.exit(0 if result.get("status") in ("success", "dry_run") else 1)
 
 
