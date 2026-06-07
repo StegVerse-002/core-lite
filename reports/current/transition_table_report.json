@@ -1,0 +1,30 @@
+[
+  {
+    "schema": "stegverse.transition_table_report.v1",
+    "timestamp_utc": "2026-06-07T02:29:33.739123+00:00",
+    "entity": "StegVerse-002",
+    "stage": "SV002-M11",
+    "bundle_path": "/home/runner/work/core-lite/core-lite/incoming/sv002_diagnostics_bundle.zip",
+    "bundle_hash": "sha256:5d68e49f799634a658bba4497a7d9cca99f7de3b1d40ee9d6e1ac95d10b1ac0e",
+    "manifest_hash": "sha256:160941bcb7ecc0163f8f8c7ff3c687a20f39a2a6aaa515b58c584631c165bbe6",
+    "transition_class": "install",
+    "authority_class": "scoped_repo_write",
+    "transition_table_decision": "ALLOW",
+    "cge_decision": "ERROR",
+    "final_decision": "ALLOW",
+    "candidate_disposition": "",
+    "coordinates": {
+      "delta_C": 0.0,
+      "delta_R": 0.3,
+      "delta_P": 0.0,
+      "delta_U": 0.1,
+      "delta_O": 0.1,
+      "d_boundary_A": 0.2,
+      "d_A": 0.085
+    },
+    "errors": [],
+    "warnings": [],
+    "receipt_hash": "sha256:c522588cdb202d6e71e944332bbca28187c313092042e1aca89b9b973f21f3f9",
+    "dry_run": false
+  }
+]

@@ -1,0 +1,46 @@
+{
+  "bundle": "incoming/sv002_diagnostics_bundle.zip",
+  "checks": {
+    "bundle_present": {
+      "detail": "/home/runner/work/core-lite/core-lite/incoming/sv002_diagnostics_bundle.zip",
+      "ok": true
+    },
+    "controller_import": {
+      "detail": "import ok",
+      "ok": true
+    },
+    "disposition_admitted": {
+      "detail": "INSTALLED",
+      "ok": true
+    },
+    "disposition_returned": {
+      "detail": "INSTALLED",
+      "ok": true
+    },
+    "evidence_recorded": {
+      "detail": "contributions=2, evidence_file=yes",
+      "ok": true
+    },
+    "receipt_written": {
+      "detail": "20 receipt file(s)",
+      "ok": true
+    }
+  },
+  "entity": "StegVerse-002",
+  "generated_at": "2026-06-07T02:29:33.682577+00:00",
+  "passed": true,
+  "process_result_keys": [
+    "bundle_hash",
+    "bundle_path",
+    "evidence_plane_contributions",
+    "final_disposition",
+    "gate_result",
+    "install_result",
+    "mailbox_result",
+    "manifest",
+    "quarantine_result",
+    "sandbox_results"
+  ],
+  "schema": "stegverse.ci_smoke.ingestion_loop.v1",
+  "stage": "SV002-M11"
+}
