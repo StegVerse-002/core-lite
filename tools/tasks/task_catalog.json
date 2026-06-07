@@ -1,7 +1,7 @@
 {
   "schema": "stegverse.task_catalog.v1",
   "entity": "StegVerse-002",
-  "updated_utc": "2026-05-29T12:26:00+00:00",
+  "updated_utc": "2026-06-06T00:00:00Z",
   "tasks": [
     {
       "task_id": "stegverse.candidate.intake.review",
@@ -225,6 +225,40 @@
         "quarantines_unknown_files": true
       },
       "notes": "Run sv002.incoming.cleanup.dry_run first to preview. Misplaced files are moved to correct repo locations before removal from incoming/."
+    },
+    {
+      "task_id": "sv002.ingestion.loop.ci_smoke",
+      "stage": "SV002-M11",
+      "allowed_stages": [
+        "SV002-M11",
+        "SV002-M12"
+      ],
+      "description": "CI smoke check: drive the known-good diagnostic bundle through BatchIngestionController, the M11-wired governed loop, and assert disposition, receipt, and evidence-plane contribution under the real CI runner.",
+      "capability": "ingestion_loop_ci_smoke",
+      "transition_class": "tooling",
+      "authority": "test_only",
+      "entry_point": "tools/scripts/ci_smoke_ingestion_loop.py",
+      "command": "python tools/scripts/ci_smoke_ingestion_loop.py --repo-root . --bundle incoming/sv002_diagnostics_bundle.zip",
+      "timeout_seconds": 300,
+      "expected_outputs": [
+        "reports/current/ci_smoke_ingestion_report.json"
+      ],
+      "decision_set": [
+        "ALLOW",
+        "FAIL_CLOSED"
+      ],
+      "stop_condition": "Smoke report written; exit 0 if the loop fired end-to-end, exit 1 otherwise",
+      "governance": {
+        "no_broad_authority": true,
+        "no_root_readme_overwrite": true,
+        "no_workflow_changes": true,
+        "default_deny": true,
+        "test_only": true,
+        "review_apply_separated": true,
+        "receipt_before_claim": true,
+        "diagnostic_bundle_only": true
+      },
+      "notes": "Complements sv002.bundle.ingestion.smoke_test, which tests the BundleIngestor fixture path. This task tests the BatchIngestionController path wired by M11. Run only with the known-good diagnostic bundle whose allowed effects are receipt, report, and evidence emission."
     }
   ]
 }
