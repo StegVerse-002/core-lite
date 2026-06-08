@@ -269,6 +269,9 @@ jobs:
             echo "bundle_stale=true" >> "${GITHUB_OUTPUT}"
             echo "bundle_quarantine=false" >> "${GITHUB_OUTPUT}"
             echo "Stale manifest detected — input_path no longer exists. Skipping re-dispatch cleanly."
+          elif [ "${READER_EXIT}" -eq 2 ]; then
+            echo "bundle_detected=false" >> "${GITHUB_OUTPUT}"
+            echo "No dispatch block — batch ingestion controller will handle directly."
           elif [ "${READER_EXIT}" -eq 0 ]; then
             echo "bundle_quarantine=false" >> "${GITHUB_OUTPUT}"
           else
