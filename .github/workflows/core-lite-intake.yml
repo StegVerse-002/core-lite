@@ -280,7 +280,7 @@ jobs:
           fi
 
       - name: Re-dispatch from bundle manifest
-        if: ${{ steps.bundle-handler.outputs.bundle_detected == 'true' && steps.bundle-handler.outputs.bundle_quarantine != 'true' && steps.bundle-handler.outputs.bundle_stale != 'true' }}
+        if: ${{ false }}
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
