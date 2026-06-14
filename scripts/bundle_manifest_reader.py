@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 """
-bundle_manifest_reader.py — StegVerse-002 SV002-M11 v3
+bundle_manifest_reader.py — StegVerse-002 SV002-M11 v4
 
 Exits:
   0 — manifest valid with dispatch block, next_dispatch_inputs.json written
-  2 — not a re-dispatch bundle (no manifest, wrong schema, or no dispatch block)
-      → batch ingestion controller handles it directly
+      (only when STEGVERSE_ALLOW_SELF_REDISPATCH=true)
+  2 — not a re-dispatch bundle, no dispatch block, or self-dispatch disabled
+      → batch ingestion controller / disposition gate handles it directly
   3 — runaway loop detected, quarantine flag written
   4 — stale manifest (input_path no longer exists) — exits cleanly
   1 — other error
@@ -20,6 +21,26 @@ import zipfile
 
 def now_utc():
     return datetime.datetime.now(datetime.timezone.utc).isoformat()
+
+
+def env_truthy(name, default="false"):
+    return os.environ.get(name, default).strip().lower() in {"1", "true", "yes", "on"}
+
+
+def write_json(path, payload):
+    with open(path, "w") as f:
+        json.dump(payload, f, indent=2, sort_keys=True)
+
+
+def append_summary(title, lines):
+    summary_path = os.environ.get("GITHUB_STEP_SUMMARY", "")
+    if not summary_path:
+        return
+    with open(summary_path, "a") as f:
+        f.write(f"## {title}\n\n")
+        for line in lines:
+            f.write(f"{line}\n")
+        f.write("\n")
 
 
 def main():
@@ -58,14 +79,18 @@ def main():
     # No dispatch block — this is an install/evidence/candidate bundle,
     # not a pass-schedule bundle. Let batch ingestion controller handle it.
     if not dispatch:
-        print("NO_DISPATCH_BLOCK: install/evidence bundle — "
-              "batch ingestion controller will handle directly")
+        print(
+            "NO_DISPATCH_BLOCK: install/evidence bundle — "
+            "batch ingestion controller will handle directly"
+        )
         sys.exit(2)
 
     # Runaway loop check
     if len(history) >= max_passes:
-        msg = (f"RUNAWAY LOOP: {len(history)} passes completed, "
-               f"max={max_passes}. Bundle must be quarantined.")
+        msg = (
+            f"RUNAWAY LOOP: {len(history)} passes completed, "
+            f"max={max_passes}. Bundle must be quarantined."
+        )
         print(f"::error::{msg}")
         quarantine = {
             "schema": "stegverse.bundle_loop_quarantine.v1",
@@ -75,12 +100,9 @@ def main():
             "max_passes": max_passes,
             "history": history,
         }
-        with open(os.path.join(args.report_dir,
-                               "bundle_quarantine_flag.txt"), "w") as f:
+        with open(os.path.join(args.report_dir, "bundle_quarantine_flag.txt"), "w") as f:
             f.write("QUARANTINE\n")
-        with open(os.path.join(args.report_dir,
-                               "bundle_loop_quarantine.json"), "w") as f:
-            json.dump(quarantine, f, indent=2)
+        write_json(os.path.join(args.report_dir, "bundle_loop_quarantine.json"), quarantine)
         sys.exit(3)
 
     # Stale manifest check
@@ -98,43 +120,78 @@ def main():
                     f"already processed or cleaned up. Skipping re-dispatch."
                 ),
             }
-            with open(os.path.join(args.report_dir,
-                                   "stale_manifest_receipt.json"), "w") as f:
-                json.dump(stale_record, f, indent=2)
-
-            summary_path = os.environ.get("GITHUB_STEP_SUMMARY", "")
-            if summary_path:
-                with open(summary_path, "a") as f:
-                    f.write("## Bundle Manifest — Stale Dispatch Skipped\n\n")
-                    f.write(f"`{input_path}` no longer exists. "
-                            "Re-dispatch skipped.\n")
-
-            print(f"STALE_MANIFEST: '{input_path}' not found — "
-                  "skipping re-dispatch cleanly")
+            write_json(os.path.join(args.report_dir, "stale_manifest_receipt.json"), stale_record)
+            append_summary(
+                "Bundle Manifest — Stale Dispatch Skipped",
+                [f"`{input_path}` no longer exists. Re-dispatch skipped."],
+            )
+            print(f"STALE_MANIFEST: '{input_path}' not found — skipping re-dispatch cleanly")
             sys.exit(4)
 
-    # Write next dispatch inputs
+    # Safety guard: the workflow's self-dispatch step is disabled. A manifest with
+    # a dispatch block must not be allowed to stall the disposition gate by
+    # returning exit 0. Treat it as a direct bundle for disposition purposes.
+    if not env_truthy("STEGVERSE_ALLOW_SELF_REDISPATCH"):
+        disabled_record = {
+            "schema": "stegverse.redispatch_disabled_receipt.v1",
+            "timestamp_utc": now_utc(),
+            "bundle": args.bundle,
+            "dispatch": dispatch,
+            "history_count": len(history),
+            "max_passes": max_passes,
+            "reason": (
+                "self-dispatch is disabled; redispatch-style bundle is being "
+                "returned to the declared-input disposition gate"
+            ),
+        }
+        write_json(
+            os.path.join(args.report_dir, "redispatch_disabled_receipt.json"),
+            disabled_record,
+        )
+        append_summary(
+            "Bundle Manifest — Redispatch Disabled",
+            [
+                f"Bundle: `{args.bundle}`",
+                "Dispatch block detected, but self-dispatch is disabled.",
+                "Returning exit 2 so the declared-input disposition gate handles the payload.",
+            ],
+        )
+        print(
+            "REDISPATCH_DISABLED: dispatch bundle will be handled by "
+            "declared-input disposition gate"
+        )
+        sys.exit(2)
+
+    # Write next dispatch inputs only if self-redispatch is explicitly enabled.
     dispatch_path = os.path.join(args.report_dir, "next_dispatch_inputs.json")
     with open(dispatch_path, "w") as f:
         json.dump(dispatch, f, indent=2)
 
-    summary_path = os.environ.get("GITHUB_STEP_SUMMARY", "")
-    if summary_path:
-        with open(summary_path, "a") as f:
-            f.write("## Bundle Manifest — Dispatch Inputs\n\n")
-            f.write(f"Pass {dispatch.get('pass','?')} — "
-                    f"`{dispatch.get('label','?')}`\n\n")
-            f.write(f"{dispatch.get('description','')}\n\n")
-            f.write("| Input | Value |\n|---|---|\n")
-            for k, v in dispatch.items():
-                if k not in ("pass", "label", "description"):
-                    f.write(f"| {k} | `{v or '[blank]'}` |\n")
-            f.write(f"\nPasses completed: {len(history)} / {max_passes}\n")
+    append_summary(
+        "Bundle Manifest — Dispatch Inputs",
+        [
+            f"Pass {dispatch.get('pass', '?')} — `{dispatch.get('label', '?')}`",
+            "",
+            dispatch.get("description", ""),
+            "",
+            "| Input | Value |",
+            "|---|---|",
+            *[
+                f"| {k} | `{v or '[blank]'}` |"
+                for k, v in dispatch.items()
+                if k not in ("pass", "label", "description")
+            ],
+            f"",
+            f"Passes completed: {len(history)} / {max_passes}",
+        ],
+    )
 
-    print(f"REDISPATCH_BUNDLE: pass={dispatch.get('pass')}, "
-          f"label={dispatch.get('label')}, "
-          f"agent_provider={dispatch.get('agent_provider')}, "
-          f"history={len(history)}/{max_passes}")
+    print(
+        f"REDISPATCH_BUNDLE: pass={dispatch.get('pass')}, "
+        f"label={dispatch.get('label')}, "
+        f"agent_provider={dispatch.get('agent_provider')}, "
+        f"history={len(history)}/{max_passes}"
+    )
     sys.exit(0)
 
 
