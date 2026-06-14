@@ -2,24 +2,24 @@
 """
 scripts/incoming_cleanup.py — StegVerse-002
 
-Retroactive and forward cleanup of the incoming/ directory.
+Scoped cleanup of the incoming/ directory.
 
-Scans incoming/, classifies each file, writes disposition receipts,
-removes processed payloads, and leaves only README.md and .gitkeep.
+This cleanup task is intentionally conservative. It does not relocate semantic
+content to final repo destinations. Unresolved payloads are quarantined for later
+manifest wrapping / governed re-ingestion. Only files with existing disposition
+receipt evidence may be removed from incoming/.
 
 Disposition classes:
-  RETAINED          — README.md, .gitkeep (never removed)
-  MISPLACED         — files that belong elsewhere (e.g. core-lite-intake.yml)
-                      → moved to correct location if target provided, then removed
-  LEGACY_PROCESSED  — bundles/files with prior receipt evidence or known processed state
-                      → removed, receipt written
-  LEGACY_UNKNOWN    — files with no known receipt, no known disposition
-                      → moved to quarantine/incoming/legacy/, receipt written
-  SKIP              — files explicitly excluded from this run
+  RETAINED             — README.md, .gitkeep, protected diagnostic fixtures
+  LEGACY_DISPOSITIONED — files with existing receipt/disposition evidence
+                         → removed from incoming/, receipt written
+  LEGACY_UNKNOWN       — files with no known receipt/disposition
+                         → moved to quarantine/incoming/legacy/, receipt written
+  SKIP_DIR             — directories are inventoried and left untouched
 
 Writes:
   reports/current/incoming_cleanup_report.json
-  receipts/current/incoming_cleanup_receipt.jsonl
+  receipts/incoming_cleanup_receipt.jsonl
   quarantine/incoming/legacy/  (for LEGACY_UNKNOWN files)
 """
 from __future__ import annotations
@@ -31,29 +31,21 @@ import json
 import os
 import shutil
 import sys
-from typing import List, Optional
+from typing import List
 
-# Files that must never be removed from incoming/
+# Files that must never be removed from incoming/.
 ALWAYS_RETAIN = {".gitkeep", "README.md"}
 
-# Files that are misplaced — map to their correct repo-relative destination
-MISPLACED_MAP = {
-    "core-lite-intake.yml": ".github/workflows/core-lite-intake.yml",
+# Known diagnostic fixtures retained because declared tasks may depend on them.
+PROTECTED_FIXTURES = {
+    "sv002_diagnostics_bundle.zip",
 }
 
-# Filename patterns that indicate a processed/legacy bundle
-LEGACY_PATTERNS = [
-    "sv002_",
-    "sv002 ",
-    "bundle",
-    ".zip",
-    ".tar.gz",
-    ".json",
-    ".jsonl",
-    ".md",
-    ".txt",
-    ".yml",
-    ".yaml",
+RECEIPT_FILES = [
+    os.path.join("current", "incoming_disposition_receipt.jsonl"),
+    os.path.join("current", "bundle_ingestion_smoke_test_receipt.jsonl"),
+    os.path.join("current", "transition_table_receipt.jsonl"),
+    "incoming_cleanup_receipt.jsonl",
 ]
 
 
@@ -75,78 +67,75 @@ def append_receipt(path: str, record: dict) -> None:
         f.write(json.dumps(record, sort_keys=True) + "\n")
 
 
-def classify_file(
-    filename: str,
-    filepath: str,
-    receipt_dir: str,
-) -> str:
-    """
-    Classify a file in incoming/ for disposition.
-    Returns one of: RETAINED, MISPLACED, LEGACY_PROCESSED, LEGACY_UNKNOWN
-    """
-    if filename in ALWAYS_RETAIN:
-        return "RETAINED"
+def iter_receipt_paths(receipt_dir: str) -> List[str]:
+    paths: List[str] = []
+    for rel in RECEIPT_FILES:
+        paths.append(os.path.join(receipt_dir, rel))
+    return paths
 
-    if filename in MISPLACED_MAP:
-        return "MISPLACED"
 
-    # Check if a receipt exists for this file
+def has_disposition_receipt(filename: str, filepath: str, receipt_dir: str) -> bool:
     basename = os.path.splitext(filename)[0]
-    receipt_patterns = [
-        os.path.join(receipt_dir, "current", "incoming_disposition_receipt.jsonl"),
-        os.path.join(receipt_dir, "current", "bundle_ingestion_smoke_test_receipt.jsonl"),
-        os.path.join(receipt_dir, "current", "transition_table_receipt.jsonl"),
-    ]
-    for rpath in receipt_patterns:
-        if os.path.exists(rpath):
-            try:
-                with open(rpath) as f:
-                    for line in f:
-                        rec = json.loads(line.strip())
-                        src = rec.get("source_path", "") or rec.get("bundle_path", "")
-                        if filename in src or basename in src:
-                            return "LEGACY_PROCESSED"
-            except Exception:
-                pass
+    for rpath in iter_receipt_paths(receipt_dir):
+        if not os.path.exists(rpath):
+            continue
+        try:
+            with open(rpath) as f:
+                for line in f:
+                    line = line.strip()
+                    if not line:
+                        continue
+                    rec = json.loads(line)
+                    fields = [
+                        rec.get("source_path", ""),
+                        rec.get("bundle_path", ""),
+                        rec.get("filepath", ""),
+                        rec.get("filename", ""),
+                    ]
+                    haystack = "\n".join(str(v) for v in fields if v)
+                    if filepath in haystack or filename in haystack or basename in haystack:
+                        return True
+        except Exception:
+            continue
+    return False
 
-    # Classify by pattern — most files in incoming/ are legacy processed bundles
-    name_lower = filename.lower()
-    for pat in LEGACY_PATTERNS:
-        if name_lower.startswith(pat.lower()) or name_lower.endswith(pat.lower()):
-            return "LEGACY_PROCESSED"
 
+def classify_path(name: str, path: str, receipt_dir: str) -> str:
+    if os.path.isdir(path):
+        return "SKIP_DIR"
+    if name in ALWAYS_RETAIN or name in PROTECTED_FIXTURES:
+        return "RETAINED"
+    if has_disposition_receipt(name, path, receipt_dir):
+        return "LEGACY_DISPOSITIONED"
     return "LEGACY_UNKNOWN"
 
 
 def run_cleanup(
     incoming_dir: str,
-    repo_root: str,
     receipt_dir: str,
     report_dir: str,
     quarantine_dir: str,
     dry_run: bool = False,
 ) -> dict:
-    """
-    Main cleanup logic. Returns summary dict.
-    """
     os.makedirs(report_dir, exist_ok=True)
     os.makedirs(receipt_dir, exist_ok=True)
 
     summary = {
-        "schema": "stegverse.incoming_cleanup_report.v1",
+        "schema": "stegverse.incoming_cleanup_report.v2",
         "timestamp_utc": now_utc(),
         "incoming_dir": incoming_dir,
         "dry_run": dry_run,
+        "policy": "quarantine_unresolved_no_final_relocation",
         "retained": [],
-        "misplaced_moved": [],
-        "misplaced_failed": [],
-        "legacy_processed_removed": [],
+        "directories_skipped": [],
+        "legacy_dispositioned_removed": [],
         "legacy_unknown_quarantined": [],
         "errors": [],
         "total_scanned": 0,
         "total_removed": 0,
         "total_retained": 0,
         "total_quarantined": 0,
+        "total_directories_skipped": 0,
     }
 
     if not os.path.exists(incoming_dir):
@@ -156,114 +145,72 @@ def run_cleanup(
     entries = sorted(os.listdir(incoming_dir))
     summary["total_scanned"] = len(entries)
 
-    for filename in entries:
-        filepath = os.path.join(incoming_dir, filename)
+    receipt_path = os.path.join(receipt_dir, "incoming_cleanup_receipt.jsonl")
 
-        # Skip subdirectories
-        if os.path.isdir(filepath):
-            continue
+    for name in entries:
+        path = os.path.join(incoming_dir, name)
+        disposition = classify_path(name, path, receipt_dir)
+        file_hash = sha256_file(path) if os.path.isfile(path) else ""
 
-        disposition = classify_file(filename, filepath, receipt_dir)
-        file_hash = sha256_file(filepath) if os.path.exists(filepath) else ""
-
-        receipt_base = {
-            "schema": "stegverse.incoming_cleanup_receipt.v1",
+        receipt = {
+            "schema": "stegverse.incoming_cleanup_receipt.v2",
             "timestamp_utc": now_utc(),
-            "filename": filename,
-            "filepath": filepath,
+            "name": name,
+            "path": path,
             "sha256": file_hash,
             "disposition": disposition,
             "dry_run": dry_run,
+            "policy": "quarantine_unresolved_no_final_relocation",
         }
 
+        if disposition == "SKIP_DIR":
+            receipt["action"] = "directory_skipped_left_in_place"
+            summary["directories_skipped"].append(name)
+            summary["total_directories_skipped"] += 1
+            append_receipt(receipt_path, receipt)
+            continue
+
         if disposition == "RETAINED":
-            summary["retained"].append(filename)
+            receipt["action"] = "retained"
+            summary["retained"].append(name)
             summary["total_retained"] += 1
-            receipt_base["action"] = "retained"
-            append_receipt(
-                os.path.join(receipt_dir, "incoming_cleanup_receipt.jsonl"),
-                receipt_base
-            )
+            append_receipt(receipt_path, receipt)
+            continue
 
-        elif disposition == "MISPLACED":
-            dest_rel = MISPLACED_MAP.get(filename, "")
-            dest_abs = os.path.join(repo_root, dest_rel) if dest_rel else ""
-            receipt_base["misplaced_dest"] = dest_rel
-
-            moved = False
-            if dest_abs:
-                # Only move if the target doesn't already exist with same content
-                if os.path.exists(dest_abs):
-                    receipt_base["action"] = "misplaced_target_exists_removed_from_incoming"
-                    if not dry_run:
-                        os.remove(filepath)
-                    moved = True
-                else:
-                    if not dry_run:
-                        os.makedirs(os.path.dirname(dest_abs), exist_ok=True)
-                        shutil.move(filepath, dest_abs)
-                    receipt_base["action"] = "misplaced_moved_to_correct_location"
-                    moved = True
-
-            if moved:
-                summary["misplaced_moved"].append({"filename": filename, "dest": dest_rel})
-                summary["total_removed"] += 1
-            else:
-                receipt_base["action"] = "misplaced_no_dest_quarantined"
-                qpath = os.path.join(quarantine_dir, "misplaced", filename)
-                if not dry_run:
-                    os.makedirs(os.path.dirname(qpath), exist_ok=True)
-                    shutil.move(filepath, qpath)
-                summary["misplaced_failed"].append(filename)
-                summary["total_quarantined"] += 1
-
-            append_receipt(
-                os.path.join(receipt_dir, "incoming_cleanup_receipt.jsonl"),
-                receipt_base
-            )
-
-        elif disposition == "LEGACY_PROCESSED":
-            receipt_base["action"] = "legacy_processed_removed"
+        if disposition == "LEGACY_DISPOSITIONED":
+            receipt["action"] = "removed_from_incoming_existing_disposition_receipt"
             if not dry_run:
-                os.remove(filepath)
-            summary["legacy_processed_removed"].append(filename)
+                os.remove(path)
+            summary["legacy_dispositioned_removed"].append(name)
             summary["total_removed"] += 1
-            append_receipt(
-                os.path.join(receipt_dir, "incoming_cleanup_receipt.jsonl"),
-                receipt_base
-            )
+            append_receipt(receipt_path, receipt)
+            continue
 
-        elif disposition == "LEGACY_UNKNOWN":
-            qpath = os.path.join(quarantine_dir, "legacy", filename)
-            receipt_base["action"] = "legacy_unknown_quarantined"
-            receipt_base["quarantine_path"] = qpath
+        if disposition == "LEGACY_UNKNOWN":
+            qpath = os.path.join(quarantine_dir, "legacy", name)
+            receipt["action"] = "quarantined_unresolved_payload"
+            receipt["quarantine_path"] = qpath
             if not dry_run:
                 os.makedirs(os.path.dirname(qpath), exist_ok=True)
-                shutil.move(filepath, qpath)
-            summary["legacy_unknown_quarantined"].append(filename)
+                shutil.move(path, qpath)
+            summary["legacy_unknown_quarantined"].append(name)
             summary["total_quarantined"] += 1
-            append_receipt(
-                os.path.join(receipt_dir, "incoming_cleanup_receipt.jsonl"),
-                receipt_base
-            )
+            append_receipt(receipt_path, receipt)
+            continue
 
-    # Write report inside run_cleanup so callers can verify it
-    report_path = os.path.join(report_dir, "incoming_cleanup_report.json")
-    os.makedirs(report_dir, exist_ok=True)
-    with open(report_path, "w") as f:
-        json.dump(summary, f, indent=2)
-
-    # Ensure README.md exists in incoming/
     readme_path = os.path.join(incoming_dir, "README.md")
     if not os.path.exists(readme_path) and not dry_run:
         with open(readme_path, "w") as f:
             f.write(
                 "# Incoming\n\n"
                 "Ephemeral ingestion mailbox.\n\n"
-                "Only README.md and .gitkeep should remain after ingestion runs.\n\n"
-                "Push bundles here to activate the ingestion pipeline.\n"
-                "The workflow removes only payloads with disposition records.\n"
+                "Only README.md, .gitkeep, and protected diagnostic fixtures should remain after ingestion runs.\n\n"
+                "Payload bundles/files may be pushed here to activate ingestion. The workflow removes only payloads with disposition records. Unresolved payloads are quarantined for governed re-ingestion; cleanup does not relocate semantic content to final repo destinations.\n"
             )
+
+    report_path = os.path.join(report_dir, "incoming_cleanup_report.json")
+    with open(report_path, "w") as f:
+        json.dump(summary, f, indent=2, sort_keys=True)
 
     return summary
 
@@ -271,7 +218,7 @@ def run_cleanup(
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--incoming-dir", default="incoming")
-    parser.add_argument("--repo-root", default=".")
+    parser.add_argument("--repo-root", default=".")  # retained for CLI compatibility; intentionally unused
     parser.add_argument("--receipt-dir", default="receipts")
     parser.add_argument("--report-dir", default="reports/current")
     parser.add_argument("--quarantine-dir", default="quarantine/incoming")
@@ -280,32 +227,27 @@ def main():
 
     summary = run_cleanup(
         incoming_dir=args.incoming_dir,
-        repo_root=args.repo_root,
         receipt_dir=args.receipt_dir,
         report_dir=args.report_dir,
         quarantine_dir=args.quarantine_dir,
         dry_run=args.dry_run,
     )
 
-    # Write report
-    report_path = os.path.join(args.report_dir, "incoming_cleanup_report.json")
-    with open(report_path, "w") as f:
-        json.dump(summary, f, indent=2)
-
-    # Print summary
     print(json.dumps({
         "status": "success" if not summary["errors"] else "partial",
         "dry_run": args.dry_run,
+        "policy": summary["policy"],
         "total_scanned": summary["total_scanned"],
         "total_removed": summary["total_removed"],
         "total_retained": summary["total_retained"],
         "total_quarantined": summary["total_quarantined"],
+        "total_directories_skipped": summary["total_directories_skipped"],
         "retained": summary["retained"],
-        "removed": summary["legacy_processed_removed"],
-        "misplaced_moved": [m["filename"] for m in summary["misplaced_moved"]],
+        "removed": summary["legacy_dispositioned_removed"],
         "quarantined": summary["legacy_unknown_quarantined"],
+        "directories_skipped": summary["directories_skipped"],
         "errors": summary["errors"],
-    }, indent=2))
+    }, indent=2, sort_keys=True))
 
     if summary["errors"]:
         sys.exit(1)
