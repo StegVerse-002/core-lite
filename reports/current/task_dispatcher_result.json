@@ -1,11 +1,11 @@
 {
   "status": "success",
-  "task_id": "sv002.repo.recovery.audit",
+  "task_id": "sv002.repo.recovery.wrap.dry_run",
   "authority": "read_only",
   "returncode": 0,
   "exit_code": 0,
   "exit_basis": "task completed (rc=0)",
   "decision": "ALLOW",
-  "stdout": "{\n  \"decision\": \"ALLOW\",\n  \"receipt\": \"receipts/current/repo_recovery_audit_receipt.jsonl\",\n  \"report\": \"reports/current/repo_recovery_audit_report.json\",\n  \"status\": \"success\",\n  \"summary\": {\n    \"action_counts\": {\n      \"retain\": 230,\n      \"wrap_for_ingestion\": 75\n    },\n    \"classification_counts\": {\n      \"evidence_or_artifact_path\": 80,\n      \"incoming_retained_control_file\": 1,\n      \"protected_repo_path\": 113,\n      \"protected_root_file\": 6,\n      \"repo_unresolved_file\": 1,\n      \"repo_unresolved_semantic_file\": 66,\n      \"retained_keep_file\": 30,\n      \"root_misplaced_semantic_file\": 5,\n      \"root_unresolved_file\": 1,\n      \"stranded_incoming_payload\": 2\n    },\n    \"fail_closed_count\": 0,\n    \"skipped\": 0,\n    \"total_records\": 305,\n    \"wrap_for_ingestion_count\": 75\n  }\n}\n",
+  "stdout": "{\n  \"decision\": \"ALLOW\",\n  \"dry_run\": true,\n  \"receipt\": \"receipts/current/repo_recovery_wrap_receipt.jsonl\",\n  \"report\": \"reports/current/repo_recovery_wrap_report.json\",\n  \"status\": \"success\",\n  \"summary\": {\n    \"bundles_created\": 0,\n    \"candidates\": 75,\n    \"failed\": 0,\n    \"wrapped\": 75\n  }\n}\n",
   "stderr": ""
 }
