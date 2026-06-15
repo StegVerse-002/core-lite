@@ -1,11 +1,11 @@
 {
   "status": "success",
-  "task_id": "sv002.incoming.cleanup.dry_run",
+  "task_id": "sv002.repo.recovery.audit",
   "authority": "read_only",
   "returncode": 0,
   "exit_code": 0,
   "exit_basis": "task completed (rc=0)",
   "decision": "ALLOW",
-  "stdout": "{\n  \"directories_skipped\": [\n    \"mailbox\"\n  ],\n  \"dry_run\": true,\n  \"errors\": [],\n  \"policy\": \"quarantine_unresolved_no_final_relocation\",\n  \"quarantined\": [],\n  \"removed\": [],\n  \"retained\": [\n    \".gitkeep\",\n    \"README.md\",\n    \"sv002_diagnostics_bundle.zip\"\n  ],\n  \"status\": \"success\",\n  \"total_directories_skipped\": 1,\n  \"total_quarantined\": 0,\n  \"total_removed\": 0,\n  \"total_retained\": 3,\n  \"total_scanned\": 4\n}\n",
+  "stdout": "{\n  \"decision\": \"FAIL_CLOSED\",\n  \"receipt\": \"receipts/current/repo_recovery_audit_receipt.jsonl\",\n  \"report\": \"reports/current/repo_recovery_audit_report.json\",\n  \"status\": \"completed_with_fail_closed_findings\",\n  \"summary\": {\n    \"action_counts\": {\n      \"fail_closed\": 22,\n      \"retain\": 208,\n      \"wrap_for_ingestion\": 73\n    },\n    \"classification_counts\": {\n      \"evidence_or_artifact_path\": 87,\n      \"incoming_retained_control_file\": 2,\n      \"protected_repo_path\": 115,\n      \"protected_root_file\": 4,\n      \"repo_unclassified\": 19,\n      \"repo_unresolved_semantic_file\": 66,\n      \"root_misplaced_semantic_file\": 5,\n      \"root_unclassified\": 3,\n      \"stranded_incoming_payload\": 2\n    },\n    \"fail_closed_count\": 22,\n    \"skipped\": 0,\n    \"total_records\": 303,\n    \"wrap_for_ingestion_count\": 73\n  }\n}\n",
   "stderr": ""
 }

@@ -1,0 +1,2770 @@
+{
+  "ci_exit_policy": "audit_findings_do_not_fail_ci",
+  "decision": "FAIL_CLOSED",
+  "entity": "StegVerse-002",
+  "generated_at": "2026-06-15T00:54:45.652459+00:00",
+  "governance": {
+    "cleanup_may_move_to_final_destination": false,
+    "fail_closed_findings_are_data_not_runtime_failure": true,
+    "ingestion_decides_destination": true,
+    "no_broad_authority": true,
+    "originals_deleted": false,
+    "wrap_required_for_unresolved_semantic_content": true
+  },
+  "read_only": true,
+  "records": [
+    {
+      "classification": "protected_repo_path",
+      "path": ".github/workflows/bootstrap-core-lite.yml",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:eb3f60ff05bb3d5684eefa72e0b3407fe142a0bb313352d994daef37de8c2ec1",
+      "size_bytes": 1880
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": ".github/workflows/core-lite-intake.yml",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:682e63c9f843bc2b3f2fcded184abe6ba3e74bbb7492fcc2e4b817f735750607",
+      "size_bytes": 36210
+    },
+    {
+      "classification": "protected_root_file",
+      "path": ".gitignore",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected root file",
+      "sha256": "sha256:8c09c05c9cfa64ea315c4608ecb1a9285e259b559668053142915a580a5d13d2",
+      "size_bytes": 389
+    },
+    {
+      "classification": "repo_unclassified",
+      "path": ".stegverse/.gitkeep",
+      "proposed_action": "fail_closed",
+      "protected": false,
+      "reason": "not enough policy to classify",
+      "sha256": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "size_bytes": 1
+    },
+    {
+      "classification": "root_misplaced_semantic_file",
+      "path": "CHANGELOG.md",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "root-level semantic file should be wrapped, not directly moved",
+      "sha256": "sha256:30d45378723de6921247377dd1bf79ec1f0dbd405237b4a33b222f11ed1c019d",
+      "size_bytes": 1786
+    },
+    {
+      "classification": "root_misplaced_semantic_file",
+      "path": "CLAUDE.md",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "root-level semantic file should be wrapped, not directly moved",
+      "sha256": "sha256:44d29e7a9fd89b5afcfd5d8b9d1820b0d8536ba41a6548144b64546a7919201c",
+      "size_bytes": 4203
+    },
+    {
+      "classification": "root_unclassified",
+      "path": "LICENSE",
+      "proposed_action": "fail_closed",
+      "protected": false,
+      "reason": "root-level file is not known safe",
+      "sha256": "sha256:c01e80ee00891202d40ab2afe8059446ecaaddef8042d85298f08289f9273872",
+      "size_bytes": 1074
+    },
+    {
+      "classification": "protected_root_file",
+      "path": "README.md",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected root file",
+      "sha256": "sha256:89d9b4be4864085b9cd45db80ba146a38dfc6fbb19ad601949c65d883abf83de",
+      "size_bytes": 14164
+    },
+    {
+      "classification": "root_misplaced_semantic_file",
+      "path": "SAFETY.md",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "root-level semantic file should be wrapped, not directly moved",
+      "sha256": "sha256:6ae7b7cfb62bacc94e0e0a18b37bed80b3e60a8b00779decce64cbb14937cc32",
+      "size_bytes": 1418
+    },
+    {
+      "classification": "root_misplaced_semantic_file",
+      "path": "STATUS.md",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "root-level semantic file should be wrapped, not directly moved",
+      "sha256": "sha256:dafe844a21fabe2495fbd2d62140587606361990ba332b6009878a0209f0e67f",
+      "size_bytes": 1776
+    },
+    {
+      "classification": "root_unclassified",
+      "path": "VERSION",
+      "proposed_action": "fail_closed",
+      "protected": false,
+      "reason": "root-level file is not known safe",
+      "sha256": "sha256:2967abce43674bf61120b85b10e066155ed4c00c97d4311e5cb6e14e1dac3c08",
+      "size_bytes": 16
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "agent_history/.gitkeep",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "size_bytes": 1
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "agent_history/llm_changelog.jsonl",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:ada6de759a83bce898a74d933c7593d190e90568f11a147f5881992aab75f344",
+      "size_bytes": 50612
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "agent_history/version_state.json",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:e7f2abdbca6f8141235e55fdeab0a5754492ed32370794c7812d27f66dde39fa",
+      "size_bytes": 4386
+    },
+    {
+      "classification": "repo_unresolved_semantic_file",
+      "path": "agent_policy/allowed_paths.json",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "semantic file outside canonical protected/evidence lanes",
+      "sha256": "sha256:ea5e9fb54dc024066f89ce147320bf6b7028b65e9d9fd55a7ff20c635b9691ac",
+      "size_bytes": 109
+    },
+    {
+      "classification": "repo_unresolved_semantic_file",
+      "path": "agent_policy/forbidden_paths.json",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "semantic file outside canonical protected/evidence lanes",
+      "sha256": "sha256:cdcd96ccc15a5b61b75eb682d7db8ac34f813b5183c9c58ff2ac157c63530b64",
+      "size_bytes": 324
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "config/core_policy.json",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:e11b8580c6cd07235f494de09ba6fb83fb43cfc414e657a2243fd34574fa12de",
+      "size_bytes": 576
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "config/package_registry.json",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:37369456467c5b00803cdc7506fd21866faa6329ea227082c3290c4027f8b233",
+      "size_bytes": 1153
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "config/roles_templates/core_lite_runner.json",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:db2f49bbfde0d3b6ba0e471fbd264ff62941384499a653b83539fb85696c243b",
+      "size_bytes": 658
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "config/tv_manifest.yml",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:89dae7c9c688f59383ccfb11901f5617b634013cdb231883a7f62a11925bdd2b",
+      "size_bytes": 601
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "core_lite/TV/__init__.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:390623a2c821ae19e8711e3f0afc747cd7b25fcacf997a3ca3ed5e854d094076",
+      "size_bytes": 79
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "core_lite/TV/policy.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:f3b6ce1161af8c03d77978dc66e4539b90066c6af98159cec6d060714e691b95",
+      "size_bytes": 6884
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "core_lite/TVC/__init__.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "core_lite/TVC/verify.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:1d3cad2804f6182ce08214fb3ad9590f1c1bfec31a6074e44c5fe163b6d27e9a",
+      "size_bytes": 9056
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "core_lite/__init__.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:d370c68fab0a8980efb22033dbee588c8a858cd3c587315c3796265f9fdd4f2d",
+      "size_bytes": 239
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "core_lite/batch_ingestion/__init__.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:4d456247e44e49f28ddaeaca1ec3a5dbfb537bacfd9c341954039161720ace76",
+      "size_bytes": 1477
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "core_lite/batch_ingestion/controller.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:7c87201a13dbacd489974b000c12e8117b3bc7b4026e5ced6f011b758d5fa87c",
+      "size_bytes": 26146
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "core_lite/batch_ingestion/discovery.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:1b6946e6d6a80699faadb9a5515afb43ff99e8a02859bd6fe419231123ad96c3",
+      "size_bytes": 13758
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "core_lite/batch_ingestion/evidence_plane.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:48f8daa032a4203eb3b7dc1b911e1648949e4c429273cac7e648254fd25aec6f",
+      "size_bytes": 15806
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "core_lite/batch_ingestion/graph.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:d020a7acfbb3d0aee4ff039fb7b17e8cdd56ad44e04d1a9bfc549793217ee911",
+      "size_bytes": 8159
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "core_lite/batch_ingestion/mailbox.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:693a53e3acee15a33e7431353fe8da80159972ed975ac3ea532af7fcc533d8ee",
+      "size_bytes": 6050
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "core_lite/batch_ingestion/sandbox.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:8b3e06ef38991718f851b30e548554b7398cd5b84b7e4a4e109fffdd5d27dded",
+      "size_bytes": 13128
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "core_lite/batch_ingestion/task_awareness.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:f29009377bbc937eef72abd403abdeeaf5fde20d6bf2f447fb10baeecfa1905b",
+      "size_bytes": 16449
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "core_lite/bundles/__init__.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:e8425df7e5cb39aa71a54865473c41d927fabcdfdd2ac040bc712c358574d462",
+      "size_bytes": 83
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "core_lite/bundles/ingest.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:bd48a2174964704b5d6e509a8c96b6b6b6ba67360b12d4dfa00b3627c6e2ae75",
+      "size_bytes": 7433
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "core_lite/bundles/manifest.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:1ed2f5335855033e39f552bd72d53c94d385ba0da4635ca9bce5d15e756daccd",
+      "size_bytes": 1718
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "core_lite/bundles/quarantine.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:688f109a0951d6cde0f5d87941f4a885b7e8eca2271985ab882528b19c630a2b",
+      "size_bytes": 846
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "core_lite/bundles/receipts.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:7c4d628d5dd9706f51c1d7e171f11bfcfbf3900dc93a0288e6f74613377c9b31",
+      "size_bytes": 927
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "core_lite/bundles/validate.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:5b0b9e3d0a05204b94285a4e30e4a7d81b9d3341a0d8b5fde54852849a714a15",
+      "size_bytes": 2077
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "core_lite/cge.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:26914ad811309c84bc2794c0a5fcb083be17d912be7fb35fb581080fa4d7b5e3",
+      "size_bytes": 9796
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "core_lite/cli.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:6989f5c6355e01548c675267e948ac1b049f16e0bc368e55e7964b36a6dcb0fa",
+      "size_bytes": 4911
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "core_lite/ingest.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:0fb862c941e17a9a6acc2abd2f405ea86e07695d6300b3452a9b205122d0cf90",
+      "size_bytes": 10111
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "core_lite/intake.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:80e62183b722fb2718ea14b51d713383a476d6802816f1b0201cc32253498ecd",
+      "size_bytes": 7218
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "core_lite/knowledgevault/__init__.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:481092d8940680d4dd91db04107644bc6b1c550769c75a8c23d8f86c328194dc",
+      "size_bytes": 81
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "core_lite/knowledgevault/intake.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:786593e278188ac141c8a7d42f5a098d15d778c07a06189969594881b8172be2",
+      "size_bytes": 7682
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "core_lite/multimodal/__init__.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:53b062e9058503bd1f5c5af50e76f8eb6a82db0810eb8e90a486d71e3944878f",
+      "size_bytes": 74
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "core_lite/multimodal/pipeline.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:16287f43ff753f4b829693b975fdbd86ea10e48073c9ba95be083571cf6de719",
+      "size_bytes": 13240
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "core_lite/receipts.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:82b563b313b6f71a6a9bb0babe00978589329eb345787f11834414e1448f7b54",
+      "size_bytes": 5406
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "core_lite/transition_table/__init__.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:c2f20313ec93d21cfdb1005dba3d8cd074d198a47e5c00b979975c836bc717a7",
+      "size_bytes": 742
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "core_lite/transition_table/attributes.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:83d0c95b47efc8cb3a8ea73c1fa2b9aaf3642e9f67d5f1a4f49a0ad1729269b1",
+      "size_bytes": 5433
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "core_lite/transition_table/ingest_gate.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:94eca57af924b24027779faea55a7832f2c3a5d3c80a3f7cc1067674930482b1",
+      "size_bytes": 10178
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "core_lite/transition_table/policy.json",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:ec48a3a33e53d7d419bb8394f5536544a014e0333ccb56a055b2ebd4bcd2ca70",
+      "size_bytes": 4850
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "core_lite/transition_table/resolver.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:796414c7427cce6dae667dcf84648df78bcb50a59983fc0f2f4043286c601002",
+      "size_bytes": 13235
+    },
+    {
+      "classification": "repo_unclassified",
+      "path": "data/summary/.gitkeep",
+      "proposed_action": "fail_closed",
+      "protected": false,
+      "reason": "not enough policy to classify",
+      "sha256": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "size_bytes": 1
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "dist/current/.gitkeep",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "size_bytes": 1
+    },
+    {
+      "classification": "repo_unresolved_semantic_file",
+      "path": "docs/DECLARED_TASK_ROUTE_OUTPUT_SHAPE_REPAIR.md",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "semantic file outside canonical protected/evidence lanes",
+      "sha256": "sha256:d762663e5ddfcfcf5322c0f6c7ba1f3f45b9b913e07808bf0676718375b3fb7b",
+      "size_bytes": 536
+    },
+    {
+      "classification": "repo_unresolved_semantic_file",
+      "path": "docs/GOVERNED_TIERED_INTELLECT_STAGE_MAP.md",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "semantic file outside canonical protected/evidence lanes",
+      "sha256": "sha256:a900b20189b460da2cccd4bc13a89288585777536173623a4b208f1cb418d85f",
+      "size_bytes": 3126
+    },
+    {
+      "classification": "repo_unresolved_semantic_file",
+      "path": "docs/MANUAL_UPLOAD_MAP_v0.1.3_gllm_transition_bundle.md",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "semantic file outside canonical protected/evidence lanes",
+      "sha256": "sha256:b9341da2a1022404c44d04f7ed67be707693e2db2fc1ffa1134c3a4b7dfc738c",
+      "size_bytes": 1267
+    },
+    {
+      "classification": "repo_unresolved_semantic_file",
+      "path": "docs/README_v0.1.3_gllm_transition_bundle.md",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "semantic file outside canonical protected/evidence lanes",
+      "sha256": "sha256:67c50a5761fb66296d39eab706fffdd06ea777656644b190b56913026aad7878",
+      "size_bytes": 2180
+    },
+    {
+      "classification": "repo_unresolved_semantic_file",
+      "path": "docs/STEGVERSE_CORE_TERMS_GLOSSARY.md",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "semantic file outside canonical protected/evidence lanes",
+      "sha256": "sha256:fca4b4447a487b05af10eee11e1dc6381d583534cfe4c28e36ddbbecf6f065cb",
+      "size_bytes": 2645
+    },
+    {
+      "classification": "repo_unresolved_semantic_file",
+      "path": "docs/STEGVERSE_ECOSYSTEM_INVARIANTS.md",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "semantic file outside canonical protected/evidence lanes",
+      "sha256": "sha256:ca7466ab38b9e88f56197ea48a01d90db24cbce126a9e2d458f22174d20f4ac7",
+      "size_bytes": 1509
+    },
+    {
+      "classification": "repo_unresolved_semantic_file",
+      "path": "docs/STEGVERSE_OUTPUT_AUTHORITY.md",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "semantic file outside canonical protected/evidence lanes",
+      "sha256": "sha256:eee3f78e5ec9936f71800f3ea47e63ffa49d97ef09d7a71e0194801a61ba74c1",
+      "size_bytes": 2179
+    },
+    {
+      "classification": "repo_unresolved_semantic_file",
+      "path": "docs/SV002_ADAPTER_SANDBOX_PYTEST_SCOPE_REPAIR.md",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "semantic file outside canonical protected/evidence lanes",
+      "sha256": "sha256:e1945bafbfe433e70befc3d4210e86efa46a030b2b21ee088e931ff62a9eff89",
+      "size_bytes": 1153
+    },
+    {
+      "classification": "repo_unresolved_semantic_file",
+      "path": "docs/SV002_AUTOMATION_PROOF_RESULT_SURFACE.md",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "semantic file outside canonical protected/evidence lanes",
+      "sha256": "sha256:12d8cc2662f18bed087ef6274358bff64b5281128fd98ff9a6e7996194e13d9e",
+      "size_bytes": 672
+    },
+    {
+      "classification": "repo_unresolved_semantic_file",
+      "path": "docs/SV002_BUNDLE_INGESTION_SMOKE_TEST_SYSPATH_REPAIR.md",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "semantic file outside canonical protected/evidence lanes",
+      "sha256": "sha256:f8331e05da86aaf138553fcbf8a6a1aa820df8ceb5eea3ff3de925a48fc491d0",
+      "size_bytes": 1014
+    },
+    {
+      "classification": "repo_unresolved_semantic_file",
+      "path": "docs/SV002_BUNDLE_INGESTION_SMOKE_TEST_TASK.md",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "semantic file outside canonical protected/evidence lanes",
+      "sha256": "sha256:7be5a26a211ab8e10f5fa9a806651fb61d4708e97f69f5482d49c0f6ae5d2dca",
+      "size_bytes": 1347
+    },
+    {
+      "classification": "repo_unresolved_semantic_file",
+      "path": "docs/SV002_CORE_LITE_TRANSITION_TABLE_GATE.md",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "semantic file outside canonical protected/evidence lanes",
+      "sha256": "sha256:e023615054e1ef59b19f0e40e87d5d68e72b62a09816ed71c532a6ad6c3aa22f",
+      "size_bytes": 1330
+    },
+    {
+      "classification": "repo_unresolved_semantic_file",
+      "path": "docs/SV002_FORMALISM_ANCHOR_STAGED_EXECUTION_SCOPE.md",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "semantic file outside canonical protected/evidence lanes",
+      "sha256": "sha256:646fa38480a2b9be56a6cec8278c2b72e6c1e9656b54dfb12e0b43ef5dac9b9f",
+      "size_bytes": 10733
+    },
+    {
+      "classification": "repo_unresolved_semantic_file",
+      "path": "docs/SV002_M10_5_ADAPTER_CANDIDATE_SANDBOX_EXECUTOR.md",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "semantic file outside canonical protected/evidence lanes",
+      "sha256": "sha256:7f4260709ca3003e2dad2221dbd4380cce0556ff45aa51fef00133ecb17815bb",
+      "size_bytes": 1582
+    },
+    {
+      "classification": "repo_unresolved_semantic_file",
+      "path": "docs/SV002_M10_5_BUILDER_DECOUPLED_TRIAD_ENFORCED_CONSTRUCTION.md",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "semantic file outside canonical protected/evidence lanes",
+      "sha256": "sha256:f5054ef03b248d805a58d496644184f201a6ac75755d883f291c686f5edd3049",
+      "size_bytes": 3316
+    },
+    {
+      "classification": "repo_unresolved_semantic_file",
+      "path": "docs/SV002_M10_OUTPUT_AUTHORITY_MILESTONE.md",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "semantic file outside canonical protected/evidence lanes",
+      "sha256": "sha256:20505a7c3d98bdf883992ac4d5a766cf87efd3efb1e010758cf053bacfc68ea2",
+      "size_bytes": 3383
+    },
+    {
+      "classification": "repo_unresolved_semantic_file",
+      "path": "docs/SV002_M11_EPHEMERAL_INCOMING_MAILBOX.md",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "semantic file outside canonical protected/evidence lanes",
+      "sha256": "sha256:f2b7cfc280a95f407c60eb87c41d668b272a22988b6a91e23773870d10352e37",
+      "size_bytes": 930
+    },
+    {
+      "classification": "repo_unresolved_semantic_file",
+      "path": "docs/SV002_M11_GOVERNED_APPLY_BOUNDARY_RESOLVER.md",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "semantic file outside canonical protected/evidence lanes",
+      "sha256": "sha256:2dcdc31f8f608febb5e499fb4852c3e65c8052106aa1bc2e3276ba995150914d",
+      "size_bytes": 1698
+    },
+    {
+      "classification": "repo_unresolved_semantic_file",
+      "path": "docs/SV002_M11_GOVERNED_APPLY_REVIEW_BOUNDARY.md",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "semantic file outside canonical protected/evidence lanes",
+      "sha256": "sha256:e699fd6baed2579212de2200491ff31c6972bcb574be3b15cf93ec68c01f8dae",
+      "size_bytes": 2350
+    },
+    {
+      "classification": "repo_unresolved_semantic_file",
+      "path": "docs/SV002_M11_INCOMING_CHANGED_FILES_ONLY.md",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "semantic file outside canonical protected/evidence lanes",
+      "sha256": "sha256:7d7d9bbfe10d29cac60ad7397c8389469d22499f358c6e1c1c96b281672a6a03",
+      "size_bytes": 991
+    },
+    {
+      "classification": "repo_unresolved_semantic_file",
+      "path": "docs/SV002_M11_INCOMING_DISPOSITION_GATE.md",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "semantic file outside canonical protected/evidence lanes",
+      "sha256": "sha256:020b0a5349b49469cdc7e59f7b9414a578b4eb3f9bbe8cf5834ed65a28c29d76",
+      "size_bytes": 1279
+    },
+    {
+      "classification": "repo_unresolved_semantic_file",
+      "path": "docs/SV002_M11_INCOMING_ONLY_PUSH_INGESTION.md",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "semantic file outside canonical protected/evidence lanes",
+      "sha256": "sha256:6fd4f5c06b13ec637d1c3b806e73f20c5663a9f0d7a4a6a9d4025b7c31d3b5c0",
+      "size_bytes": 985
+    },
+    {
+      "classification": "repo_unresolved_semantic_file",
+      "path": "docs/SV002_M11_NO_MASS_CLEANUP_LEGACY_INVENTORY.md",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "semantic file outside canonical protected/evidence lanes",
+      "sha256": "sha256:c9c736fb32ef527d05f5f6cdef3d9b1c2a747fba811dd201e69e40cd98801e31",
+      "size_bytes": 1166
+    },
+    {
+      "classification": "repo_unresolved_semantic_file",
+      "path": "docs/SV002_M11_PUSH_ACTIVATED_INGESTION.md",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "semantic file outside canonical protected/evidence lanes",
+      "sha256": "sha256:ec48f780c0d0d53e112e27c8b6638e94a5aa32ca317877fa2120d3daded7eefe",
+      "size_bytes": 911
+    },
+    {
+      "classification": "repo_unresolved_semantic_file",
+      "path": "docs/SV002_M11_merge-and-commit-job.yml",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "semantic file outside canonical protected/evidence lanes",
+      "sha256": "sha256:5cec56f28628bcf0971072f1580d4814c241537741d156994ef7542ab6bf5d41",
+      "size_bytes": 5888
+    },
+    {
+      "classification": "repo_unresolved_semantic_file",
+      "path": "docs/SV002_TRANSITION_TABLE_GATE_DECLARED_TASK_RUNNER.md",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "semantic file outside canonical protected/evidence lanes",
+      "sha256": "sha256:9644e144cac173022a40713b52908038bbcd8c7c149c482110656ea26598fa5f",
+      "size_bytes": 1291
+    },
+    {
+      "classification": "repo_unresolved_semantic_file",
+      "path": "docs/SV002_TRANSITION_TABLE_GATE_RUNNER_PYTEST_BYPASS_REPAIR.md",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "semantic file outside canonical protected/evidence lanes",
+      "sha256": "sha256:9bc90615d51d9ec2c8ec1c390576ec1be29fcb079b9cd7631052d1648d9559e1",
+      "size_bytes": 1112
+    },
+    {
+      "classification": "repo_unresolved_semantic_file",
+      "path": "docs/WORKFLOW_DECLARED_INPUT_ROUTE.md",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "semantic file outside canonical protected/evidence lanes",
+      "sha256": "sha256:079fadff97812fe7fb527d4521328d8b29e10cb627468d6011e30f7320ca7442",
+      "size_bytes": 1344
+    },
+    {
+      "classification": "repo_unresolved_semantic_file",
+      "path": "docs/WORKFLOW_SUMMARY_DIAGNOSTICS.md",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "semantic file outside canonical protected/evidence lanes",
+      "sha256": "sha256:86b5a51cf204b4b761fa0e97fbdeb5f7e46b3f83a5d86682772a668d35ae57aa",
+      "size_bytes": 1122
+    },
+    {
+      "classification": "repo_unclassified",
+      "path": "docs/agent_coordination/.gitkeep",
+      "proposed_action": "fail_closed",
+      "protected": false,
+      "reason": "not enough policy to classify",
+      "sha256": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "size_bytes": 1
+    },
+    {
+      "classification": "repo_unresolved_semantic_file",
+      "path": "docs/agent_coordination/GOVERNED_COLLABORATION_SUBSTRATE_v0.1.2.md",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "semantic file outside canonical protected/evidence lanes",
+      "sha256": "sha256:aa0e67b213ec2a22457a96cd39519d85c30b924934eab22fea9c52fad889ca4f",
+      "size_bytes": 2104
+    },
+    {
+      "classification": "repo_unresolved_semantic_file",
+      "path": "docs/agent_coordination/MANUAL_UPLOAD_MAP_v0.1.2.md",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "semantic file outside canonical protected/evidence lanes",
+      "sha256": "sha256:202799762aadd1195e589878443aacb020d25660ed264f7fdaea03e091154e4b",
+      "size_bytes": 1701
+    },
+    {
+      "classification": "repo_unresolved_semantic_file",
+      "path": "docs/declared_task_route_patch.yml",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "semantic file outside canonical protected/evidence lanes",
+      "sha256": "sha256:0bd5aff45a79b92fe4d5cd9dfe8a718e99b1821bac84036d3e6032b66a538b09",
+      "size_bytes": 2188
+    },
+    {
+      "classification": "repo_unclassified",
+      "path": "docs/ingestion_engine/.gitkeep",
+      "proposed_action": "fail_closed",
+      "protected": false,
+      "reason": "not enough policy to classify",
+      "sha256": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "size_bytes": 1
+    },
+    {
+      "classification": "repo_unresolved_semantic_file",
+      "path": "docs/ingestion_engine/MANUAL_UPLOAD_MAP.md",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "semantic file outside canonical protected/evidence lanes",
+      "sha256": "sha256:7eae7adc7ca618680e0b0efd5fbd2d16bf5e6d5c49c730fa46469127da7b07bc",
+      "size_bytes": 794
+    },
+    {
+      "classification": "repo_unresolved_semantic_file",
+      "path": "docs/ingestion_engine/README.md",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "semantic file outside canonical protected/evidence lanes",
+      "sha256": "sha256:d87f3bafdf40b1b2b9ce92eb1581c2194117f2d02303e87a2a8940e730e6271a",
+      "size_bytes": 11447
+    },
+    {
+      "classification": "repo_unclassified",
+      "path": "docs/methodology/.gitkeep",
+      "proposed_action": "fail_closed",
+      "protected": false,
+      "reason": "not enough policy to classify",
+      "sha256": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "size_bytes": 1
+    },
+    {
+      "classification": "repo_unresolved_semantic_file",
+      "path": "docs/methodology/FOUNDER_FAMILY_PRESERVATION_BOUNDARY.md",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "semantic file outside canonical protected/evidence lanes",
+      "sha256": "sha256:a1fb0eae4c9cff6e72bc58dfadf79487688d9a1cfc1a89171aee62ac99bd9533",
+      "size_bytes": 1675
+    },
+    {
+      "classification": "repo_unresolved_semantic_file",
+      "path": "docs/methodology/LLM_OUTPUT_TO_INGESTION_CHAIN.md",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "semantic file outside canonical protected/evidence lanes",
+      "sha256": "sha256:e86c0f9abe930773f2a73e8c535b725a0f8350672cfc4812f2b9652be0e58b7e",
+      "size_bytes": 2077
+    },
+    {
+      "classification": "repo_unresolved_semantic_file",
+      "path": "docs/methodology/TASK_AS_INTERFACE_METHODOLOGY.md",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "semantic file outside canonical protected/evidence lanes",
+      "sha256": "sha256:f9db2be02372512ba6d07a69801413c72407c9128ccf17f2ffd4a6a97a32062c",
+      "size_bytes": 1907
+    },
+    {
+      "classification": "repo_unresolved_semantic_file",
+      "path": "docs/stegverse_integration/context_packet_flow.md",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "semantic file outside canonical protected/evidence lanes",
+      "sha256": "sha256:70a0464c9cb62b98816d417a377849fa2f1763e0dff586673e055883e6e8acfc",
+      "size_bytes": 885
+    },
+    {
+      "classification": "repo_unresolved_semantic_file",
+      "path": "docs/stegverse_integration/sv002_to_sv001_repair.md",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "semantic file outside canonical protected/evidence lanes",
+      "sha256": "sha256:7183100618b23fac601c0ec6295cb34fc132deec15df925a9c5fe5e9c29f8444",
+      "size_bytes": 1789
+    },
+    {
+      "classification": "repo_unresolved_semantic_file",
+      "path": "evidence/synthesized_candidate.json",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "semantic file outside canonical protected/evidence lanes",
+      "sha256": "sha256:6ee8b18029cc20cf5f9986fbbb96a4c72960939340591f208415fac2722b2e8e",
+      "size_bytes": 29407
+    },
+    {
+      "classification": "repo_unresolved_semantic_file",
+      "path": "evidence/synthesized_candidate_test_report.json",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "semantic file outside canonical protected/evidence lanes",
+      "sha256": "sha256:5cbef6cc10d8eafb381be60657010f68a460e8d8d5051110629a315de8a49b26",
+      "size_bytes": 1493
+    },
+    {
+      "classification": "repo_unresolved_semantic_file",
+      "path": "examples/apply_request.example.json",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "semantic file outside canonical protected/evidence lanes",
+      "sha256": "sha256:0119e2f95c64ef01652bd72463ab7d2c334f9877f1482d2e672a86e670fa0cfa",
+      "size_bytes": 709
+    },
+    {
+      "classification": "repo_unresolved_semantic_file",
+      "path": "examples/candidate_bundle_ref.example.json",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "semantic file outside canonical protected/evidence lanes",
+      "sha256": "sha256:63c991c51bc8734273845985b7b8503286cad76d6a772ccb39cfeb0019ed9171",
+      "size_bytes": 834
+    },
+    {
+      "classification": "repo_unclassified",
+      "path": "examples/context_packet_example/.gitkeep",
+      "proposed_action": "fail_closed",
+      "protected": false,
+      "reason": "not enough policy to classify",
+      "sha256": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "size_bytes": 1
+    },
+    {
+      "classification": "repo_unclassified",
+      "path": "examples/minimal_vault/.gitkeep",
+      "proposed_action": "fail_closed",
+      "protected": false,
+      "reason": "not enough policy to classify",
+      "sha256": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "size_bytes": 1
+    },
+    {
+      "classification": "repo_unclassified",
+      "path": "examples/multimodal_input_example/.gitkeep",
+      "proposed_action": "fail_closed",
+      "protected": false,
+      "reason": "not enough policy to classify",
+      "sha256": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "size_bytes": 1
+    },
+    {
+      "classification": "repo_unresolved_semantic_file",
+      "path": "formalisms/transition_table/reports/stage32_admissibility_space_report.json",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "semantic file outside canonical protected/evidence lanes",
+      "sha256": "sha256:2473a681096939485a9f917090968e4a323d6b6e0ec96b394fdda0e822ac67b6",
+      "size_bytes": 1579
+    },
+    {
+      "classification": "repo_unresolved_semantic_file",
+      "path": "formalisms/transition_table/reports/stage33_transition_graph_geometry_report.json",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "semantic file outside canonical protected/evidence lanes",
+      "sha256": "sha256:e7bf048055f8cc0c5292fc9c9d10b07f3ecb51a3aee6d65f2ac22eb267b89ab6",
+      "size_bytes": 843
+    },
+    {
+      "classification": "repo_unresolved_semantic_file",
+      "path": "formalisms/transition_table/reports/stage34_repair_nearest_admissible_transition_report.json",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "semantic file outside canonical protected/evidence lanes",
+      "sha256": "sha256:29ca8decfd6a20c7fabefad7f8008e7c7cfaaf919babd47cde457f7fbeb688b5",
+      "size_bytes": 507
+    },
+    {
+      "classification": "repo_unresolved_semantic_file",
+      "path": "formalisms/transition_table/snapshot_manifest.json",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "semantic file outside canonical protected/evidence lanes",
+      "sha256": "sha256:3a495e640498a7f0d3ae5fe71343d66c15da18da69bc43685adfa4ce4c6038cd",
+      "size_bytes": 1063
+    },
+    {
+      "classification": "repo_unclassified",
+      "path": "governance/directives/.gitkeep",
+      "proposed_action": "fail_closed",
+      "protected": false,
+      "reason": "not enough policy to classify",
+      "sha256": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "size_bytes": 1
+    },
+    {
+      "classification": "repo_unresolved_semantic_file",
+      "path": "governance/directives/no_broad_authority.directive.json",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "semantic file outside canonical protected/evidence lanes",
+      "sha256": "sha256:c2775b8f184aa50b35a30aaa1c992897f322b294e448b45ae9a579a7100fdad7",
+      "size_bytes": 1015
+    },
+    {
+      "classification": "incoming_retained_control_file",
+      "path": "incoming/.gitkeep",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "incoming control file",
+      "sha256": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "size_bytes": 1
+    },
+    {
+      "classification": "incoming_retained_control_file",
+      "path": "incoming/README.md",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "incoming control file",
+      "sha256": "sha256:acfc75b053e20369a571f62b7c2cb09001747306e160f1c1438da18e89b73dea",
+      "size_bytes": 344
+    },
+    {
+      "classification": "stranded_incoming_payload",
+      "path": "incoming/mailbox/pending-bind-at-/installs/sv002_diagnostics_bundle.zip",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "incoming payload requires manifest-bearing recovery before cleanup",
+      "sha256": "sha256:5d68e49f799634a658bba4497a7d9cca99f7de3b1d40ee9d6e1ac95d10b1ac0e",
+      "size_bytes": 13673
+    },
+    {
+      "classification": "stranded_incoming_payload",
+      "path": "incoming/sv002_diagnostics_bundle.zip",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "incoming payload requires manifest-bearing recovery before cleanup",
+      "sha256": "sha256:5d68e49f799634a658bba4497a7d9cca99f7de3b1d40ee9d6e1ac95d10b1ac0e",
+      "size_bytes": 13673
+    },
+    {
+      "classification": "root_misplaced_semantic_file",
+      "path": "iosnoperiod.md",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "root-level semantic file should be wrapped, not directly moved",
+      "sha256": "sha256:5438f23b7066e61c150b17de28f14c19e6a97357214bd13c074f62eb0ec848f5",
+      "size_bytes": 664
+    },
+    {
+      "classification": "repo_unclassified",
+      "path": "machine/.gitkeep",
+      "proposed_action": "fail_closed",
+      "protected": false,
+      "reason": "not enough policy to classify",
+      "sha256": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "size_bytes": 1
+    },
+    {
+      "classification": "repo_unresolved_semantic_file",
+      "path": "machine/ingestion_policy.v1.json",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "semantic file outside canonical protected/evidence lanes",
+      "sha256": "sha256:7e146edd54b85db9994968b1ba7cd92bb2c7d60eafb2fca07c8ede2ab354bf81",
+      "size_bytes": 555
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "outputs/SV002_AUTOMATION_PROOF_RESULT.md",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:972c13a003ba76dff4cf1eb370871cd0eae6e41c9d3d7cb6be73c601990cc38b",
+      "size_bytes": 1626
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "outputs/adapter_candidate_sandbox.md",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:526d37ad8446d36f72f2ff6482cc213483fbe5e7be2ed0e80e7d1af08be2f6b6",
+      "size_bytes": 736
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "outputs/bundle_ingestion_smoke_probe.txt",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:fba324d891cdce827b9fe3542160da38a84380a9079d42fea14ff78ea7917e48",
+      "size_bytes": 136
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "outputs/bundle_ingestion_smoke_test.md",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:d9bc8092d17a4bad6e50b3efaa639d2c15ab2b9f0857e36fd1d9147668ca378b",
+      "size_bytes": 1008
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "outputs/chatgpt_response.md",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:04c4b6bbed84016845d8069e935505cb05e66a0290cc889168c90fbddb3cf0aa",
+      "size_bytes": 2204
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "outputs/claude_candidate.json",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:fa668bc93d7b60fbee647beacccbc8f12f273addc74ad12b2dd196cc4d5d41bb",
+      "size_bytes": 21560
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "outputs/claude_response.md",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:b436a97aa25aa68ce42b2e31f33a4b227354c9926068f5da0bc3ea4a5c10db1d",
+      "size_bytes": 22438
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "outputs/openai_candidate.json",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:d860baa5e3e1094b086baeccf11182dcb355d8241af01c4066dbe4f5be0220da",
+      "size_bytes": 2191
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "outputs/outputs/chatgpt_response.md",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:453637cf7d3a97be696671d95e4e4f3e9a7ec85f1266679adafb31d97db1eaad",
+      "size_bytes": 3092
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "outputs/outputs/claude_response.md",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:0ea94c37a34b13fc9f487a30268d54e93a6264f5baa709119c6472a7e30ba002",
+      "size_bytes": 20052
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "outputs/receipts/current/openai_task_receipt.jsonl",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:e53843b3be0611d9bc6ab8b8fac162546642cd160755e2fdf8c1879245d1bba4",
+      "size_bytes": 428
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "outputs/reports/current/claude_task_summary.json",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:ea67dba6344751486e522e079b302e7cfc53a266b4095a466799a3f8fd19e398",
+      "size_bytes": 242
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "outputs/reports/current/openai_task_summary.json",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:80055c86ce3472c51a0babd5f5fac85abba334c91c8fc77aa3809567c9dda065",
+      "size_bytes": 424
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "outputs/stegverse_output.json",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:ab8abf173ed6515536450b21f24966ad6af82e0833d626a8b1dfa1126ab41910",
+      "size_bytes": 4683
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "outputs/stegverse_output.md",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:ca09616d0e4006eba9d1ff50b9db8e031fd76ea9081fc73b862c71857f7239a1",
+      "size_bytes": 31606
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "outputs/synthesized_candidate.json",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:6e1d24d9cc65f62987051208a35a8c9df9896ec06c2beadcb53a73b12d03a178",
+      "size_bytes": 21527
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "outputs/thread.md",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:b40840a851adf2088f4969c30008c9407f222101b86cf190a5da6069ed3add5a",
+      "size_bytes": 60290
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "outputs/transition_table_gate_tests.md",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:7f2e20056ee4e6c5234d70a852f7fd2c866f8675a0988d44ee7d1d9c34eeccb0",
+      "size_bytes": 2861
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "quarantine/.gitkeep",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "size_bytes": 1
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "quarantine/README.md",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:04f12fe72a15ed40d6f7755a05296d2e80fa39299524e35c63c9cbe6d22d35e9",
+      "size_bytes": 238
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "receipts/current/adapter_candidate_sandbox_receipt.jsonl",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:cb590200800fb137d4d733eddeab6ba69f211a6b7a27cd8d80a251bc611964c0",
+      "size_bytes": 1742
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "receipts/current/agent_boundary_receipt.jsonl",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:c943f941be7978e5abc812ff1f98bd4bbaa1a6d484138cc13171da8d6d4f96a5",
+      "size_bytes": 5733
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "receipts/current/agent_comparison_receipt.jsonl",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:ca8fcc94816412b46e6b042839cde352c983c2b471454ca18138bb9164f2825a",
+      "size_bytes": 12468
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "receipts/current/agent_coordination_receipt.jsonl",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:d1a053f76271e0a26a455f01df162f460b4c8d4071e607bcb42fcf9a25d3a7fc",
+      "size_bytes": 13836
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "receipts/current/batch_ingestion_receipt.jsonl",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:67c06b97fd8e1bb93f5aacaecde316d4a0029ea1e2ea420ee0f8d1b7e484f6f3",
+      "size_bytes": 682
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "receipts/current/bootstrap_receipt.jsonl",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:8df9432aff477bcb5a426d83c89ed0636685592cfd149755f3dc4f3947837c6d",
+      "size_bytes": 672
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "receipts/current/bundle_ingestion_smoke_test_receipt.jsonl",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:c091d408e308f89b16005ba55757f8a106cf854fcd59999522791e34c301a952",
+      "size_bytes": 566
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "receipts/current/candidate_merge_receipt.jsonl",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:69fef86d2ba76650f36e3f854fb2f4663da9b6c4b5e784a0f3732a88a7a98239",
+      "size_bytes": 428
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "receipts/current/candidate_validation_receipt.jsonl",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:0b6286cfe08497176b2ae1a7b632fe32f28ba3aac225664f9180f6c607634c38",
+      "size_bytes": 749
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "receipts/current/cge_admissibility_receipt.jsonl",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:711973d8d12a006c4b10a24c3ec7b5e5cc7dac8bc1732e1cb2d97238d5a882d9",
+      "size_bytes": 606
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "receipts/current/evidence_plane_receipt.jsonl",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:6ee06a09dca8a274396be4f4c42d51ab3d1b557d97906cc3f39ce0408efb5859",
+      "size_bytes": 2051
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "receipts/current/ingestion_receipt.jsonl",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:010b2cb73abe88eb69a8ddf0d2237fa50e888b94973952a765a3c1e2d93022af",
+      "size_bytes": 8131
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "receipts/current/intake_receipt.jsonl",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:acfadf839cf933a99c329bdb1942e8416e17f37359fc4baa1211dfd13b372f52",
+      "size_bytes": 10585
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "receipts/current/openai_task_receipt.jsonl",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:39903d72c79e54b210142f78c659daab75667cc852dc0b76118896d83919cd1d",
+      "size_bytes": 8174
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "receipts/current/proposed_transition_bundle_receipt.jsonl",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:b27fc7ce6fb9a6f4aa4725ca0e978ec607e815a75cc3a61676b28c612bad52e3",
+      "size_bytes": 11594
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "receipts/current/stegverse_output_receipt.jsonl",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:7a263fb7b7586e571ca642799149b637fcf1220b1823fc8a34f0dffc5c9c39ad",
+      "size_bytes": 894
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "receipts/current/synthesized_candidate_test_report.json",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:5cbef6cc10d8eafb381be60657010f68a460e8d8d5051110629a315de8a49b26",
+      "size_bytes": 1493
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "receipts/current/task_receipt.jsonl",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:7fcc83bdc83096875b993a0ebf4edd1336c682b01001aeec9b4b23f55aa7f54d",
+      "size_bytes": 5727
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "receipts/current/transition_table_gate_test_receipt.jsonl",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:d586244b6b8ac8e96fc3a307a1201fe4d524738da05ad417f887c5a32be0fe25",
+      "size_bytes": 752
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "receipts/current/transition_table_receipt.jsonl",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:0987e4c3895af582460acad126f45c36cd3ead6d8a8522645f242de0eb04cbcf",
+      "size_bytes": 1178
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "reports/archived/.gitkeep",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "size_bytes": 1
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "reports/current/adapter_candidate_sandbox_report.json",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:0d761f61ea92573c3512a1fc3ad0869c22c17ef3284d95eedd15b14ad8784c53",
+      "size_bytes": 1794
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "reports/current/agent_boundary_report.json",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:93787bf0ac8796821ca6337f07ead9f004365b3a625032f7e3367989d67c270c",
+      "size_bytes": 2279
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "reports/current/agent_comparison_report.json",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:c53ac79ec7f6ec73df0c05afbccd65ac21890dc607b6b428272f2c4f21c8fd77",
+      "size_bytes": 2178
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "reports/current/agent_coordination_report.json",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:483f9fe6b04873c76039ecd2089144a13a158dc1f52c07e9fce8cd60dd3c604f",
+      "size_bytes": 33450
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "reports/current/bundle_ingest_cge_transition_gate_test_report.json",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:0c7727c997289e35bb39786eff1ee00e5033847b6b7c111b1750040760a28ddf",
+      "size_bytes": 1877
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "reports/current/bundle_ingest_report.json",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:b185f6f36c4ac5ccc641f2ba962364b51ca2eea15cd92334ba15780541df742f",
+      "size_bytes": 1440
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "reports/current/bundle_ingestion_smoke_test_report.json",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:bbd93edccab54f571cf39f8e429a0713b8286fd7fcdcfd6cb1973203f8125cd1",
+      "size_bytes": 3611
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "reports/current/candidate_merge_report.json",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:85d1ccd059f7990cf9afa0337337883f293f55afc59455db7182214df6b66ed4",
+      "size_bytes": 483
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "reports/current/candidate_validation_report.json",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:e47b2bd1cc3f89999329901de22b6093d88474fc0969858fc4ae5295fbe3e441",
+      "size_bytes": 861
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "reports/current/ci_smoke_ingestion_report.json",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:9b7773bb3e4fb309571b76310af9f810154dc37770d3d9939a4a4f03a6df0532",
+      "size_bytes": 1089
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "reports/current/claude_task_summary.json",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:47d1e84f399d24169d63572f3330740a12d74301ec30b7bc8271790726be68f7",
+      "size_bytes": 242
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "reports/current/core_lite_ingest_report.json",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:ed55436470273d6ff3e49abfc5a7caaa8b4f8d7ffee100d0d49178adc2f8afbf",
+      "size_bytes": 462
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "reports/current/core_lite_run_summary.json",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:30f0e728e1628c1d77325503564711fa1a48ef05d7a0e6321580666856a7d747",
+      "size_bytes": 1117
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "reports/current/incoming_cleanup_report.json",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:cf3f79dff1f928698e0b9532b66b62e4c32cfb4c8680d79b48ce7431eae5286a",
+      "size_bytes": 567
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "reports/current/next_dispatch_inputs.json",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:2fc2043eb296e8d3d81914ee7b4af7ec98f6d3a9be226456dc82b468da675b13",
+      "size_bytes": 386
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "reports/current/openai_task_summary.json",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:13bbd5cafab38b65a3ff469de46dc327d0aaba6fe808176b316fbf3933e99da0",
+      "size_bytes": 424
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "reports/current/pass_record.json",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:71b35a34685ad0a01da0209c3c632b35a634841307704eb4468ce516b83f25d9",
+      "size_bytes": 191
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "reports/current/stegverse_output_report.json",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:ab8abf173ed6515536450b21f24966ad6af82e0833d626a8b1dfa1126ab41910",
+      "size_bytes": 4683
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "reports/current/synthesized_candidate_test_report.json",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:4a99365701c578f27ef6245fe2f7c1ba8616b34e4c28769f87e7657cab07b0aa",
+      "size_bytes": 1519
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "reports/current/task_dispatcher_exit_code.txt",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "size_bytes": 2
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "reports/current/task_dispatcher_result.json",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "reports/current/task_dispatcher_stderr.txt",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "reports/current/transition_table_gate_test_report.json",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:637c4f4c9920b89bb95e489bdeb228524541ea8111eae05628a018a900609c92",
+      "size_bytes": 6218
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "reports/current/transition_table_report.json",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:1438209951ba2022be9dfd3427c3cfe72ef5ca6101e7070d869594d7d52a83b2",
+      "size_bytes": 1019
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "reports/current/transition_table_resolver_test_report.json",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:c7eafb25b99557369dbb9671057d4bedb6bb0b02da43abbe4ab8c694f5f5fc91",
+      "size_bytes": 2315
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "reports/current/winning_candidate_bundle_path.txt",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:d4b36e69756fb2dc61828b9ee4f1d25e5f35d0a409c423054e1fef95aab35e8e",
+      "size_bytes": 60
+    },
+    {
+      "classification": "protected_root_file",
+      "path": "requirements.txt",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected root file",
+      "sha256": "sha256:1066dde3a9e6dcb56a9681e97d38c8731cb3163e9ccd7b75e8c885f4e7aa1c02",
+      "size_bytes": 391
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "schemas/apply_request.schema.json",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:a63c16526f17fdfa8ef443368c4728d130f4e991320971d91afbeb35daf9d52f",
+      "size_bytes": 2444
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "schemas/apply_review.schema.json",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:68569e7fc2f7cbcbf9c408f0f30239c920ab987f963022feebbf3f1ec05dc136",
+      "size_bytes": 2472
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "schemas/bundle_manifest.v1.json",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:a8359845cb25c468921a76743020739127a7cd045180ab09fcdd1b66b2ec1cf1",
+      "size_bytes": 1038
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "schemas/candidate_bundle_ref.schema.json",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:32836ad81667c929de2c90d016d19ac5cf446403264ea22b34e8c36e2a61f4ac",
+      "size_bytes": 2452
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "schemas/candidate_transition_review.schema.json",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:869c646530b61eef31f801e6fb026115ed17b0a309679a9c18936d437e2ef67b",
+      "size_bytes": 2968
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "schemas/governance_directive.v1.schema.json",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:f2235b41a0f3e0bffba57c78113aae37dfaa6b963b7e613149027f412671b46e",
+      "size_bytes": 979
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "schemas/llm_changelog_entry.v1.schema.json",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:7459fdae927467ea1dea749dbd80d14d0320dacc82872565185ba38e35863dbd",
+      "size_bytes": 1073
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "schemas/stegverse_ai_tier.schema.json",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:1298ddf88d8db27e16b86b2706f50b68a14f9aa5fcc8fe1a1433e1f6e2b6267b",
+      "size_bytes": 793
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "schemas/stegverse_apply_request.schema.json",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:216b3bb04eaba5394f528f408e8c6a22664c7ff117aff628ef7b887753031b77",
+      "size_bytes": 1436
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "schemas/stegverse_apply_review.schema.json",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:79b945cd26ebd96bd12fdc193512c713320dba107054a8aaa0af5597e150d848",
+      "size_bytes": 873
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "schemas/stegverse_cge_fingerprint.schema.json",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:775e4346a73803430613731b57da3e26ce6ceb7e07f13d104e5bea09057b51ef",
+      "size_bytes": 454
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "schemas/stegverse_context_packet.schema.json",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:52c9ddfbe75b002a6b44f8f3d2d6b41d69b5cf7770815339fad1099fd847fdea",
+      "size_bytes": 915
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "schemas/stegverse_knowledgevault_manifest.schema.json",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:b341b9fd39d304169a4ebd41332a6cf81135b7558ebb898b7ec2471a2681df19",
+      "size_bytes": 1047
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "schemas/stegverse_llm_adapter_instruction_packet.schema.json",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:5e094294ffc19651d2b7fc72d1f4f15df558c45333e35250320fc3edb694d1d8",
+      "size_bytes": 1050
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "schemas/stegverse_memory_index.schema.json",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:c30c421a633b11500412e16d1c177c36fe80e516a78b34f16463dbe513445213",
+      "size_bytes": 587
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "schemas/stegverse_memory_use_receipt.schema.json",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:655a1cd978e000a5561e22d69284d36c347911a574a302b153ffcad7609cee8d",
+      "size_bytes": 871
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "schemas/stegverse_multimodal_input_manifest.schema.json",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:eafe55a0b20d794f89d634e3fd5ce8a2b2ad06d8edb2a0eea7aba9e44f3ac6f5",
+      "size_bytes": 984
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "schemas/stegverse_transition_stage.schema.json",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:1352d30f88e48b8529f8d33cdaa2ef37010a6d81e1e86b2ff16165cab3e194f3",
+      "size_bytes": 939
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "schemas/transition_bundle.v1.schema.json",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:dce601955f729dc8fe7459b853a068a51de7b9a0c6e2451c557a3e28916b693e",
+      "size_bytes": 3970
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "scripts/.gitkeep",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "size_bytes": 1
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "scripts/adapter_candidate_sandbox.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:5cea06e80c69d861997a1fff40c4c289ca3c294755d535d5490b30ee5126aa67",
+      "size_bytes": 23321
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "scripts/bundle_manifest_reader.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:3979b2d43f8c94ba58bea48422222af3b8428abd20fb80e426158098a530af74",
+      "size_bytes": 7033
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "scripts/candidate_bundle_review.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:6767d0f349d124303687afbdb3316a0cd5dcf12c5d59f29f8ac1e5dfa2576ddc",
+      "size_bytes": 19189
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "scripts/candidate_synthesizer.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:c459af3c3807857a983edaaf754d57030df38426f9fb2ac0f20d308aeb771f76",
+      "size_bytes": 8083
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "scripts/candidate_validator.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:9bdc7143da4a7e07fa9b09dbf93eeb4e698a2cef05ccce97790784ddc759dd52",
+      "size_bytes": 6527
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "scripts/create_test_fixtures.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:ea466fec5e25a198ec9a44df51b431049117fa58bc05825b712acd01e1c96389",
+      "size_bytes": 6186
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "scripts/fetch_formalism_reports.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:cb0dc63e1bc06b37cab44cfb1cd0085378ea14459f674fe187e39fc4fe9a5be1",
+      "size_bytes": 14189
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "scripts/incoming_cleanup.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:71009382d16ef321bb3bcb1c9d09e45852bb9f9fe118fc478fb8c54f79dcf405",
+      "size_bytes": 9267
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "scripts/ingest_transition_bundle.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:333a93b433d24ccc60b26583945e0336cb754e87ceec3d324f354b427e16e8aa",
+      "size_bytes": 10850
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "scripts/merge_outputs.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:a373cd12a6e5a04891fa863181b326c2f745669d4fac8235c872b8754d665110",
+      "size_bytes": 11898
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "scripts/openai_task.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:54d632062c0b3b9f0bd4aeec6bbe74a349031dfa0f25047fa8d6fab23a67073e",
+      "size_bytes": 9338
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "scripts/package_candidate_bundle.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:35a2e71e15d16641cee836a02858a3de87d3e5d373d2e61bf687f164e6ae09c5",
+      "size_bytes": 10963
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "scripts/package_stegverse_governed_output.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:d9951d6295f844361ee7b89a022ef3de4657727ffd916577528362027f257cae",
+      "size_bytes": 9340
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "scripts/package_transition_bundle.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:1af837e445872bac04aff8f4c2bc64237e2249dc096f61522c3c990e6e249262",
+      "size_bytes": 11704
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "scripts/pass_recorder.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:ef322c55cc3f67f3ed69310c28b580fcb49096da37138a57e4daf9ee034c6568",
+      "size_bytes": 1650
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "scripts/run_batch_ingestion.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:e5d7c69d787b72a264f4b21274f6c1e650ccad1754d86c736f16db0f726c8210",
+      "size_bytes": 3907
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "scripts/run_bundle_ingestion_smoke_test.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:78617c1baafbd9d8fbd5fd40c6602a66c7165e21b9bae30f07c46eafdff6f0dd",
+      "size_bytes": 9521
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "scripts/run_transition_table_gate_tests.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:961ae2ab2485f37affa25ff98ee97093bd0b17e12f264fec8503cab826e4a5c7",
+      "size_bytes": 6788
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "scripts/stegverse_apply_gate.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:8af3de9420d830a2859df166e689e5c67240c04f2cc8bcedba969868aa074c8d",
+      "size_bytes": 16066
+    },
+    {
+      "classification": "root_unclassified",
+      "path": "setup.cfg",
+      "proposed_action": "fail_closed",
+      "protected": false,
+      "reason": "root-level file is not known safe",
+      "sha256": "sha256:026c1e5abb62b35358928306d64e1b3fae6ed9839b96e693b3cc47e0b6b96009",
+      "size_bytes": 346
+    },
+    {
+      "classification": "protected_root_file",
+      "path": "setup.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected root file",
+      "sha256": "sha256:76189f7511a9eb8dab0ccaf022097f598fa32c3026ce2c2174ea7e7c3fccc71e",
+      "size_bytes": 37
+    },
+    {
+      "classification": "repo_unclassified",
+      "path": "stegverse_002_core_lite.egg-info/PKG-INFO",
+      "proposed_action": "fail_closed",
+      "protected": false,
+      "reason": "not enough policy to classify",
+      "sha256": "sha256:0a64d90fa4c3709201977332cc2603c89fce88576a56c413096f8e92b0e4b2a1",
+      "size_bytes": 223
+    },
+    {
+      "classification": "repo_unresolved_semantic_file",
+      "path": "stegverse_002_core_lite.egg-info/SOURCES.txt",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "semantic file outside canonical protected/evidence lanes",
+      "sha256": "sha256:8fc5e35147348fb32d72c895a4546276ce0cda182972a974ddfa4d10968259cc",
+      "size_bytes": 1587
+    },
+    {
+      "classification": "repo_unresolved_semantic_file",
+      "path": "stegverse_002_core_lite.egg-info/dependency_links.txt",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "semantic file outside canonical protected/evidence lanes",
+      "sha256": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "size_bytes": 1
+    },
+    {
+      "classification": "repo_unresolved_semantic_file",
+      "path": "stegverse_002_core_lite.egg-info/entry_points.txt",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "semantic file outside canonical protected/evidence lanes",
+      "sha256": "sha256:a30f1be0be79e49d208f698b467ee2c75356790f9704d2d055635b20aba76e54",
+      "size_bytes": 45
+    },
+    {
+      "classification": "repo_unresolved_semantic_file",
+      "path": "stegverse_002_core_lite.egg-info/requires.txt",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "semantic file outside canonical protected/evidence lanes",
+      "sha256": "sha256:71749243f84428fee225bfaa796dca5ef6c1e83a98f6d2a407df615b0390d6fb",
+      "size_bytes": 12
+    },
+    {
+      "classification": "repo_unresolved_semantic_file",
+      "path": "stegverse_002_core_lite.egg-info/top_level.txt",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "semantic file outside canonical protected/evidence lanes",
+      "sha256": "sha256:dc4c2cc935896bc92fcc1abbb495cc8b236f136ce5df9ac3d137141fcf627865",
+      "size_bytes": 10
+    },
+    {
+      "classification": "repo_unresolved_semantic_file",
+      "path": "templates/context_packet_template.json",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "semantic file outside canonical protected/evidence lanes",
+      "sha256": "sha256:e408cffdcfd9d40900e7bf3a51e3b2b17360dfce60de532f584ede09d251f147",
+      "size_bytes": 596
+    },
+    {
+      "classification": "repo_unresolved_semantic_file",
+      "path": "templates/llm_adapter_instruction_packet_template.json",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "semantic file outside canonical protected/evidence lanes",
+      "sha256": "sha256:ad178923250e705de156f45a5498ce0e998b571c4569cc3e326394968c2b4002",
+      "size_bytes": 790
+    },
+    {
+      "classification": "repo_unresolved_semantic_file",
+      "path": "templates/memory_use_receipt_template.json",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "semantic file outside canonical protected/evidence lanes",
+      "sha256": "sha256:f126d30335c02fb59126d45a182139ab60bcf77aa89cfa6a95b7764fca3c971b",
+      "size_bytes": 563
+    },
+    {
+      "classification": "repo_unresolved_semantic_file",
+      "path": "templates/multimodal_input_manifest_template.json",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "semantic file outside canonical protected/evidence lanes",
+      "sha256": "sha256:e3d1d798a43311cf02485d2b95e7c15c5ec30d79fb9e4a96af7576bfae47297d",
+      "size_bytes": 677
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "tests/fixtures/bundles/.gitkeep",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "size_bytes": 1
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "tests/fixtures/bundles/candidate_fixture_bundle.zip",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:e7d2d4560b8bef787e8295b2fcd3a3cfeafec97d19447777f5b2d81583fc6570",
+      "size_bytes": 638
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "tests/fixtures/bundles/fixture_index.json",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:5a5cf2144a1dacad8a7a3fd1b8e451ad7613ddd2e6879b49c068d5f98aad0107",
+      "size_bytes": 567
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "tests/fixtures/bundles/install_fixture_bundle.zip",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:f0957fb8a08ca1588b47545e2e0776c011313b1cf7b2c02783ed5dab3ebab9c1",
+      "size_bytes": 665
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "tests/fixtures/bundles/minimal_ingestible_bundle.zip",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:b9e6ddfee7208cb185b2ca8a79c577e84261324bb38224cc259d91716895b217",
+      "size_bytes": 677
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "tests/test_batch_ingestion_v2.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:2d0c2f04c1c702e853abb067024e1457f669de7fe2f6bbd1e42868655a209d0c",
+      "size_bytes": 11885
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "tests/test_bundle_ingest_cge_transition_gate.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:647a6755fe3484c47375446c06f8513cb9b473bdd952acc0dda7aec1500a09d9",
+      "size_bytes": 7555
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "tests/test_candidate_bundle_review.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:3c0bd0621e8426ae5940716e434959f8d1e4de2b89ea546c0f257db4442563b1",
+      "size_bytes": 10549
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "tests/test_candidate_workflow.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:a9d42d5c98af93fda3b61a4275cf8cc33bb27d0422f675f8cebc531bf8225165",
+      "size_bytes": 9305
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "tests/test_incoming_cleanup.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:9f8af899aad2d3e2e874930a3e0f28d973eb106b9ad15632e209d3b9e23828a2",
+      "size_bytes": 6696
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "tests/test_stegverse_apply_gate.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:894c48f24b713927a7d5799dc76483632e11bb96e42190e846871cf15f2c6434",
+      "size_bytes": 2829
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "tests/test_transition_table_resolver.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:615b2850679c3def1966e4314345ae51ed3be5edb3e85b52b10707238c61bffb",
+      "size_bytes": 7868
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "tools/agent_governance/__init__.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:b04f3a5d0d3f3aec177b253d804d01215013a2b624969befc6f9ec13d77d8215",
+      "size_bytes": 62
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "tools/agent_governance/agent_compare.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:eeed56a40206f7cf5551c646dafa9be073212b218e3c6d0388e0596cf028898b",
+      "size_bytes": 7175
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "tools/agent_governance/enforce_agent_boundary.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:f10f48b4ebdfbd092479700782328ccdcb7471bf150d64b5741245b02b9340e2",
+      "size_bytes": 3361
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "tools/agent_governance/record_llm_change.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:cce5f6bb3a3cf06e538570b98298e8cc8a8faa091ace1d0f0e75a9aa1ee176f1",
+      "size_bytes": 3486
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "tools/repairs/README.md",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:43b41f7fee735cc54d93ed4366e5528cf5ebe5b2dce836082d0c8c8b4ffb80ad",
+      "size_bytes": 2042
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "tools/repairs/__init__.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:94c2ebaadc0e47461a5e04c29533197fa3f70e84ae4ec815b88a378a528f3468",
+      "size_bytes": 69
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "tools/repairs/sv001_repair.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:8c5193e6f00becdd0f01da016a040e4c3b9c2680faf7bc7feff9a71e5cdb3dae",
+      "size_bytes": 11912
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "tools/scripts/__init__.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:a91341063df98970de364416121dc6f360638797f5e9eff1a0001b53f48a5fd0",
+      "size_bytes": 43
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "tools/scripts/bootstrap_identity.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:fb9fbfb6baf07a8ca00444cf6d429521b21b64d135a87aa9481d0e493738daa9",
+      "size_bytes": 3357
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "tools/scripts/ci_smoke_ingestion_loop.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:153a2b964c50185a7c5d1cf7a44459841aa8b030c7283760ced5d279cce2d6ad",
+      "size_bytes": 5530
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "tools/scripts/emit_receipt.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:47a826bbe363725b53264ade2326391191299864c2fb108eb8b0b93aba3bac2d",
+      "size_bytes": 1144
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "tools/scripts/ingest_bundle.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:b1a6137eca65e9d08083a85a20c61dae3d7650670077b7bf223375933586b8d3",
+      "size_bytes": 959
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "tools/scripts/llm_adapter_gate.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:c6c23dc591129cb2f4428f2086163080408fc0e692f63b85d3dd792f69b48321",
+      "size_bytes": 7548
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "tools/scripts/repo_recovery_audit.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:74d13cf6b3d99d9ba30166bb364bf7470338095a9b2b0dc1be56ae23e624cc00",
+      "size_bytes": 6221
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "tools/scripts/repo_recovery_wrap.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:2028e01e57253122fc5d71a4529076b84dd5c7d1a726faff118806ec63fc4ba4",
+      "size_bytes": 8435
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "tools/scripts/resolve_stage.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:0c1323e5a50ab34bcc478ff5d701582750cb2de37bbb53de489f38aab1572687",
+      "size_bytes": 920
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "tools/scripts/task_dispatcher.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:074aa783552513de8e0feb8e74b53f96d882437a267a579f7d7f4cbc7c4d7df7",
+      "size_bytes": 7553
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "tools/scripts/update_stage_state.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:ae2c0874e0955f9c67459a87f62f3f111f9df0aa4c56c64e32f000445b50fe11",
+      "size_bytes": 1193
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "tools/tasks/legacy-task.md",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:cc14224c23658b2a53e5f8a3bc6b2b3766ed35395f8735452516c4a0540829df",
+      "size_bytes": 3112
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "tools/tasks/task.md",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:cba83c8403de9091636b4ae5a411c750a8495d2369e83358db5c812908bbd5af",
+      "size_bytes": 4478
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "tools/tasks/task_catalog.json",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:40d30f3c6437e70358c6b1b7ee191e7f51230c89699f2fed7e9d1a56158ee8d4",
+      "size_bytes": 14236
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "tools/tasks/task_catalog_patch.json",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:07f5241742152326a92f5f09da1cea0e87c7a695241cbdbd52e239ca2f14eba9",
+      "size_bytes": 1762
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "tools/validators/__init__.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:fa25de7d131cd364f4183582fd54151f3da143b48a22940f52fcb799f4d9132b",
+      "size_bytes": 76
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "tools/validators/receipt_verifier.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:712c5a91d7bac56cfb51eaecb7327c8f49f2ec58e8ed5ed81cf890fa0ef757cc",
+      "size_bytes": 2143
+    },
+    {
+      "classification": "protected_repo_path",
+      "path": "tools/validators/schema_validator.py",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected repo path",
+      "sha256": "sha256:ac5a38319db3ec45bcf2bdcc823e9a735c87b6452fc78ffb92eb9bc154993635",
+      "size_bytes": 1740
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "tracking/bundle_graph/.gitkeep",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "size_bytes": 1
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "tracking/bundle_graph/graph.jsonl",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:775f02c2151e743a792c0b33838c3a511e6905b1ab334420a54d45b2c7927c44",
+      "size_bytes": 2537
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "tracking/comparison_graph/.gitkeep",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "size_bytes": 1
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "tracking/evidence_plane/.gitkeep",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "size_bytes": 1
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "tracking/evidence_plane/evidence_plane.jsonl",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:6ee06a09dca8a274396be4f4c42d51ab3d1b557d97906cc3f39ce0408efb5859",
+      "size_bytes": 2051
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "tracking/ingestion_events/bundle_ingest_events.jsonl",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:fc217ff949d4d57d48902aad247c54de5d50b21b6a3350b470eda9a9fdb83a48",
+      "size_bytes": 2760
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "tracking/llm_input.txt",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:8d8a3798e56e0fa40b0c6399a7c97fd1b1f479672c4e22b00acd656be7ed4c2c",
+      "size_bytes": 214
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "tracking/manifests/governed_collaboration_substrate_v0.1.2_manifest.json",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:b5f835bd036c93341dfba0c5253dfeedb979846c3fe8086465c833a33f03ee4f",
+      "size_bytes": 5441
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "tracking/manifests/stegverse002_ingestion_engine_no_workflow.bundle_manifest.json",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:51b77b1f3d60a119ea581a9bf83e7c6be7ac93a0a3802c57fc652efe34943466",
+      "size_bytes": 3634
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "tracking/stegverse-002/identity_declaration.json",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:19a39c80e2426bd1a9a34ba1803a4132d5cacf16772c0fbf40a9255801e4d230",
+      "size_bytes": 804
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "tracking/stegverse-002/stage_map.json",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:c02cc6e414bc627e014d1952f2aa94c4a68034dfb451e513f6e455bbc2f98332",
+      "size_bytes": 10327
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "tracking/sv001_repair_input.txt",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:d083573c80b3985ae1250315a61111d0f1d21d61ea424ab5a177c1fb630fc447",
+      "size_bytes": 544
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "tracking/task_graph/.gitkeep",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "size_bytes": 1
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "tracking/task_graph/graph.jsonl",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:5150ca85ba5833597523534e41beb993dc6c8108560af0f7c38fe8c4dc759275",
+      "size_bytes": 627
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "tracking/transition_graph/.gitkeep",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "size_bytes": 1
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "tracking/transition_graph/graph.jsonl",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:e463167b954d9cfaa96a398fa614f978887b488d504af3348df0a25df82c8ad0",
+      "size_bytes": 5205
+    },
+    {
+      "classification": "repo_unresolved_semantic_file",
+      "path": "vault_template/AI_CONTEXT.md",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "semantic file outside canonical protected/evidence lanes",
+      "sha256": "sha256:550c01fd142e86b72dc9b564482d355d8582e2ccf4b6129066237ae1b075f496",
+      "size_bytes": 1351
+    },
+    {
+      "classification": "repo_unresolved_semantic_file",
+      "path": "vault_template/CONTINUITY_RULES.md",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "semantic file outside canonical protected/evidence lanes",
+      "sha256": "sha256:932f8a8037ac7c3d3ae618c6659f67f5dfd90451dd721e8fd3990eee1ea65736",
+      "size_bytes": 753
+    },
+    {
+      "classification": "repo_unresolved_semantic_file",
+      "path": "vault_template/INDEX.md",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "semantic file outside canonical protected/evidence lanes",
+      "sha256": "sha256:00d90492a6b3d7720b71aa7415449490eb0c850378814987b51cc897f5172177",
+      "size_bytes": 533
+    },
+    {
+      "classification": "repo_unresolved_semantic_file",
+      "path": "vault_template/MEMORY_USE_RULES.md",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "semantic file outside canonical protected/evidence lanes",
+      "sha256": "sha256:0f59e4b631704f74bc771c9306244d383320e8296cfebd5e80b7c07b42960a02",
+      "size_bytes": 1273
+    },
+    {
+      "classification": "repo_unresolved_semantic_file",
+      "path": "vault_template/PRIVACY_CLASSES.md",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "semantic file outside canonical protected/evidence lanes",
+      "sha256": "sha256:85b299c23bf4b465744ecc2c8f673d85e54e8f9fc536ddea56e72c544ab76206",
+      "size_bytes": 1125
+    },
+    {
+      "classification": "repo_unresolved_semantic_file",
+      "path": "vault_template/VAULT_PROFILE.md",
+      "proposed_action": "wrap_for_ingestion",
+      "protected": false,
+      "reason": "semantic file outside canonical protected/evidence lanes",
+      "sha256": "sha256:6f18904b62569e231e16bd0135a50f406f6c6e0648ce6626d23602d305305cdd",
+      "size_bytes": 726
+    },
+    {
+      "classification": "repo_unclassified",
+      "path": "vault_template/context_packets/.gitkeep",
+      "proposed_action": "fail_closed",
+      "protected": false,
+      "reason": "not enough policy to classify",
+      "sha256": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "size_bytes": 1
+    },
+    {
+      "classification": "repo_unclassified",
+      "path": "vault_template/decisions/.gitkeep",
+      "proposed_action": "fail_closed",
+      "protected": false,
+      "reason": "not enough policy to classify",
+      "sha256": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "size_bytes": 1
+    },
+    {
+      "classification": "repo_unclassified",
+      "path": "vault_template/entries/.gitkeep",
+      "proposed_action": "fail_closed",
+      "protected": false,
+      "reason": "not enough policy to classify",
+      "sha256": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "size_bytes": 1
+    },
+    {
+      "classification": "repo_unclassified",
+      "path": "vault_template/manifests/.gitkeep",
+      "proposed_action": "fail_closed",
+      "protected": false,
+      "reason": "not enough policy to classify",
+      "sha256": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "size_bytes": 1
+    },
+    {
+      "classification": "repo_unclassified",
+      "path": "vault_template/media/.gitkeep",
+      "proposed_action": "fail_closed",
+      "protected": false,
+      "reason": "not enough policy to classify",
+      "sha256": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "size_bytes": 1
+    },
+    {
+      "classification": "repo_unclassified",
+      "path": "vault_template/private/.gitkeep",
+      "proposed_action": "fail_closed",
+      "protected": false,
+      "reason": "not enough policy to classify",
+      "sha256": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "size_bytes": 1
+    },
+    {
+      "classification": "repo_unclassified",
+      "path": "vault_template/projects/.gitkeep",
+      "proposed_action": "fail_closed",
+      "protected": false,
+      "reason": "not enough policy to classify",
+      "sha256": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "size_bytes": 1
+    },
+    {
+      "classification": "repo_unclassified",
+      "path": "vault_template/receipts/.gitkeep",
+      "proposed_action": "fail_closed",
+      "protected": false,
+      "reason": "not enough policy to classify",
+      "sha256": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "size_bytes": 1
+    }
+  ],
+  "schema": "stegverse.repo_recovery.audit.v1",
+  "skipped": [],
+  "stage": "SV002-M11",
+  "status": "completed_with_fail_closed_findings",
+  "summary": {
+    "action_counts": {
+      "fail_closed": 22,
+      "retain": 208,
+      "wrap_for_ingestion": 73
+    },
+    "classification_counts": {
+      "evidence_or_artifact_path": 87,
+      "incoming_retained_control_file": 2,
+      "protected_repo_path": 115,
+      "protected_root_file": 4,
+      "repo_unclassified": 19,
+      "repo_unresolved_semantic_file": 66,
+      "root_misplaced_semantic_file": 5,
+      "root_unclassified": 3,
+      "stranded_incoming_payload": 2
+    },
+    "fail_closed_count": 22,
+    "skipped": 0,
+    "total_records": 303,
+    "wrap_for_ingestion_count": 73
+  }
+}
