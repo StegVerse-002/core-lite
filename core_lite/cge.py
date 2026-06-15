@@ -87,7 +87,8 @@ class CGEEngine:
     KNOWN_STAGES = {
         "SV002-M0", "SV002-M1", "SV002-M2", "SV002-M3",
         "SV002-M4", "SV002-M5", "SV002-M6", "SV002-M7",
-        "SV002-M8", "SV002-M9", "SV002-M10",
+        "SV002-M8", "SV002-M9", "SV002-M10", "SV002-M10.5",
+        "SV002-M11", "SV002-M12",
         # Repair stages
         "SV001-M0", "SV001-M1", "SV001-M2", "SV001-M3",
     }
