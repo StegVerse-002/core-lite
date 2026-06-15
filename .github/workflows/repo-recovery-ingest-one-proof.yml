@@ -6,7 +6,7 @@ name: repo-recovery-ingest-one-proof
     branches: [main]
     paths:
       - ".github/workflows/repo-recovery-ingest-one-proof.yml"
-      - "incoming/recovery/sv002_recovery_30d45378723de692_CHANGELOG.md.zip"
+      - "tracking/recovery_corrected/sv002_recovery_30d45378723de692_CHANGELOG.md.zip"
 
 permissions:
   contents: write
@@ -14,7 +14,7 @@ permissions:
 env:
   STEGVERSE_ENTITY: StegVerse-002
   STAGE_REF: SV002-M11
-  PROOF_BUNDLE: incoming/recovery/sv002_recovery_30d45378723de692_CHANGELOG.md.zip
+  PROOF_BUNDLE: tracking/recovery_corrected/sv002_recovery_30d45378723de692_CHANGELOG.md.zip
 
 jobs:
   ingest-one-recovery-bundle:
@@ -30,7 +30,7 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Prove one-bundle recovery ingestion
+      - name: Prove one corrected recovery bundle ingestion
         id: proof
         run: |
           set -euo pipefail
@@ -41,14 +41,8 @@ jobs:
 
           INPUT_PATH="${PROOF_BUNDLE}"
           if [ ! -f "${INPUT_PATH}" ]; then
-            echo "::notice::Proof bundle already absent: ${INPUT_PATH}"
-            echo "already_absent=true" >> "${GITHUB_OUTPUT}"
-            {
-              echo "## Repo Recovery One-Bundle Proof"
-              echo
-              echo "Proof bundle already absent; no ingestion attempted."
-            } >> "${GITHUB_STEP_SUMMARY}"
-            exit 0
+            echo "::error::Corrected proof bundle missing: ${INPUT_PATH}"
+            exit 1
           fi
 
           SHA="$(sha256sum "${INPUT_PATH}" | awk '{print $1}')"
@@ -59,10 +53,6 @@ jobs:
           PIPELINE_LOG="${EVENT_DIR}/pipeline.log"
           mkdir -p "${EVENT_DIR}"
           cp "${INPUT_PATH}" "${STAGED_PAYLOAD}"
-
-          STATUS="UNKNOWN"
-          DISPOSITION="UNKNOWN"
-          REASON=""
 
           set +e
           python -m core_lite.multimodal.pipeline \
@@ -75,27 +65,23 @@ jobs:
           set -e
 
           if [ "${EXIT_CODE}" -eq 0 ]; then
-            STATUS="EVALUATED"
             DISPOSITION="INSTALLED_OR_ACCEPTED"
-            REASON="one-bundle recovery proof pipeline exited 0; recovery payload is eligible for removal from incoming/recovery"
+            REASON="corrected one-bundle recovery proof pipeline exited 0"
           else
-            STATUS="EVALUATED"
             DISPOSITION="QUARANTINED"
-            REASON="one-bundle recovery proof pipeline exited ${EXIT_CODE}; payload copied to quarantine before removal from incoming/recovery"
+            REASON="corrected one-bundle recovery proof pipeline exited ${EXIT_CODE}; payload copied to quarantine"
             mkdir -p "quarantine/incoming/${SHORT_SHA}"
             cp "${STAGED_PAYLOAD}" "quarantine/incoming/${SHORT_SHA}/${BASE}"
           fi
 
-          export INPUT_PATH STAGED_PAYLOAD SHA STATUS DISPOSITION REASON EXIT_CODE STAGE_REF
-          RECORD="$(python3 -c "import os, json, datetime; print(json.dumps({'schema':'stegverse.recovery_ingest_one_disposition.v1','timestamp_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'stage':os.environ.get('STAGE_REF',''),'source_path':os.environ['INPUT_PATH'],'staged_payload':os.environ['STAGED_PAYLOAD'],'sha256':os.environ['SHA'],'input_type':'bundle','status':os.environ['STATUS'],'disposition':os.environ['DISPOSITION'],'reason':os.environ['REASON'],'pipeline_exit_code':int(os.environ.get('EXIT_CODE','0') or '0'),'bulk_ingestion':False,'single_bundle_only':True,'original_deleted':False}, sort_keys=True))")"
+          export INPUT_PATH STAGED_PAYLOAD SHA DISPOSITION REASON EXIT_CODE STAGE_REF
+          RECORD="$(python3 -c "import os, json, datetime; print(json.dumps({'schema':'stegverse.recovery_ingest_one_disposition.v2','timestamp_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'stage':os.environ.get('STAGE_REF',''),'source_path':os.environ['INPUT_PATH'],'staged_payload':os.environ['STAGED_PAYLOAD'],'sha256':os.environ['SHA'],'input_type':'bundle','status':'EVALUATED','disposition':os.environ['DISPOSITION'],'reason':os.environ['REASON'],'pipeline_exit_code':int(os.environ.get('EXIT_CODE','0') or '0'),'bulk_ingestion':False,'single_bundle_only':True,'original_deleted':False,'transition_block_required':True}, sort_keys=True))")"
           printf '%s\n' "${RECORD}" >> reports/current/incoming_disposition_summary.jsonl
           printf '%s\n' "${RECORD}" >> receipts/current/incoming_disposition_receipt.jsonl
           printf '%s\n' "${INPUT_PATH}" >> reports/current/incoming_disposition_processed_files.txt
 
-          git rm -f --ignore-unmatch "${INPUT_PATH}" || rm -f "${INPUT_PATH}" || true
-
           {
-            echo "## Repo Recovery One-Bundle Proof"
+            echo "## Repo Recovery One Corrected Bundle Proof"
             echo
             echo "| Field | Value |"
             echo "|---|---|"
@@ -105,27 +91,28 @@ jobs:
             echo "| pipeline_exit_code | ${EXIT_CODE} |"
             echo "| bulk_ingestion | false |"
             echo "| original_deleted | false |"
+            echo "| transition_block_required | true |"
             echo
             echo "### Disposition"
             cat reports/current/incoming_disposition_summary.jsonl
             echo
             echo "### Pipeline log tail"
-            tail -n 80 "${PIPELINE_LOG}" || true
+            tail -n 100 "${PIPELINE_LOG}" || true
           } >> "${GITHUB_STEP_SUMMARY}"
 
-      - name: Commit proof evidence and mailbox cleanup
+      - name: Commit proof evidence
         if: always()
         run: |
           set -euo pipefail
           git config user.name "StegVerse-002 Recovery Proof Router"
           git config user.email "sv002-recovery-proof-router@stegverse"
-          git add -A incoming/ reports/current/ receipts/current/ tracking/ quarantine/ dist/ || true
+          git add -A reports/current/ receipts/current/ tracking/incoming_mailbox/ quarantine/ dist/ || true
           if git diff --staged --quiet; then
             echo "- No one-bundle recovery proof changes were staged." >> "${GITHUB_STEP_SUMMARY}"
           else
-            git commit -m "sv002: prove one recovery bundle ingestion"
+            git commit -m "sv002: prove corrected recovery bundle ingestion"
             git push
-            echo "- One-bundle recovery proof evidence committed and pushed." >> "${GITHUB_STEP_SUMMARY}"
+            echo "- Corrected one-bundle recovery proof evidence committed and pushed." >> "${GITHUB_STEP_SUMMARY}"
           fi
 
       - name: Upload proof evidence
