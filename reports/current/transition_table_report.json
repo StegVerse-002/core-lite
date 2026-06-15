@@ -26,5 +26,35 @@
     "warnings": [],
     "receipt_hash": "sha256:c522588cdb202d6e71e944332bbca28187c313092042e1aca89b9b973f21f3f9",
     "dry_run": false
+  },
+  {
+    "schema": "stegverse.transition_table_report.v1",
+    "timestamp_utc": "2026-06-15T17:33:39.590214+00:00",
+    "entity": "StegVerse-002",
+    "stage": "SV002-M11",
+    "bundle_path": "tracking/incoming_mailbox/9ae13165bf7dc763/sv002_recovery_30d45378723de692_CHANGELOG.md.zip",
+    "bundle_hash": "sha256:9ae13165bf7dc7635fccb993f6046ec6bca24ad4cdcd31408e933f074a4cc1f4",
+    "manifest_hash": "sha256:5fd44b86a22cb0a315d0cfe64a70fc40255d7caaf009dc67f7c1b101c319f5e5",
+    "transition_class": "",
+    "authority_class": "",
+    "transition_table_decision": "FAIL_CLOSED",
+    "cge_decision": "ERROR",
+    "final_decision": "FAIL_CLOSED",
+    "candidate_disposition": "",
+    "coordinates": {
+      "delta_C": 1.0,
+      "delta_R": 0.0,
+      "delta_P": 0.0,
+      "delta_U": 0.0,
+      "delta_O": 0.0,
+      "d_boundary_A": 0.0,
+      "d_A": 1.0
+    },
+    "errors": [
+      "FAIL_CLOSED: manifest missing 'transition' block"
+    ],
+    "warnings": [],
+    "receipt_hash": "sha256:00c9c869132aafd67cc5214ade0b0737828e215bdd9dbd00b0cbd82eee58bb16",
+    "dry_run": false
   }
 ]
