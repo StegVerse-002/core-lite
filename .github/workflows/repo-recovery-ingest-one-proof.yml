@@ -7,6 +7,8 @@ name: repo-recovery-ingest-one-proof
     paths:
       - ".github/workflows/repo-recovery-ingest-one-proof.yml"
       - "tracking/recovery_corrected/sv002_recovery_30d45378723de692_CHANGELOG.md.zip"
+      - "core_lite/cge.py"
+      - "core_lite/transition_table/ingest_gate.py"
 
 permissions:
   contents: write
