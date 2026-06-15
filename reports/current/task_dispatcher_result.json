@@ -1,7 +1,11 @@
 {
   "status": "success",
-  "task_id": "sv002.ingestion.loop.ci_smoke",
+  "task_id": "sv002.incoming.cleanup.dry_run",
+  "authority": "read_only",
   "returncode": 0,
-  "stdout": "{\n  \"bundle\": \"incoming/sv002_diagnostics_bundle.zip\",\n  \"checks\": {\n    \"bundle_present\": {\n      \"detail\": \"/home/runner/work/core-lite/core-lite/incoming/sv002_diagnostics_bundle.zip\",\n      \"ok\": true\n    },\n    \"controller_import\": {\n      \"detail\": \"import ok\",\n      \"ok\": true\n    },\n    \"disposition_admitted\": {\n      \"detail\": \"INSTALLED\",\n      \"ok\": true\n    },\n    \"disposition_returned\": {\n      \"detail\": \"INSTALLED\",\n      \"ok\": true\n    },\n    \"evidence_recorded\": {\n      \"detail\": \"contributions=2, evidence_file=yes\",\n      \"ok\": true\n    },\n    \"receipt_written\": {\n      \"detail\": \"20 receipt file(s)\",\n      \"ok\": true\n    }\n  },\n  \"entity\": \"StegVerse-002\",\n  \"generated_at\": \"2026-06-07T02:29:33.682577+00:00\",\n  \"passed\": true,\n  \"process_result_keys\": [\n    \"bundle_hash\",\n    \"bundle_path\",\n    \"evidence_plane_contributions\",\n    \"final_disposition\",\n    \"gate_result\",\n    \"install_result\",\n    \"mailbox_result\",\n    \"manifest\",\n    \"quarantine_result\",\n    \"sandbox_results\"\n  ],\n  \"schema\": \"stegverse.ci_smoke.ingestion_loop.v1\",\n  \"stage\": \"SV002-M11\"\n}\nCI smoke PASSED: governed ingestion loop fired end-to-end.\n",
+  "exit_code": 0,
+  "exit_basis": "task completed (rc=0)",
+  "decision": "ALLOW",
+  "stdout": "{\n  \"directories_skipped\": [\n    \"mailbox\"\n  ],\n  \"dry_run\": true,\n  \"errors\": [],\n  \"policy\": \"quarantine_unresolved_no_final_relocation\",\n  \"quarantined\": [],\n  \"removed\": [],\n  \"retained\": [\n    \".gitkeep\",\n    \"README.md\",\n    \"sv002_diagnostics_bundle.zip\"\n  ],\n  \"status\": \"success\",\n  \"total_directories_skipped\": 1,\n  \"total_quarantined\": 0,\n  \"total_removed\": 0,\n  \"total_retained\": 3,\n  \"total_scanned\": 4\n}\n",
   "stderr": ""
 }

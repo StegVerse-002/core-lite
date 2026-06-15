@@ -1,37 +1,23 @@
 {
-  "schema": "stegverse.incoming_cleanup_report.v1",
-  "timestamp_utc": "2026-05-29T18:59:35.666817+00:00",
+  "directories_skipped": [
+    "mailbox"
+  ],
+  "dry_run": true,
+  "errors": [],
   "incoming_dir": "incoming",
-  "dry_run": false,
+  "legacy_dispositioned_removed": [],
+  "legacy_unknown_quarantined": [],
+  "policy": "quarantine_unresolved_no_final_relocation",
   "retained": [
     ".gitkeep",
-    "README.md"
+    "README.md",
+    "sv002_diagnostics_bundle.zip"
   ],
-  "misplaced_moved": [
-    {
-      "filename": "core-lite-intake.yml",
-      "dest": ".github/workflows/core-lite-intake.yml"
-    }
-  ],
-  "misplaced_failed": [],
-  "legacy_processed_removed": [
-    "sv002 m10 5 builder decoupled triad enforced candidate intake bundle.zip",
-    "sv002 m11 governed apply review boundary bundle.zip",
-    "sv002 m11 synthesized intake repair bundle.zip",
-    "sv002 m11 validation proof bundle.zip",
-    "sv002 validation candidate bundle ref.json",
-    "sv002_core_lite_operational_sandbox_ingestible_bundle.zip",
-    "sv002_core_lite_stegverse_output_authority_bundle.zip",
-    "sv002_ingestion_smoke_test_20260526T015814Z.zip",
-    "sv002_m11_disposition_gate_test_payload.zip",
-    "sv002_m11_disposition_gate_test_payload_20260528t235307z.zip",
-    "sv002_m11_governed_apply_review_boundary_bundle.zip",
-    "sv002_m11_incoming_only_push_ingestion_bundle.zip"
-  ],
-  "legacy_unknown_quarantined": [],
-  "errors": [],
-  "total_scanned": 15,
-  "total_removed": 13,
-  "total_retained": 2,
-  "total_quarantined": 0
+  "schema": "stegverse.incoming_cleanup_report.v2",
+  "timestamp_utc": "2026-06-15T00:08:27.651358+00:00",
+  "total_directories_skipped": 1,
+  "total_quarantined": 0,
+  "total_removed": 0,
+  "total_retained": 3,
+  "total_scanned": 4
 }
