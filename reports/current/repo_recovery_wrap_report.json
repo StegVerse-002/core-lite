@@ -1,52 +1,67 @@
 {
   "audit_report": "reports/current/repo_recovery_audit_report.json",
   "audit_report_sha256": "sha256:6e46a5d7377a56e38c8296a86f89244edee7abd92bb00ec4b16e42f031a0fb66",
-  "decision": "FAIL_CLOSED",
+  "decision": "ALLOW",
   "dry_run": false,
   "entity": "StegVerse-002",
-  "failed": [
-    {
-      "path": "stegverse_002_core_lite.egg-info/PKG-INFO",
-      "reason": "source_missing"
-    },
-    {
-      "path": "stegverse_002_core_lite.egg-info/SOURCES.txt",
-      "reason": "source_missing"
-    },
-    {
-      "path": "stegverse_002_core_lite.egg-info/dependency_links.txt",
-      "reason": "source_missing"
-    },
-    {
-      "path": "stegverse_002_core_lite.egg-info/entry_points.txt",
-      "reason": "source_missing"
-    },
-    {
-      "path": "stegverse_002_core_lite.egg-info/requires.txt",
-      "reason": "source_missing"
-    },
-    {
-      "path": "stegverse_002_core_lite.egg-info/top_level.txt",
-      "reason": "source_missing"
-    }
-  ],
-  "generated_at": "2026-06-15T17:54:52.423424+00:00",
+  "failed": [],
+  "generated_at": "2026-06-15T18:18:29.225451+00:00",
   "governance": {
     "bundle_manifest_written": true,
     "does_not_delete_originals": true,
     "does_not_install_destinations": true,
     "ingestion_decides_destination": true,
     "no_broad_authority": true,
+    "stale_missing_sources_are_skipped_not_failed": true,
     "transition_block_written": true,
     "transition_class": "evidence",
     "wraps_for_ingestion_only": true
   },
-  "schema": "stegverse.repo_recovery.wrap.v3",
+  "schema": "stegverse.repo_recovery.wrap.v4",
+  "skipped": [
+    {
+      "audit_sha256": "sha256:0a64d90fa4c3709201977332cc2603c89fce88576a56c413096f8e92b0e4b2a1",
+      "classification": "repo_unresolved_file",
+      "path": "stegverse_002_core_lite.egg-info/PKG-INFO",
+      "reason": "stale_missing_source"
+    },
+    {
+      "audit_sha256": "sha256:8fc5e35147348fb32d72c895a4546276ce0cda182972a974ddfa4d10968259cc",
+      "classification": "repo_unresolved_semantic_file",
+      "path": "stegverse_002_core_lite.egg-info/SOURCES.txt",
+      "reason": "stale_missing_source"
+    },
+    {
+      "audit_sha256": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "classification": "repo_unresolved_semantic_file",
+      "path": "stegverse_002_core_lite.egg-info/dependency_links.txt",
+      "reason": "stale_missing_source"
+    },
+    {
+      "audit_sha256": "sha256:a30f1be0be79e49d208f698b467ee2c75356790f9704d2d055635b20aba76e54",
+      "classification": "repo_unresolved_semantic_file",
+      "path": "stegverse_002_core_lite.egg-info/entry_points.txt",
+      "reason": "stale_missing_source"
+    },
+    {
+      "audit_sha256": "sha256:71749243f84428fee225bfaa796dca5ef6c1e83a98f6d2a407df615b0390d6fb",
+      "classification": "repo_unresolved_semantic_file",
+      "path": "stegverse_002_core_lite.egg-info/requires.txt",
+      "reason": "stale_missing_source"
+    },
+    {
+      "audit_sha256": "sha256:dc4c2cc935896bc92fcc1abbb495cc8b236f136ce5df9ac3d137141fcf627865",
+      "classification": "repo_unresolved_semantic_file",
+      "path": "stegverse_002_core_lite.egg-info/top_level.txt",
+      "reason": "stale_missing_source"
+    }
+  ],
   "stage": "SV002-M11",
   "summary": {
     "bundles_created": 69,
     "candidates": 75,
-    "failed": 6,
+    "failed": 0,
+    "skipped_stale_missing_source": 6,
     "transition_blocks_written": 69,
     "wrapped": 69
   },
@@ -54,7 +69,7 @@
     {
       "bundle_manifest_schema": "stegverse.bundle_manifest.v1",
       "bundle_path": "tracking/recovery_corrected/sv002_recovery_30d45378723de692_CHANGELOG.md.zip",
-      "bundle_sha256": "sha256:7ae4fb9171df5ec5dbcfdb2c4c28a1acb5c7bcaff625186ae39342ace5b921d1",
+      "bundle_sha256": "sha256:17f224bca33c1a1cff197b1f06f76058f9d61fb0e399c3b034070137bec52b3e",
       "destination_installed": false,
       "dry_run": false,
       "original_deleted": false,
@@ -68,7 +83,7 @@
     {
       "bundle_manifest_schema": "stegverse.bundle_manifest.v1",
       "bundle_path": "tracking/recovery_corrected/sv002_recovery_44d29e7a9fd89b5a_CLAUDE.md.zip",
-      "bundle_sha256": "sha256:d5e50f3a3b8ad9002daafa5b319a66eef9f1f5533f1f4372dd4e40e97ed56212",
+      "bundle_sha256": "sha256:4495b463092eb699e4c29de1dff2d9568d568d73674d37042016100863a1b4d1",
       "destination_installed": false,
       "dry_run": false,
       "original_deleted": false,
@@ -82,7 +97,7 @@
     {
       "bundle_manifest_schema": "stegverse.bundle_manifest.v1",
       "bundle_path": "tracking/recovery_corrected/sv002_recovery_6ae7b7cfb62bacc9_SAFETY.md.zip",
-      "bundle_sha256": "sha256:746b7abe2c1ad92eb9e96f27f22911a8e8751effd519a31569dd21fd0f5570b9",
+      "bundle_sha256": "sha256:4b9ffdd8a9a74073b81d2c79470b7737d972cbad312578b86f8b8e8d745055f9",
       "destination_installed": false,
       "dry_run": false,
       "original_deleted": false,
@@ -96,7 +111,7 @@
     {
       "bundle_manifest_schema": "stegverse.bundle_manifest.v1",
       "bundle_path": "tracking/recovery_corrected/sv002_recovery_dafe844a21fabe24_STATUS.md.zip",
-      "bundle_sha256": "sha256:ddb165f6eb3d8121ba6eb6d6e2bd6579a5bbca9604b5c86d41f1ee729d6c09b0",
+      "bundle_sha256": "sha256:ae3ac3e7b31cb37591f9508a8745c8a3ce09697c08cd6f4ef3d570142c89a808",
       "destination_installed": false,
       "dry_run": false,
       "original_deleted": false,
@@ -110,7 +125,7 @@
     {
       "bundle_manifest_schema": "stegverse.bundle_manifest.v1",
       "bundle_path": "tracking/recovery_corrected/sv002_recovery_ea5e9fb54dc02406_agent_policy__allowed_paths.json.zip",
-      "bundle_sha256": "sha256:f4b28758091bbfa41618d67936dc0cdb93a7c9df8ca6b7608f6cc71bb475ecef",
+      "bundle_sha256": "sha256:35097be9301892dbda84c369c27410c1d5dcc76fcaef7d304abc9847649000c8",
       "destination_installed": false,
       "dry_run": false,
       "original_deleted": false,
@@ -124,7 +139,7 @@
     {
       "bundle_manifest_schema": "stegverse.bundle_manifest.v1",
       "bundle_path": "tracking/recovery_corrected/sv002_recovery_cdcd96ccc15a5b61_agent_policy__forbidden_paths.json.zip",
-      "bundle_sha256": "sha256:09d05bb56eafadda769fe29554cbefe6d3730b049a2e6f209b17d520060378d9",
+      "bundle_sha256": "sha256:6fccd23da628788f406d0d5be7b49ae2dea380a5904d5b43c1fe92a09a2d810f",
       "destination_installed": false,
       "dry_run": false,
       "original_deleted": false,
@@ -138,7 +153,7 @@
     {
       "bundle_manifest_schema": "stegverse.bundle_manifest.v1",
       "bundle_path": "tracking/recovery_corrected/sv002_recovery_d762663e5ddfcfcf_docs__DECLARED_TASK_ROUTE_OUTPUT_SHAPE_REPAIR.md.zip",
-      "bundle_sha256": "sha256:1889248449afe70e87dd448e2f9f2b6bafaec43135424cacca33004ea323df2f",
+      "bundle_sha256": "sha256:3b39daa6e51a1205e2e8c3b0ea26214b68a2d93252aac1ba4d0dfbd8afbfa27f",
       "destination_installed": false,
       "dry_run": false,
       "original_deleted": false,
@@ -152,7 +167,7 @@
     {
       "bundle_manifest_schema": "stegverse.bundle_manifest.v1",
       "bundle_path": "tracking/recovery_corrected/sv002_recovery_a900b20189b460da_docs__GOVERNED_TIERED_INTELLECT_STAGE_MAP.md.zip",
-      "bundle_sha256": "sha256:04287df41a60c1fd6b2d31e4aa567d53d526c59120d81fedd3bf7a4ebbdf8ccc",
+      "bundle_sha256": "sha256:ee85c5a8d222229bab6654154a01c160cbe099920f48b0c9a3ae2899222377b8",
       "destination_installed": false,
       "dry_run": false,
       "original_deleted": false,
@@ -166,7 +181,7 @@
     {
       "bundle_manifest_schema": "stegverse.bundle_manifest.v1",
       "bundle_path": "tracking/recovery_corrected/sv002_recovery_b9341da2a1022404_docs__MANUAL_UPLOAD_MAP_v0.1.3_gllm_transition_bundle.md.zip",
-      "bundle_sha256": "sha256:d78e2f8494198d6db2f8a3220f647213243b3d584033c84df664e23d0ae34c03",
+      "bundle_sha256": "sha256:4e4b0ca4cffe622bd9bdc1346ca4456e3d7c8e714a02525121443b9eb9ff4e7f",
       "destination_installed": false,
       "dry_run": false,
       "original_deleted": false,
@@ -180,7 +195,7 @@
     {
       "bundle_manifest_schema": "stegverse.bundle_manifest.v1",
       "bundle_path": "tracking/recovery_corrected/sv002_recovery_67c50a5761fb6629_docs__README_v0.1.3_gllm_transition_bundle.md.zip",
-      "bundle_sha256": "sha256:e34bac64ff9023b64c0239572f0155e9c2fd4365e612ef034db9cfde1ef2d4ca",
+      "bundle_sha256": "sha256:639687c9d46422103bb0d98b701ce0f8a1375df3244333c1169cffbecdc3c2ed",
       "destination_installed": false,
       "dry_run": false,
       "original_deleted": false,
@@ -194,7 +209,7 @@
     {
       "bundle_manifest_schema": "stegverse.bundle_manifest.v1",
       "bundle_path": "tracking/recovery_corrected/sv002_recovery_fca4b4447a487b05_docs__STEGVERSE_CORE_TERMS_GLOSSARY.md.zip",
-      "bundle_sha256": "sha256:477cc10584f0aae02d9fb391de3263feae77922481af28c8cf576aa36233a130",
+      "bundle_sha256": "sha256:95d147eca16816881250f4ab2f7c5094f02f39d298ce140cfebd806fe46c3c25",
       "destination_installed": false,
       "dry_run": false,
       "original_deleted": false,
@@ -208,7 +223,7 @@
     {
       "bundle_manifest_schema": "stegverse.bundle_manifest.v1",
       "bundle_path": "tracking/recovery_corrected/sv002_recovery_ca7466ab38b9e88f_docs__STEGVERSE_ECOSYSTEM_INVARIANTS.md.zip",
-      "bundle_sha256": "sha256:681b62645d29137300d0f83c29c6d9d3340e396f8fd2c33ee6ef490c6d0ab71c",
+      "bundle_sha256": "sha256:542b95e2e3b43f4239cae5ecb94f5a06d2da8a0ac9c22d627cbf281a52bc5c72",
       "destination_installed": false,
       "dry_run": false,
       "original_deleted": false,
@@ -222,7 +237,7 @@
     {
       "bundle_manifest_schema": "stegverse.bundle_manifest.v1",
       "bundle_path": "tracking/recovery_corrected/sv002_recovery_eee3f78e5ec9936f_docs__STEGVERSE_OUTPUT_AUTHORITY.md.zip",
-      "bundle_sha256": "sha256:7790955d24602b796b41cfcdabe20784febd4367e1cd9cc4aa2f3b8f3766af20",
+      "bundle_sha256": "sha256:288b9464e7cc9f67e2cfb7818cf7e2f7a7ca2e115750753363ff841953e2230c",
       "destination_installed": false,
       "dry_run": false,
       "original_deleted": false,
@@ -236,7 +251,7 @@
     {
       "bundle_manifest_schema": "stegverse.bundle_manifest.v1",
       "bundle_path": "tracking/recovery_corrected/sv002_recovery_e1945bafbfe433e7_docs__SV002_ADAPTER_SANDBOX_PYTEST_SCOPE_REPAIR.md.zip",
-      "bundle_sha256": "sha256:5362775cf51974d7139d0c4bd0ba85d3ea64900ff44520b7f92a5660941f7ac4",
+      "bundle_sha256": "sha256:3837d6382e38664345c07acd0c1735ad6879ce4f8030e926def752bd9943a372",
       "destination_installed": false,
       "dry_run": false,
       "original_deleted": false,
@@ -250,7 +265,7 @@
     {
       "bundle_manifest_schema": "stegverse.bundle_manifest.v1",
       "bundle_path": "tracking/recovery_corrected/sv002_recovery_12d8cc2662f18bed_docs__SV002_AUTOMATION_PROOF_RESULT_SURFACE.md.zip",
-      "bundle_sha256": "sha256:07252320fa4e81b962fda18577340e08c97975eb8f8b2b69e5b7223902ef31fd",
+      "bundle_sha256": "sha256:d03f3f34c059ce7afbaa681806f7ead70979fa9ff27f5553a55f96100acc0607",
       "destination_installed": false,
       "dry_run": false,
       "original_deleted": false,
@@ -264,7 +279,7 @@
     {
       "bundle_manifest_schema": "stegverse.bundle_manifest.v1",
       "bundle_path": "tracking/recovery_corrected/sv002_recovery_f8331e05da86aaf1_docs__SV002_BUNDLE_INGESTION_SMOKE_TEST_SYSPATH_REPAIR.md.zip",
-      "bundle_sha256": "sha256:1ab1c5a70d99d32cd3de58287de113968a2d8a4a12ac61d7403edab60564b04f",
+      "bundle_sha256": "sha256:83c43f183df673b699b40e858e10ac1cacba20b6619e7dc7faa01fd896bbd3d4",
       "destination_installed": false,
       "dry_run": false,
       "original_deleted": false,
@@ -278,7 +293,7 @@
     {
       "bundle_manifest_schema": "stegverse.bundle_manifest.v1",
       "bundle_path": "tracking/recovery_corrected/sv002_recovery_7be5a26a211ab8e1_docs__SV002_BUNDLE_INGESTION_SMOKE_TEST_TASK.md.zip",
-      "bundle_sha256": "sha256:45702f4092a936afee50c8c7daae76a19dd638acef3e92a3dbb9a3519c38e24f",
+      "bundle_sha256": "sha256:500e4816cfc4e5c1fab160e5e2dbe51c8227d1de01e5eeda65a08eeb0c5a307c",
       "destination_installed": false,
       "dry_run": false,
       "original_deleted": false,
@@ -292,7 +307,7 @@
     {
       "bundle_manifest_schema": "stegverse.bundle_manifest.v1",
       "bundle_path": "tracking/recovery_corrected/sv002_recovery_e023615054e1ef59_docs__SV002_CORE_LITE_TRANSITION_TABLE_GATE.md.zip",
-      "bundle_sha256": "sha256:3d00a0176637aeb98e0ceb52c2145ba6a9de20155b27becc6891b218bf329cee",
+      "bundle_sha256": "sha256:ec6967baf5e90748989aed04d7c88f0f3820937af2ebaf53f48767037ff77917",
       "destination_installed": false,
       "dry_run": false,
       "original_deleted": false,
@@ -306,7 +321,7 @@
     {
       "bundle_manifest_schema": "stegverse.bundle_manifest.v1",
       "bundle_path": "tracking/recovery_corrected/sv002_recovery_646fa38480a2b9be_docs__SV002_FORMALISM_ANCHOR_STAGED_EXECUTION_SCOPE.md.zip",
-      "bundle_sha256": "sha256:7c242c8a6d5888c259cc8bd3cf0919335ce3d8e60bf79496ec3b269ca9caa181",
+      "bundle_sha256": "sha256:b059128cdf14bc01a3ea5691c9b3f32bd3394452efc84a18218b17db31fb533a",
       "destination_installed": false,
       "dry_run": false,
       "original_deleted": false,
@@ -320,7 +335,7 @@
     {
       "bundle_manifest_schema": "stegverse.bundle_manifest.v1",
       "bundle_path": "tracking/recovery_corrected/sv002_recovery_7f4260709ca3003e_docs__SV002_M10_5_ADAPTER_CANDIDATE_SANDBOX_EXECUTOR.md.zip",
-      "bundle_sha256": "sha256:b6c341759aaf0677370bcaf94630de9464c2c514b7a50279a3c1c7ef0e8eaf4b",
+      "bundle_sha256": "sha256:d2feca716b508faa537e3007a563437bea393274c02a3cfd41ebb036d6e5d7d4",
       "destination_installed": false,
       "dry_run": false,
       "original_deleted": false,
@@ -334,7 +349,7 @@
     {
       "bundle_manifest_schema": "stegverse.bundle_manifest.v1",
       "bundle_path": "tracking/recovery_corrected/sv002_recovery_f5054ef03b248d80_docs__SV002_M10_5_BUILDER_DECOUPLED_TRIAD_ENFORCED_CONSTRUCTION.md.zip",
-      "bundle_sha256": "sha256:1ea5dc6e8ed25ef371abb1897b034fa821f55ca9ce414330edec2aed2592f664",
+      "bundle_sha256": "sha256:d5a5b91ddbf3ae0bbbc23d8fab45c541f59b8c7e8c336ed237d03649ed12559d",
       "destination_installed": false,
       "dry_run": false,
       "original_deleted": false,
@@ -348,7 +363,7 @@
     {
       "bundle_manifest_schema": "stegverse.bundle_manifest.v1",
       "bundle_path": "tracking/recovery_corrected/sv002_recovery_20505a7c3d98bdf8_docs__SV002_M10_OUTPUT_AUTHORITY_MILESTONE.md.zip",
-      "bundle_sha256": "sha256:b2800541983f94e8593558a046664e121730139a24542ade9ef8e2a8f896f40a",
+      "bundle_sha256": "sha256:7551b4b3fa397b8539280e014446753c2bff9d294b33e66d46ad3fea2ca19b8e",
       "destination_installed": false,
       "dry_run": false,
       "original_deleted": false,
@@ -362,7 +377,7 @@
     {
       "bundle_manifest_schema": "stegverse.bundle_manifest.v1",
       "bundle_path": "tracking/recovery_corrected/sv002_recovery_f2b7cfc280a95f40_docs__SV002_M11_EPHEMERAL_INCOMING_MAILBOX.md.zip",
-      "bundle_sha256": "sha256:8d7d9b6b7e0faa02e3f51adf42f83701ebb22149705c9bdf3ec40e367182428f",
+      "bundle_sha256": "sha256:b6fe3848fb00e8b55efac41538e8b1aa5c0ba521bed9f91ab0e1225a4aaa1b9e",
       "destination_installed": false,
       "dry_run": false,
       "original_deleted": false,
@@ -376,7 +391,7 @@
     {
       "bundle_manifest_schema": "stegverse.bundle_manifest.v1",
       "bundle_path": "tracking/recovery_corrected/sv002_recovery_2dcdc31f8f608feb_docs__SV002_M11_GOVERNED_APPLY_BOUNDARY_RESOLVER.md.zip",
-      "bundle_sha256": "sha256:2637cc4c4a18eea7f6c678ba8f44d506116bb764cef000d7c2c5973b6f85c573",
+      "bundle_sha256": "sha256:6695d49d5fee5818ff15c29062b521e38040c2b0fbb26520d2f1d503237cd543",
       "destination_installed": false,
       "dry_run": false,
       "original_deleted": false,
@@ -390,7 +405,7 @@
     {
       "bundle_manifest_schema": "stegverse.bundle_manifest.v1",
       "bundle_path": "tracking/recovery_corrected/sv002_recovery_e699fd6baed25792_docs__SV002_M11_GOVERNED_APPLY_REVIEW_BOUNDARY.md.zip",
-      "bundle_sha256": "sha256:991c92e7e2d596bd144ed243286cc4967bbdca06dcda3c783d13b050f5e10cbc",
+      "bundle_sha256": "sha256:05494b11933c9ab1fc6b46ddf7f20a1878006b05b0967366c63ae524a9b6a70c",
       "destination_installed": false,
       "dry_run": false,
       "original_deleted": false,
@@ -404,7 +419,7 @@
     {
       "bundle_manifest_schema": "stegverse.bundle_manifest.v1",
       "bundle_path": "tracking/recovery_corrected/sv002_recovery_7d7d9bbfe10d29ca_docs__SV002_M11_INCOMING_CHANGED_FILES_ONLY.md.zip",
-      "bundle_sha256": "sha256:c40b56b06d30ac7a0cb67237931f990dd12d90994dba3d7c0d502dd677799f16",
+      "bundle_sha256": "sha256:7665b0a393febb811eaff4adb26df2b7be8281817d716b0449ba14200ca5ad3e",
       "destination_installed": false,
       "dry_run": false,
       "original_deleted": false,
@@ -418,7 +433,7 @@
     {
       "bundle_manifest_schema": "stegverse.bundle_manifest.v1",
       "bundle_path": "tracking/recovery_corrected/sv002_recovery_020b0a5349b49469_docs__SV002_M11_INCOMING_DISPOSITION_GATE.md.zip",
-      "bundle_sha256": "sha256:a185e7bc7255db08b792a7b097eb7af86ea8d173377b8f1b16d191e70c7d02cf",
+      "bundle_sha256": "sha256:239c2a860d36d3bbd9099c45642f64fe3defa7dafd6f66c1173a408f8b44e8bb",
       "destination_installed": false,
       "dry_run": false,
       "original_deleted": false,
@@ -432,7 +447,7 @@
     {
       "bundle_manifest_schema": "stegverse.bundle_manifest.v1",
       "bundle_path": "tracking/recovery_corrected/sv002_recovery_6fd4f5c06b13ec63_docs__SV002_M11_INCOMING_ONLY_PUSH_INGESTION.md.zip",
-      "bundle_sha256": "sha256:8314fac5ca661aac19fd9b85bf0319ebb15329e1cb66172bdaeb43bdb91a764d",
+      "bundle_sha256": "sha256:fd3a145709630fec14f6174ecbec9740df327d66bbcba3d8c40b50f74b7750e8",
       "destination_installed": false,
       "dry_run": false,
       "original_deleted": false,
@@ -446,7 +461,7 @@
     {
       "bundle_manifest_schema": "stegverse.bundle_manifest.v1",
       "bundle_path": "tracking/recovery_corrected/sv002_recovery_c9c736fb32ef527d_docs__SV002_M11_NO_MASS_CLEANUP_LEGACY_INVENTORY.md.zip",
-      "bundle_sha256": "sha256:b658c362e9677e7554eeebfdc6cb857cd8cda91b43d2e636d5ac5f8cfe823eab",
+      "bundle_sha256": "sha256:68993f1bf016fddb5d677f800d20a4edc60e5c2d7e5700b90c35db5e0a958809",
       "destination_installed": false,
       "dry_run": false,
       "original_deleted": false,
@@ -460,7 +475,7 @@
     {
       "bundle_manifest_schema": "stegverse.bundle_manifest.v1",
       "bundle_path": "tracking/recovery_corrected/sv002_recovery_ec48f780c0d0d53e_docs__SV002_M11_PUSH_ACTIVATED_INGESTION.md.zip",
-      "bundle_sha256": "sha256:99b4ac51cafc621383b82a53792420dfc13f122f82a493e6ee7d32ef21a04a08",
+      "bundle_sha256": "sha256:fd40fb4617f20321330d1e8b8c226d65a55f3f61f59009610a4ff823f50c4446",
       "destination_installed": false,
       "dry_run": false,
       "original_deleted": false,
@@ -474,7 +489,7 @@
     {
       "bundle_manifest_schema": "stegverse.bundle_manifest.v1",
       "bundle_path": "tracking/recovery_corrected/sv002_recovery_5cec56f28628bcf0_docs__SV002_M11_merge-and-commit-job.yml.zip",
-      "bundle_sha256": "sha256:9a9d8ca1a632018a8f9958f9c7c99e8426f9d6e1705ddbe2419f079f40dd85dd",
+      "bundle_sha256": "sha256:ad1be8300204eb3fd46ebb21daacbf3e8756d28445229a1679a657ba3f415d3d",
       "destination_installed": false,
       "dry_run": false,
       "original_deleted": false,
@@ -488,7 +503,7 @@
     {
       "bundle_manifest_schema": "stegverse.bundle_manifest.v1",
       "bundle_path": "tracking/recovery_corrected/sv002_recovery_9644e144cac17302_docs__SV002_TRANSITION_TABLE_GATE_DECLARED_TASK_RUNNER.md.zip",
-      "bundle_sha256": "sha256:fdb72c7eed2c207ddd82387f60144289e39894828c39f24565dfd4197247251f",
+      "bundle_sha256": "sha256:99b8cbbf4b6e54b744343ef6395e17a6bdac02db4dbfa8f2301a28362f205b6d",
       "destination_installed": false,
       "dry_run": false,
       "original_deleted": false,
@@ -502,7 +517,7 @@
     {
       "bundle_manifest_schema": "stegverse.bundle_manifest.v1",
       "bundle_path": "tracking/recovery_corrected/sv002_recovery_9bc90615d51d9ec2_docs__SV002_TRANSITION_TABLE_GATE_RUNNER_PYTEST_BYPASS_REPAIR.md.zip",
-      "bundle_sha256": "sha256:06457c3a9b57c7455c40e6036e9d8e35f484092d47f9bcd0b40a5b6005076daf",
+      "bundle_sha256": "sha256:af625af479a6b4e28bfe8db43472bfee098434a99da2fab2cddbb7ad9ebb7a80",
       "destination_installed": false,
       "dry_run": false,
       "original_deleted": false,
@@ -516,7 +531,7 @@
     {
       "bundle_manifest_schema": "stegverse.bundle_manifest.v1",
       "bundle_path": "tracking/recovery_corrected/sv002_recovery_079fadff97812fe7_docs__WORKFLOW_DECLARED_INPUT_ROUTE.md.zip",
-      "bundle_sha256": "sha256:006353daca51a30e590f69031e06382303c44c82cf24ea117410cf5fbe0bbc86",
+      "bundle_sha256": "sha256:aadf1b570510e28414dfbb3f4970ed2907996f130a145685e7901937c4e94479",
       "destination_installed": false,
       "dry_run": false,
       "original_deleted": false,
@@ -530,7 +545,7 @@
     {
       "bundle_manifest_schema": "stegverse.bundle_manifest.v1",
       "bundle_path": "tracking/recovery_corrected/sv002_recovery_86b5a51cf204b4b7_docs__WORKFLOW_SUMMARY_DIAGNOSTICS.md.zip",
-      "bundle_sha256": "sha256:10f9c4021a764a857e137a682972966c1a4fe930322c6919bebf3fa6e95330cb",
+      "bundle_sha256": "sha256:0178e52a56a29847ffe03a3d7f7af10afccca7788c3d4c1b6d18b97446346fe5",
       "destination_installed": false,
       "dry_run": false,
       "original_deleted": false,
@@ -544,7 +559,7 @@
     {
       "bundle_manifest_schema": "stegverse.bundle_manifest.v1",
       "bundle_path": "tracking/recovery_corrected/sv002_recovery_aa0e67b213ec2a22_docs__agent_coordination__GOVERNED_COLLABORATION_SUBSTRATE_v0.1.2.md.zip",
-      "bundle_sha256": "sha256:dc66c1a32fb918caa1c5e25334330f470d3cc9a7528c565946e115baaabd26d3",
+      "bundle_sha256": "sha256:d9ba20b2a77b0b7beb2680db30f053e6b6d5982190fb749870b0b411a3b5b22a",
       "destination_installed": false,
       "dry_run": false,
       "original_deleted": false,
@@ -558,7 +573,7 @@
     {
       "bundle_manifest_schema": "stegverse.bundle_manifest.v1",
       "bundle_path": "tracking/recovery_corrected/sv002_recovery_202799762aadd119_docs__agent_coordination__MANUAL_UPLOAD_MAP_v0.1.2.md.zip",
-      "bundle_sha256": "sha256:56a277ec7f70e3ce8630ca7fe491fd1d4da61600da3625bffb1be656dc935335",
+      "bundle_sha256": "sha256:f4ad65b264de3910c99a56a1e4d997d7fd1dcdbd18685ec438f555813e2e9799",
       "destination_installed": false,
       "dry_run": false,
       "original_deleted": false,
@@ -572,7 +587,7 @@
     {
       "bundle_manifest_schema": "stegverse.bundle_manifest.v1",
       "bundle_path": "tracking/recovery_corrected/sv002_recovery_0bd5aff45a79b92f_docs__declared_task_route_patch.yml.zip",
-      "bundle_sha256": "sha256:7cf3753572a1fa6ca85aec3745d8088ef8cd8f456a1bd906a62d4691c5893df9",
+      "bundle_sha256": "sha256:70f3b47120b53a2a6f68bd325b3a5a15f2b62b0c8ddf154939fe0b59ff93e69e",
       "destination_installed": false,
       "dry_run": false,
       "original_deleted": false,
@@ -586,7 +601,7 @@
     {
       "bundle_manifest_schema": "stegverse.bundle_manifest.v1",
       "bundle_path": "tracking/recovery_corrected/sv002_recovery_7eae7adc7ca61868_docs__ingestion_engine__MANUAL_UPLOAD_MAP.md.zip",
-      "bundle_sha256": "sha256:145b06545ed72bce0771af3c60394e0cbdd444a4631dbdbcfc673e771172f6e1",
+      "bundle_sha256": "sha256:4d04038ecff20623ef43c74680f5750d980885365f59738a453ba8df96fd14b1",
       "destination_installed": false,
       "dry_run": false,
       "original_deleted": false,
@@ -600,7 +615,7 @@
     {
       "bundle_manifest_schema": "stegverse.bundle_manifest.v1",
       "bundle_path": "tracking/recovery_corrected/sv002_recovery_d87f3bafdf40b1b2_docs__ingestion_engine__README.md.zip",
-      "bundle_sha256": "sha256:2be75b58333ea11cbdc6158b6130aef8eab3fd379619f96a8f283332516146e3",
+      "bundle_sha256": "sha256:ec0cb5cbeb6c9f62a2580224e22087626cd2a96cc15f026141dd354cdd4187b6",
       "destination_installed": false,
       "dry_run": false,
       "original_deleted": false,
@@ -614,7 +629,7 @@
     {
       "bundle_manifest_schema": "stegverse.bundle_manifest.v1",
       "bundle_path": "tracking/recovery_corrected/sv002_recovery_a1fb0eae4c9cff6e_docs__methodology__FOUNDER_FAMILY_PRESERVATION_BOUNDARY.md.zip",
-      "bundle_sha256": "sha256:1272342bdd196530ff9ce0e3b11a37cbc236c0d6d9755ec9777d2b0e495a962e",
+      "bundle_sha256": "sha256:03c8c90cf00f3e997de35b681e609e19a649c9794061c8334b9b1a41e1b9cd95",
       "destination_installed": false,
       "dry_run": false,
       "original_deleted": false,
@@ -628,7 +643,7 @@
     {
       "bundle_manifest_schema": "stegverse.bundle_manifest.v1",
       "bundle_path": "tracking/recovery_corrected/sv002_recovery_e86c0f9abe930773_docs__methodology__LLM_OUTPUT_TO_INGESTION_CHAIN.md.zip",
-      "bundle_sha256": "sha256:8bdaa2244425bd3c26b3b05ad6cc27ef9d3ba3bc69704e4783ebfbc788246db7",
+      "bundle_sha256": "sha256:789fac00d7f11b5b05b8af3d01f625afd4385e404e07f05dc5234a0477eed147",
       "destination_installed": false,
       "dry_run": false,
       "original_deleted": false,
@@ -642,7 +657,7 @@
     {
       "bundle_manifest_schema": "stegverse.bundle_manifest.v1",
       "bundle_path": "tracking/recovery_corrected/sv002_recovery_f9db2be02372512b_docs__methodology__TASK_AS_INTERFACE_METHODOLOGY.md.zip",
-      "bundle_sha256": "sha256:a973c8e07617591bfd3e2a58fccc16e1c8c7d2ba20df713e4423efc99a3ed878",
+      "bundle_sha256": "sha256:440bad5f61c6a10ec99ade03111f2ab6339168b5c4aaab152755e92c4344b565",
       "destination_installed": false,
       "dry_run": false,
       "original_deleted": false,
@@ -656,7 +671,7 @@
     {
       "bundle_manifest_schema": "stegverse.bundle_manifest.v1",
       "bundle_path": "tracking/recovery_corrected/sv002_recovery_70a0464c9cb62b98_docs__stegverse_integration__context_packet_flow.md.zip",
-      "bundle_sha256": "sha256:d024178f576c87387ad3fd75b119d505c7e2c41fdb5309963a97a599c63ad4dc",
+      "bundle_sha256": "sha256:8cebf17576adfd9484bb08811c583645edf407f372feae3e467dd5e48f7b3e03",
       "destination_installed": false,
       "dry_run": false,
       "original_deleted": false,
@@ -670,7 +685,7 @@
     {
       "bundle_manifest_schema": "stegverse.bundle_manifest.v1",
       "bundle_path": "tracking/recovery_corrected/sv002_recovery_7183100618b23fac_docs__stegverse_integration__sv002_to_sv001_repair.md.zip",
-      "bundle_sha256": "sha256:1a10c039456cb14a7fcc20c398e07444c6e3f680eb6fdf24657beea93a63b8c1",
+      "bundle_sha256": "sha256:62851743268b10759631cd5269b35f6ee1733ab18f5fec1c2d63621c93ebae92",
       "destination_installed": false,
       "dry_run": false,
       "original_deleted": false,
@@ -684,7 +699,7 @@
     {
       "bundle_manifest_schema": "stegverse.bundle_manifest.v1",
       "bundle_path": "tracking/recovery_corrected/sv002_recovery_6ee8b18029cc20cf_evidence__synthesized_candidate.json.zip",
-      "bundle_sha256": "sha256:641d5e6ebeebc77e6840664f93c0eb4ef7d6b545b96447da280eff22d1e00078",
+      "bundle_sha256": "sha256:c6b34155bc5cb2bff599dcb6badbce95c03a3fc05641cdae95750a2fba1ae29f",
       "destination_installed": false,
       "dry_run": false,
       "original_deleted": false,
@@ -698,7 +713,7 @@
     {
       "bundle_manifest_schema": "stegverse.bundle_manifest.v1",
       "bundle_path": "tracking/recovery_corrected/sv002_recovery_5cbef6cc10d8eafb_evidence__synthesized_candidate_test_report.json.zip",
-      "bundle_sha256": "sha256:b0b3318c9a208842f56bbcd9709471046c2721e5f7daf5ccc6be03b55a582538",
+      "bundle_sha256": "sha256:9079e1c5d762fb41d1dfc52e77736bedc4e71fde48c005647963a56fc4a7e6b7",
       "destination_installed": false,
       "dry_run": false,
       "original_deleted": false,
@@ -712,7 +727,7 @@
     {
       "bundle_manifest_schema": "stegverse.bundle_manifest.v1",
       "bundle_path": "tracking/recovery_corrected/sv002_recovery_0119e2f95c64ef01_examples__apply_request.example.json.zip",
-      "bundle_sha256": "sha256:ba0080778d007bff1afffb5b705dce735fde225d4f6c5a0f2ef13b14566fd2dd",
+      "bundle_sha256": "sha256:a828cbaf539addc092f291fe8173ffdf53ee23d1f246b155372250039621f9bf",
       "destination_installed": false,
       "dry_run": false,
       "original_deleted": false,
@@ -726,7 +741,7 @@
     {
       "bundle_manifest_schema": "stegverse.bundle_manifest.v1",
       "bundle_path": "tracking/recovery_corrected/sv002_recovery_63c991c51bc87342_examples__candidate_bundle_ref.example.json.zip",
-      "bundle_sha256": "sha256:d66a75469655500e8a3946845eb6031dde33f466161e965e924499e5774b67c0",
+      "bundle_sha256": "sha256:fd0338853b332ce45d8d0ba8eb431171aa17f98b31c3663d8f1df159637eff70",
       "destination_installed": false,
       "dry_run": false,
       "original_deleted": false,
@@ -740,7 +755,7 @@
     {
       "bundle_manifest_schema": "stegverse.bundle_manifest.v1",
       "bundle_path": "tracking/recovery_corrected/sv002_recovery_2473a68109693948_formalisms__transition_table__reports__stage32_admissibility_space_report.json.zip",
-      "bundle_sha256": "sha256:d5aa858e0af17b8a4cd872cba9bcb839648bbde22433e191fc8b47a62743e0f7",
+      "bundle_sha256": "sha256:e42eaf6da8882c09b4721b6b113f3815019500c5911eb0406f79769eb1855c29",
       "destination_installed": false,
       "dry_run": false,
       "original_deleted": false,
@@ -754,7 +769,7 @@
     {
       "bundle_manifest_schema": "stegverse.bundle_manifest.v1",
       "bundle_path": "tracking/recovery_corrected/sv002_recovery_e7bf048055f8cc0c_formalisms__transition_table__reports__stage33_transition_graph_geometry_report.json.zip",
-      "bundle_sha256": "sha256:183d13812fbe66b2eb7e47b0a83a20b109ccf075dbaa4f090c3a39dd93866d35",
+      "bundle_sha256": "sha256:bd9a1a8ef1fc8e1cbdbdf51def6cee4c1d7bf1a7ef1423849b57b2c85461c92f",
       "destination_installed": false,
       "dry_run": false,
       "original_deleted": false,
@@ -768,7 +783,7 @@
     {
       "bundle_manifest_schema": "stegverse.bundle_manifest.v1",
       "bundle_path": "tracking/recovery_corrected/sv002_recovery_29ca8decfd6a20c7_formalisms__transition_table__reports__stage34_repair_nearest_admissible_transition_report.json.zip",
-      "bundle_sha256": "sha256:97e573f741542a06c25e363ea0e71b683786938cfb35da455036ae0aac0c7336",
+      "bundle_sha256": "sha256:dea20a5bfab036f0b5c260f8e70d4cfc877b1b02e8fcef37c941d08ea32e171a",
       "destination_installed": false,
       "dry_run": false,
       "original_deleted": false,
@@ -782,7 +797,7 @@
     {
       "bundle_manifest_schema": "stegverse.bundle_manifest.v1",
       "bundle_path": "tracking/recovery_corrected/sv002_recovery_3a495e640498a7f0_formalisms__transition_table__snapshot_manifest.json.zip",
-      "bundle_sha256": "sha256:ca0713aee48c9a8f586d54fa29dc967d221c4585394f9cbe0916e59c3efd9574",
+      "bundle_sha256": "sha256:542e68382dce913ed0358b4c8bb53630cafd076e6615c9427f993a9c40433701",
       "destination_installed": false,
       "dry_run": false,
       "original_deleted": false,
@@ -796,7 +811,7 @@
     {
       "bundle_manifest_schema": "stegverse.bundle_manifest.v1",
       "bundle_path": "tracking/recovery_corrected/sv002_recovery_c2775b8f184aa50b_governance__directives__no_broad_authority.directive.json.zip",
-      "bundle_sha256": "sha256:eddd95adae054a6799d877e15103da1309462a8906dbb54ee29d4acef4adfae8",
+      "bundle_sha256": "sha256:faca1899c6bf549c12f76265bc96849a6145875ab014d3049324e30dfe6479b1",
       "destination_installed": false,
       "dry_run": false,
       "original_deleted": false,
@@ -810,7 +825,7 @@
     {
       "bundle_manifest_schema": "stegverse.bundle_manifest.v1",
       "bundle_path": "tracking/recovery_corrected/sv002_recovery_5d68e49f799634a6_incoming__mailbox__pending-bind-at-__installs__sv002_diagnostics_bundle.zip.zip",
-      "bundle_sha256": "sha256:0af1328f64887b0312c175a47890968395012dcc4a86d699453a1aa280600726",
+      "bundle_sha256": "sha256:26d020c76cd0f4c77dfff093938dc7ade09bb05d7aea8ea36b93f5447f257630",
       "destination_installed": false,
       "dry_run": false,
       "original_deleted": false,
@@ -824,7 +839,7 @@
     {
       "bundle_manifest_schema": "stegverse.bundle_manifest.v1",
       "bundle_path": "tracking/recovery_corrected/sv002_recovery_5d68e49f799634a6_incoming__sv002_diagnostics_bundle.zip.zip",
-      "bundle_sha256": "sha256:ed1f76b74bfcd55a7dfd944f56060814a3aa092e7828352868fb2409f1932d06",
+      "bundle_sha256": "sha256:781389e1e45aab5d74fadc9f50b73090d2c3894d4ef1317815cc721441060b46",
       "destination_installed": false,
       "dry_run": false,
       "original_deleted": false,
@@ -838,7 +853,7 @@
     {
       "bundle_manifest_schema": "stegverse.bundle_manifest.v1",
       "bundle_path": "tracking/recovery_corrected/sv002_recovery_5438f23b7066e61c_iosnoperiod.md.zip",
-      "bundle_sha256": "sha256:283be9dedbe7bb0547a223844b06859ec49237048d6b400652a313b0938b3c4b",
+      "bundle_sha256": "sha256:f0dfad4b70a1fa08a14a2f070a7292d889e3ff57f1ffa609efb3b9a5523c1178",
       "destination_installed": false,
       "dry_run": false,
       "original_deleted": false,
@@ -852,7 +867,7 @@
     {
       "bundle_manifest_schema": "stegverse.bundle_manifest.v1",
       "bundle_path": "tracking/recovery_corrected/sv002_recovery_7e146edd54b85db9_machine__ingestion_policy.v1.json.zip",
-      "bundle_sha256": "sha256:7f9eb4076f5c111de72ab79ff5440a426a103c3ff85307e85a260f274c82c93f",
+      "bundle_sha256": "sha256:3d6ee584be887d552373850196880177f680fe1cc989d858a4039e586131383f",
       "destination_installed": false,
       "dry_run": false,
       "original_deleted": false,
@@ -866,7 +881,7 @@
     {
       "bundle_manifest_schema": "stegverse.bundle_manifest.v1",
       "bundle_path": "tracking/recovery_corrected/sv002_recovery_026c1e5abb62b353_setup.cfg.zip",
-      "bundle_sha256": "sha256:7a5a1e4380329842418fddefe26ce6b60ee905360588552382bec663b1737af1",
+      "bundle_sha256": "sha256:ec76d79733b71074f835a8632409c8b00f41d35811095f7bbd75028f0d9c45bd",
       "destination_installed": false,
       "dry_run": false,
       "original_deleted": false,
@@ -880,7 +895,7 @@
     {
       "bundle_manifest_schema": "stegverse.bundle_manifest.v1",
       "bundle_path": "tracking/recovery_corrected/sv002_recovery_e408cffdcfd9d409_templates__context_packet_template.json.zip",
-      "bundle_sha256": "sha256:4a6d2c5c28ce046705588a740c6364391b344a6db3a3d6d9fdf60e738c6bfdfc",
+      "bundle_sha256": "sha256:a909d314e33dac77230e9cc1bab3b281bd4d703b9a48394279bc91643b346ca7",
       "destination_installed": false,
       "dry_run": false,
       "original_deleted": false,
@@ -894,7 +909,7 @@
     {
       "bundle_manifest_schema": "stegverse.bundle_manifest.v1",
       "bundle_path": "tracking/recovery_corrected/sv002_recovery_ad178923250e705d_templates__llm_adapter_instruction_packet_template.json.zip",
-      "bundle_sha256": "sha256:d0d6cf001b62c4e6602e2c5023895334aeb37d5cf2e3c1a4f97bf1e80f1cf920",
+      "bundle_sha256": "sha256:b32b96812a9ab9a9f02ae67e65272476a1fb1f32864e8c70b71ca8483a0fc23d",
       "destination_installed": false,
       "dry_run": false,
       "original_deleted": false,
@@ -908,7 +923,7 @@
     {
       "bundle_manifest_schema": "stegverse.bundle_manifest.v1",
       "bundle_path": "tracking/recovery_corrected/sv002_recovery_f126d30335c02fb5_templates__memory_use_receipt_template.json.zip",
-      "bundle_sha256": "sha256:6becae313800e01a0bfecaa73a682cea6a002c5d4a27eb015c08107c04b8e497",
+      "bundle_sha256": "sha256:c7667b598d77eb1a9a4ef095af30fe1f0f90f4fad011c94014d9ce7ad7b06880",
       "destination_installed": false,
       "dry_run": false,
       "original_deleted": false,
@@ -922,7 +937,7 @@
     {
       "bundle_manifest_schema": "stegverse.bundle_manifest.v1",
       "bundle_path": "tracking/recovery_corrected/sv002_recovery_e3d1d798a43311cf_templates__multimodal_input_manifest_template.json.zip",
-      "bundle_sha256": "sha256:8b14c0c35c1921e2a02979065e28dcc0972f80f2dfe4c6dbad1bdd188ceb8bda",
+      "bundle_sha256": "sha256:2461c2c0efe9b8e038e95a5270de9d259d2ba0478c5b514bbae3af99fe263bd5",
       "destination_installed": false,
       "dry_run": false,
       "original_deleted": false,
@@ -936,7 +951,7 @@
     {
       "bundle_manifest_schema": "stegverse.bundle_manifest.v1",
       "bundle_path": "tracking/recovery_corrected/sv002_recovery_550c01fd142e86b7_vault_template__AI_CONTEXT.md.zip",
-      "bundle_sha256": "sha256:3ccbe3116a2005d995893b8b1c5a9d3854c6bfc05bb9f8a426dfd364529b2af8",
+      "bundle_sha256": "sha256:6854cd34a19aac7cd29c1914108e62a63bd81a82c50bc9325ed248fd82fa5ab0",
       "destination_installed": false,
       "dry_run": false,
       "original_deleted": false,
@@ -950,7 +965,7 @@
     {
       "bundle_manifest_schema": "stegverse.bundle_manifest.v1",
       "bundle_path": "tracking/recovery_corrected/sv002_recovery_932f8a8037ac7c3d_vault_template__CONTINUITY_RULES.md.zip",
-      "bundle_sha256": "sha256:64b2389d5ded3bf536727b42c5cd3dc1092a48b884338aa0f5a649e51e4edff7",
+      "bundle_sha256": "sha256:6ab51a551b017efbedca220c7f5428bda8abcceebedf0f3c6be8c4423620ee30",
       "destination_installed": false,
       "dry_run": false,
       "original_deleted": false,
@@ -964,7 +979,7 @@
     {
       "bundle_manifest_schema": "stegverse.bundle_manifest.v1",
       "bundle_path": "tracking/recovery_corrected/sv002_recovery_00d90492a6b3d772_vault_template__INDEX.md.zip",
-      "bundle_sha256": "sha256:bb1e613ca45704e153256dedccd69b840a227739c89b63bcbc9fb24eaea9e102",
+      "bundle_sha256": "sha256:0ebb44699b2781bef8e205e5aee3f6aa7ba0b8450a52ac89f66acf4368524aa0",
       "destination_installed": false,
       "dry_run": false,
       "original_deleted": false,
@@ -978,7 +993,7 @@
     {
       "bundle_manifest_schema": "stegverse.bundle_manifest.v1",
       "bundle_path": "tracking/recovery_corrected/sv002_recovery_0f59e4b631704f74_vault_template__MEMORY_USE_RULES.md.zip",
-      "bundle_sha256": "sha256:8b3f584d15edac68eb82008d774de4ec438c041034c06ec5a4c920a9e609a47e",
+      "bundle_sha256": "sha256:bfaba1480afd7fd6f2b5cfbcad6bd2a896a7355beb3506888d14e46f9c04b4bf",
       "destination_installed": false,
       "dry_run": false,
       "original_deleted": false,
@@ -992,7 +1007,7 @@
     {
       "bundle_manifest_schema": "stegverse.bundle_manifest.v1",
       "bundle_path": "tracking/recovery_corrected/sv002_recovery_85b299c23bf4b465_vault_template__PRIVACY_CLASSES.md.zip",
-      "bundle_sha256": "sha256:fb2f696696d4e933c987bbddbb54bbc3bae90d31cde5c9368ff00081e615498d",
+      "bundle_sha256": "sha256:11f0d7118104fbb99c8f3c296e9a5b3fc98478ebc94049d16c72ca01ee3fa74e",
       "destination_installed": false,
       "dry_run": false,
       "original_deleted": false,
@@ -1006,7 +1021,7 @@
     {
       "bundle_manifest_schema": "stegverse.bundle_manifest.v1",
       "bundle_path": "tracking/recovery_corrected/sv002_recovery_6f18904b62569e23_vault_template__VAULT_PROFILE.md.zip",
-      "bundle_sha256": "sha256:d3fcba041cdff6ecaedcda4a17656418bfc74bf3a18e3a8564019908ae8ff0dd",
+      "bundle_sha256": "sha256:c3a56eaf2d1b787943cc5bae84e46a6ab5c696612f50c1087a15d83a2f6613e0",
       "destination_installed": false,
       "dry_run": false,
       "original_deleted": false,

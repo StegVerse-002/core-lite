@@ -1,0 +1,6 @@
+{
+  "bundles_checked": 69,
+  "decision": "ALLOW",
+  "invalid_bundles": [],
+  "schema": "stegverse.repo_recovery.corrected_bundle_validation.v1"
+}
