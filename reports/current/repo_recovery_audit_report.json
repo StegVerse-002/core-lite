@@ -1,14 +1,15 @@
 {
   "ci_exit_policy": "audit_findings_do_not_fail_ci",
-  "decision": "FAIL_CLOSED",
+  "decision": "ALLOW",
   "entity": "StegVerse-002",
-  "generated_at": "2026-06-15T00:54:45.652459+00:00",
+  "generated_at": "2026-06-15T01:11:38.801604+00:00",
   "governance": {
     "cleanup_may_move_to_final_destination": false,
     "fail_closed_findings_are_data_not_runtime_failure": true,
     "ingestion_decides_destination": true,
     "no_broad_authority": true,
     "originals_deleted": false,
+    "unresolved_unknowns_wrap_not_delete": true,
     "wrap_required_for_unresolved_semantic_content": true
   },
   "read_only": true,
@@ -41,11 +42,11 @@
       "size_bytes": 389
     },
     {
-      "classification": "repo_unclassified",
+      "classification": "retained_keep_file",
       "path": ".stegverse/.gitkeep",
-      "proposed_action": "fail_closed",
+      "proposed_action": "retain",
       "protected": false,
-      "reason": "not enough policy to classify",
+      "reason": "directory retention marker",
       "sha256": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
       "size_bytes": 1
     },
@@ -68,11 +69,11 @@
       "size_bytes": 4203
     },
     {
-      "classification": "root_unclassified",
+      "classification": "protected_root_file",
       "path": "LICENSE",
-      "proposed_action": "fail_closed",
-      "protected": false,
-      "reason": "root-level file is not known safe",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected root file",
       "sha256": "sha256:c01e80ee00891202d40ab2afe8059446ecaaddef8042d85298f08289f9273872",
       "size_bytes": 1074
     },
@@ -104,20 +105,20 @@
       "size_bytes": 1776
     },
     {
-      "classification": "root_unclassified",
+      "classification": "protected_root_file",
       "path": "VERSION",
-      "proposed_action": "fail_closed",
-      "protected": false,
-      "reason": "root-level file is not known safe",
+      "proposed_action": "retain",
+      "protected": true,
+      "reason": "protected root file",
       "sha256": "sha256:2967abce43674bf61120b85b10e066155ed4c00c97d4311e5cb6e14e1dac3c08",
       "size_bytes": 16
     },
     {
-      "classification": "evidence_or_artifact_path",
+      "classification": "retained_keep_file",
       "path": "agent_history/.gitkeep",
       "proposed_action": "retain",
       "protected": false,
-      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "reason": "directory retention marker",
       "sha256": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
       "size_bytes": 1
     },
@@ -491,20 +492,20 @@
       "size_bytes": 13235
     },
     {
-      "classification": "repo_unclassified",
+      "classification": "retained_keep_file",
       "path": "data/summary/.gitkeep",
-      "proposed_action": "fail_closed",
+      "proposed_action": "retain",
       "protected": false,
-      "reason": "not enough policy to classify",
+      "reason": "directory retention marker",
       "sha256": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
       "size_bytes": 1
     },
     {
-      "classification": "evidence_or_artifact_path",
+      "classification": "retained_keep_file",
       "path": "dist/current/.gitkeep",
       "proposed_action": "retain",
       "protected": false,
-      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "reason": "directory retention marker",
       "sha256": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
       "size_bytes": 1
     },
@@ -770,11 +771,11 @@
       "size_bytes": 1122
     },
     {
-      "classification": "repo_unclassified",
+      "classification": "retained_keep_file",
       "path": "docs/agent_coordination/.gitkeep",
-      "proposed_action": "fail_closed",
+      "proposed_action": "retain",
       "protected": false,
-      "reason": "not enough policy to classify",
+      "reason": "directory retention marker",
       "sha256": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
       "size_bytes": 1
     },
@@ -806,11 +807,11 @@
       "size_bytes": 2188
     },
     {
-      "classification": "repo_unclassified",
+      "classification": "retained_keep_file",
       "path": "docs/ingestion_engine/.gitkeep",
-      "proposed_action": "fail_closed",
+      "proposed_action": "retain",
       "protected": false,
-      "reason": "not enough policy to classify",
+      "reason": "directory retention marker",
       "sha256": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
       "size_bytes": 1
     },
@@ -833,11 +834,11 @@
       "size_bytes": 11447
     },
     {
-      "classification": "repo_unclassified",
+      "classification": "retained_keep_file",
       "path": "docs/methodology/.gitkeep",
-      "proposed_action": "fail_closed",
+      "proposed_action": "retain",
       "protected": false,
-      "reason": "not enough policy to classify",
+      "reason": "directory retention marker",
       "sha256": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
       "size_bytes": 1
     },
@@ -923,29 +924,29 @@
       "size_bytes": 834
     },
     {
-      "classification": "repo_unclassified",
+      "classification": "retained_keep_file",
       "path": "examples/context_packet_example/.gitkeep",
-      "proposed_action": "fail_closed",
+      "proposed_action": "retain",
       "protected": false,
-      "reason": "not enough policy to classify",
+      "reason": "directory retention marker",
       "sha256": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
       "size_bytes": 1
     },
     {
-      "classification": "repo_unclassified",
+      "classification": "retained_keep_file",
       "path": "examples/minimal_vault/.gitkeep",
-      "proposed_action": "fail_closed",
+      "proposed_action": "retain",
       "protected": false,
-      "reason": "not enough policy to classify",
+      "reason": "directory retention marker",
       "sha256": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
       "size_bytes": 1
     },
     {
-      "classification": "repo_unclassified",
+      "classification": "retained_keep_file",
       "path": "examples/multimodal_input_example/.gitkeep",
-      "proposed_action": "fail_closed",
+      "proposed_action": "retain",
       "protected": false,
-      "reason": "not enough policy to classify",
+      "reason": "directory retention marker",
       "sha256": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
       "size_bytes": 1
     },
@@ -986,11 +987,11 @@
       "size_bytes": 1063
     },
     {
-      "classification": "repo_unclassified",
+      "classification": "retained_keep_file",
       "path": "governance/directives/.gitkeep",
-      "proposed_action": "fail_closed",
+      "proposed_action": "retain",
       "protected": false,
-      "reason": "not enough policy to classify",
+      "reason": "directory retention marker",
       "sha256": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
       "size_bytes": 1
     },
@@ -1004,11 +1005,11 @@
       "size_bytes": 1015
     },
     {
-      "classification": "incoming_retained_control_file",
+      "classification": "retained_keep_file",
       "path": "incoming/.gitkeep",
       "proposed_action": "retain",
       "protected": false,
-      "reason": "incoming control file",
+      "reason": "directory retention marker",
       "sha256": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
       "size_bytes": 1
     },
@@ -1049,11 +1050,11 @@
       "size_bytes": 664
     },
     {
-      "classification": "repo_unclassified",
+      "classification": "retained_keep_file",
       "path": "machine/.gitkeep",
-      "proposed_action": "fail_closed",
+      "proposed_action": "retain",
       "protected": false,
-      "reason": "not enough policy to classify",
+      "reason": "directory retention marker",
       "sha256": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
       "size_bytes": 1
     },
@@ -1229,11 +1230,11 @@
       "size_bytes": 2861
     },
     {
-      "classification": "evidence_or_artifact_path",
+      "classification": "retained_keep_file",
       "path": "quarantine/.gitkeep",
       "proposed_action": "retain",
       "protected": false,
-      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "reason": "directory retention marker",
       "sha256": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
       "size_bytes": 1
     },
@@ -1383,6 +1384,15 @@
     },
     {
       "classification": "evidence_or_artifact_path",
+      "path": "receipts/current/repo_recovery_audit_receipt.jsonl",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:e8330e44de4dd5cc69ff24dce30c6451f4837a20014aa08870bf2e20da574b76",
+      "size_bytes": 504
+    },
+    {
+      "classification": "evidence_or_artifact_path",
       "path": "receipts/current/stegverse_output_receipt.jsonl",
       "proposed_action": "retain",
       "protected": false,
@@ -1405,8 +1415,8 @@
       "proposed_action": "retain",
       "protected": false,
       "reason": "evidence/artifact path is not relocated by recovery audit",
-      "sha256": "sha256:7fcc83bdc83096875b993a0ebf4edd1336c682b01001aeec9b4b23f55aa7f54d",
-      "size_bytes": 5727
+      "sha256": "sha256:123ef4478fba5fce5f067d9f3ea7b45e76bac022650b381d02231cb83403c92c",
+      "size_bytes": 6567
     },
     {
       "classification": "evidence_or_artifact_path",
@@ -1427,11 +1437,11 @@
       "size_bytes": 1178
     },
     {
-      "classification": "evidence_or_artifact_path",
+      "classification": "retained_keep_file",
       "path": "reports/archived/.gitkeep",
       "proposed_action": "retain",
       "protected": false,
-      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "reason": "directory retention marker",
       "sha256": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
       "size_bytes": 1
     },
@@ -1587,6 +1597,15 @@
       "reason": "evidence/artifact path is not relocated by recovery audit",
       "sha256": "sha256:71b35a34685ad0a01da0209c3c632b35a634841307704eb4468ce516b83f25d9",
       "size_bytes": 191
+    },
+    {
+      "classification": "evidence_or_artifact_path",
+      "path": "reports/current/repo_recovery_audit_report.json",
+      "proposed_action": "retain",
+      "protected": false,
+      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "sha256": "sha256:d7eae541e6fc8dda61579ef901700d2abced316b4860c2dc8383556c730683cb",
+      "size_bytes": 109985
     },
     {
       "classification": "evidence_or_artifact_path",
@@ -1850,11 +1869,11 @@
       "size_bytes": 3970
     },
     {
-      "classification": "protected_repo_path",
+      "classification": "retained_keep_file",
       "path": "scripts/.gitkeep",
       "proposed_action": "retain",
-      "protected": true,
-      "reason": "protected repo path",
+      "protected": false,
+      "reason": "directory retention marker",
       "sha256": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
       "size_bytes": 1
     },
@@ -2030,11 +2049,11 @@
       "size_bytes": 16066
     },
     {
-      "classification": "root_unclassified",
+      "classification": "root_unresolved_file",
       "path": "setup.cfg",
-      "proposed_action": "fail_closed",
+      "proposed_action": "wrap_for_ingestion",
       "protected": false,
-      "reason": "root-level file is not known safe",
+      "reason": "root-level unresolved file should be wrapped, not directly moved",
       "sha256": "sha256:026c1e5abb62b35358928306d64e1b3fae6ed9839b96e693b3cc47e0b6b96009",
       "size_bytes": 346
     },
@@ -2048,11 +2067,11 @@
       "size_bytes": 37
     },
     {
-      "classification": "repo_unclassified",
+      "classification": "repo_unresolved_file",
       "path": "stegverse_002_core_lite.egg-info/PKG-INFO",
-      "proposed_action": "fail_closed",
+      "proposed_action": "wrap_for_ingestion",
       "protected": false,
-      "reason": "not enough policy to classify",
+      "reason": "unclassified non-protected file should be wrapped, not directly moved",
       "sha256": "sha256:0a64d90fa4c3709201977332cc2603c89fce88576a56c413096f8e92b0e4b2a1",
       "size_bytes": 223
     },
@@ -2138,11 +2157,11 @@
       "size_bytes": 677
     },
     {
-      "classification": "protected_repo_path",
+      "classification": "retained_keep_file",
       "path": "tests/fixtures/bundles/.gitkeep",
       "proposed_action": "retain",
-      "protected": true,
-      "reason": "protected repo path",
+      "protected": false,
+      "reason": "directory retention marker",
       "sha256": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
       "size_bytes": 1
     },
@@ -2368,8 +2387,8 @@
       "proposed_action": "retain",
       "protected": true,
       "reason": "protected repo path",
-      "sha256": "sha256:74d13cf6b3d99d9ba30166bb364bf7470338095a9b2b0dc1be56ae23e624cc00",
-      "size_bytes": 6221
+      "sha256": "sha256:44d02dc6229b2be6a1cd0df0bd5f8df6009e0232a23e6c077fb9fcc1d6b7382f",
+      "size_bytes": 6536
     },
     {
       "classification": "protected_repo_path",
@@ -2471,11 +2490,11 @@
       "size_bytes": 1740
     },
     {
-      "classification": "evidence_or_artifact_path",
+      "classification": "retained_keep_file",
       "path": "tracking/bundle_graph/.gitkeep",
       "proposed_action": "retain",
       "protected": false,
-      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "reason": "directory retention marker",
       "sha256": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
       "size_bytes": 1
     },
@@ -2489,20 +2508,20 @@
       "size_bytes": 2537
     },
     {
-      "classification": "evidence_or_artifact_path",
+      "classification": "retained_keep_file",
       "path": "tracking/comparison_graph/.gitkeep",
       "proposed_action": "retain",
       "protected": false,
-      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "reason": "directory retention marker",
       "sha256": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
       "size_bytes": 1
     },
     {
-      "classification": "evidence_or_artifact_path",
+      "classification": "retained_keep_file",
       "path": "tracking/evidence_plane/.gitkeep",
       "proposed_action": "retain",
       "protected": false,
-      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "reason": "directory retention marker",
       "sha256": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
       "size_bytes": 1
     },
@@ -2579,11 +2598,11 @@
       "size_bytes": 544
     },
     {
-      "classification": "evidence_or_artifact_path",
+      "classification": "retained_keep_file",
       "path": "tracking/task_graph/.gitkeep",
       "proposed_action": "retain",
       "protected": false,
-      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "reason": "directory retention marker",
       "sha256": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
       "size_bytes": 1
     },
@@ -2597,11 +2616,11 @@
       "size_bytes": 627
     },
     {
-      "classification": "evidence_or_artifact_path",
+      "classification": "retained_keep_file",
       "path": "tracking/transition_graph/.gitkeep",
       "proposed_action": "retain",
       "protected": false,
-      "reason": "evidence/artifact path is not relocated by recovery audit",
+      "reason": "directory retention marker",
       "sha256": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
       "size_bytes": 1
     },
@@ -2669,102 +2688,102 @@
       "size_bytes": 726
     },
     {
-      "classification": "repo_unclassified",
+      "classification": "retained_keep_file",
       "path": "vault_template/context_packets/.gitkeep",
-      "proposed_action": "fail_closed",
+      "proposed_action": "retain",
       "protected": false,
-      "reason": "not enough policy to classify",
+      "reason": "directory retention marker",
       "sha256": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
       "size_bytes": 1
     },
     {
-      "classification": "repo_unclassified",
+      "classification": "retained_keep_file",
       "path": "vault_template/decisions/.gitkeep",
-      "proposed_action": "fail_closed",
+      "proposed_action": "retain",
       "protected": false,
-      "reason": "not enough policy to classify",
+      "reason": "directory retention marker",
       "sha256": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
       "size_bytes": 1
     },
     {
-      "classification": "repo_unclassified",
+      "classification": "retained_keep_file",
       "path": "vault_template/entries/.gitkeep",
-      "proposed_action": "fail_closed",
+      "proposed_action": "retain",
       "protected": false,
-      "reason": "not enough policy to classify",
+      "reason": "directory retention marker",
       "sha256": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
       "size_bytes": 1
     },
     {
-      "classification": "repo_unclassified",
+      "classification": "retained_keep_file",
       "path": "vault_template/manifests/.gitkeep",
-      "proposed_action": "fail_closed",
+      "proposed_action": "retain",
       "protected": false,
-      "reason": "not enough policy to classify",
+      "reason": "directory retention marker",
       "sha256": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
       "size_bytes": 1
     },
     {
-      "classification": "repo_unclassified",
+      "classification": "retained_keep_file",
       "path": "vault_template/media/.gitkeep",
-      "proposed_action": "fail_closed",
+      "proposed_action": "retain",
       "protected": false,
-      "reason": "not enough policy to classify",
+      "reason": "directory retention marker",
       "sha256": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
       "size_bytes": 1
     },
     {
-      "classification": "repo_unclassified",
+      "classification": "retained_keep_file",
       "path": "vault_template/private/.gitkeep",
-      "proposed_action": "fail_closed",
+      "proposed_action": "retain",
       "protected": false,
-      "reason": "not enough policy to classify",
+      "reason": "directory retention marker",
       "sha256": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
       "size_bytes": 1
     },
     {
-      "classification": "repo_unclassified",
+      "classification": "retained_keep_file",
       "path": "vault_template/projects/.gitkeep",
-      "proposed_action": "fail_closed",
+      "proposed_action": "retain",
       "protected": false,
-      "reason": "not enough policy to classify",
+      "reason": "directory retention marker",
       "sha256": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
       "size_bytes": 1
     },
     {
-      "classification": "repo_unclassified",
+      "classification": "retained_keep_file",
       "path": "vault_template/receipts/.gitkeep",
-      "proposed_action": "fail_closed",
+      "proposed_action": "retain",
       "protected": false,
-      "reason": "not enough policy to classify",
+      "reason": "directory retention marker",
       "sha256": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
       "size_bytes": 1
     }
   ],
-  "schema": "stegverse.repo_recovery.audit.v1",
+  "schema": "stegverse.repo_recovery.audit.v2",
   "skipped": [],
   "stage": "SV002-M11",
-  "status": "completed_with_fail_closed_findings",
+  "status": "success",
   "summary": {
     "action_counts": {
-      "fail_closed": 22,
-      "retain": 208,
-      "wrap_for_ingestion": 73
+      "retain": 230,
+      "wrap_for_ingestion": 75
     },
     "classification_counts": {
-      "evidence_or_artifact_path": 87,
-      "incoming_retained_control_file": 2,
-      "protected_repo_path": 115,
-      "protected_root_file": 4,
-      "repo_unclassified": 19,
+      "evidence_or_artifact_path": 80,
+      "incoming_retained_control_file": 1,
+      "protected_repo_path": 113,
+      "protected_root_file": 6,
+      "repo_unresolved_file": 1,
       "repo_unresolved_semantic_file": 66,
+      "retained_keep_file": 30,
       "root_misplaced_semantic_file": 5,
-      "root_unclassified": 3,
+      "root_unresolved_file": 1,
       "stranded_incoming_payload": 2
     },
-    "fail_closed_count": 22,
+    "fail_closed_count": 0,
     "skipped": 0,
-    "total_records": 303,
-    "wrap_for_ingestion_count": 73
+    "total_records": 305,
+    "wrap_for_ingestion_count": 75
   }
 }
