@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import argparse, datetime as dt, hashlib, json
+import argparse, datetime as dt, hashlib, json, sys
 from pathlib import Path
 PROTECTED_DIRS={'.git','.github','core_lite','tools','scripts','tests','schemas','config','reports','receipts','tracking','dist','quarantine','outputs','agent_history','__pycache__'}
 PROTECTED_ROOT={'README.md','MANUAL_INSTALL.md','bundle_manifest.json','pyproject.toml','setup.py','requirements.txt','.gitignore'}
@@ -55,10 +55,16 @@ def main():
     for x in records:
         ac[x['proposed_action']]=ac.get(x['proposed_action'],0)+1; cc[x['classification']]=cc.get(x['classification'],0)+1
     decision='ALLOW' if ac.get('fail_closed',0)==0 else 'FAIL_CLOSED'
-    report={'schema':'stegverse.repo_recovery.audit.v1','entity':'StegVerse-002','stage':'SV002-M11','generated_at':now(),'decision':decision,'read_only':True,'records':records,'skipped':skipped,'summary':{'total_records':len(records),'skipped':len(skipped),'action_counts':ac,'classification_counts':cc,'wrap_for_ingestion_count':ac.get('wrap_for_ingestion',0),'fail_closed_count':ac.get('fail_closed',0)},'governance':{'no_broad_authority':True,'cleanup_may_move_to_final_destination':False,'wrap_required_for_unresolved_semantic_content':True,'ingestion_decides_destination':True,'originals_deleted':False}}
+    status='success' if decision=='ALLOW' else 'completed_with_fail_closed_findings'
+    report={'schema':'stegverse.repo_recovery.audit.v1','entity':'StegVerse-002','stage':'SV002-M11','generated_at':now(),'decision':decision,'status':status,'ci_exit_policy':'audit_findings_do_not_fail_ci','read_only':True,'records':records,'skipped':skipped,'summary':{'total_records':len(records),'skipped':len(skipped),'action_counts':ac,'classification_counts':cc,'wrap_for_ingestion_count':ac.get('wrap_for_ingestion',0),'fail_closed_count':ac.get('fail_closed',0)},'governance':{'no_broad_authority':True,'cleanup_may_move_to_final_destination':False,'wrap_required_for_unresolved_semantic_content':True,'ingestion_decides_destination':True,'originals_deleted':False,'fail_closed_findings_are_data_not_runtime_failure':True}}
     rp=rd/'repo_recovery_audit_report.json'; cp=cd/'repo_recovery_audit_receipt.jsonl'; rp.write_text(json.dumps(report,indent=2,sort_keys=True)+'\n')
-    receipt={'schema':'stegverse.repo_recovery.audit_receipt.v1','timestamp_utc':now(),'decision':decision,'report_path':rp.relative_to(root).as_posix(),'report_sha256':sha(rp),'wrap_for_ingestion_count':report['summary']['wrap_for_ingestion_count'],'fail_closed_count':report['summary']['fail_closed_count'],'authority':'read_only','originals_deleted':False}
+    receipt={'schema':'stegverse.repo_recovery.audit_receipt.v1','timestamp_utc':now(),'decision':decision,'status':status,'ci_exit_policy':'audit_findings_do_not_fail_ci','report_path':rp.relative_to(root).as_posix(),'report_sha256':sha(rp),'wrap_for_ingestion_count':report['summary']['wrap_for_ingestion_count'],'fail_closed_count':report['summary']['fail_closed_count'],'authority':'read_only','originals_deleted':False}
     with cp.open('a') as f: f.write(json.dumps(receipt,sort_keys=True)+'\n')
-    print(json.dumps({'status':'success' if decision=='ALLOW' else 'fail_closed','decision':decision,'report':rp.relative_to(root).as_posix(),'receipt':cp.relative_to(root).as_posix(),'summary':report['summary']},indent=2,sort_keys=True))
-    return 0 if decision=='ALLOW' else 1
-if __name__=='__main__': raise SystemExit(main())
+    print(json.dumps({'status':status,'decision':decision,'report':rp.relative_to(root).as_posix(),'receipt':cp.relative_to(root).as_posix(),'summary':report['summary']},indent=2,sort_keys=True))
+    return 0
+if __name__=='__main__':
+    try:
+        raise SystemExit(main())
+    except Exception as e:
+        print(json.dumps({'status':'runtime_error','error':str(e)},indent=2,sort_keys=True), file=sys.stderr)
+        raise
