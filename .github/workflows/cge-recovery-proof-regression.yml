@@ -5,6 +5,7 @@ name: cge-recovery-proof-regression
   push:
     branches: [main]
     paths:
+      - ".github/workflows/cge-recovery-proof-regression.yml"
       - "tools/scripts/verify_cge_recovery_proof.py"
       - "receipts/current/transition_table_receipt.jsonl"
       - "receipts/current/cge_admissibility_receipt.jsonl"
