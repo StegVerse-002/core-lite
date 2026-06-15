@@ -1,0 +1,36 @@
+{
+  "bulk_authority": "none",
+  "bundle_hash": "sha256:17f224bca33c1a1cff197b1f06f76058f9d61fb0e399c3b034070137bec52b3e",
+  "bundle_path": "tracking/recovery_corrected/sv002_recovery_30d45378723de692_CHANGELOG.md.zip",
+  "cleanup_authority": "none",
+  "decision": "PLAN_ONLY",
+  "destination_mapping_status": "PROPOSED_NOT_EXECUTABLE",
+  "errors": [],
+  "execution_authority": "none",
+  "finalization_status": "PENDING_FINALIZATION_REVIEW",
+  "generated_at": "2026-06-15T21:22:04.017599+00:00",
+  "guardrails": {
+    "does_not_bulk_ingest": true,
+    "does_not_delete_originals": true,
+    "does_not_move_files": true,
+    "requires_future_finalization_receipt_before_action": true,
+    "requires_m11_allow_receipts": true
+  },
+  "m11_receipt_bindings": {
+    "cge_decision": "ALLOW",
+    "cge_regression_decision": "ALLOW",
+    "final_decision": "ALLOW",
+    "transition_receipt_hash": "sha256:90ccbb5e43ea9177a97752a4ba7ea34ef4b40b8f12d2d2493e7ca149aa9c912a",
+    "transition_table_decision": "ALLOW"
+  },
+  "original_removal_status": "NOT_AUTHORIZED",
+  "original_source_path": "CHANGELOG.md",
+  "payload_members": [
+    "payload/CHANGELOG.md"
+  ],
+  "proposed_destination_path": "CHANGELOG.md",
+  "recovery_id": "sv002-recovery-30d45378723de692",
+  "schema": "stegverse.repo_recovery.destination_plan.v1",
+  "stage": "SV002-M12",
+  "warnings": []
+}
