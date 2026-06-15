@@ -1,0 +1,56 @@
+name: repo-recovery-finalize-check
+
+"on":
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/repo-recovery-finalize-check.yml"
+      - "tools/scripts/repo_recovery_finalize_check.py"
+      - "reports/current/repo_recovery_destination_plan.json"
+      - "receipts/current/repo_recovery_destination_plan_receipt.jsonl"
+
+permissions:
+  contents: write
+
+jobs:
+  finalize-check-one-recovery-plan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run non-executing M12 finalization check
+        run: |
+          set -euo pipefail
+          python tools/scripts/repo_recovery_finalize_check.py --repo-root .
+
+      - name: Commit finalization check evidence
+        if: always()
+        run: |
+          set -euo pipefail
+          git config user.name "StegVerse-002 M12 Finalization Checker"
+          git config user.email "sv002-m12-finalization-checker@stegverse"
+          git add -A reports/current/repo_recovery_finalize_check.json receipts/current/repo_recovery_finalize_check_receipt.jsonl || true
+          if git diff --staged --quiet; then
+            echo "No M12 finalization check evidence changes to commit."
+          else
+            git commit -m "sv002: record M12 recovery finalization check"
+            git push
+          fi
+
+      - name: Upload finalization check evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: repo-recovery-finalize-check-evidence
+          path: |
+            reports/current/repo_recovery_finalize_check.json
+            receipts/current/repo_recovery_finalize_check_receipt.jsonl
