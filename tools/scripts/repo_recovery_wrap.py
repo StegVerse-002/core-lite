@@ -59,13 +59,7 @@ def recovery_manifest(rec: dict, recovery_id: str, payload_name: str) -> dict:
 
 
 def transition_block(rec: dict, recovery_id: str) -> dict:
-    """Non-binding evidence transition for recovery payloads.
-
-    Recovery bundles are not install bundles. They are evidence objects that let
-    the governed ingestion layer classify, compare, quarantine, or later route
-    the payload. Final destination and deletion authority remain outside this
-    wrapper.
-    """
+    """Non-binding evidence transition for recovery payloads."""
     return {
         'transition_class': 'evidence',
         'transition_cell': 'B7',
@@ -149,11 +143,17 @@ def main():
     candidates = [r for r in data.get('records', []) if r.get('proposed_action') == 'wrap_for_ingestion']
     wrapped = []
     failed = []
+    skipped = []
 
     for rec in candidates:
         source = root / rec['path']
         if not source.exists() or not source.is_file():
-            failed.append({'path': rec['path'], 'reason': 'source_missing'})
+            skipped.append({
+                'path': rec['path'],
+                'reason': 'stale_missing_source',
+                'audit_sha256': rec.get('sha256'),
+                'classification': rec.get('classification'),
+            })
             continue
         current_sha = sha(source)
         if current_sha != rec.get('sha256'):
@@ -199,9 +199,11 @@ def main():
             entry['bundle_sha256'] = sha(bundle_path)
         wrapped.append(entry)
 
-    decision = 'ALLOW' if not failed else 'FAIL_CLOSED'
+    decision = 'ALLOW' if wrapped and not failed else 'FAIL_CLOSED'
+    if not wrapped and not failed:
+        decision = 'NO_ACTIVE_CANDIDATES'
     report = {
-        'schema': 'stegverse.repo_recovery.wrap.v3',
+        'schema': 'stegverse.repo_recovery.wrap.v4',
         'entity': 'StegVerse-002',
         'stage': 'SV002-M11',
         'generated_at': now(),
@@ -211,10 +213,12 @@ def main():
         'audit_report_sha256': sha(audit),
         'wrapped': wrapped,
         'failed': failed,
+        'skipped': skipped,
         'summary': {
             'candidates': len(candidates),
             'wrapped': len(wrapped),
             'failed': len(failed),
+            'skipped_stale_missing_source': len(skipped),
             'bundles_created': 0 if a.dry_run else len(wrapped),
             'transition_blocks_written': len(wrapped),
         },
@@ -227,6 +231,7 @@ def main():
             'bundle_manifest_written': True,
             'transition_block_written': True,
             'transition_class': 'evidence',
+            'stale_missing_sources_are_skipped_not_failed': True,
         },
     }
 
@@ -234,7 +239,7 @@ def main():
     receipt_path = receipt_dir / 'repo_recovery_wrap_receipt.jsonl'
     report_path.write_text(json.dumps(report, indent=2, sort_keys=True) + '\n')
     receipt = {
-        'schema': 'stegverse.repo_recovery.wrap_receipt.v3',
+        'schema': 'stegverse.repo_recovery.wrap_receipt.v4',
         'timestamp_utc': now(),
         'decision': decision,
         'dry_run': a.dry_run,
@@ -242,6 +247,7 @@ def main():
         'report_sha256': sha(report_path),
         'wrapped': len(wrapped),
         'failed': len(failed),
+        'skipped_stale_missing_source': len(skipped),
         'originals_deleted': False,
         'destinations_installed': False,
         'transition_blocks_written': len(wrapped),
@@ -251,14 +257,14 @@ def main():
         f.write(json.dumps(receipt, sort_keys=True) + '\n')
 
     print(json.dumps({
-        'status': 'success' if decision == 'ALLOW' else 'fail_closed',
+        'status': 'success' if decision == 'ALLOW' else decision.lower(),
         'decision': decision,
         'dry_run': a.dry_run,
         'report': report_path.relative_to(root).as_posix(),
         'receipt': receipt_path.relative_to(root).as_posix(),
         'summary': report['summary'],
     }, indent=2, sort_keys=True))
-    return 0 if decision == 'ALLOW' else 1
+    return 0 if decision in ('ALLOW', 'NO_ACTIVE_CANDIDATES') else 1
 
 
 if __name__ == '__main__':
