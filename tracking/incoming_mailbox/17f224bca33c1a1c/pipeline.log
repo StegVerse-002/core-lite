@@ -19,7 +19,7 @@
         "transition_block": "B4"
       },
       "bundle_hash": "sha256:17f224bca33c1a1cff197b1f06f76058f9d61fb0e399c3b034070137bec52b3e",
-      "contribution_hash": "sha256:2ecaadcec5523132cb3b336f5e7d37e8958b6a74408a9fad9d6bed301d92ca94",
+      "contribution_hash": "sha256:067efc89899b9a8ecab7267c787d2218ab72358d15b0368e5e4e3db7bddea4aa",
       "event_description": "bundle admitted through TT+CGE gate",
       "event_type": "admission",
       "formalism_anchor": {
@@ -44,7 +44,7 @@
       },
       "schema": "stegverse.evidence_plane_contribution.v1",
       "task_hash": "sha256:30d45378723de6921247377dd1bf79ec1f0dbd405237b4a33b222f11ed1c019d",
-      "timestamp_utc": "2026-06-15T18:26:52.629797+00:00"
+      "timestamp_utc": "2026-06-15T18:40:12.881212+00:00"
     }
   ],
   "final_disposition": "ADMITTED",
@@ -63,7 +63,7 @@
     "dry_run": false,
     "errors": [],
     "installs_code": false,
-    "receipt_hash": "sha256:bfd9aad871f7668042906b9dd549979669f69bfc381ecd6e25afb0d56254a197",
+    "receipt_hash": "sha256:90ccbb5e43ea9177a97752a4ba7ea34ef4b40b8f12d2d2493e7ca149aa9c912a",
     "transition_class": "evidence",
     "warnings": []
   },
@@ -80,7 +80,7 @@
     "success": true,
     "task_dir": "incoming/mailbox/30d45378723de692",
     "task_hash": "sha256:30d45378723de6921247377dd1bf79ec1f0dbd405237b4a33b222f11ed1c019d",
-    "timestamp_utc": "2026-06-15T18:26:52.630797+00:00",
+    "timestamp_utc": "2026-06-15T18:40:12.882077+00:00",
     "transition_class": "evidence"
   },
   "manifest": {
