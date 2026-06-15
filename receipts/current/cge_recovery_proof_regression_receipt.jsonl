@@ -1,0 +1,1 @@
+{"decision": "FAIL_CLOSED", "errors": ["no matching corrected recovery proof receipt found"], "report_path": "reports/current/cge_recovery_proof_regression_report.json", "report_sha256": "sha256:59dc296e33b6ef0e5088a6641df5a5c0d99700d7115387a93b77fefb6817ce10", "schema": "stegverse.cge_recovery_proof_regression_receipt.v1", "timestamp_utc": "2026-06-15T18:53:40.111093+00:00"}

@@ -1,0 +1,16 @@
+{
+  "decision": "FAIL_CLOSED",
+  "errors": [
+    "no matching corrected recovery proof receipt found"
+  ],
+  "expected_bundle": "tracking/recovery_corrected/sv002_recovery_30d45378723de692_CHANGELOG.md.zip",
+  "generated_at": "2026-06-15T18:53:40.110920+00:00",
+  "governance": {
+    "forbids_cge_error_fallback": true,
+    "requires_cge_allow": true,
+    "requires_final_allow": true,
+    "requires_transition_table_allow": true
+  },
+  "latest_receipt": {},
+  "schema": "stegverse.cge_recovery_proof_regression.v1"
+}
