@@ -56,5 +56,33 @@
     "warnings": [],
     "receipt_hash": "sha256:00c9c869132aafd67cc5214ade0b0737828e215bdd9dbd00b0cbd82eee58bb16",
     "dry_run": false
+  },
+  {
+    "schema": "stegverse.transition_table_report.v1",
+    "timestamp_utc": "2026-06-15T18:26:52.629385+00:00",
+    "entity": "StegVerse-002",
+    "stage": "SV002-M11",
+    "bundle_path": "tracking/incoming_mailbox/17f224bca33c1a1c/sv002_recovery_30d45378723de692_CHANGELOG.md.zip",
+    "bundle_hash": "sha256:17f224bca33c1a1cff197b1f06f76058f9d61fb0e399c3b034070137bec52b3e",
+    "manifest_hash": "sha256:4aadbd23a9f0fd3514a3d7c48dc96df66075164a72e74a6528cf3fa6ba3db065",
+    "transition_class": "evidence",
+    "authority_class": "evidence_only",
+    "transition_table_decision": "ALLOW",
+    "cge_decision": "ERROR",
+    "final_decision": "ALLOW",
+    "candidate_disposition": "",
+    "coordinates": {
+      "delta_C": 0.0,
+      "delta_R": 0.0,
+      "delta_P": 0.0,
+      "delta_U": 0.3,
+      "delta_O": 0.1,
+      "d_boundary_A": 0.15,
+      "d_A": 0.055
+    },
+    "errors": [],
+    "warnings": [],
+    "receipt_hash": "sha256:bfd9aad871f7668042906b9dd549979669f69bfc381ecd6e25afb0d56254a197",
+    "dry_run": false
   }
 ]
