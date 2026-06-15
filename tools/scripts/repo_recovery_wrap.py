@@ -58,6 +58,35 @@ def recovery_manifest(rec: dict, recovery_id: str, payload_name: str) -> dict:
     }
 
 
+def transition_block(rec: dict, recovery_id: str) -> dict:
+    """Non-binding evidence transition for recovery payloads.
+
+    Recovery bundles are not install bundles. They are evidence objects that let
+    the governed ingestion layer classify, compare, quarantine, or later route
+    the payload. Final destination and deletion authority remain outside this
+    wrapper.
+    """
+    return {
+        'transition_class': 'evidence',
+        'transition_cell': 'B7',
+        'authority_class': 'evidence_only',
+        'state_effect': 'evidence_state',
+        'binding_level': 'non_binding',
+        'target_scope': 'repo_recovery_payload',
+        'execution_scope': 'none',
+        'admissibility_gate': 'transition_table_ingest_gate',
+        'disposition_policy': 'store_evidence_only',
+        'task_ref': recovery_id,
+        'task_hash': rec['sha256'],
+        'formalism_refs': [
+            {
+                'formalism': 'Stage32-AdmissibilitySpaceCoordinates',
+                'role': 'recovery_payload_is_evidence_not_execution',
+            }
+        ],
+    }
+
+
 def bundle_manifest(rec: dict, recovery_id: str, payload_name: str) -> dict:
     return {
         'schema': 'stegverse.bundle_manifest.v1',
@@ -67,6 +96,7 @@ def bundle_manifest(rec: dict, recovery_id: str, payload_name: str) -> dict:
         'stage': 'SV002-M11',
         'created_at': now(),
         'description': 'Manifest-bearing recovery bundle. Ingestion decides final disposition; original source is not deleted by wrap.',
+        'transition': transition_block(rec, recovery_id),
         'files': [
             {
                 'path': 'payload/' + payload_name,
@@ -86,6 +116,8 @@ def bundle_manifest(rec: dict, recovery_id: str, payload_name: str) -> dict:
             'does_not_install_destinations': True,
             'does_not_delete_originals': True,
             'ingestion_decides_destination': True,
+            'transition_block_written': True,
+            'transition_class': 'evidence',
         },
     }
 
@@ -147,6 +179,8 @@ def main():
             'bundle_path': bundle_path.relative_to(root).as_posix(),
             'bundle_manifest_schema': bundle_meta['schema'],
             'recovery_manifest_schema': recovery_meta['schema'],
+            'transition_class': bundle_meta['transition']['transition_class'],
+            'transition_block_written': True,
             'dry_run': a.dry_run,
             'original_deleted': False,
             'destination_installed': False,
@@ -160,14 +194,14 @@ def main():
                     'README_RECOVERY.md',
                     '# StegVerse Recovery Bundle\n\n'
                     'Cleanup/recovery wrapped this object. Ingestion decides final disposition. '
-                    'Originals are not deleted by this task.\n',
+                    'Originals are not deleted by this task. The manifest declares a non-binding evidence transition.\n',
                 )
             entry['bundle_sha256'] = sha(bundle_path)
         wrapped.append(entry)
 
     decision = 'ALLOW' if not failed else 'FAIL_CLOSED'
     report = {
-        'schema': 'stegverse.repo_recovery.wrap.v2',
+        'schema': 'stegverse.repo_recovery.wrap.v3',
         'entity': 'StegVerse-002',
         'stage': 'SV002-M11',
         'generated_at': now(),
@@ -182,6 +216,7 @@ def main():
             'wrapped': len(wrapped),
             'failed': len(failed),
             'bundles_created': 0 if a.dry_run else len(wrapped),
+            'transition_blocks_written': len(wrapped),
         },
         'governance': {
             'no_broad_authority': True,
@@ -190,6 +225,8 @@ def main():
             'wraps_for_ingestion_only': True,
             'ingestion_decides_destination': True,
             'bundle_manifest_written': True,
+            'transition_block_written': True,
+            'transition_class': 'evidence',
         },
     }
 
@@ -197,7 +234,7 @@ def main():
     receipt_path = receipt_dir / 'repo_recovery_wrap_receipt.jsonl'
     report_path.write_text(json.dumps(report, indent=2, sort_keys=True) + '\n')
     receipt = {
-        'schema': 'stegverse.repo_recovery.wrap_receipt.v2',
+        'schema': 'stegverse.repo_recovery.wrap_receipt.v3',
         'timestamp_utc': now(),
         'decision': decision,
         'dry_run': a.dry_run,
@@ -207,6 +244,7 @@ def main():
         'failed': len(failed),
         'originals_deleted': False,
         'destinations_installed': False,
+        'transition_blocks_written': len(wrapped),
         'authority': 'read_only' if a.dry_run else 'scoped_repo_write',
     }
     with receipt_path.open('a') as f:
