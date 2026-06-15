@@ -11,17 +11,6 @@ Wraps the existing BundleIngestor.ingest() to enforce:
 This is an additive wrapper. It does not modify BundleIngestor directly.
 Call ingest_with_transition_gate() instead of BundleIngestor.ingest()
 to get full Transition Table + CGE enforcement.
-
-Integration:
-    from core_lite.transition_table.ingest_gate import ingest_with_transition_gate
-
-    result = ingest_with_transition_gate(
-        bundle_path="incoming/my_bundle.zip",
-        entity="StegVerse-002",
-        stage="SV002-M11",
-        repo_root=".",
-        dry_run=False,
-    )
 """
 from __future__ import annotations
 
@@ -94,20 +83,7 @@ def ingest_with_transition_gate(
     previous_receipt_hash: str = "",
     policy_path: Optional[str] = None,
 ) -> dict:
-    """
-    Full Transition Table + CGE enforcement gate for bundle ingestion.
-
-    Returns a result dict with:
-        decision         — ALLOW / ALLOW_CANDIDATE_ONLY / SANDBOX / REVIEW / DENY / FAIL_CLOSED
-        transition_class — from manifest
-        candidate_disposition — CANDIDATE_FAIL_CLOSED / CANDIDATE_ACCEPTED_FOR_COMPARISON / etc.
-        coordinates      — Stage 32 boundary metrics
-        receipt_hash     — hash of the transition table receipt
-        errors           — list of errors
-        warnings         — list of warnings
-        installs_code    — bool
-        dry_run          — bool
-    """
+    """Full Transition Table + CGE enforcement gate for bundle ingestion."""
     report_dir = os.path.join(repo_root, "reports", "current")
     receipt_dir = os.path.join(repo_root, "receipts", "current")
     os.makedirs(report_dir, exist_ok=True)
@@ -115,7 +91,6 @@ def ingest_with_transition_gate(
 
     bundle_hash = _sha256_file(bundle_path) if os.path.exists(bundle_path) else "sha256:unknown"
 
-    # --- Step 1: load manifest ---
     manifest = _load_manifest_from_bundle(bundle_path)
 
     if manifest is None:
@@ -139,28 +114,29 @@ def ingest_with_transition_gate(
 
     manifest_hash = _sha256_str(json.dumps(manifest, sort_keys=True))
 
-    # --- Step 2: Transition Table resolution ---
     resolver = TransitionTableResolver(policy_path=policy_path)
     decision_obj: TransitionDecision = resolver.resolve(
         manifest, bundle_hash=bundle_hash, entity=entity, stage=stage
     )
 
-    # --- Step 3: CGE admissibility ---
-    # Wire into existing CGEEngine if available; otherwise record as pending.
     cge_decision = "PENDING"
     cge_fingerprint = ""
     cge_basis = "CGE not wired — transition table decision is primary"
 
     try:
-        # Attempt to import and call CGEEngine if it exists in core_lite
-        from core_lite.cge import CGEEngine  # type: ignore
-        cge = CGEEngine()
-        cge_result = cge.decide(
+        from core_lite.cge import CGEEngine, CGERequest  # type: ignore
+        cge = CGEEngine(repo_root=repo_root if hasattr(repo_root, "__fspath__") else __import__("pathlib").Path(repo_root))
+        cge_request = CGERequest(
             actor=entity,
             stage=stage,
             action=decision_obj.transition_class,
-            target_scope=decision_obj.attributes.target_scope,
+            target_scope=decision_obj.attributes.target_scope or "core-lite",
             input_type="bundle",
+            privacy_class="private",
+            allowed_use=["governance_evidence", "receipt", "recovery_comparison"],
+            forbidden_use=["training", "publication_without_consent", "production_mutation"],
+            stop_condition="transition gate emits receipt and disposition without self-approval",
+            dry_run=dry_run,
             metadata={
                 "transition_cell": decision_obj.transition_cell,
                 "authority_class": decision_obj.authority_class,
@@ -169,8 +145,9 @@ def ingest_with_transition_gate(
                 "task_hash": decision_obj.attributes.task_hash,
                 "bundle_hash": bundle_hash,
                 "manifest_hash": manifest_hash,
-            }
+            },
         )
+        cge_result = cge.decide(cge_request).to_dict()
         cge_decision = cge_result.get("decision", "UNKNOWN")
         cge_fingerprint = cge_result.get("fingerprint", "")
         cge_basis = cge_result.get("basis", "")
@@ -180,14 +157,12 @@ def ingest_with_transition_gate(
         cge_basis = f"CGEEngine call failed: {e}"
         cge_decision = "ERROR"
 
-    # --- Step 4: Compose final decision ---
-    # If Transition Table says FAIL_CLOSED, CGE cannot override.
-    # If CGE says DENY or FAIL_CLOSED, that takes precedence over TT ALLOW.
     final_decision = decision_obj.decision
     if cge_decision in ("DENY", "FAIL_CLOSED") and not decision_obj.is_fail_closed():
         final_decision = cge_decision
+    elif cge_decision == "REVIEW_REQUIRED" and not decision_obj.is_fail_closed():
+        final_decision = "REVIEW"
 
-    # --- Step 5: Write transition table receipt ---
     receipt = {
         "schema": "stegverse.transition_table_receipt.v1",
         "timestamp_utc": _now_utc(),
@@ -219,12 +194,8 @@ def ingest_with_transition_gate(
     receipt_hash = _sha256_str(receipt_str)
     receipt["receipt_hash"] = receipt_hash
 
-    _append_receipt(
-        os.path.join(receipt_dir, "transition_table_receipt.jsonl"),
-        receipt
-    )
+    _append_receipt(os.path.join(receipt_dir, "transition_table_receipt.jsonl"), receipt)
 
-    # Write CGE receipt separately
     cge_receipt = {
         "schema": "stegverse.cge_receipt.v1",
         "timestamp_utc": _now_utc(),
@@ -240,12 +211,8 @@ def ingest_with_transition_gate(
         "basis": cge_basis,
         "previous_receipt_hash": previous_receipt_hash,
     }
-    _append_receipt(
-        os.path.join(receipt_dir, "cge_admissibility_receipt.jsonl"),
-        cge_receipt
-    )
+    _append_receipt(os.path.join(receipt_dir, "cge_admissibility_receipt.jsonl"), cge_receipt)
 
-    # Write transition table report
     report = {
         "schema": "stegverse.transition_table_report.v1",
         "timestamp_utc": _now_utc(),
@@ -266,10 +233,7 @@ def ingest_with_transition_gate(
         "receipt_hash": receipt_hash,
         "dry_run": dry_run,
     }
-    _write_report(
-        os.path.join(report_dir, "transition_table_report.json"),
-        report
-    )
+    _write_report(os.path.join(report_dir, "transition_table_report.json"), report)
 
     return {
         "decision": final_decision,
