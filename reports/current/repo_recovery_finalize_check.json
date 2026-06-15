@@ -1,0 +1,27 @@
+{
+  "bulk_authority": "none",
+  "bundle_hash": "sha256:17f224bca33c1a1cff197b1f06f76058f9d61fb0e399c3b034070137bec52b3e",
+  "cleanup_authority": "none",
+  "decision": "REVIEW_ONLY",
+  "destination_plan_path": "reports/current/repo_recovery_destination_plan.json",
+  "destination_plan_receipt_hash": "sha256:052c2ad6c00eaea13120608d10bcb9484616b3e259c94687c5cff669f6e47393",
+  "errors": [],
+  "execution_authority": "none",
+  "finalization_status": "FINALIZATION_ALLOWED_SINGLE_PROPOSAL_ONLY",
+  "generated_at": "2026-06-15T21:37:45.185658+00:00",
+  "guardrails": {
+    "does_not_bulk_ingest": true,
+    "does_not_delete_originals": true,
+    "does_not_grant_final_authority": true,
+    "does_not_move_files": true,
+    "requires_future_explicit_finalize_one_receipt": true
+  },
+  "original_removal_authority": "none",
+  "original_source_exists": true,
+  "original_source_path": "CHANGELOG.md",
+  "proposed_destination_exists": true,
+  "proposed_destination_path": "CHANGELOG.md",
+  "schema": "stegverse.repo_recovery.finalization_check.v1",
+  "stage": "SV002-M12",
+  "warnings": []
+}
