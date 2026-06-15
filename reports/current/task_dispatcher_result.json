@@ -1,11 +1,11 @@
 {
   "status": "success",
-  "task_id": "sv002.repo.recovery.wrap.dry_run",
-  "authority": "read_only",
+  "task_id": "sv002.repo.recovery.wrap",
+  "authority": "scoped_repo_write",
   "returncode": 0,
   "exit_code": 0,
   "exit_basis": "task completed (rc=0)",
   "decision": "ALLOW",
-  "stdout": "{\n  \"decision\": \"ALLOW\",\n  \"dry_run\": true,\n  \"receipt\": \"receipts/current/repo_recovery_wrap_receipt.jsonl\",\n  \"report\": \"reports/current/repo_recovery_wrap_report.json\",\n  \"status\": \"success\",\n  \"summary\": {\n    \"bundles_created\": 0,\n    \"candidates\": 75,\n    \"failed\": 0,\n    \"wrapped\": 75\n  }\n}\n",
+  "stdout": "{\n  \"decision\": \"ALLOW\",\n  \"dry_run\": false,\n  \"receipt\": \"receipts/current/repo_recovery_wrap_receipt.jsonl\",\n  \"report\": \"reports/current/repo_recovery_wrap_report.json\",\n  \"status\": \"success\",\n  \"summary\": {\n    \"bundles_created\": 75,\n    \"candidates\": 75,\n    \"failed\": 0,\n    \"wrapped\": 75\n  }\n}\n",
   "stderr": ""
 }
