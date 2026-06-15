@@ -2,6 +2,11 @@ name: repo-recovery-ingest-one-proof
 
 "on":
   workflow_dispatch: {}
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/repo-recovery-ingest-one-proof.yml"
+      - "incoming/recovery/sv002_recovery_30d45378723de692_CHANGELOG.md.zip"
 
 permissions:
   contents: write
@@ -38,6 +43,11 @@ jobs:
           if [ ! -f "${INPUT_PATH}" ]; then
             echo "::notice::Proof bundle already absent: ${INPUT_PATH}"
             echo "already_absent=true" >> "${GITHUB_OUTPUT}"
+            {
+              echo "## Repo Recovery One-Bundle Proof"
+              echo
+              echo "Proof bundle already absent; no ingestion attempted."
+            } >> "${GITHUB_STEP_SUMMARY}"
             exit 0
           fi
 
@@ -89,6 +99,7 @@ jobs:
             echo
             echo "| Field | Value |"
             echo "|---|---|"
+            echo "| trigger | ${{ github.event_name }} |"
             echo "| bundle | ${INPUT_PATH} |"
             echo "| disposition | ${DISPOSITION} |"
             echo "| pipeline_exit_code | ${EXIT_CODE} |"
