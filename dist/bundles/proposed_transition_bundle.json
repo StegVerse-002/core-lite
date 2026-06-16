@@ -7,10 +7,10 @@
     "mode": "candidate_evidence_only",
     "source_boundary_decision": "ALLOW_CANDIDATE_EVIDENCE"
   },
-  "bundle_id": "ptb-20260616T222358Z-03c5879f42d5",
+  "bundle_id": "ptb-20260616T234755Z-19b6c31b986d",
   "chain_link": {
     "ingestion_required": true,
-    "link_id": "sha256:d643b7b880094fcdc68921c2a5ef195c9a8648378d0f0a265ec736ebb3052a6b",
+    "link_id": "sha256:076bcb0c2d95104838c8a26cf034d7de744a3d2295a1028a9879d38452f0735e",
     "next_required_link": "ingestion_intake_receipt",
     "previous_receipt_hash": "sha256:a2bc9e3297b144e2a46c1f5a1fbdf9fa32fa6177efad5b2dcb94e744ee6094fc",
     "source_receipt": "receipts/current/proposed_transition_bundle_receipt.jsonl"
@@ -129,7 +129,7 @@
       "sha256": "sha256:47d1e84f399d24169d63572f3330740a12d74301ec30b7bc8271790726be68f7"
     }
   ],
-  "created_utc": "2026-06-16T22:23:58Z",
+  "created_utc": "2026-06-16T23:47:55Z",
   "hashing": {
     "algorithm": "sha256",
     "canonicalization": "json.dumps(sort_keys=True,separators=(',',':'),ensure_ascii=False)",
@@ -138,14 +138,14 @@
       "chain_link.link_id"
     ]
   },
-  "manifest_sha256": "sha256:d643b7b880094fcdc68921c2a5ef195c9a8648378d0f0a265ec736ebb3052a6b",
+  "manifest_sha256": "sha256:076bcb0c2d95104838c8a26cf034d7de744a3d2295a1028a9879d38452f0735e",
   "schema": "stegverse.transition_bundle.v1",
   "source": {
-    "commit_sha": "b9e91563b1dcea8a6f9f8a0947f12c7275a5660f",
+    "commit_sha": "a2df25ef953a813abe257ad888b86077bd0b3953",
     "entity": "StegVerse-002",
     "repo": "StegVerse-002/core-lite",
-    "run_id": "27652109041",
-    "run_number": "7",
+    "run_id": "27655750989",
+    "run_number": "8",
     "stage": "SV002-M10",
     "workflow": "core-lite-autonomous-tick"
   },
