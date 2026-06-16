@@ -1,0 +1,31 @@
+{
+  "task_id": "sv002.m12.incoming_mailbox.validation",
+  "stage": "SV002-M12",
+  "allowed_stages": ["SV002-M12", "SV002-M13"],
+  "description": "Standalone validation for the guarded incoming mailbox. Builds one good and one bad bundle, processes both through IncomingMailbox, and verifies processed/rejected disposition.",
+  "capability": "m12_incoming_mailbox_validation",
+  "transition_class": "tooling",
+  "authority": "test_only",
+  "entry_point": "scripts/run_m12_incoming_mailbox_tests.py",
+  "command": "python scripts/run_m12_incoming_mailbox_tests.py",
+  "timeout_seconds": 300,
+  "expected_outputs": [
+    "reports/current/m12_incoming_mailbox_validation_report.json",
+    "receipts/current/m12_incoming_mailbox_validation_receipt.jsonl",
+    "outputs/m12_incoming_mailbox_validation.md",
+    "dist/run_artifacts/m12-incoming-mailbox-validation.zip"
+  ],
+  "decision_set": ["ALLOW", "FAIL_CLOSED"],
+  "stop_condition": "One good incoming bundle processed, one bad incoming bundle rejected, report and receipt written.",
+  "governance": {
+    "no_broad_authority": true,
+    "no_root_readme_overwrite": true,
+    "no_workflow_changes": true,
+    "default_deny": true,
+    "test_only": true,
+    "receipt_before_claim": true,
+    "mailbox_not_durable_state": true,
+    "delegates_to_bundle_ingestor": true
+  },
+  "notes": "Task addition file. Fold into tools/tasks/task_catalog.json after direct validation passes."
+}
