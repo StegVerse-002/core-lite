@@ -1,0 +1,212 @@
+{
+  "schema": "stegverse.task_catalog.supplement.v1",
+  "entity": "StegVerse-002",
+  "repository": "core-lite",
+  "updated_utc": "2026-06-16T06:45:00Z",
+  "activation_target": "SV002_M11_TO_M13_NON_MUTATING_RECOVERY_FINALIZATION_MODULE",
+  "activation_decision": "ACTIVATED_NON_MUTATING",
+  "authority_boundary": {
+    "execution_authority": "none",
+    "cleanup_authority": "none",
+    "bulk_authority": "none",
+    "replacement_authority": "none",
+    "original_removal_authority": "none",
+    "mutation_performed": false
+  },
+  "tasks": [
+    {
+      "task_id": "sv002.repo.recovery.corrected_bundle_validation",
+      "stage": "SV002-M11",
+      "description": "Validate corrected recovery bundles rebuilt outside incoming/. Ensures each corrected bundle contains a root transition block and remains evidence-only.",
+      "capability": "repo_recovery_corrected_bundle_validation",
+      "transition_class": "evidence",
+      "authority": "evidence_only",
+      "workflow": ".github/workflows/repo-recovery-rebuild-corrected.yml",
+      "expected_outputs": [
+        "tracking/recovery_corrected/*.zip",
+        "reports/current/repo_recovery_corrected_bundle_validation.json"
+      ],
+      "decision_set": ["ALLOW", "FAIL_CLOSED"],
+      "stop_condition": "Corrected recovery bundles validated with transition blocks; no originals deleted; no destinations installed.",
+      "governance": {
+        "does_not_delete_originals": true,
+        "does_not_install_destinations": true,
+        "does_not_bulk_ingest": true,
+        "transition_block_required": true,
+        "receipt_before_claim": true
+      }
+    },
+    {
+      "task_id": "sv002.repo.recovery.one_bundle_proof",
+      "stage": "SV002-M11",
+      "description": "Prove one corrected recovery bundle through transition table and CGE without bulk ingestion or original deletion.",
+      "capability": "repo_recovery_one_bundle_proof",
+      "transition_class": "evidence",
+      "authority": "evidence_only",
+      "workflow": ".github/workflows/repo-recovery-ingest-one-proof.yml",
+      "expected_bundle": "tracking/recovery_corrected/sv002_recovery_30d45378723de692_CHANGELOG.md.zip",
+      "expected_bundle_hash": "sha256:17f224bca33c1a1cff197b1f06f76058f9d61fb0e399c3b034070137bec52b3e",
+      "expected_outputs": [
+        "receipts/current/transition_table_receipt.jsonl",
+        "tracking/incoming_mailbox/*/sv002_recovery_30d45378723de692_CHANGELOG.md.zip"
+      ],
+      "decision_set": ["ALLOW", "QUARANTINED", "FAIL_CLOSED"],
+      "stop_condition": "Single corrected bundle admitted or fail-closed; no bulk ingestion; original retained.",
+      "governance": {
+        "single_bundle_only": true,
+        "does_not_delete_originals": true,
+        "does_not_bulk_ingest": true,
+        "requires_transition_table_allow": true,
+        "requires_cge_allow": true,
+        "receipt_before_claim": true
+      }
+    },
+    {
+      "task_id": "sv002.repo.recovery.cge_regression_guard",
+      "stage": "SV002-M11",
+      "description": "Verify the corrected recovery proof remains CGE ALLOW and never regresses to CGE ERROR fallback.",
+      "capability": "repo_recovery_cge_regression_guard",
+      "transition_class": "test",
+      "authority": "test_only",
+      "entry_point": "tools/scripts/verify_cge_recovery_proof.py",
+      "workflow": ".github/workflows/cge-recovery-proof-regression.yml",
+      "expected_outputs": [
+        "reports/current/cge_recovery_proof_regression_report.json",
+        "receipts/current/cge_recovery_proof_regression_receipt.jsonl"
+      ],
+      "decision_set": ["ALLOW", "FAIL_CLOSED"],
+      "stop_condition": "CGE recovery proof is verified as ALLOW with no ERROR fallback.",
+      "governance": {
+        "test_only": true,
+        "does_not_mutate_recovery_state": true,
+        "requires_expected_bundle_hash": true,
+        "receipt_before_claim": true
+      }
+    },
+    {
+      "task_id": "sv002.repo.recovery.destination_plan",
+      "stage": "SV002-M12",
+      "description": "Create a non-executing destination plan for the proven corrected recovery bundle. Emits PLAN_ONLY evidence and does not move files.",
+      "capability": "repo_recovery_destination_plan",
+      "transition_class": "review",
+      "authority": "plan_only",
+      "entry_point": "tools/scripts/repo_recovery_destination_plan.py",
+      "workflow": ".github/workflows/repo-recovery-destination-plan.yml",
+      "command": "python tools/scripts/repo_recovery_destination_plan.py --repo-root .",
+      "expected_outputs": [
+        "reports/current/repo_recovery_destination_plan.json",
+        "receipts/current/repo_recovery_destination_plan_receipt.jsonl"
+      ],
+      "decision_set": ["PLAN_ONLY", "FAIL_CLOSED"],
+      "stop_condition": "Destination plan emitted as proposed but not executable.",
+      "governance": {
+        "does_not_move_files": true,
+        "does_not_delete_originals": true,
+        "does_not_bulk_ingest": true,
+        "requires_m11_allow_receipts": true,
+        "requires_future_finalization_receipt_before_action": true
+      }
+    },
+    {
+      "task_id": "sv002.repo.recovery.finalize_check",
+      "stage": "SV002-M12",
+      "description": "Review the destination plan and emit finalization-check evidence as REVIEW_ONLY. Does not grant execution, cleanup, bulk, or original-removal authority.",
+      "capability": "repo_recovery_finalize_check",
+      "transition_class": "review",
+      "authority": "review_only",
+      "entry_point": "tools/scripts/repo_recovery_finalize_check.py",
+      "workflow": ".github/workflows/repo-recovery-finalize-check.yml",
+      "command": "python tools/scripts/repo_recovery_finalize_check.py --repo-root .",
+      "expected_outputs": [
+        "reports/current/repo_recovery_finalize_check.json",
+        "receipts/current/repo_recovery_finalize_check_receipt.jsonl"
+      ],
+      "decision_set": ["REVIEW_ONLY", "FAIL_CLOSED"],
+      "stop_condition": "Finalization check emitted as review-only with all authority fields none.",
+      "governance": {
+        "does_not_move_files": true,
+        "does_not_delete_originals": true,
+        "does_not_bulk_ingest": true,
+        "does_not_grant_final_authority": true,
+        "requires_future_explicit_finalize_one_receipt": true
+      }
+    },
+    {
+      "task_id": "sv002.repo.recovery.finalize_one_candidate",
+      "stage": "SV002-M13",
+      "description": "Emit a non-mutating finalize-one candidate proposal for the proven corrected bundle. Captures pre-mutation hashes and remains proposal-only.",
+      "capability": "repo_recovery_finalize_one_candidate",
+      "transition_class": "proposal",
+      "authority": "proposal_only",
+      "entry_point": "tools/scripts/repo_recovery_finalize_one_candidate.py",
+      "workflow": ".github/workflows/repo-recovery-finalize-one-candidate.yml",
+      "command": "python tools/scripts/repo_recovery_finalize_one_candidate.py --repo-root .",
+      "expected_outputs": [
+        "reports/current/repo_recovery_finalize_one_candidate.json",
+        "receipts/current/repo_recovery_finalize_one_candidate_receipt.jsonl"
+      ],
+      "decision_set": ["FINALIZE_ONE_PROPOSED_REVIEW_ONLY", "FAIL_CLOSED"],
+      "stop_condition": "Finalize-one proposal emitted with mutation_performed false and no authority escalation.",
+      "governance": {
+        "proposal_only": true,
+        "does_not_move_files": true,
+        "does_not_delete_originals": true,
+        "does_not_bulk_ingest": true,
+        "does_not_replace_destination": true,
+        "requires_future_execution_lane": true,
+        "requires_future_post_finalization_verification": true
+      }
+    },
+    {
+      "task_id": "sv002.repo.recovery.authority_boundary_regression",
+      "stage": "SV002-M13",
+      "description": "Regression guard ensuring M11-M13 recovery/finalization reports and receipts do not drift into execution, cleanup, bulk, replacement, original-removal, or mutation authority.",
+      "capability": "repo_recovery_authority_boundary_regression",
+      "transition_class": "test",
+      "authority": "test_only",
+      "entry_point": "tools/scripts/verify_recovery_authority_boundaries.py",
+      "workflow": ".github/workflows/recovery-authority-boundary-regression.yml",
+      "command": "python tools/scripts/verify_recovery_authority_boundaries.py --repo-root .",
+      "expected_outputs": [
+        "reports/current/recovery_authority_boundary_regression.json",
+        "receipts/current/recovery_authority_boundary_regression_receipt.jsonl"
+      ],
+      "decision_set": ["ALLOW", "FAIL_CLOSED"],
+      "stop_condition": "Authority boundary remains none for execution, cleanup, bulk, replacement, original removal, and mutation.",
+      "governance": {
+        "test_only": true,
+        "blocks_authority_drift": true,
+        "requires_m12_and_m13_receipts": true,
+        "does_not_mutate_repository_state": true,
+        "receipt_before_claim": true
+      }
+    },
+    {
+      "task_id": "sv002.repo.recovery.m11_to_m13_activation",
+      "stage": "SV002-M13",
+      "description": "Activated non-mutating recovery/finalization proof module covering M11 recovery evidence admission, M12 review, M13 proposal, and boundary regression.",
+      "capability": "repo_recovery_module_activation_record",
+      "transition_class": "activation_record",
+      "authority": "non_mutating_activation",
+      "status": "activated",
+      "activation_decision": "ACTIVATED_NON_MUTATING",
+      "activation_summary": "docs/recovery/SV002_M11_TO_M13_ACTIVATION_SUMMARY.md",
+      "proof_map": "docs/recovery/SV002_M11_TO_M13_RECOVERY_FINALIZATION_PROOF_MAP.md",
+      "expected_outputs": [
+        "docs/recovery/SV002_M11_TO_M13_ACTIVATION_SUMMARY.md",
+        "docs/recovery/SV002_M11_TO_M13_RECOVERY_FINALIZATION_PROOF_MAP.md"
+      ],
+      "decision_set": ["ACTIVATED_NON_MUTATING"],
+      "stop_condition": "Module activated as non-mutating proof infrastructure; future execution lane still required.",
+      "governance": {
+        "execution_authority": "none",
+        "cleanup_authority": "none",
+        "bulk_authority": "none",
+        "replacement_authority": "none",
+        "original_removal_authority": "none",
+        "mutation_performed": false,
+        "future_execution_lane_required": true
+      }
+    }
+  ]
+}
