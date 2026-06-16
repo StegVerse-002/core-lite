@@ -1,0 +1,60 @@
+name: recovery-authority-boundary-regression
+
+"on":
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/recovery-authority-boundary-regression.yml"
+      - "tools/scripts/verify_recovery_authority_boundaries.py"
+      - "reports/current/repo_recovery_destination_plan.json"
+      - "reports/current/repo_recovery_finalize_check.json"
+      - "reports/current/repo_recovery_finalize_one_candidate.json"
+      - "receipts/current/repo_recovery_destination_plan_receipt.jsonl"
+      - "receipts/current/repo_recovery_finalize_check_receipt.jsonl"
+      - "receipts/current/repo_recovery_finalize_one_candidate_receipt.jsonl"
+
+permissions:
+  contents: write
+
+jobs:
+  verify-recovery-authority-boundaries:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Verify M11-M13 authority boundaries
+        run: |
+          set -euo pipefail
+          python tools/scripts/verify_recovery_authority_boundaries.py --repo-root .
+
+      - name: Commit boundary regression evidence
+        if: always()
+        run: |
+          set -euo pipefail
+          git config user.name "StegVerse-002 Recovery Authority Boundary Guard"
+          git config user.email "sv002-recovery-authority-boundary-guard@stegverse"
+          git add -A reports/current/recovery_authority_boundary_regression.json receipts/current/recovery_authority_boundary_regression_receipt.jsonl || true
+          if git diff --staged --quiet; then
+            echo "No recovery authority boundary regression evidence changes to commit."
+          else
+            git commit -m "sv002: record recovery authority boundary regression"
+            git push
+          fi
+
+      - name: Upload boundary regression evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: recovery-authority-boundary-regression-evidence
+          path: |
+            reports/current/recovery_authority_boundary_regression.json
+            receipts/current/recovery_authority_boundary_regression_receipt.jsonl
