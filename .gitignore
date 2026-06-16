@@ -2,7 +2,16 @@ __pycache__/
 *.pyc
 *.pyo
 *.egg-info/
-dist/
+
+dist/*
+!dist/.gitkeep
+!dist/bundles/
+!dist/bundles/**
+!dist/master-records/
+!dist/master-records/**
+!dist/run_artifacts/
+!dist/run_artifacts/**
+
 build/
 .eggs/
 *.egg
@@ -11,6 +20,7 @@ build/
 # stegverse/  — keep tracked
 # receipts/    — keep tracked
 # reports/     — keep tracked
+# dist/bundles/ and dist/master-records/ are governed proof/custody artifacts
 
 # Local secrets — never commit
 env
