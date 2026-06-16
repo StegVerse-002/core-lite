@@ -17,6 +17,9 @@ name: core-lite-autonomous-tick
       - "task.md"
       - "schemas/transition_bundle.v1.schema.json"
       - "docs/methodology/**"
+      - "outputs/**"
+      - "reports/current/**"
+      - "receipts/current/**"
 
 permissions:
   contents: write
@@ -71,22 +74,68 @@ jobs:
             echo '```'
           } >> "${GITHUB_STEP_SUMMARY}"
 
-      - name: Commit proof-check evidence
+      - name: Regenerate and ingest missing transition-bundle proof artifacts
+        id: regenerate
+        if: ${{ steps.decide.outputs.needs_proof == 'true' }}
+        run: |
+          set -euo pipefail
+          mkdir -p outputs reports/current receipts/current agent_history dist/bundles dist/master-records/pending_candidate_bundles
+
+          echo "## Autonomous Proof Regeneration" >> "${GITHUB_STEP_SUMMARY}"
+          echo >> "${GITHUB_STEP_SUMMARY}"
+
+          if [ ! -f outputs/thread.md ]; then
+            echo "- outputs/thread.md missing; running deterministic synthesis first." >> "${GITHUB_STEP_SUMMARY}"
+            python scripts/merge_outputs.py
+          fi
+
+          python scripts/package_transition_bundle.py
+          python scripts/ingest_transition_bundle.py dist/bundles/proposed_transition_bundle.zip --repo-root .
+          python scripts/check_transition_bundle_proof.py --repo-root .
+
+          FINAL_STATUS="$(python3 -c "import json; print(json.load(open('reports/current/transition_bundle_proof_check.json'))['status'])")"
+          FINAL_NEEDS_PROOF="$(python3 -c "import json; print(str(json.load(open('reports/current/transition_bundle_proof_check.json'))['needs_proof']).lower())")"
+          echo "final_status=${FINAL_STATUS}" >> "${GITHUB_OUTPUT}"
+          echo "final_needs_proof=${FINAL_NEEDS_PROOF}" >> "${GITHUB_OUTPUT}"
+
+          {
+            echo "- final_status: ${FINAL_STATUS}"
+            echo "- final_needs_proof: ${FINAL_NEEDS_PROOF}"
+            echo
+            echo "### Final proof check report"
+            echo
+            echo '```json'
+            cat reports/current/transition_bundle_proof_check.json
+            echo '```'
+          } >> "${GITHUB_STEP_SUMMARY}"
+
+      - name: Commit autonomous proof artifacts
         if: always()
         run: |
           set -euo pipefail
           git config user.name "StegVerse-002 Autonomous Tick"
           git config user.email "sv002-autonomous-tick@stegverse"
-          git add reports/current/transition_bundle_proof_check.json receipts/current/transition_bundle_proof_check_receipt.jsonl || true
+          git add -A \
+            outputs/ \
+            reports/current/ \
+            receipts/current/ \
+            agent_history/ \
+            dist/bundles/ \
+            dist/master-records/ \
+            tracking/ \
+            quarantine/ \
+            failed_bundles/ \
+            repair/ || true
+          git add -f dist/bundles/ dist/master-records/ || true
           if git diff --staged --quiet; then
-            echo "No proof-check evidence changes to commit."
+            echo "No autonomous proof changes to commit."
           else
-            git commit -m "sv002: record autonomous transition bundle proof check"
+            git commit -m "sv002: autonomous transition bundle proof artifacts"
             git push
           fi
 
-      - name: Dispatch core-lite-intake autonomous proof run
-        if: ${{ steps.decide.outputs.needs_proof == 'true' }}
+      - name: Dispatch core-lite-intake fallback proof run
+        if: ${{ failure() && steps.decide.outputs.needs_proof == 'true' }}
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -101,13 +150,6 @@ jobs:
             --field kv_packet= \
             --field stage_override= \
             --field repair_target=
-
-          {
-            echo
-            echo "### Dispatched"
-            echo
-            echo "core-lite-intake.yml was dispatched because proof_status=${{ steps.decide.outputs.status }}; missing=${{ steps.decide.outputs.missing }}"
-          } >> "${GITHUB_STEP_SUMMARY}"
 
       - name: No-op when proof already exists
         if: ${{ steps.decide.outputs.needs_proof != 'true' }}
