@@ -1,0 +1,45 @@
+{
+  "bulk_authority": "none",
+  "bundle_hash": "sha256:17f224bca33c1a1cff197b1f06f76058f9d61fb0e399c3b034070137bec52b3e",
+  "bundle_path": "tracking/recovery_corrected/sv002_recovery_30d45378723de692_CHANGELOG.md.zip",
+  "cleanup_authority": "none",
+  "decision": "FINALIZE_ONE_PROPOSED_REVIEW_ONLY",
+  "destination_exists": true,
+  "destination_hash_before": "sha256:30d45378723de6921247377dd1bf79ec1f0dbd405237b4a33b222f11ed1c019d",
+  "destination_path": "CHANGELOG.md",
+  "errors": [],
+  "execution_authority": "none",
+  "generated_at": "2026-06-16T04:20:26.293993+00:00",
+  "guardrails": {
+    "does_not_bulk_ingest": true,
+    "does_not_delete_originals": true,
+    "does_not_move_files": true,
+    "does_not_replace_destination": true,
+    "proposal_only": true,
+    "requires_future_execution_lane": true,
+    "requires_future_post_finalization_verification": true
+  },
+  "m11_receipt_bindings": {
+    "cge_regression_report_hash": "sha256:b7be569c07563043b20a3d942b53d52f916402e3b1961fe67548e0c5609bec11",
+    "transition_receipt_hash": "sha256:90ccbb5e43ea9177a97752a4ba7ea34ef4b40b8f12d2d2493e7ca149aa9c912a"
+  },
+  "m12_receipt_bindings": {
+    "destination_plan_decision": "PLAN_ONLY",
+    "finalization_check_decision": "REVIEW_ONLY",
+    "finalization_status": "FINALIZATION_ALLOWED_SINGLE_PROPOSAL_ONLY"
+  },
+  "mutation_performed": false,
+  "operator_intent_defaults": {
+    "bulk_requested": false,
+    "original_removal_requested": false,
+    "replacement_requested": false,
+    "rollback_required": true
+  },
+  "original_removal_authority": "none",
+  "schema": "stegverse.repo_recovery.finalize_one_candidate.v1",
+  "source_exists": true,
+  "source_hash_before": "sha256:30d45378723de6921247377dd1bf79ec1f0dbd405237b4a33b222f11ed1c019d",
+  "source_path": "CHANGELOG.md",
+  "stage": "SV002-M13",
+  "warnings": []
+}
