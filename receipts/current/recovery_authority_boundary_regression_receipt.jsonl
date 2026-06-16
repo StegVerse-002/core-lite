@@ -1,0 +1,1 @@
+{"decision": "ALLOW", "errors": [], "report_path": "reports/current/recovery_authority_boundary_regression.json", "report_sha256": "sha256:8d1fe1d11806f4055714a8b4b97d89eacb7143d7e3cf8e432718b9166a5e0649", "schema": "stegverse.recovery_authority_boundary_regression_receipt.v1", "stage_scope": "SV002-M11_TO_M13", "timestamp_utc": "2026-06-16T06:34:38.188073+00:00"}

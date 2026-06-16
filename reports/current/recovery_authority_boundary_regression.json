@@ -1,0 +1,28 @@
+{
+  "authority_boundary": {
+    "bulk_authority": "none",
+    "cleanup_authority": "none",
+    "execution_authority": "none",
+    "mutation_performed": false,
+    "original_removal_authority": "none",
+    "replacement_authority": "none"
+  },
+  "checked_receipts": [
+    "receipts/current/repo_recovery_destination_plan_receipt.jsonl",
+    "receipts/current/repo_recovery_finalize_check_receipt.jsonl",
+    "receipts/current/repo_recovery_finalize_one_candidate_receipt.jsonl"
+  ],
+  "checked_reports": [
+    "reports/current/repo_recovery_destination_plan.json",
+    "reports/current/repo_recovery_finalize_check.json",
+    "reports/current/repo_recovery_finalize_one_candidate.json"
+  ],
+  "decision": "ALLOW",
+  "errors": [],
+  "expected_bundle_hash": "sha256:17f224bca33c1a1cff197b1f06f76058f9d61fb0e399c3b034070137bec52b3e",
+  "expected_destination_hash": "sha256:30d45378723de6921247377dd1bf79ec1f0dbd405237b4a33b222f11ed1c019d",
+  "generated_at": "2026-06-16T06:34:38.187892+00:00",
+  "schema": "stegverse.recovery_authority_boundary_regression.v1",
+  "stage_scope": "SV002-M11_TO_M13",
+  "warnings": []
+}
