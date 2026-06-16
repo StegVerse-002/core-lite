@@ -5,6 +5,18 @@ name: core-lite-autonomous-tick
   schedule:
     # Autonomous activation tick. GitHub schedule timing is approximate.
     - cron: "17 * * * *"
+  push:
+    branches: [main]
+    paths:
+      - ".gitignore"
+      - ".github/workflows/core-lite-autonomous-tick.yml"
+      - ".github/workflows/core-lite-intake.yml"
+      - "scripts/check_transition_bundle_proof.py"
+      - "scripts/package_transition_bundle.py"
+      - "scripts/ingest_transition_bundle.py"
+      - "task.md"
+      - "schemas/transition_bundle.v1.schema.json"
+      - "docs/methodology/**"
 
 permissions:
   contents: write
