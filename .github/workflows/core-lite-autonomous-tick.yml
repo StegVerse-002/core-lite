@@ -1,0 +1,89 @@
+name: core-lite-autonomous-tick
+
+"on":
+  workflow_dispatch:
+  schedule:
+    # Autonomous activation tick. GitHub schedule timing is approximate.
+    - cron: "17 * * * *"
+
+permissions:
+  contents: read
+  actions: write
+
+concurrency:
+  group: core-lite-autonomous-tick-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  autonomous-tick:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Decide whether v0.1.3 proof is still needed
+        id: decide
+        run: |
+          set -euo pipefail
+          NEEDS_PROOF=false
+          REASON="v0.1.3 proof artifacts already present"
+
+          if [ ! -f dist/bundles/proposed_transition_bundle.json ]; then
+            NEEDS_PROOF=true
+            REASON="missing dist/bundles/proposed_transition_bundle.json"
+          elif [ ! -f dist/bundles/proposed_transition_bundle.zip ]; then
+            NEEDS_PROOF=true
+            REASON="missing dist/bundles/proposed_transition_bundle.zip"
+          elif [ ! -f dist/bundles/proposed_transition_bundle.sha256 ]; then
+            NEEDS_PROOF=true
+            REASON="missing dist/bundles/proposed_transition_bundle.sha256"
+          elif [ ! -f receipts/current/proposed_transition_bundle_receipt.jsonl ]; then
+            NEEDS_PROOF=true
+            REASON="missing receipts/current/proposed_transition_bundle_receipt.jsonl"
+          elif [ ! -f receipts/current/transition_bundle_ingest_receipt.jsonl ]; then
+            NEEDS_PROOF=true
+            REASON="missing receipts/current/transition_bundle_ingest_receipt.jsonl"
+          fi
+
+          echo "needs_proof=${NEEDS_PROOF}" >> "${GITHUB_OUTPUT}"
+          echo "reason=${REASON}" >> "${GITHUB_OUTPUT}"
+
+          {
+            echo "## Core-Lite Autonomous Tick"
+            echo
+            echo "| Field | Value |"
+            echo "|---|---|"
+            echo "| needs_proof | ${NEEDS_PROOF} |"
+            echo "| reason | ${REASON} |"
+          } >> "${GITHUB_STEP_SUMMARY}"
+
+      - name: Dispatch core-lite-intake autonomous proof run
+        if: ${{ steps.decide.outputs.needs_proof == 'true' }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          gh workflow run core-lite-intake.yml \
+            --ref main \
+            --field agent_provider=both \
+            --field dry_run=false \
+            --field task_id= \
+            --field input_type= \
+            --field input_path= \
+            --field kv_packet= \
+            --field stage_override= \
+            --field repair_target=
+
+          {
+            echo
+            echo "### Dispatched"
+            echo
+            echo "core-lite-intake.yml was dispatched because: ${{ steps.decide.outputs.reason }}"
+          } >> "${GITHUB_STEP_SUMMARY}"
+
+      - name: No-op when proof already exists
+        if: ${{ steps.decide.outputs.needs_proof != 'true' }}
+        run: |
+          echo "v0.1.3 proof artifacts already exist. No dispatch needed."
