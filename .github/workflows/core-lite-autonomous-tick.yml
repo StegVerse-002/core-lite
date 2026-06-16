@@ -7,7 +7,7 @@ name: core-lite-autonomous-tick
     - cron: "17 * * * *"
 
 permissions:
-  contents: read
+  contents: write
   actions: write
 
 concurrency:
@@ -23,41 +23,55 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Decide whether v0.1.3 proof is still needed
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Check transition-bundle proof state
         id: decide
         run: |
           set -euo pipefail
-          NEEDS_PROOF=false
-          REASON="v0.1.3 proof artifacts already present"
+          mkdir -p reports/current receipts/current
+          python scripts/check_transition_bundle_proof.py --repo-root .
 
-          if [ ! -f dist/bundles/proposed_transition_bundle.json ]; then
-            NEEDS_PROOF=true
-            REASON="missing dist/bundles/proposed_transition_bundle.json"
-          elif [ ! -f dist/bundles/proposed_transition_bundle.zip ]; then
-            NEEDS_PROOF=true
-            REASON="missing dist/bundles/proposed_transition_bundle.zip"
-          elif [ ! -f dist/bundles/proposed_transition_bundle.sha256 ]; then
-            NEEDS_PROOF=true
-            REASON="missing dist/bundles/proposed_transition_bundle.sha256"
-          elif [ ! -f receipts/current/proposed_transition_bundle_receipt.jsonl ]; then
-            NEEDS_PROOF=true
-            REASON="missing receipts/current/proposed_transition_bundle_receipt.jsonl"
-          elif [ ! -f receipts/current/transition_bundle_ingest_receipt.jsonl ]; then
-            NEEDS_PROOF=true
-            REASON="missing receipts/current/transition_bundle_ingest_receipt.jsonl"
-          fi
+          NEEDS_PROOF="$(python3 -c "import json; print(str(json.load(open('reports/current/transition_bundle_proof_check.json'))['needs_proof']).lower())")"
+          STATUS="$(python3 -c "import json; print(json.load(open('reports/current/transition_bundle_proof_check.json'))['status'])")"
+          MISSING="$(python3 -c "import json; print(', '.join(json.load(open('reports/current/transition_bundle_proof_check.json'))['missing']))")"
 
           echo "needs_proof=${NEEDS_PROOF}" >> "${GITHUB_OUTPUT}"
-          echo "reason=${REASON}" >> "${GITHUB_OUTPUT}"
+          echo "status=${STATUS}" >> "${GITHUB_OUTPUT}"
+          echo "missing=${MISSING}" >> "${GITHUB_OUTPUT}"
 
           {
             echo "## Core-Lite Autonomous Tick"
             echo
             echo "| Field | Value |"
             echo "|---|---|"
+            echo "| proof_status | ${STATUS} |"
             echo "| needs_proof | ${NEEDS_PROOF} |"
-            echo "| reason | ${REASON} |"
+            echo "| missing | ${MISSING:-none} |"
+            echo
+            echo "### Proof check report"
+            echo
+            echo '```json'
+            cat reports/current/transition_bundle_proof_check.json
+            echo '```'
           } >> "${GITHUB_STEP_SUMMARY}"
+
+      - name: Commit proof-check evidence
+        if: always()
+        run: |
+          set -euo pipefail
+          git config user.name "StegVerse-002 Autonomous Tick"
+          git config user.email "sv002-autonomous-tick@stegverse"
+          git add reports/current/transition_bundle_proof_check.json receipts/current/transition_bundle_proof_check_receipt.jsonl || true
+          if git diff --staged --quiet; then
+            echo "No proof-check evidence changes to commit."
+          else
+            git commit -m "sv002: record autonomous transition bundle proof check"
+            git push
+          fi
 
       - name: Dispatch core-lite-intake autonomous proof run
         if: ${{ steps.decide.outputs.needs_proof == 'true' }}
@@ -80,7 +94,7 @@ jobs:
             echo
             echo "### Dispatched"
             echo
-            echo "core-lite-intake.yml was dispatched because: ${{ steps.decide.outputs.reason }}"
+            echo "core-lite-intake.yml was dispatched because proof_status=${{ steps.decide.outputs.status }}; missing=${{ steps.decide.outputs.missing }}"
           } >> "${GITHUB_STEP_SUMMARY}"
 
       - name: No-op when proof already exists
