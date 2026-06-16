@@ -1,0 +1,164 @@
+{
+  "authority": {
+    "broad_authority": false,
+    "candidate_evidence_only": true,
+    "canonical_authority": false,
+    "may_bind_repo_state": false,
+    "mode": "candidate_evidence_only",
+    "source_boundary_decision": "ALLOW_CANDIDATE_EVIDENCE"
+  },
+  "bundle_id": "ptb-20260616T205350Z-129afee81789",
+  "chain_link": {
+    "ingestion_required": true,
+    "link_id": "sha256:9522a0034580bbd77957f8a35bd5b903cd228dfeda13e91c1e63b4572c8191dc",
+    "next_required_link": "ingestion_intake_receipt",
+    "previous_receipt_hash": "sha256:a2bc9e3297b144e2a46c1f5a1fbdf9fa32fa6177efad5b2dcb94e744ee6094fc",
+    "source_receipt": "receipts/current/proposed_transition_bundle_receipt.jsonl"
+  },
+  "contents": [
+    {
+      "bundle_path": "files/outputs/thread.md",
+      "bytes": 60290,
+      "exists": true,
+      "path": "outputs/thread.md",
+      "required": true,
+      "sha256": "sha256:b40840a851adf2088f4969c30008c9407f222101b86cf190a5da6069ed3add5a"
+    },
+    {
+      "bundle_path": "files/outputs/claude_response.md",
+      "bytes": 22438,
+      "exists": true,
+      "path": "outputs/claude_response.md",
+      "required": true,
+      "sha256": "sha256:b436a97aa25aa68ce42b2e31f33a4b227354c9926068f5da0bc3ea4a5c10db1d"
+    },
+    {
+      "bundle_path": "files/outputs/chatgpt_response.md",
+      "bytes": 2204,
+      "exists": true,
+      "path": "outputs/chatgpt_response.md",
+      "required": true,
+      "sha256": "sha256:04c4b6bbed84016845d8069e935505cb05e66a0290cc889168c90fbddb3cf0aa"
+    },
+    {
+      "bundle_path": "files/reports/current/agent_coordination_report.json",
+      "bytes": 33450,
+      "exists": true,
+      "path": "reports/current/agent_coordination_report.json",
+      "required": true,
+      "sha256": "sha256:483f9fe6b04873c76039ecd2089144a13a158dc1f52c07e9fce8cd60dd3c604f"
+    },
+    {
+      "bundle_path": "files/reports/current/agent_comparison_report.json",
+      "bytes": 2178,
+      "exists": true,
+      "path": "reports/current/agent_comparison_report.json",
+      "required": true,
+      "sha256": "sha256:c53ac79ec7f6ec73df0c05afbccd65ac21890dc607b6b428272f2c4f21c8fd77"
+    },
+    {
+      "bundle_path": "files/reports/current/agent_boundary_report.json",
+      "bytes": 2279,
+      "exists": true,
+      "path": "reports/current/agent_boundary_report.json",
+      "required": true,
+      "sha256": "sha256:93787bf0ac8796821ca6337f07ead9f004365b3a625032f7e3367989d67c270c"
+    },
+    {
+      "bundle_path": "files/receipts/current/agent_coordination_receipt.jsonl",
+      "bytes": 13836,
+      "exists": true,
+      "path": "receipts/current/agent_coordination_receipt.jsonl",
+      "required": true,
+      "sha256": "sha256:d1a053f76271e0a26a455f01df162f460b4c8d4071e607bcb42fcf9a25d3a7fc"
+    },
+    {
+      "bundle_path": "files/receipts/current/agent_comparison_receipt.jsonl",
+      "bytes": 12468,
+      "exists": true,
+      "path": "receipts/current/agent_comparison_receipt.jsonl",
+      "required": true,
+      "sha256": "sha256:ca8fcc94816412b46e6b042839cde352c983c2b471454ca18138bb9164f2825a"
+    },
+    {
+      "bundle_path": "files/receipts/current/agent_boundary_receipt.jsonl",
+      "bytes": 5733,
+      "exists": true,
+      "path": "receipts/current/agent_boundary_receipt.jsonl",
+      "required": true,
+      "sha256": "sha256:c943f941be7978e5abc812ff1f98bd4bbaa1a6d484138cc13171da8d6d4f96a5"
+    },
+    {
+      "bundle_path": "files/agent_history/llm_changelog.jsonl",
+      "bytes": 50612,
+      "exists": true,
+      "path": "agent_history/llm_changelog.jsonl",
+      "required": true,
+      "sha256": "sha256:ada6de759a83bce898a74d933c7593d190e90568f11a147f5881992aab75f344"
+    },
+    {
+      "bundle_path": "files/agent_history/version_state.json",
+      "bytes": 4386,
+      "exists": true,
+      "path": "agent_history/version_state.json",
+      "required": true,
+      "sha256": "sha256:e7f2abdbca6f8141235e55fdeab0a5754492ed32370794c7812d27f66dde39fa"
+    },
+    {
+      "bundle_path": "files/receipts/current/openai_task_receipt.jsonl",
+      "bytes": 8174,
+      "exists": true,
+      "path": "receipts/current/openai_task_receipt.jsonl",
+      "required": false,
+      "sha256": "sha256:39903d72c79e54b210142f78c659daab75667cc852dc0b76118896d83919cd1d"
+    },
+    {
+      "bundle_path": "files/reports/current/openai_task_summary.json",
+      "bytes": 424,
+      "exists": true,
+      "path": "reports/current/openai_task_summary.json",
+      "required": false,
+      "sha256": "sha256:13bbd5cafab38b65a3ff469de46dc327d0aaba6fe808176b316fbf3933e99da0"
+    },
+    {
+      "bundle_path": "files/reports/current/claude_task_summary.json",
+      "bytes": 242,
+      "exists": true,
+      "path": "reports/current/claude_task_summary.json",
+      "required": false,
+      "sha256": "sha256:47d1e84f399d24169d63572f3330740a12d74301ec30b7bc8271790726be68f7"
+    }
+  ],
+  "created_utc": "2026-06-16T20:53:50Z",
+  "hashing": {
+    "algorithm": "sha256",
+    "canonicalization": "json.dumps(sort_keys=True,separators=(',',':'),ensure_ascii=False)",
+    "excluded_manifest_fields": [
+      "manifest_sha256",
+      "chain_link.link_id"
+    ]
+  },
+  "manifest_sha256": "sha256:9522a0034580bbd77957f8a35bd5b903cd228dfeda13e91c1e63b4572c8191dc",
+  "schema": "stegverse.transition_bundle.v1",
+  "source": {
+    "commit_sha": "a8a9cbec3244f770dc44c4b1d90437ec7a952ad5",
+    "entity": "StegVerse-002",
+    "repo": "StegVerse-002/core-lite",
+    "run_id": "27647451371",
+    "run_number": "4",
+    "stage": "SV002-M10",
+    "workflow": "core-lite-autonomous-tick"
+  },
+  "transition": {
+    "class": "proposed_state_transition",
+    "cross_repo_or_org_boundary": false,
+    "decision": "COORDINATION_THREAD_READY",
+    "destination_org": null,
+    "destination_repo": null,
+    "next_required_link": "ingestion_intake_receipt",
+    "requires_ingestion": true,
+    "status": "candidate_evidence_packaged",
+    "transport_mechanism": "ingestion"
+  },
+  "version": "0.1.3-gllm"
+}
