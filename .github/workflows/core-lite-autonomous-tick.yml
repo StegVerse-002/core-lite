@@ -90,7 +90,19 @@ jobs:
           fi
 
           python scripts/package_transition_bundle.py
-          python scripts/ingest_transition_bundle.py dist/bundles/proposed_transition_bundle.zip --repo-root .
+
+          set +e
+          python scripts/ingest_transition_bundle.py dist/bundles/proposed_transition_bundle.zip --repo-root . > reports/current/transition_bundle_ingest_stdout.json 2> reports/current/transition_bundle_ingest_stderr.txt
+          INGEST_EXIT=$?
+          set -e
+          echo "${INGEST_EXIT}" > reports/current/transition_bundle_ingest_exit_code.txt
+          cat reports/current/transition_bundle_ingest_stdout.json || true
+          cat reports/current/transition_bundle_ingest_stderr.txt || true
+
+          if [ "${INGEST_EXIT}" -ne 0 ]; then
+            echo "::warning::transition bundle ingest exited ${INGEST_EXIT}; receipt will still be committed for diagnosis."
+          fi
+
           python scripts/check_transition_bundle_proof.py --repo-root .
 
           FINAL_STATUS="$(python3 -c "import json; print(json.load(open('reports/current/transition_bundle_proof_check.json'))['status'])")"
@@ -99,6 +111,7 @@ jobs:
           echo "final_needs_proof=${FINAL_NEEDS_PROOF}" >> "${GITHUB_OUTPUT}"
 
           {
+            echo "- ingest_exit_code: ${INGEST_EXIT}"
             echo "- final_status: ${FINAL_STATUS}"
             echo "- final_needs_proof: ${FINAL_NEEDS_PROOF}"
             echo
