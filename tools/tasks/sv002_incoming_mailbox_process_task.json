@@ -1,0 +1,30 @@
+{
+  "task_id": "sv002.incoming.mailbox.process",
+  "stage": "SV002-M12",
+  "allowed_stages": ["SV002-M12", "SV002-M13"],
+  "description": "Process guarded incoming mailbox submissions and route zip bundles through BundleIngestor.",
+  "capability": "incoming_mailbox_process",
+  "transition_class": "tooling",
+  "authority": "scoped_repo_write",
+  "entry_point": "scripts/run_incoming_mailbox.py",
+  "command": "python scripts/run_incoming_mailbox.py",
+  "timeout_seconds": 300,
+  "expected_outputs": [
+    "reports/current/incoming_mailbox_report.json",
+    "receipts/current/incoming_mailbox_receipt.jsonl",
+    "outputs/incoming_mailbox.md",
+    "dist/run_artifacts/incoming-mailbox.zip"
+  ],
+  "decision_set": ["ALLOW", "FAIL_CLOSED"],
+  "stop_condition": "Incoming mailbox scanned and report/receipt written.",
+  "governance": {
+    "no_broad_authority": true,
+    "no_root_readme_overwrite": true,
+    "no_workflow_changes": true,
+    "default_deny": true,
+    "receipt_before_claim": true,
+    "mailbox_not_durable_state": true,
+    "delegates_to_bundle_ingestor": true
+  },
+  "notes": "Task addition file. Fold into tools/tasks/task_catalog.json after tests pass."
+}
