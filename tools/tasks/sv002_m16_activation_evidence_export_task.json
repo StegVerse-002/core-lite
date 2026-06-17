@@ -1,0 +1,30 @@
+{
+  "task_id": "sv002.m16.activation_evidence.export",
+  "stage": "SV002-M16",
+  "allowed_stages": ["SV002-M16", "SV002-M17"],
+  "description": "Export activation evidence for Core-Lite by checking required paths, expected M11-M15 reports, boundary declarations, receipts, and artifact packaging.",
+  "capability": "m16_activation_evidence_export",
+  "transition_class": "evidence",
+  "authority": "evidence_only",
+  "entry_point": "scripts/run_activation_evidence_export.py",
+  "command": "python scripts/run_activation_evidence_export.py",
+  "timeout_seconds": 300,
+  "expected_outputs": [
+    "reports/current/core_lite_activation_evidence_report.json",
+    "receipts/current/core_lite_activation_evidence_receipt.jsonl",
+    "outputs/core_lite_activation_evidence.md",
+    "dist/run_artifacts/core-lite-activation-evidence.zip"
+  ],
+  "decision_set": ["ALLOW", "REVIEW", "FAIL_CLOSED"],
+  "stop_condition": "Activation evidence report, receipt, markdown summary, and artifact zip written.",
+  "governance": {
+    "no_broad_authority": true,
+    "no_root_readme_overwrite": true,
+    "no_workflow_changes": true,
+    "default_deny": true,
+    "evidence_only": true,
+    "receipt_before_claim": true,
+    "activation_requires_reports": true
+  },
+  "notes": "Task addition file. Fold into tools/tasks/task_catalog.json after M12-M15 validation reports exist."
+}
