@@ -1,0 +1,31 @@
+{
+  "task_id": "sv002.m14.formalism_linkage.check",
+  "stage": "SV002-M14",
+  "allowed_stages": ["SV002-M14", "SV002-M15"],
+  "description": "Validate that transition table policy links to Stage 32, 33, and 34 formalism refs and preserves required boundary metrics and decision regions.",
+  "capability": "m14_formalism_linkage_check",
+  "transition_class": "tooling",
+  "authority": "test_only",
+  "entry_point": "scripts/run_m14_formalism_linkage_check.py",
+  "command": "python scripts/run_m14_formalism_linkage_check.py",
+  "timeout_seconds": 300,
+  "expected_outputs": [
+    "reports/current/m14_formalism_linkage_report.json",
+    "receipts/current/m14_formalism_linkage_receipt.jsonl",
+    "outputs/m14_formalism_linkage.md",
+    "dist/run_artifacts/m14-formalism-linkage.zip"
+  ],
+  "decision_set": ["ALLOW", "FAIL_CLOSED"],
+  "stop_condition": "Formalism linkage report and receipt written; Stage 32-34 references validated.",
+  "governance": {
+    "no_broad_authority": true,
+    "no_root_readme_overwrite": true,
+    "no_workflow_changes": true,
+    "default_deny": true,
+    "test_only": true,
+    "receipt_before_claim": true,
+    "formalism_refs_required": true,
+    "site_role_mirror_only": true
+  },
+  "notes": "Task addition file. Fold into tools/tasks/task_catalog.json after direct validation passes."
+}
