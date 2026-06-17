@@ -58,6 +58,9 @@ Read these in order:
 8. [`SV002_M11_TO_M13_ACTIVATION_SUMMARY.md`](SV002_M11_TO_M13_ACTIVATION_SUMMARY.md)  
    Activates the M11-M13 chain as a completed non-mutating recovery/finalization proof module.
 
+9. [`SV002_M11_TO_M13_NON_EXECUTION_BOUNDARY.md`](SV002_M11_TO_M13_NON_EXECUTION_BOUNDARY.md)  
+   Binding boundary policy: activation is proof infrastructure only and must not be interpreted as mutation, cleanup, replacement, deletion, bulk, or execution authority.
+
 ## Machine-readable task catalog supplement
 
 The activated module has a dedicated machine-readable supplement:
@@ -144,6 +147,7 @@ SV002-M13: complete — finalize-one proposal and authority-boundary regression
 8. Bulk sequencing cannot begin until single-bundle execution is separately proven.
 9. Future mutation requires a separate transition-table and CGE authority lane.
 10. Activation of this module means only non-mutating proof infrastructure is activated.
+11. The non-execution boundary policy is binding unless a later execution-lane receipt explicitly supersedes it.
 
 ## Next module
 
