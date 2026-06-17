@@ -1,0 +1,31 @@
+{
+  "task_id": "sv002.m15.sdk_cli.validation",
+  "stage": "SV002-M15",
+  "allowed_stages": ["SV002-M15", "SV002-M16"],
+  "description": "Validate the stable governed SDK and CLI surface. Uses SDK and CLI to ingest a controlled governed bundle and confirms receipt/report/probe behavior.",
+  "capability": "m15_sdk_cli_validation",
+  "transition_class": "tooling",
+  "authority": "test_only",
+  "entry_point": "scripts/run_m15_sdk_cli_tests.py",
+  "command": "python scripts/run_m15_sdk_cli_tests.py",
+  "timeout_seconds": 300,
+  "expected_outputs": [
+    "reports/current/m15_sdk_cli_validation_report.json",
+    "receipts/current/m15_sdk_cli_validation_receipt.jsonl",
+    "outputs/m15_sdk_cli_validation.md",
+    "dist/run_artifacts/m15-sdk-cli-validation.zip"
+  ],
+  "decision_set": ["ALLOW", "FAIL_CLOSED"],
+  "stop_condition": "SDK and CLI governed bundle ingestion paths verified with report and receipt.",
+  "governance": {
+    "no_broad_authority": true,
+    "no_root_readme_overwrite": true,
+    "no_workflow_changes": true,
+    "default_deny": true,
+    "test_only": true,
+    "receipt_before_claim": true,
+    "no_raw_mutation_api": true,
+    "delegates_to_governed_boundaries": true
+  },
+  "notes": "Task addition file. Fold into tools/tasks/task_catalog.json after direct validation passes."
+}
