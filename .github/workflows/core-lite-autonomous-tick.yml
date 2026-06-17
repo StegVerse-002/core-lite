@@ -12,6 +12,7 @@ name: core-lite-autonomous-tick
       - ".github/workflows/core-lite-autonomous-tick.yml"
       - ".github/workflows/core-lite-intake.yml"
       - "config/heartbeat_policy.json"
+      - "scripts/check_scheduler_liveness.py"
       - "scripts/check_transition_bundle_proof.py"
       - "scripts/evaluate_heartbeat_mode.py"
       - "scripts/package_transition_bundle.py"
@@ -52,6 +53,7 @@ jobs:
           mkdir -p reports/current receipts/current
           python scripts/check_transition_bundle_proof.py --repo-root .
           python scripts/evaluate_heartbeat_mode.py --repo-root .
+          python scripts/check_scheduler_liveness.py --repo-root . --max-age-minutes 15
 
           NEEDS_PROOF="$(python3 -c "import json; print(str(json.load(open('reports/current/transition_bundle_proof_check.json'))['needs_proof']).lower())")"
           STATUS="$(python3 -c "import json; print(json.load(open('reports/current/transition_bundle_proof_check.json'))['status'])")"
@@ -59,6 +61,7 @@ jobs:
           HEARTBEAT_MODE="$(python3 -c "import json; print(json.load(open('reports/current/heartbeat_evaluation.json'))['mode'])")"
           HEARTBEAT_INTERVAL="$(python3 -c "import json; print(json.load(open('reports/current/heartbeat_evaluation.json'))['recommended_interval_minutes'])")"
           SHOULD_REPAIR="$(python3 -c "import json; print(str(json.load(open('reports/current/heartbeat_evaluation.json'))['should_attempt_repair']).lower())")"
+          SCHEDULER_STATUS="$(python3 -c "import json; print(json.load(open('reports/current/scheduler_liveness_report.json'))['status'])")"
 
           echo "needs_proof=${NEEDS_PROOF}" >> "${GITHUB_OUTPUT}"
           echo "status=${STATUS}" >> "${GITHUB_OUTPUT}"
@@ -66,6 +69,7 @@ jobs:
           echo "heartbeat_mode=${HEARTBEAT_MODE}" >> "${GITHUB_OUTPUT}"
           echo "heartbeat_interval=${HEARTBEAT_INTERVAL}" >> "${GITHUB_OUTPUT}"
           echo "should_repair=${SHOULD_REPAIR}" >> "${GITHUB_OUTPUT}"
+          echo "scheduler_status=${SCHEDULER_STATUS}" >> "${GITHUB_OUTPUT}"
 
           {
             echo "## Core-Lite Autonomous Tick"
@@ -78,6 +82,7 @@ jobs:
             echo "| heartbeat_mode | ${HEARTBEAT_MODE} |"
             echo "| heartbeat_interval_minutes | ${HEARTBEAT_INTERVAL} |"
             echo "| should_repair | ${SHOULD_REPAIR} |"
+            echo "| scheduler_status | ${SCHEDULER_STATUS} |"
             echo
             echo "### Proof check report"
             echo
@@ -89,6 +94,12 @@ jobs:
             echo
             echo '```json'
             cat reports/current/heartbeat_evaluation.json
+            echo '```'
+            echo
+            echo "### Scheduler liveness"
+            echo
+            echo '```json'
+            cat reports/current/scheduler_liveness_report.json
             echo '```'
           } >> "${GITHUB_STEP_SUMMARY}"
 
@@ -153,13 +164,16 @@ jobs:
 
           python scripts/check_transition_bundle_proof.py --repo-root .
           python scripts/evaluate_heartbeat_mode.py --repo-root .
+          python scripts/check_scheduler_liveness.py --repo-root . --max-age-minutes 15
 
           FINAL_STATUS="$(python3 -c "import json; print(json.load(open('reports/current/transition_bundle_proof_check.json'))['status'])")"
           FINAL_NEEDS_PROOF="$(python3 -c "import json; print(str(json.load(open('reports/current/transition_bundle_proof_check.json'))['needs_proof']).lower())")"
           FINAL_HEARTBEAT_MODE="$(python3 -c "import json; print(json.load(open('reports/current/heartbeat_evaluation.json'))['mode'])")"
+          FINAL_SCHEDULER_STATUS="$(python3 -c "import json; print(json.load(open('reports/current/scheduler_liveness_report.json'))['status'])")"
           echo "final_status=${FINAL_STATUS}" >> "${GITHUB_OUTPUT}"
           echo "final_needs_proof=${FINAL_NEEDS_PROOF}" >> "${GITHUB_OUTPUT}"
           echo "final_heartbeat_mode=${FINAL_HEARTBEAT_MODE}" >> "${GITHUB_OUTPUT}"
+          echo "final_scheduler_status=${FINAL_SCHEDULER_STATUS}" >> "${GITHUB_OUTPUT}"
 
           {
             echo "- package_exit_code: ${PACKAGE_EXIT}"
@@ -167,6 +181,7 @@ jobs:
             echo "- final_status: ${FINAL_STATUS}"
             echo "- final_needs_proof: ${FINAL_NEEDS_PROOF}"
             echo "- final_heartbeat_mode: ${FINAL_HEARTBEAT_MODE}"
+            echo "- final_scheduler_status: ${FINAL_SCHEDULER_STATUS}"
             echo
             echo "### Final proof check report"
             echo
@@ -178,6 +193,12 @@ jobs:
             echo
             echo '```json'
             cat reports/current/heartbeat_evaluation.json
+            echo '```'
+            echo
+            echo "### Final scheduler liveness"
+            echo
+            echo '```json'
+            cat reports/current/scheduler_liveness_report.json
             echo '```'
           } >> "${GITHUB_STEP_SUMMARY}"
 
