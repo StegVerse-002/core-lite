@@ -11,7 +11,9 @@ name: core-lite-autonomous-tick
       - ".gitignore"
       - ".github/workflows/core-lite-autonomous-tick.yml"
       - ".github/workflows/core-lite-intake.yml"
+      - "config/heartbeat_policy.json"
       - "scripts/check_transition_bundle_proof.py"
+      - "scripts/evaluate_heartbeat_mode.py"
       - "scripts/package_transition_bundle.py"
       - "scripts/ingest_transition_bundle.py"
       - "task.md"
@@ -49,14 +51,21 @@ jobs:
           set -euo pipefail
           mkdir -p reports/current receipts/current
           python scripts/check_transition_bundle_proof.py --repo-root .
+          python scripts/evaluate_heartbeat_mode.py --repo-root .
 
           NEEDS_PROOF="$(python3 -c "import json; print(str(json.load(open('reports/current/transition_bundle_proof_check.json'))['needs_proof']).lower())")"
           STATUS="$(python3 -c "import json; print(json.load(open('reports/current/transition_bundle_proof_check.json'))['status'])")"
           MISSING="$(python3 -c "import json; print(', '.join(json.load(open('reports/current/transition_bundle_proof_check.json'))['missing']))")"
+          HEARTBEAT_MODE="$(python3 -c "import json; print(json.load(open('reports/current/heartbeat_evaluation.json'))['mode'])")"
+          HEARTBEAT_INTERVAL="$(python3 -c "import json; print(json.load(open('reports/current/heartbeat_evaluation.json'))['recommended_interval_minutes'])")"
+          SHOULD_REPAIR="$(python3 -c "import json; print(str(json.load(open('reports/current/heartbeat_evaluation.json'))['should_attempt_repair']).lower())")"
 
           echo "needs_proof=${NEEDS_PROOF}" >> "${GITHUB_OUTPUT}"
           echo "status=${STATUS}" >> "${GITHUB_OUTPUT}"
           echo "missing=${MISSING}" >> "${GITHUB_OUTPUT}"
+          echo "heartbeat_mode=${HEARTBEAT_MODE}" >> "${GITHUB_OUTPUT}"
+          echo "heartbeat_interval=${HEARTBEAT_INTERVAL}" >> "${GITHUB_OUTPUT}"
+          echo "should_repair=${SHOULD_REPAIR}" >> "${GITHUB_OUTPUT}"
 
           {
             echo "## Core-Lite Autonomous Tick"
@@ -66,17 +75,26 @@ jobs:
             echo "| proof_status | ${STATUS} |"
             echo "| needs_proof | ${NEEDS_PROOF} |"
             echo "| missing | ${MISSING:-none} |"
+            echo "| heartbeat_mode | ${HEARTBEAT_MODE} |"
+            echo "| heartbeat_interval_minutes | ${HEARTBEAT_INTERVAL} |"
+            echo "| should_repair | ${SHOULD_REPAIR} |"
             echo
             echo "### Proof check report"
             echo
             echo '```json'
             cat reports/current/transition_bundle_proof_check.json
             echo '```'
+            echo
+            echo "### Heartbeat evaluation"
+            echo
+            echo '```json'
+            cat reports/current/heartbeat_evaluation.json
+            echo '```'
           } >> "${GITHUB_STEP_SUMMARY}"
 
       - name: Regenerate and ingest missing transition-bundle proof artifacts
         id: regenerate
-        if: ${{ steps.decide.outputs.needs_proof == 'true' }}
+        if: ${{ steps.decide.outputs.should_repair == 'true' }}
         run: |
           set -euo pipefail
           mkdir -p outputs reports/current receipts/current agent_history dist/bundles dist/master-records/pending_candidate_bundles
@@ -134,22 +152,32 @@ jobs:
           fi
 
           python scripts/check_transition_bundle_proof.py --repo-root .
+          python scripts/evaluate_heartbeat_mode.py --repo-root .
 
           FINAL_STATUS="$(python3 -c "import json; print(json.load(open('reports/current/transition_bundle_proof_check.json'))['status'])")"
           FINAL_NEEDS_PROOF="$(python3 -c "import json; print(str(json.load(open('reports/current/transition_bundle_proof_check.json'))['needs_proof']).lower())")"
+          FINAL_HEARTBEAT_MODE="$(python3 -c "import json; print(json.load(open('reports/current/heartbeat_evaluation.json'))['mode'])")"
           echo "final_status=${FINAL_STATUS}" >> "${GITHUB_OUTPUT}"
           echo "final_needs_proof=${FINAL_NEEDS_PROOF}" >> "${GITHUB_OUTPUT}"
+          echo "final_heartbeat_mode=${FINAL_HEARTBEAT_MODE}" >> "${GITHUB_OUTPUT}"
 
           {
             echo "- package_exit_code: ${PACKAGE_EXIT}"
             echo "- ingest_exit_code: ${INGEST_EXIT}"
             echo "- final_status: ${FINAL_STATUS}"
             echo "- final_needs_proof: ${FINAL_NEEDS_PROOF}"
+            echo "- final_heartbeat_mode: ${FINAL_HEARTBEAT_MODE}"
             echo
             echo "### Final proof check report"
             echo
             echo '```json'
             cat reports/current/transition_bundle_proof_check.json
+            echo '```'
+            echo
+            echo "### Final heartbeat evaluation"
+            echo
+            echo '```json'
+            cat reports/current/heartbeat_evaluation.json
             echo '```'
           } >> "${GITHUB_STEP_SUMMARY}"
 
@@ -179,7 +207,7 @@ jobs:
           fi
 
       - name: Dispatch core-lite-intake fallback proof run
-        if: ${{ failure() && steps.decide.outputs.needs_proof == 'true' }}
+        if: ${{ failure() && steps.decide.outputs.should_repair == 'true' }}
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -195,7 +223,7 @@ jobs:
             --field stage_override= \
             --field repair_target=
 
-      - name: No-op when proof already exists
-        if: ${{ steps.decide.outputs.needs_proof != 'true' }}
+      - name: No-op when heartbeat is resting
+        if: ${{ steps.decide.outputs.should_repair != 'true' }}
         run: |
-          echo "v0.1.3 proof artifacts already exist. No dispatch needed."
+          echo "Heartbeat mode is ${{ steps.decide.outputs.heartbeat_mode }}. No repair needed."
