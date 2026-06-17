@@ -4,7 +4,7 @@ name: core-lite-autonomous-tick
   workflow_dispatch:
   schedule:
     # Autonomous activation tick. GitHub schedule timing is approximate.
-    - cron: "17 * * * *"
+    - cron: "*/5 * * * *"
   push:
     branches: [main]
     paths:
@@ -84,23 +84,53 @@ jobs:
           echo "## Autonomous Proof Regeneration" >> "${GITHUB_STEP_SUMMARY}"
           echo >> "${GITHUB_STEP_SUMMARY}"
 
+          PACKAGE_EXIT=0
+          INGEST_EXIT=99
+
           if [ ! -f outputs/thread.md ]; then
             echo "- outputs/thread.md missing; running deterministic synthesis first." >> "${GITHUB_STEP_SUMMARY}"
-            python scripts/merge_outputs.py
+            set +e
+            python scripts/merge_outputs.py > reports/current/transition_bundle_merge_stdout.txt 2> reports/current/transition_bundle_merge_stderr.txt
+            MERGE_EXIT=$?
+            set -e
+            echo "${MERGE_EXIT}" > reports/current/transition_bundle_merge_exit_code.txt
+            if [ "${MERGE_EXIT}" -ne 0 ]; then
+              echo "::warning::merge_outputs exited ${MERGE_EXIT}; continuing to package/ingest existing evidence where possible."
+            fi
           fi
 
-          python scripts/package_transition_bundle.py
+          if [ -f dist/bundles/proposed_transition_bundle.zip ] && [ ! -f receipts/current/transition_bundle_ingest_receipt.jsonl ]; then
+            echo "- existing proposed_transition_bundle.zip found; attempting ingest before repackaging." >> "${GITHUB_STEP_SUMMARY}"
+            set +e
+            python scripts/ingest_transition_bundle.py dist/bundles/proposed_transition_bundle.zip --repo-root . > reports/current/transition_bundle_ingest_stdout.json 2> reports/current/transition_bundle_ingest_stderr.txt
+            INGEST_EXIT=$?
+            set -e
+            echo "${INGEST_EXIT}" > reports/current/transition_bundle_ingest_exit_code.txt
+          fi
 
-          set +e
-          python scripts/ingest_transition_bundle.py dist/bundles/proposed_transition_bundle.zip --repo-root . > reports/current/transition_bundle_ingest_stdout.json 2> reports/current/transition_bundle_ingest_stderr.txt
-          INGEST_EXIT=$?
-          set -e
-          echo "${INGEST_EXIT}" > reports/current/transition_bundle_ingest_exit_code.txt
-          cat reports/current/transition_bundle_ingest_stdout.json || true
-          cat reports/current/transition_bundle_ingest_stderr.txt || true
+          if [ ! -f receipts/current/transition_bundle_ingest_receipt.jsonl ]; then
+            set +e
+            python scripts/package_transition_bundle.py > reports/current/transition_bundle_package_stdout.json 2> reports/current/transition_bundle_package_stderr.txt
+            PACKAGE_EXIT=$?
+            set -e
+            echo "${PACKAGE_EXIT}" > reports/current/transition_bundle_package_exit_code.txt
+            if [ "${PACKAGE_EXIT}" -ne 0 ]; then
+              echo "::warning::package_transition_bundle exited ${PACKAGE_EXIT}; attempting ingest from any existing bundle."
+            fi
 
-          if [ "${INGEST_EXIT}" -ne 0 ]; then
-            echo "::warning::transition bundle ingest exited ${INGEST_EXIT}; receipt will still be committed for diagnosis."
+            if [ -f dist/bundles/proposed_transition_bundle.zip ]; then
+              set +e
+              python scripts/ingest_transition_bundle.py dist/bundles/proposed_transition_bundle.zip --repo-root . > reports/current/transition_bundle_ingest_stdout.json 2> reports/current/transition_bundle_ingest_stderr.txt
+              INGEST_EXIT=$?
+              set -e
+              echo "${INGEST_EXIT}" > reports/current/transition_bundle_ingest_exit_code.txt
+            else
+              echo "- no proposed_transition_bundle.zip available after package attempt." >> "${GITHUB_STEP_SUMMARY}"
+            fi
+          fi
+
+          if [ "${INGEST_EXIT}" -ne 0 ] && [ "${INGEST_EXIT}" -ne 99 ]; then
+            echo "::warning::transition bundle ingest exited ${INGEST_EXIT}; receipt/diagnostics will still be committed."
           fi
 
           python scripts/check_transition_bundle_proof.py --repo-root .
@@ -111,6 +141,7 @@ jobs:
           echo "final_needs_proof=${FINAL_NEEDS_PROOF}" >> "${GITHUB_OUTPUT}"
 
           {
+            echo "- package_exit_code: ${PACKAGE_EXIT}"
             echo "- ingest_exit_code: ${INGEST_EXIT}"
             echo "- final_status: ${FINAL_STATUS}"
             echo "- final_needs_proof: ${FINAL_NEEDS_PROOF}"
