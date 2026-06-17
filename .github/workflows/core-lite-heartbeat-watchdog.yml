@@ -11,9 +11,11 @@ name: core-lite-heartbeat-watchdog
       - ".github/workflows/core-lite-heartbeat-watchdog.yml"
       - ".github/workflows/core-lite-autonomous-tick.yml"
       - "config/heartbeat_policy.json"
+      - "config/repo_structure_targets.json"
       - "scripts/check_scheduler_liveness.py"
       - "scripts/check_transition_bundle_proof.py"
       - "scripts/evaluate_heartbeat_mode.py"
+      - "scripts/verify_repo_structure.py"
       - "scripts/ingest_transition_bundle.py"
       - "dist/bundles/**"
       - "reports/current/external_scheduler_observation.json"
@@ -50,15 +52,18 @@ jobs:
           python scripts/check_transition_bundle_proof.py --repo-root .
           python scripts/evaluate_heartbeat_mode.py --repo-root .
           python scripts/check_scheduler_liveness.py --repo-root . --max-age-minutes 20
+          python scripts/verify_repo_structure.py --repo-root .
 
           STATUS="$(python3 -c "import json; print(json.load(open('reports/current/transition_bundle_proof_check.json'))['status'])")"
           SHOULD_REPAIR="$(python3 -c "import json; print(str(json.load(open('reports/current/heartbeat_evaluation.json'))['should_attempt_repair']).lower())")"
           SCHEDULER_STATUS="$(python3 -c "import json; print(json.load(open('reports/current/scheduler_liveness_report.json'))['status'])")"
+          STRUCTURE_PERCENT="$(python3 -c "import json; print(json.load(open('reports/current/repo_structure_verification.json'))['combined']['percent_present'])")"
           MISSING="$(python3 -c "import json; print(', '.join(json.load(open('reports/current/transition_bundle_proof_check.json'))['missing']))")"
 
           echo "status=${STATUS}" >> "${GITHUB_OUTPUT}"
           echo "should_repair=${SHOULD_REPAIR}" >> "${GITHUB_OUTPUT}"
           echo "scheduler_status=${SCHEDULER_STATUS}" >> "${GITHUB_OUTPUT}"
+          echo "structure_percent=${STRUCTURE_PERCENT}" >> "${GITHUB_OUTPUT}"
           echo "missing=${MISSING}" >> "${GITHUB_OUTPUT}"
 
           {
@@ -69,6 +74,7 @@ jobs:
             echo "| proof_status | ${STATUS} |"
             echo "| should_repair | ${SHOULD_REPAIR} |"
             echo "| scheduler_status | ${SCHEDULER_STATUS} |"
+            echo "| structure_percent_present | ${STRUCTURE_PERCENT} |"
             echo "| missing | ${MISSING:-none} |"
             echo
             echo "### Proof check"
@@ -87,6 +93,12 @@ jobs:
             echo
             echo '```json'
             cat reports/current/scheduler_liveness_report.json
+            echo '```'
+            echo
+            echo "### Repo structure verification"
+            echo
+            echo '```json'
+            cat reports/current/repo_structure_verification.json
             echo '```'
           } >> "${GITHUB_STEP_SUMMARY}"
 
@@ -111,6 +123,7 @@ jobs:
           python scripts/check_transition_bundle_proof.py --repo-root .
           python scripts/evaluate_heartbeat_mode.py --repo-root .
           python scripts/check_scheduler_liveness.py --repo-root . --max-age-minutes 20
+          python scripts/verify_repo_structure.py --repo-root .
 
       - name: Commit watchdog evidence
         if: always()
