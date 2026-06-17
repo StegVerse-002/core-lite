@@ -1,0 +1,31 @@
+{
+  "task_id": "sv002.m13.candidate_review_apply.validation",
+  "stage": "SV002-M13",
+  "allowed_stages": ["SV002-M13", "SV002-M14"],
+  "description": "Standalone validation for candidate review/apply separation. Builds a candidate bundle, reviews it without install, then applies it only through matching approved review.",
+  "capability": "m13_candidate_review_apply_validation",
+  "transition_class": "tooling",
+  "authority": "test_only",
+  "entry_point": "scripts/run_m13_candidate_review_apply_tests.py",
+  "command": "python scripts/run_m13_candidate_review_apply_tests.py",
+  "timeout_seconds": 300,
+  "expected_outputs": [
+    "reports/current/m13_candidate_review_apply_validation_report.json",
+    "receipts/current/m13_candidate_review_apply_validation_receipt.jsonl",
+    "outputs/m13_candidate_review_apply_validation.md",
+    "dist/run_artifacts/m13-candidate-review-apply-validation.zip"
+  ],
+  "decision_set": ["ALLOW", "FAIL_CLOSED"],
+  "stop_condition": "Candidate review allowed, candidate apply allowed through matching review, report and receipt written.",
+  "governance": {
+    "no_broad_authority": true,
+    "no_root_readme_overwrite": true,
+    "no_workflow_changes": true,
+    "default_deny": true,
+    "test_only": true,
+    "receipt_before_claim": true,
+    "review_apply_separated": true,
+    "requires_prior_review_report": true
+  },
+  "notes": "Task addition file. Fold into tools/tasks/task_catalog.json after direct validation passes."
+}
