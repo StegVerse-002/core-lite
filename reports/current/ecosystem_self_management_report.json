@@ -1,0 +1,25 @@
+{
+  "authority": {
+    "broad_authority": false,
+    "candidate_evidence_only": true,
+    "canonical_authority": false,
+    "may_bind_repo_state": false
+  },
+  "checked_utc": "2026-06-18T01:00:00Z",
+  "assessment_goal": "continue without manual actions until complete or ecosystem-managed handoff capable",
+  "input_state": {
+    "handoff_present": true,
+    "latest_boundary_result": "GRANT_REVIEW_PENDING_HUMAN_OR_COUNCIL_AUTHORITY",
+    "next_candidate_goal": "authority-decision request boundary"
+  },
+  "management_capability": {
+    "can_identify_current_state": true,
+    "can_identify_next_goal": true,
+    "can_resume_from_handoff": true,
+    "manual_action_required_for_current_chain": false
+  },
+  "repo": "StegVerse-002/core-lite",
+  "result": "ECOSYSTEM_HANDOFF_CAPABLE",
+  "schema": "stegverse.ecosystem_self_management_report.v1",
+  "version": "0.1.9-gllm"
+}
