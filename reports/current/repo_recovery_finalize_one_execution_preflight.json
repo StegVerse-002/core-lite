@@ -1,0 +1,91 @@
+{
+  "candidate": {
+    "bundle_hash": "sha256:17f224bca33c1a1cff197b1f06f76058f9d61fb0e399c3b034070137bec52b3e",
+    "bundle_path": "tracking/recovery_corrected/sv002_recovery_30d45378723de692_CHANGELOG.md.zip",
+    "bundle_present": true,
+    "destination_path": "CHANGELOG.md",
+    "expected_bundle_hash": "sha256:17f224bca33c1a1cff197b1f06f76058f9d61fb0e399c3b034070137bec52b3e",
+    "expected_source_hash": "sha256:30d45378723de6921247377dd1bf79ec1f0dbd405237b4a33b222f11ed1c019d",
+    "source_hash": "sha256:30d45378723de6921247377dd1bf79ec1f0dbd405237b4a33b222f11ed1c019d",
+    "source_path": "CHANGELOG.md",
+    "source_present": true
+  },
+  "checked_docs": {
+    "m11_to_m13_activation": "docs/recovery/SV002_M11_TO_M13_ACTIVATION_SUMMARY.md",
+    "m11_to_m13_non_execution_boundary": "docs/recovery/SV002_M11_TO_M13_NON_EXECUTION_BOUNDARY.md",
+    "m11_to_m13_proof_map": "docs/recovery/SV002_M11_TO_M13_RECOVERY_FINALIZATION_PROOF_MAP.md",
+    "m14_design": "docs/recovery/SV002_M14_FINALIZE_ONE_EXECUTION_AUTHORITY_DESIGN.md"
+  },
+  "checked_receipts": {
+    "m11_to_m13_authority_boundary": "receipts/current/recovery_authority_boundary_regression_receipt.jsonl",
+    "m12_destination_plan": "receipts/current/repo_recovery_destination_plan_receipt.jsonl",
+    "m12_finalize_check": "receipts/current/repo_recovery_finalize_check_receipt.jsonl",
+    "m13_finalize_one_candidate": "receipts/current/repo_recovery_finalize_one_candidate_receipt.jsonl"
+  },
+  "checked_reports": {
+    "m11_to_m13_authority_boundary": "reports/current/recovery_authority_boundary_regression.json",
+    "m12_destination_plan": "reports/current/repo_recovery_destination_plan.json",
+    "m12_finalize_check": "reports/current/repo_recovery_finalize_check.json",
+    "m13_finalize_one_candidate": "reports/current/repo_recovery_finalize_one_candidate.json"
+  },
+  "decision": "EXECUTION_PREFLIGHT_REVIEW_ONLY",
+  "entity": "StegVerse-002",
+  "errors": [],
+  "future_execution_lane_requirements": {
+    "cge_finalization_authority_receipt": null,
+    "exact_mutation_plan_receipt": null,
+    "operator_mutation_intent_receipt": null,
+    "post_mutation_verification_receipt": null,
+    "rollback_dispute_readiness_receipt": null,
+    "transition_table_finalization_action_receipt": null
+  },
+  "generated_at": "2026-06-18T01:01:03.475585+00:00",
+  "m11_to_m13_boundary": {
+    "bulk_authority": "none",
+    "cleanup_authority": "none",
+    "execution_authority": "none",
+    "mutation_performed": false,
+    "original_removal_authority": "none",
+    "replacement_authority": "none",
+    "required_boundary_report_decision": "ALLOW"
+  },
+  "next_required_action": "Create explicit operator-intent, transition-table finalization, CGE finalization, mutation-plan, rollback, and post-verification lanes before any execution.",
+  "preflight_authority": {
+    "bulk_authority": "none",
+    "cleanup_authority": "none",
+    "execution_authority": "none",
+    "may_bulk_sequence": false,
+    "may_cleanup_recovery_bundles": false,
+    "may_delete_files": false,
+    "may_execute_finalization": false,
+    "may_move_files": false,
+    "may_replace_files": false,
+    "mutation_performed": false,
+    "original_removal_authority": "none",
+    "replacement_authority": "none"
+  },
+  "presence": {
+    "docs": {
+      "m11_to_m13_activation": true,
+      "m11_to_m13_non_execution_boundary": true,
+      "m11_to_m13_proof_map": true,
+      "m14_design": true
+    },
+    "receipts": {
+      "m11_to_m13_authority_boundary": true,
+      "m12_destination_plan": true,
+      "m12_finalize_check": true,
+      "m13_finalize_one_candidate": true
+    },
+    "reports": {
+      "m11_to_m13_authority_boundary": true,
+      "m12_destination_plan": true,
+      "m12_finalize_check": true,
+      "m13_finalize_one_candidate": true
+    }
+  },
+  "repository": "core-lite",
+  "schema": "stegverse.repo_recovery.finalize_one_execution_preflight.v1",
+  "stage": "SV002-M14",
+  "warnings": []
+}
