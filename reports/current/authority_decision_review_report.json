@@ -1,0 +1,23 @@
+{
+  "authority": {
+    "broad_authority": false,
+    "candidate_evidence_only": true,
+    "canonical_authority": false,
+    "may_bind_repo_state": false
+  },
+  "checked_utc": "2026-06-18T01:20:00Z",
+  "input_state": {
+    "request_result": "AUTHORITY_DECISION_REQUEST_RECORDED"
+  },
+  "missing_inputs": [],
+  "repo": "StegVerse-002/core-lite",
+  "result": "AUTHORITY_DECISION_REVIEW_PENDING_AUTHORIZED_QUORUM",
+  "review_boundary": {
+    "requires_authorized_quorum": true,
+    "this_review_binds_repo_state": false,
+    "this_review_grants_authority": false,
+    "this_review_installs": false
+  },
+  "schema": "stegverse.authority_decision_review_report.v1",
+  "version": "0.1.11-gllm"
+}
