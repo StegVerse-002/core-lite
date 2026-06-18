@@ -1,0 +1,1 @@
+{"authority":{"broad_authority":false,"candidate_evidence_only":true,"canonical_authority":false,"may_bind_repo_state":false},"checked_utc":"2026-06-17T23:59:20Z","mode":"activation_evidence_present","repo":"StegVerse-002/core-lite","schema":"stegverse.heartbeat_evaluation.v1","should_attempt_repair":false,"status":"HEARTBEAT_OBSERVED","version":"0.1.3-gllm"}
