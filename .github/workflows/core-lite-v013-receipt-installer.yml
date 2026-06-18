@@ -6,6 +6,7 @@ name: core-lite-v013-receipt-installer
     branches: [main]
     paths:
       - ".github/workflows/core-lite-v013-receipt-installer.yml"
+      - "docs/V013_RECEIPT_INSTALL_TRIGGER.md"
       - "scripts/install_v013_activation_receipts.py"
       - "scripts/ingest_transition_bundle.py"
       - "scripts/check_transition_bundle_proof.py"
