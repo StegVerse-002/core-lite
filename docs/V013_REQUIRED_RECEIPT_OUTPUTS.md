@@ -28,3 +28,11 @@ may_bind_repo_state: false
 ```
 
 This file does not claim activation. It only defines the expected committed evidence.
+
+## Trigger Bump
+
+```text
+bump_reason: installer workflow now watches this checklist
+bump_target: core-lite-v013-receipt-installer.yml
+bump_effect: create fresh repo-native event for required-output comparison
+```
