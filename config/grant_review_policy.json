@@ -1,0 +1,24 @@
+{
+  "schema": "stegverse.grant_review_policy.v1",
+  "version": "0.1.8-gllm",
+  "repo": "StegVerse-002/core-lite",
+  "decision_scope": "grant_review_boundary",
+  "authority": {
+    "candidate_evidence_only": true,
+    "canonical_authority": false,
+    "broad_authority": false,
+    "may_bind_repo_state": false
+  },
+  "required_inputs": [
+    "reports/current/explicit_grant_request_report.json",
+    "receipts/current/explicit_grant_request_receipt.jsonl"
+  ],
+  "expected_request_result": "EXPLICIT_GRANT_REQUEST_RECORDED",
+  "review_result": "GRANT_REVIEW_PENDING_HUMAN_OR_COUNCIL_AUTHORITY",
+  "review_boundary": {
+    "this_review_grants_authority": false,
+    "this_review_installs": false,
+    "requires_separate_authority_decision": true,
+    "this_review_binds_repo_state": false
+  }
+}
