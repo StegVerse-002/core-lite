@@ -35,3 +35,11 @@ may_bind_repo_state: false
 ```
 
 This marker does not grant authority and does not claim activation. It only creates a repo-native change intended to activate receipt installation.
+
+## Trigger Bump
+
+```text
+bump_reason: installer workflow trigger path added after original marker creation
+bump_target: core-lite-v013-receipt-installer.yml
+bump_effect: repo-native installer workflow should evaluate this marker path on push
+```
