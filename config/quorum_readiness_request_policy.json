@@ -1,0 +1,26 @@
+{
+  "schema": "stegverse.quorum_readiness_request_policy.v1",
+  "version": "0.1.12-gllm",
+  "repo": "StegVerse-002/core-lite",
+  "assessment_goal": "ecosystem-managed continuation",
+  "authority": {
+    "candidate_evidence_only": true,
+    "canonical_authority": false,
+    "broad_authority": false,
+    "may_bind_repo_state": false
+  },
+  "required_inputs": [
+    "reports/current/authority_decision_review_report.json",
+    "receipts/current/authority_decision_review_receipt.jsonl",
+    "docs/CORE_LITE_MIRROR_HANDOFF.md"
+  ],
+  "expected_review_result": "AUTHORITY_DECISION_REVIEW_PENDING_AUTHORIZED_QUORUM",
+  "request_result": "QUORUM_READINESS_REQUEST_RECORDED",
+  "request_boundary": {
+    "this_request_forms_quorum": false,
+    "this_request_grants_authority": false,
+    "this_request_installs": false,
+    "this_request_binds_repo_state": false,
+    "requires_future_quorum_review": true
+  }
+}
