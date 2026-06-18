@@ -2,56 +2,36 @@
 
 Generated: 2026-06-18
 Repo: StegVerse-002/core-lite
-Completed goal: v0.1.4 destination admissibility / install-decision boundary.
-Current goal: v0.1.5 install-decision boundary.
+Completed goal: v0.1.5 install-decision boundary.
+Current goal: v0.1.6 promotion-gate boundary.
 
 ## Purpose
 
 This file is the current handoff and task source of truth for non-Site/non-Publisher work in this repo.
 
-A new session should check this file before continuing core-lite activation, proof, heartbeat, structure-verification, destination-admissibility, or install-decision work.
+A new session should check this file before continuing core-lite activation, proof, heartbeat, structure-verification, destination-admissibility, install-decision, or promotion-gate work.
 
 ## Completed v0.1.3 Scope
 
 StegVerse-002/core-lite v0.1.3-gllm proved that proposed LLM collaboration evidence can be packaged as candidate evidence, transported through ingestion, recorded with receipts, observed by heartbeat checks, and compared against required repo structure without creating broad or canonical authority.
 
-## v0.1.3 Activation Result
-
-Activation target reached:
+Result:
 
 ```text
 PROOF_COMPLETE
-```
-
-Required activation artifacts are present:
-
-```text
-dist/bundles/proposed_transition_bundle.json
-dist/bundles/proposed_transition_bundle.zip
-dist/bundles/proposed_transition_bundle.sha256
-receipts/current/proposed_transition_bundle_receipt.jsonl
-receipts/current/transition_bundle_ingest_receipt.jsonl
-reports/current/transition_bundle_proof_check.json
-receipts/current/transition_bundle_proof_check_receipt.jsonl
-receipts/current/heartbeat_evaluation_receipt.jsonl
-receipts/current/scheduler_liveness_receipt.jsonl
-reports/current/repo_structure_verification.json
-receipts/current/repo_structure_verification_receipt.jsonl
-reports/current/v013_activation_receipt_install_report.json
-receipts/current/v013_activation_receipt_install_receipt.jsonl
 ```
 
 ## Completed v0.1.4 Scope
 
 v0.1.4 evaluated the admitted candidate evidence against destination admissibility inputs.
 
-Destination result reached:
+Result:
 
 ```text
 DESTINATION_ADMISSIBLE_AS_CANDIDATE
 ```
 
-Required v0.1.4 artifacts are present:
+Artifacts:
 
 ```text
 config/destination_admissibility_policy.json
@@ -59,21 +39,39 @@ reports/current/destination_admissibility_report.json
 receipts/current/destination_admissibility_receipt.jsonl
 ```
 
-Verifier state:
+## Completed v0.1.5 Scope
+
+v0.1.5 evaluated whether destination-admissible candidate evidence may proceed into an install decision.
+
+Result:
 
 ```text
-reports/current/transition_bundle_proof_check.json -> status: PROOF_COMPLETE
-reports/current/v013_activation_receipt_install_report.json -> status: INSTALLED_WITH_RECEIPTS
-reports/current/destination_admissibility_report.json -> result: DESTINATION_ADMISSIBLE_AS_CANDIDATE
+INSTALL_PENDING_CANDIDATE_REVIEW
 ```
 
-## Current v0.1.5 Scope
+Artifacts:
 
-The next build goal is install-decision boundary.
+```text
+config/install_decision_policy.json
+reports/current/install_decision_report.json
+receipts/current/install_decision_receipt.jsonl
+```
 
-v0.1.5 must decide whether destination-admissible candidate evidence may proceed into a bounded install decision, remain pending, require repair, or be denied.
+The result is deliberately non-binding:
 
-This boundary must preserve candidate-only status unless a later explicit, narrower permission is added.
+```text
+may_install_now: false
+requires_explicit_future_grant: true
+this_report_binds_repo_state: false
+```
+
+## Current v0.1.6 Scope
+
+The next build goal is promotion-gate boundary.
+
+v0.1.6 must determine whether the candidate review state can be promoted to a future explicit-grant request, remain pending, require repair, or be denied.
+
+This boundary must preserve candidate-only status and must not bind repo state.
 
 ## Authority Boundary
 
@@ -84,16 +82,16 @@ broad_authority: false
 may_bind_repo_state: false
 ```
 
-Candidate admission and destination admissibility are not installation. v0.1.5 must preserve this distinction.
+Candidate admission, destination admissibility, and pending install review are not installation.
 
 ## Next Build Steps
 
-1. Create install-decision policy/config.
-2. Create install-decision report and receipt.
+1. Create promotion-gate policy/config.
+2. Create promotion-gate report and receipt.
 3. Ensure the result does not bind repo state or grant broad/canonical authority.
-4. Emit `reports/current/install_decision_report.json`.
-5. Emit `receipts/current/install_decision_receipt.jsonl`.
-6. Update this handoff when v0.1.5 is complete.
+4. Emit `reports/current/promotion_gate_report.json`.
+5. Emit `receipts/current/promotion_gate_receipt.jsonl`.
+6. Update this handoff when v0.1.6 is complete.
 
 ## Status Reporting Rule
 
@@ -112,4 +110,4 @@ The delta line should compare stated repo completion against the current verific
 
 ## Archive Readiness
 
-The v0.1.3 activation and v0.1.4 destination-admissibility threads are archive-ready. The current active continuation is v0.1.5 install-decision boundary.
+The v0.1.3 activation, v0.1.4 destination-admissibility, and v0.1.5 install-decision threads are archive-ready. The current active continuation is v0.1.6 promotion-gate boundary.
