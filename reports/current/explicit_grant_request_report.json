@@ -1,0 +1,23 @@
+{
+  "authority": {
+    "broad_authority": false,
+    "candidate_evidence_only": true,
+    "canonical_authority": false,
+    "may_bind_repo_state": false
+  },
+  "checked_utc": "2026-06-18T00:40:00Z",
+  "grant_boundary": {
+    "requires_future_review": true,
+    "requires_separate_grant_decision": true,
+    "this_request_grants_authority": false,
+    "this_request_installs": false
+  },
+  "input_state": {
+    "promotion_result": "PROMOTION_READY_FOR_EXPLICIT_GRANT_REQUEST"
+  },
+  "missing_inputs": [],
+  "repo": "StegVerse-002/core-lite",
+  "result": "EXPLICIT_GRANT_REQUEST_RECORDED",
+  "schema": "stegverse.explicit_grant_request_report.v1",
+  "version": "0.1.7-gllm"
+}
