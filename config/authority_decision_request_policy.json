@@ -1,0 +1,26 @@
+{
+  "schema": "stegverse.authority_decision_request_policy.v1",
+  "version": "0.1.10-gllm",
+  "repo": "StegVerse-002/core-lite",
+  "assessment_goal": "ecosystem-managed continuation",
+  "authority": {
+    "candidate_evidence_only": true,
+    "canonical_authority": false,
+    "broad_authority": false,
+    "may_bind_repo_state": false
+  },
+  "required_inputs": [
+    "reports/current/ecosystem_self_management_report.json",
+    "reports/current/grant_review_report.json",
+    "docs/CORE_LITE_MIRROR_HANDOFF.md"
+  ],
+  "expected_management_result": "ECOSYSTEM_HANDOFF_CAPABLE",
+  "expected_review_result": "GRANT_REVIEW_PENDING_HUMAN_OR_COUNCIL_AUTHORITY",
+  "request_result": "AUTHORITY_DECISION_REQUEST_RECORDED",
+  "request_boundary": {
+    "this_request_grants_authority": false,
+    "this_request_installs": false,
+    "this_request_binds_repo_state": false,
+    "requires_future_authority_decision": true
+  }
+}
