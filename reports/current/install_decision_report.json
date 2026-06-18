@@ -1,0 +1,23 @@
+{
+  "authority": {
+    "broad_authority": false,
+    "candidate_evidence_only": true,
+    "canonical_authority": false,
+    "may_bind_repo_state": false
+  },
+  "checked_utc": "2026-06-18T00:20:00Z",
+  "input_state": {
+    "destination_result": "DESTINATION_ADMISSIBLE_AS_CANDIDATE",
+    "proof_status": "PROOF_COMPLETE"
+  },
+  "install_boundary": {
+    "may_install_now": false,
+    "requires_explicit_future_grant": true,
+    "this_report_binds_repo_state": false
+  },
+  "missing_inputs": [],
+  "repo": "StegVerse-002/core-lite",
+  "result": "INSTALL_PENDING_CANDIDATE_REVIEW",
+  "schema": "stegverse.install_decision_report.v1",
+  "version": "0.1.5-gllm"
+}
