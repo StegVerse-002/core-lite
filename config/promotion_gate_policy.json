@@ -1,0 +1,18 @@
+{
+  "schema": "stegverse.promotion_gate_policy.v1",
+  "version": "0.1.6-gllm",
+  "repo": "StegVerse-002/core-lite",
+  "authority": {
+    "candidate_evidence_only": true,
+    "canonical_authority": false,
+    "broad_authority": false,
+    "may_bind_repo_state": false
+  },
+  "required_inputs": [
+    "reports/current/install_decision_report.json",
+    "receipts/current/install_decision_receipt.jsonl"
+  ],
+  "expected_input_result": "INSTALL_PENDING_CANDIDATE_REVIEW",
+  "result": "PROMOTION_READY_FOR_EXPLICIT_GRANT_REQUEST",
+  "binds_repo_state": false
+}
