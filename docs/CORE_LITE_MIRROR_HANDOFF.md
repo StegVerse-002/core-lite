@@ -1,92 +1,129 @@
-# Core-Lite Mirror Handoff
+# StegVerse-002 Core-Lite Mirror Handoff
+
+Generated: 2026-06-17
+Repo: StegVerse-002/core-lite
+Current goal: v0.1.3-gllm activation through governed transition-bundle proof, heartbeat evidence, and repo-structure verification.
 
 ## Purpose
 
-This handoff lets the next build session continue `StegVerse-002/core-lite` activation without needing prior chat context.
+This file is the current handoff and task source of truth for non-Site/non-Publisher work in this repo.
 
-It mirrors the purpose of `StegVerse-Labs/Site/docs/SITE_MIRROR_HANDOFF.md` for a non-Site/non-Publisher repository.
+It mirrors the role of `StegVerse-Labs/Site/docs/SITE_MIRROR_HANDOFF.md` for the core-lite repo: a new session should check this file before continuing core-lite activation, proof, heartbeat, structure-verification, or destination-admissibility work.
 
-## Current Goal
+## Current Scope
 
-```text
-Goal: Core-Lite activation hardening
-Repository: StegVerse-002/core-lite
-Current activation surface: M11-M16
-Activation state: installed_pending_validation_chain
-```
+The active build scope is StegVerse-002/core-lite v0.1.3-gllm.
 
-## Current Source of Truth
+The goal is to prove that proposed LLM collaboration evidence can be packaged as candidate evidence, transported through ingestion, recorded with receipts, observed by heartbeat checks, and compared against required repo structure without creating broad or canonical authority.
 
-```text
-Repository state is source of truth for installed files.
-Validation reports and receipts are source of truth for activation claims.
-Chat history is not source of truth after this handoff exists.
-```
+## Current Activation Target
 
-## Built Files / Surfaces
+Activation requires:
 
 ```text
-M11 bundle ingestion smoke test
-M12 guarded incoming mailbox
-M13 candidate review/apply separation
-M14 formalism linkage check
-M15 governed SDK/CLI wrapper
-M16 activation evidence export
-Repo structure delta verifier
-Task addition registration utility
+PROOF_COMPLETE
 ```
 
-## Required Continuation Order
+Required activation artifacts:
 
 ```text
-1. Run M12 incoming mailbox validation.
-2. Run M13 candidate review/apply validation.
-3. Run M14 formalism linkage validation.
-4. Run M15 SDK/CLI validation.
-5. Register M12-M16 task additions into tools/tasks/task_catalog.json.
-6. Run M16 activation evidence export.
-7. Run repo structure delta verifier with the current displayed repo-completion percent.
-8. If activation evidence reports ALLOW and repo structure delta is acceptable, mark core-lite activation complete.
-9. Determine next integration goal candidate and reset progress values for that new goal.
+dist/bundles/proposed_transition_bundle.json
+dist/bundles/proposed_transition_bundle.zip
+dist/bundles/proposed_transition_bundle.sha256
+receipts/current/proposed_transition_bundle_receipt.jsonl
+receipts/current/transition_bundle_ingest_receipt.jsonl
 ```
 
-## Commands
+## Current Known State
 
-```bash
-python scripts/run_m12_incoming_mailbox_tests.py
-python scripts/run_m13_candidate_review_apply_tests.py
-python scripts/run_m14_formalism_linkage_check.py
-python scripts/run_m15_sdk_cli_tests.py
-python tools/scripts/register_task_additions.py --dry-run
-python tools/scripts/register_task_additions.py
-python scripts/run_activation_evidence_export.py
-python scripts/verify_repo_structure_delta.py --reported-repo-complete 84
-```
-
-## Evidence To Capture
+Known present before this handoff:
 
 ```text
-reports/current/m12_incoming_mailbox_validation_report.json
-reports/current/m13_candidate_review_apply_validation_report.json
-reports/current/m14_formalism_linkage_report.json
-reports/current/m15_sdk_cli_validation_report.json
-reports/current/core_lite_activation_evidence_report.json
-reports/current/repo_structure_delta_report.json
-receipts/current/*.jsonl
-dist/run_artifacts/*.zip
+dist/bundles/proposed_transition_bundle.json
+dist/bundles/proposed_transition_bundle.zip
+dist/bundles/proposed_transition_bundle.sha256
+receipts/current/proposed_transition_bundle_receipt.jsonl
 ```
 
-## Boundary Rules
+Known missing or not yet observed before this handoff:
 
 ```text
-candidate output is evidence, not authority
-incoming/ is mailbox, not durable proof state
-SDK/CLI is governed wrapper, not raw mutation authority
-formalism authority remains Data-Continuation/formalism-tests
-workflow changes require explicit review
-root README overwrite remains denied unless explicitly authorized
+receipts/current/transition_bundle_ingest_receipt.jsonl
+receipts/current/heartbeat_evaluation_receipt.jsonl
+receipts/current/scheduler_liveness_receipt.jsonl
+reports/current/repo_structure_verification.json
+receipts/current/repo_structure_verification_receipt.jsonl
 ```
+
+## Current Build Files
+
+Core scripts:
+
+```text
+scripts/package_transition_bundle.py
+scripts/ingest_transition_bundle.py
+scripts/check_transition_bundle_proof.py
+scripts/evaluate_heartbeat_mode.py
+scripts/check_scheduler_liveness.py
+scripts/verify_repo_structure.py
+```
+
+Core workflows:
+
+```text
+.github/workflows/core-lite-intake.yml
+.github/workflows/core-lite-autonomous-tick.yml
+.github/workflows/core-lite-heartbeat-watchdog.yml
+```
+
+Core config:
+
+```text
+config/heartbeat_policy.json
+config/repo_structure_targets.json
+```
+
+## Authority Boundary
+
+All v0.1.3-gllm work remains candidate-only:
+
+```text
+candidate_evidence_only: true
+canonical_authority: false
+broad_authority: false
+may_bind_repo_state: false
+```
+
+Candidate admission is not installation. The next boundary after v0.1.3 activation is destination admissibility / install-decision boundary.
+
+## Next Build Steps
+
+1. Verify whether `receipts/current/transition_bundle_ingest_receipt.jsonl` has appeared.
+2. Verify whether heartbeat and scheduler receipts have appeared.
+3. Verify whether `reports/current/repo_structure_verification.json` has appeared.
+4. If no repo-native heartbeat evidence is present, inspect whether scheduled workflows are disabled, delayed, or not committing.
+5. Once `PROOF_COMPLETE` is reached, begin v0.1.4 destination admissibility boundary.
+
+## Status Reporting Rule
+
+Future responses for this repo should end with these lines:
+
+```text
+StegVerse-002 - %complete
+core-lite - %complete
+core-lite - %complete TO GOAL ACTIVATION;
+Fully developed files vs scaffolding/stubs - %complete
+Δ [core-lite: ACTUAL vs BUILT] - EXPLANATION.
+Thread archive readiness: STATUS.
+```
+
+The delta line should compare the stated repo completion against `reports/current/repo_structure_verification.json` when available. If that report is unavailable, the delta line must say verification is pending rather than guessing.
 
 ## Archive Readiness
 
-This handoff contains the repo state, continuation order, commands, evidence requirements, and boundary rules needed to continue. The prior chat thread is no longer required for forward progress once this file is present in the repository.
+This thread is not archive-ready until either:
+
+1. v0.1.3 reaches `PROOF_COMPLETE`, or
+2. this handoff is sufficient for a new session to continue without relying on prior chat context.
+
+This handoff makes the current state portable, but activation remains incomplete until the ingestion receipt and repo-native heartbeat/structure verification are visible.
