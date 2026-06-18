@@ -1,0 +1,35 @@
+{
+  "schema": "stegverse.destination_admissibility_policy.v1",
+  "version": "0.1.4-gllm",
+  "repo": "StegVerse-002/core-lite",
+  "decision_scope": "candidate_evidence_to_install_boundary",
+  "authority": {
+    "candidate_evidence_only": true,
+    "canonical_authority": false,
+    "broad_authority": false,
+    "may_bind_repo_state": false
+  },
+  "required_inputs": [
+    "receipts/current/transition_bundle_ingest_receipt.jsonl",
+    "reports/current/transition_bundle_proof_check.json",
+    "reports/current/v013_activation_receipt_install_report.json"
+  ],
+  "admissible_ingest_decisions": [
+    "ADMITTED_AS_CANDIDATE_EVIDENCE"
+  ],
+  "admissible_proof_status": [
+    "PROOF_COMPLETE"
+  ],
+  "output_report": "reports/current/destination_admissibility_report.json",
+  "output_receipt": "receipts/current/destination_admissibility_receipt.jsonl",
+  "allowed_results": [
+    "DESTINATION_ADMISSIBLE_AS_CANDIDATE",
+    "DESTINATION_PENDING_REVIEW",
+    "DESTINATION_REPAIR_REQUIRED",
+    "DESTINATION_DENIED"
+  ],
+  "install_decision_boundary": {
+    "this_policy_installs": false,
+    "requires_separate_install_decision": true
+  }
+}
