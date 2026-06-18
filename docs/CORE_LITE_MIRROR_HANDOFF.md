@@ -2,14 +2,14 @@
 
 Generated: 2026-06-18
 Repo: StegVerse-002/core-lite
-Completed goal: v0.1.6 promotion-gate boundary.
-Current goal: Archive-ready handoff; next candidate is explicit-grant request boundary.
+Completed goal: v0.1.7 explicit-grant request boundary.
+Current goal: Archive-ready handoff; next candidate is grant-review boundary.
 
 ## Purpose
 
 This file is the current handoff and task source of truth for non-Site/non-Publisher work in this repo.
 
-A new session should check this file before continuing core-lite activation, proof, heartbeat, structure-verification, destination-admissibility, install-decision, promotion-gate, or explicit-grant-request work.
+A new session should check this file before continuing core-lite activation, proof, heartbeat, structure-verification, destination-admissibility, install-decision, promotion-gate, explicit-grant-request, or grant-review work.
 
 ## Completed v0.1.3 Scope
 
@@ -83,12 +83,31 @@ reports/current/promotion_gate_report.json
 receipts/current/promotion_gate_receipt.jsonl
 ```
 
-The result is deliberately non-binding:
+## Completed v0.1.7 Scope
+
+v0.1.7 recorded the explicit-grant request boundary as a request artifact only.
+
+Result:
 
 ```text
-may_request_future_explicit_grant: true
-may_run_install_now: false
-this_report_binds_repo_state: false
+EXPLICIT_GRANT_REQUEST_RECORDED
+```
+
+Artifacts:
+
+```text
+config/explicit_grant_request_policy.json
+reports/current/explicit_grant_request_report.json
+receipts/current/explicit_grant_request_receipt.jsonl
+```
+
+The request is deliberately non-binding:
+
+```text
+this_request_grants_authority: false
+this_request_installs: false
+requires_future_review: true
+requires_separate_grant_decision: true
 ```
 
 ## Authority Boundary
@@ -100,20 +119,20 @@ broad_authority: false
 may_bind_repo_state: false
 ```
 
-Candidate admission, destination admissibility, pending install review, and promotion readiness are not installation.
+Candidate admission, destination admissibility, pending install review, promotion readiness, and explicit-grant request recording are not installation.
 
 ## Next Candidate Goal
 
-The next integration candidate is an explicit-grant request boundary.
+The next integration candidate is a grant-review boundary.
 
-That boundary should create a request artifact only. It must not grant authority, bind repo state, or install anything unless a future separate authority layer explicitly permits it.
+That boundary should review the explicit-grant request artifact only. It must not grant authority, bind repo state, or install anything unless a future separate authority layer explicitly permits it.
 
 Suggested next artifacts:
 
 ```text
-config/explicit_grant_request_policy.json
-reports/current/explicit_grant_request_report.json
-receipts/current/explicit_grant_request_receipt.jsonl
+config/grant_review_policy.json
+reports/current/grant_review_report.json
+receipts/current/grant_review_receipt.jsonl
 ```
 
 ## Status Reporting Rule
@@ -133,4 +152,4 @@ The delta line should compare stated repo completion against the current verific
 
 ## Archive Readiness
 
-This thread is archive-ready through v0.1.6. A new thread can begin from this handoff with the explicit-grant request boundary as the next candidate goal.
+This thread is archive-ready through v0.1.7. A new thread can begin from this handoff with the grant-review boundary as the next candidate goal.
