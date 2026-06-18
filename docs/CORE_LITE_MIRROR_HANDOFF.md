@@ -1,15 +1,15 @@
 # StegVerse-002 Core-Lite Mirror Handoff
 
-Generated: 2026-06-17
+Generated: 2026-06-18
 Repo: StegVerse-002/core-lite
-Completed goal: v0.1.3-gllm activation through governed transition-bundle proof, heartbeat evidence, and repo-structure verification.
-Current goal: v0.1.4 destination admissibility / install-decision boundary.
+Completed goal: v0.1.4 destination admissibility / install-decision boundary.
+Current goal: v0.1.5 install-decision boundary.
 
 ## Purpose
 
 This file is the current handoff and task source of truth for non-Site/non-Publisher work in this repo.
 
-It mirrors the role of `StegVerse-Labs/Site/docs/SITE_MIRROR_HANDOFF.md` for the core-lite repo: a new session should check this file before continuing core-lite activation, proof, heartbeat, structure-verification, destination-admissibility, or install-decision work.
+A new session should check this file before continuing core-lite activation, proof, heartbeat, structure-verification, destination-admissibility, or install-decision work.
 
 ## Completed v0.1.3 Scope
 
@@ -23,7 +23,7 @@ Activation target reached:
 PROOF_COMPLETE
 ```
 
-Required activation artifacts now present:
+Required activation artifacts are present:
 
 ```text
 dist/bundles/proposed_transition_bundle.json
@@ -41,56 +41,41 @@ reports/current/v013_activation_receipt_install_report.json
 receipts/current/v013_activation_receipt_install_receipt.jsonl
 ```
 
-Verifier result:
+## Completed v0.1.4 Scope
+
+v0.1.4 evaluated the admitted candidate evidence against destination admissibility inputs.
+
+Destination result reached:
+
+```text
+DESTINATION_ADMISSIBLE_AS_CANDIDATE
+```
+
+Required v0.1.4 artifacts are present:
+
+```text
+config/destination_admissibility_policy.json
+reports/current/destination_admissibility_report.json
+receipts/current/destination_admissibility_receipt.jsonl
+```
+
+Verifier state:
 
 ```text
 reports/current/transition_bundle_proof_check.json -> status: PROOF_COMPLETE
 reports/current/v013_activation_receipt_install_report.json -> status: INSTALLED_WITH_RECEIPTS
-reports/current/repo_structure_verification.json -> status: STRUCTURE_VERIFIED
+reports/current/destination_admissibility_report.json -> result: DESTINATION_ADMISSIBLE_AS_CANDIDATE
 ```
 
-## Current v0.1.4 Scope
+## Current v0.1.5 Scope
 
-The next build goal is destination admissibility / install-decision boundary.
+The next build goal is install-decision boundary.
 
-The v0.1.3 candidate admission does not install or bind repo state. v0.1.4 must decide whether admitted candidate evidence may proceed toward an install decision, remain pending, require repair, or be denied.
+v0.1.5 must decide whether destination-admissible candidate evidence may proceed into a bounded install decision, remain pending, require repair, or be denied.
 
-## Current Build Files
-
-Core scripts:
-
-```text
-scripts/package_transition_bundle.py
-scripts/ingest_transition_bundle.py
-scripts/check_transition_bundle_proof.py
-scripts/evaluate_heartbeat_mode.py
-scripts/check_scheduler_liveness.py
-scripts/verify_repo_structure.py
-scripts/install_v013_activation_receipts.py
-```
-
-Core workflows:
-
-```text
-.github/workflows/core-lite-intake.yml
-.github/workflows/core-lite-autonomous-tick.yml
-.github/workflows/core-lite-heartbeat-watchdog.yml
-.github/workflows/core-lite-v013-receipt-installer.yml
-```
-
-Core config/docs:
-
-```text
-config/heartbeat_policy.json
-config/repo_structure_targets.json
-docs/V013_REQUIRED_RECEIPT_OUTPUTS.md
-docs/V013_RECEIPT_INSTALL_TRIGGER.md
-docs/V013_RECEIPT_INSTALL_DIAGNOSTIC.md
-```
+This boundary must preserve candidate-only status unless a later explicit, narrower permission is added.
 
 ## Authority Boundary
-
-All v0.1.3 and v0.1.4 work remains candidate-only unless a later boundary explicitly grants a narrower permission:
 
 ```text
 candidate_evidence_only: true
@@ -99,16 +84,16 @@ broad_authority: false
 may_bind_repo_state: false
 ```
 
-Candidate admission is not installation. v0.1.4 must preserve this distinction.
+Candidate admission and destination admissibility are not installation. v0.1.5 must preserve this distinction.
 
 ## Next Build Steps
 
-1. Create destination admissibility policy/config.
-2. Create destination admissibility evaluator script.
-3. Evaluate the admitted candidate bundle against destination policy.
-4. Emit `reports/current/destination_admissibility_report.json`.
-5. Emit `receipts/current/destination_admissibility_receipt.jsonl`.
-6. Keep result candidate-only unless a later install-decision boundary is explicitly added.
+1. Create install-decision policy/config.
+2. Create install-decision report and receipt.
+3. Ensure the result does not bind repo state or grant broad/canonical authority.
+4. Emit `reports/current/install_decision_report.json`.
+5. Emit `receipts/current/install_decision_receipt.jsonl`.
+6. Update this handoff when v0.1.5 is complete.
 
 ## Status Reporting Rule
 
@@ -127,4 +112,4 @@ The delta line should compare stated repo completion against the current verific
 
 ## Archive Readiness
 
-The v0.1.3 activation thread is archive-ready. The current active continuation is v0.1.4 destination admissibility.
+The v0.1.3 activation and v0.1.4 destination-admissibility threads are archive-ready. The current active continuation is v0.1.5 install-decision boundary.
