@@ -1,0 +1,22 @@
+{
+  "authority": {
+    "broad_authority": false,
+    "candidate_evidence_only": true,
+    "canonical_authority": false,
+    "may_bind_repo_state": false
+  },
+  "checked_utc": "2026-06-18T00:30:00Z",
+  "input_state": {
+    "install_result": "INSTALL_PENDING_CANDIDATE_REVIEW"
+  },
+  "missing_inputs": [],
+  "promotion_boundary": {
+    "may_request_future_explicit_grant": true,
+    "may_run_install_now": false,
+    "this_report_binds_repo_state": false
+  },
+  "repo": "StegVerse-002/core-lite",
+  "result": "PROMOTION_READY_FOR_EXPLICIT_GRANT_REQUEST",
+  "schema": "stegverse.promotion_gate_report.v1",
+  "version": "0.1.6-gllm"
+}
