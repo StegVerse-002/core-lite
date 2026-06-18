@@ -1,0 +1,32 @@
+{
+  "schema": "stegverse.install_decision_policy.v1",
+  "version": "0.1.5-gllm",
+  "repo": "StegVerse-002/core-lite",
+  "decision_scope": "install_decision_boundary",
+  "authority": {
+    "candidate_evidence_only": true,
+    "canonical_authority": false,
+    "broad_authority": false,
+    "may_bind_repo_state": false
+  },
+  "required_inputs": [
+    "reports/current/destination_admissibility_report.json",
+    "receipts/current/destination_admissibility_receipt.jsonl",
+    "reports/current/transition_bundle_proof_check.json"
+  ],
+  "admissible_destination_results": [
+    "DESTINATION_ADMISSIBLE_AS_CANDIDATE"
+  ],
+  "allowed_results": [
+    "INSTALL_PENDING_CANDIDATE_REVIEW",
+    "INSTALL_REPAIR_REQUIRED",
+    "INSTALL_DENIED"
+  ],
+  "install_boundary": {
+    "may_install_now": false,
+    "requires_explicit_future_grant": true,
+    "this_policy_binds_repo_state": false
+  },
+  "output_report": "reports/current/install_decision_report.json",
+  "output_receipt": "receipts/current/install_decision_receipt.jsonl"
+}
