@@ -1,0 +1,25 @@
+{
+  "schema": "stegverse.explicit_grant_request_policy.v1",
+  "version": "0.1.7-gllm",
+  "repo": "StegVerse-002/core-lite",
+  "decision_scope": "explicit_grant_request_boundary",
+  "authority": {
+    "candidate_evidence_only": true,
+    "canonical_authority": false,
+    "broad_authority": false,
+    "may_bind_repo_state": false
+  },
+  "required_inputs": [
+    "reports/current/promotion_gate_report.json",
+    "receipts/current/promotion_gate_receipt.jsonl",
+    "reports/current/install_decision_report.json"
+  ],
+  "expected_promotion_result": "PROMOTION_READY_FOR_EXPLICIT_GRANT_REQUEST",
+  "request_result": "EXPLICIT_GRANT_REQUEST_RECORDED",
+  "grant_boundary": {
+    "this_request_grants_authority": false,
+    "this_request_installs": false,
+    "requires_future_review": true,
+    "requires_separate_grant_decision": true
+  }
+}
