@@ -48,4 +48,12 @@ may_bind_repo_state: false
 
 This diagnostic does not grant authority and does not claim activation.
 
-Next repo-native hardening target: make installer diagnostics committed before any final failure status and ensure installer report/receipt generation cannot be skipped even when ingest exits nonzero.
+Next repo-native hardening target: verify whether the installer workflow now commits reports and receipts after a diagnostic-marker push.
+
+## Diagnostic Trigger Bump
+
+```text
+bump_reason: installer workflow now watches this diagnostic file
+bump_target: core-lite-v013-receipt-installer.yml
+bump_effect: create fresh repo-native event for receipt installer evaluation
+```
