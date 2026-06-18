@@ -2,8 +2,8 @@
 
 Generated: 2026-06-18
 Repo: StegVerse-002/core-lite
-Completed goal: v0.1.10 authority-decision request boundary.
-Current goal: Archive-ready handoff; next candidate is authority-decision review boundary.
+Completed goal: v0.1.11 authority-decision review boundary.
+Current goal: Archive-ready handoff; next candidate is quorum-readiness request boundary.
 
 ## Assessment Goal
 
@@ -28,14 +28,15 @@ v0.1.7 EXPLICIT_GRANT_REQUEST_RECORDED
 v0.1.8 GRANT_REVIEW_PENDING_HUMAN_OR_COUNCIL_AUTHORITY
 v0.1.9 ECOSYSTEM_HANDOFF_CAPABLE
 v0.1.10 AUTHORITY_DECISION_REQUEST_RECORDED
+v0.1.11 AUTHORITY_DECISION_REVIEW_PENDING_AUTHORIZED_QUORUM
 ```
 
-## v0.1.10 Artifacts
+## v0.1.11 Artifacts
 
 ```text
-config/authority_decision_request_policy.json
-reports/current/authority_decision_request_report.json
-receipts/current/authority_decision_request_receipt.jsonl
+docs/AUTHORITY_DECISION_REVIEW_POLICY.md
+reports/current/authority_decision_review_report.json
+receipts/current/authority_decision_review_receipt.jsonl
 ```
 
 ## Boundary
@@ -49,16 +50,16 @@ may_bind_repo_state: false
 
 ## Next Candidate Goal
 
-Authority-decision review boundary.
+Quorum-readiness request boundary.
 
 Suggested artifacts:
 
 ```text
-config/authority_decision_review_policy.json
-reports/current/authority_decision_review_report.json
-receipts/current/authority_decision_review_receipt.jsonl
+config/quorum_readiness_request_policy.json
+reports/current/quorum_readiness_request_report.json
+receipts/current/quorum_readiness_request_receipt.jsonl
 ```
 
 ## Archive Readiness
 
-Archive-ready through v0.1.10. Ecosystem-managed continuation can begin from this handoff and the self-management report.
+Archive-ready through v0.1.11. Ecosystem-managed continuation can begin from this handoff and the self-management report.
