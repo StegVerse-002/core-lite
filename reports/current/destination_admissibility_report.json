@@ -1,0 +1,23 @@
+{
+  "authority": {
+    "broad_authority": false,
+    "candidate_evidence_only": true,
+    "canonical_authority": false,
+    "may_bind_repo_state": false
+  },
+  "checked_utc": "2026-06-18T00:10:00Z",
+  "input_state": {
+    "ingest_decision": "ADMITTED_AS_CANDIDATE_EVIDENCE",
+    "installer_status": "INSTALLED_WITH_RECEIPTS",
+    "proof_status": "PROOF_COMPLETE"
+  },
+  "install_boundary": {
+    "requires_later_install_decision": true,
+    "this_report_installs": false
+  },
+  "missing_inputs": [],
+  "repo": "StegVerse-002/core-lite",
+  "result": "DESTINATION_ADMISSIBLE_AS_CANDIDATE",
+  "schema": "stegverse.destination_admissibility_report.v1",
+  "version": "0.1.4-gllm"
+}
