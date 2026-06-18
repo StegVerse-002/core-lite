@@ -2,6 +2,9 @@ name: core-lite-v013-receipt-installer
 
 "on":
   workflow_dispatch:
+  schedule:
+    # Independent receipt installer cadence. GitHub schedule timing is approximate.
+    - cron: "*/15 * * * *"
   push:
     branches: [main]
     paths:
