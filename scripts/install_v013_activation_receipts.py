@@ -12,6 +12,15 @@ REPORT = ROOT / 'reports/current/v013_activation_receipt_install_report.json'
 RECEIPT = ROOT / 'receipts/current/v013_activation_receipt_install_receipt.jsonl'
 BUNDLE = ROOT / 'dist/bundles/proposed_transition_bundle.zip'
 INGEST_RECEIPT = ROOT / 'receipts/current/transition_bundle_ingest_receipt.jsonl'
+REQUIRED_OUTPUTS = [
+    'receipts/current/v013_activation_receipt_install_receipt.jsonl',
+    'reports/current/v013_activation_receipt_install_report.json',
+    'receipts/current/transition_bundle_ingest_receipt.jsonl',
+    'receipts/current/heartbeat_evaluation_receipt.jsonl',
+    'receipts/current/scheduler_liveness_receipt.jsonl',
+    'receipts/current/repo_structure_verification_receipt.jsonl',
+    'reports/current/repo_structure_verification.json',
+]
 
 
 def now() -> str:
@@ -34,6 +43,20 @@ def append_jsonl(path: Path, obj: dict) -> None:
         f.write(json.dumps(obj, sort_keys=True, separators=(',', ':')) + '\n')
 
 
+def output_state() -> dict:
+    present = [x for x in REQUIRED_OUTPUTS if (ROOT / x).exists()]
+    missing = [x for x in REQUIRED_OUTPUTS if not (ROOT / x).exists()]
+    total = len(REQUIRED_OUTPUTS)
+    return {
+        'total': total,
+        'present_count': len(present),
+        'missing_count': len(missing),
+        'percent_present': round((len(present) / total) * 100, 2),
+        'present': present,
+        'missing': missing,
+    }
+
+
 def main() -> int:
     REPORT.parent.mkdir(parents=True, exist_ok=True)
     RECEIPT.parent.mkdir(parents=True, exist_ok=True)
@@ -51,6 +74,7 @@ def main() -> int:
     steps.append(run_cmd([sys.executable, 'scripts/check_scheduler_liveness.py', '--repo-root', '.', '--max-age-minutes', '20'], 'v013_install_scheduler_liveness'))
     steps.append(run_cmd([sys.executable, 'scripts/verify_repo_structure.py', '--repo-root', '.'], 'v013_install_repo_structure'))
 
+    outputs = output_state()
     status = 'INSTALLED_WITH_RECEIPTS' if INGEST_RECEIPT.exists() else 'INSTALLED_PARTIAL_RECEIPTS'
     report = {
         'schema': 'stegverse.v013_activation_receipt_install.v1',
@@ -61,6 +85,7 @@ def main() -> int:
         'status': status,
         'bundle_present': BUNDLE.exists(),
         'ingest_receipt_present': INGEST_RECEIPT.exists(),
+        'required_outputs': outputs,
         'steps': steps,
         'authority': {
             'candidate_evidence_only': True,
