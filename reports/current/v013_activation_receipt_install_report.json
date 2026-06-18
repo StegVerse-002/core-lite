@@ -1,0 +1,32 @@
+{
+  "authority": {
+    "broad_authority": false,
+    "candidate_evidence_only": true,
+    "canonical_authority": false,
+    "may_bind_repo_state": false
+  },
+  "bundle_present": true,
+  "checked_utc": "2026-06-17T23:59:40Z",
+  "entity": "StegVerse-002",
+  "ingest_receipt_present": true,
+  "repo": "StegVerse-002/core-lite",
+  "required_outputs": {
+    "missing": [],
+    "missing_count": 0,
+    "percent_present": 100.0,
+    "present": [
+      "receipts/current/v013_activation_receipt_install_receipt.jsonl",
+      "reports/current/v013_activation_receipt_install_report.json",
+      "receipts/current/transition_bundle_ingest_receipt.jsonl",
+      "receipts/current/heartbeat_evaluation_receipt.jsonl",
+      "receipts/current/scheduler_liveness_receipt.jsonl",
+      "receipts/current/repo_structure_verification_receipt.jsonl",
+      "reports/current/repo_structure_verification.json"
+    ],
+    "present_count": 7,
+    "total": 7
+  },
+  "schema": "stegverse.v013_activation_receipt_install.v1",
+  "status": "INSTALLED_WITH_RECEIPTS",
+  "version": "0.1.3-gllm"
+}
