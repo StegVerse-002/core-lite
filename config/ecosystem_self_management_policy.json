@@ -1,0 +1,26 @@
+{
+  "schema": "stegverse.ecosystem_self_management_policy.v1",
+  "version": "0.1.9-gllm",
+  "repo": "StegVerse-002/core-lite",
+  "assessment_goal": "continue building without manual actions until complete or until task handoff and completion can be handled by ecosystem management",
+  "authority": {
+    "candidate_evidence_only": true,
+    "canonical_authority": false,
+    "broad_authority": false,
+    "may_bind_repo_state": false
+  },
+  "completion_inputs": [
+    "docs/CORE_LITE_MIRROR_HANDOFF.md",
+    "reports/current/grant_review_report.json",
+    "receipts/current/grant_review_receipt.jsonl"
+  ],
+  "handoff_capability_outputs": [
+    "reports/current/ecosystem_self_management_report.json",
+    "receipts/current/ecosystem_self_management_receipt.jsonl"
+  ],
+  "allowed_results": [
+    "ECOSYSTEM_HANDOFF_CAPABLE",
+    "ECOSYSTEM_CONTINUE_REQUIRED",
+    "ECOSYSTEM_REPAIR_REQUIRED"
+  ]
+}
