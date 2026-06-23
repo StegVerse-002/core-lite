@@ -1,0 +1,15 @@
+{
+  "cell_id": "INT_ANY_STANDING_UNKNOWN",
+  "subject_class": "any",
+  "interaction_type": "PROTECTED_INTERACTION",
+  "provider_class": "any",
+  "capability_state_ref": "cap:unresolved",
+  "provider_declaration_ref": "provider:unresolved",
+  "policy_ref": "policy:default-fail-closed-v0",
+  "evidence_refs": [
+    "evidence:unresolved_standing"
+  ],
+  "context_refs": [
+    "context:execution_time"
+  ]
+}
