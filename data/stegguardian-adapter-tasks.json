@@ -1,0 +1,36 @@
+{
+  "task_register_id": "core_lite.stegguardian_adapter_tasks.v0",
+  "active_goal": "replace adapter fixture comparison with core-lite state-backed evaluation",
+  "tasks": [
+    {
+      "task_id": "CL-SG-001",
+      "title": "Adapter fixture validation",
+      "status": "complete",
+      "evidence": [
+        "tools/validate_stegguardian_adapter_fixtures.py",
+        "docs/STEGGUARDIAN_ADAPTER_FIXTURE_VALIDATION.md"
+      ]
+    },
+    {
+      "task_id": "CL-SG-002",
+      "title": "Mock resolver seam",
+      "status": "ready",
+      "evidence": [
+        "docs/ADAPTER_EVALUATION_SEAM.md",
+        "contracts/stegguardian-mock-resolver-contract.json"
+      ]
+    },
+    {
+      "task_id": "CL-SG-003",
+      "title": "Live core-lite state resolution",
+      "status": "pending",
+      "next_action": "Replace mock resolution with core-lite state, policy, evidence, and context lookup."
+    },
+    {
+      "task_id": "CL-SG-004",
+      "title": "Receipt emission binding",
+      "status": "pending",
+      "next_action": "Emit boundary receipt material after live evaluation."
+    }
+  ]
+}
