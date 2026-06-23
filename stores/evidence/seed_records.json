@@ -1,0 +1,25 @@
+{
+  "store_id": "core_lite.evidence_store.seed.v0",
+  "records": {
+    "evidence:guardian_authority_active": {
+      "record_type": "evidence",
+      "status": "active",
+      "standing": "resolved"
+    },
+    "evidence:education_capability_active": {
+      "record_type": "evidence",
+      "status": "active",
+      "standing": "resolved"
+    },
+    "evidence:provider_educational_declaration_valid": {
+      "record_type": "evidence",
+      "status": "active",
+      "standing": "resolved"
+    },
+    "evidence:unresolved_standing": {
+      "record_type": "evidence",
+      "status": "unresolved",
+      "standing": "unresolved"
+    }
+  }
+}
