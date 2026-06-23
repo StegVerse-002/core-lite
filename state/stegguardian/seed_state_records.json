@@ -1,0 +1,65 @@
+{
+  "state_set_id": "core_lite.stegguardian_seed_state.v0",
+  "records": {
+    "cap:school_child:education_active": {
+      "record_type": "capability_state",
+      "status": "active",
+      "standing": "resolved"
+    },
+    "provider:ai_tutor:declared": {
+      "record_type": "provider_declaration",
+      "status": "active",
+      "standing": "resolved"
+    },
+    "policy:guardian-ai-learning-v0": {
+      "record_type": "policy",
+      "status": "active",
+      "standing": "resolved"
+    },
+    "evidence:guardian_authority_active": {
+      "record_type": "evidence",
+      "status": "active",
+      "standing": "resolved"
+    },
+    "evidence:education_capability_active": {
+      "record_type": "evidence",
+      "status": "active",
+      "standing": "resolved"
+    },
+    "evidence:provider_educational_declaration_valid": {
+      "record_type": "evidence",
+      "status": "active",
+      "standing": "resolved"
+    },
+    "context:execution_time": {
+      "record_type": "context",
+      "status": "active",
+      "standing": "resolved"
+    },
+    "context:content_class_educational": {
+      "record_type": "context",
+      "status": "active",
+      "standing": "resolved"
+    },
+    "context:unrelated_profiling_absent": {
+      "record_type": "context",
+      "status": "active",
+      "standing": "resolved"
+    },
+    "cap:unresolved": {
+      "record_type": "capability_state",
+      "status": "unresolved",
+      "standing": "unresolved"
+    },
+    "provider:unresolved": {
+      "record_type": "provider_declaration",
+      "status": "unresolved",
+      "standing": "unresolved"
+    },
+    "evidence:unresolved_standing": {
+      "record_type": "evidence",
+      "status": "unresolved",
+      "standing": "unresolved"
+    }
+  }
+}
