@@ -1,0 +1,17 @@
+{
+  "request_id": "core-lite.stegguardian.workflow_install.v0",
+  "status": "ready_for_automated_promotion",
+  "purpose": "Promote the iOS-safe workflow mirror into the canonical GitHub Actions workflow path without manual file movement.",
+  "source_path": "iosnoperiod/github/workflows/validate-stegguardian-adapter.yml",
+  "target_path_display": "github/workflows/validate-stegguardian-adapter.yml",
+  "target_path_note": "The leading period is omitted in display. Canonical target begins with a leading period.",
+  "validation_command": "python tools/validate_stegguardian_adapter_all.py",
+  "required_behavior": [
+    "read source_path",
+    "write the same content to the canonical workflow target",
+    "preserve the source mirror for iOS handling",
+    "run validation_command after installation",
+    "record success or failure receipt"
+  ],
+  "manual_task_policy": "No human file movement should be required after an ecosystem automation process can consume this request."
+}
