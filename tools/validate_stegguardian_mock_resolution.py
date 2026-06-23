@@ -2,7 +2,13 @@ import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-STATE_PATH = ROOT / "state" / "stegguardian" / "seed_state_records.json"
+STORE_PATHS = [
+    ROOT / "stores" / "capability-state" / "seed_records.json",
+    ROOT / "stores" / "provider" / "seed_records.json",
+    ROOT / "stores" / "rules" / "seed_records.json",
+    ROOT / "stores" / "evidence" / "seed_records.json",
+    ROOT / "stores" / "env" / "seed_records.json",
+]
 CASES = [
     {
         "label": "allow",
@@ -19,6 +25,14 @@ CASES = [
 
 def load_json(path):
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+def load_stores():
+    records = {}
+    for path in STORE_PATHS:
+        payload = load_json(path)
+        records.update(payload.get("records", {}))
+    return {"records": records}
 
 
 def collect_refs(payload):
@@ -49,7 +63,7 @@ def decide(payload, state):
 
 
 def main():
-    state = load_json(STATE_PATH)
+    state = load_stores()
     failures = []
 
     for case in CASES:
@@ -60,12 +74,12 @@ def main():
             failures.append(f"{case['label']}: expected {expected}, got {actual}")
 
     if failures:
-        print("StegGuardian state resolution validation failed:")
+        print("StegGuardian general-store validation failed:")
         for failure in failures:
             print("- " + failure)
         return 1
 
-    print(f"StegGuardian state resolution validation passed: {len(CASES)} cases")
+    print(f"StegGuardian general-store validation passed: {len(CASES)} cases")
     return 0
 
 
