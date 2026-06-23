@@ -1,0 +1,33 @@
+name: Validate StegGuardian Adapter
+
+on:
+  push:
+    paths:
+      - 'tools/**'
+      - 'examples/**'
+      - 'stores/**'
+      - 'contracts/**'
+      - 'docs/STEGGUARDIAN_*.md'
+  pull_request:
+    paths:
+      - 'tools/**'
+      - 'examples/**'
+      - 'stores/**'
+      - 'contracts/**'
+      - 'docs/STEGGUARDIAN_*.md'
+  workflow_dispatch:
+
+jobs:
+  validate-stegguardian-adapter:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Validate StegGuardian adapter
+        run: python tools/validate_stegguardian_adapter_all.py
