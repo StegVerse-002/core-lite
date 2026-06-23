@@ -1,0 +1,15 @@
+{
+  "store_id": "core_lite.rules_store.seed.v0",
+  "records": {
+    "policy:guardian-ai-learning-v0": {
+      "record_type": "policy",
+      "status": "active",
+      "standing": "resolved"
+    },
+    "policy:default-fail-closed-v0": {
+      "record_type": "policy",
+      "status": "active",
+      "standing": "resolved"
+    }
+  }
+}
