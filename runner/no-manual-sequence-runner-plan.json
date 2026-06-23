@@ -1,0 +1,20 @@
+{
+  "runner_plan_id": "core_lite.no_manual_sequence_runner.v0",
+  "contract": "contracts/runner-consumption-contract.json",
+  "source_receipt": "receipts/stegguardian-no-manual-sequence.json",
+  "result_receipt": "receipts/runner-consumption-result.json",
+  "ordered_actions": [
+    {
+      "action": "process repository request records",
+      "local_tool": "tools/process_automation_requests.py",
+      "expected_receipt": "receipts/automation-processing-receipt.json"
+    },
+    {
+      "action": "run unified adapter validation",
+      "local_tool": "tools/validate_stegguardian_adapter_all.py",
+      "expected_result": "StegGuardian unified adapter validation passed"
+    }
+  ],
+  "decision_rule": "ALLOW only if every ordered action completes successfully; otherwise FAIL_CLOSED.",
+  "manual_task_policy": "Runner consumes this plan without human file movement or manual command sequencing."
+}
