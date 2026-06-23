@@ -1,0 +1,17 @@
+{
+  "table_id": "core_lite.stegguardian_mock_resolution.v0",
+  "entries": {
+    "cap:school_child:education_active": "resolved",
+    "provider:ai_tutor:declared": "resolved",
+    "policy:guardian-ai-learning-v0": "resolved",
+    "evidence:guardian_authority_active": "resolved",
+    "evidence:education_capability_active": "resolved",
+    "evidence:provider_educational_declaration_valid": "resolved",
+    "context:execution_time": "resolved",
+    "context:content_class_educational": "resolved",
+    "context:unrelated_profiling_absent": "resolved",
+    "cap:unresolved": "unresolved",
+    "provider:unresolved": "unresolved",
+    "evidence:unresolved_standing": "unresolved"
+  }
+}
