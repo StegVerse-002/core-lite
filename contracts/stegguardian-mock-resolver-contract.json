@@ -1,0 +1,21 @@
+{
+  "contract_id": "core_lite.stegguardian_mock_resolver.v0",
+  "purpose": "Define a temporary resolver used only for adapter fixture validation before live core-lite state resolution is connected.",
+  "non_goal": "This resolver is not production standing evaluation.",
+  "input_refs": [
+    "capability_state_ref",
+    "provider_declaration_ref",
+    "policy_ref",
+    "evidence_refs",
+    "context_refs"
+  ],
+  "mock_resolution_states": [
+    "resolved",
+    "unresolved"
+  ],
+  "decision_mapping": {
+    "all_required_refs_resolved": "ALLOW_OR_CONDITIONAL_ACCORDING_TO_INPUT_EXPECTATION",
+    "any_required_ref_unresolved": "FAIL_CLOSED"
+  },
+  "replacement_target": "live core-lite state resolution"
+}
