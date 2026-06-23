@@ -1,0 +1,15 @@
+{
+  "store_id": "core_lite.capability_state_store.seed.v0",
+  "records": {
+    "cap:school_child:education_active": {
+      "record_type": "capability_state",
+      "status": "active",
+      "standing": "resolved"
+    },
+    "cap:unresolved": {
+      "record_type": "capability_state",
+      "status": "unresolved",
+      "standing": "unresolved"
+    }
+  }
+}
