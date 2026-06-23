@@ -1,0 +1,22 @@
+{
+  "contract_id": "core_lite.runner_consumption.v0",
+  "purpose": "Define how an automation runner consumes no-manual sequence receipts.",
+  "input_receipts": [
+    "receipts/stegguardian-no-manual-sequence.json"
+  ],
+  "required_runner_behavior": [
+    "read receipt ordered_actions",
+    "resolve evidence artifacts",
+    "execute supported local processors",
+    "execute supported validators",
+    "write result receipt"
+  ],
+  "supported_processors": [
+    "tools/process_automation_requests.py"
+  ],
+  "supported_validators": [
+    "tools/validate_stegguardian_adapter_all.py"
+  ],
+  "result_receipt_target": "receipts/runner-consumption-result.json",
+  "fail_closed_rule": "If any ordered action cannot be resolved or executed by the runner, write a failure receipt and stop."
+}
