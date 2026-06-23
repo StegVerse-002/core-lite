@@ -1,0 +1,40 @@
+{
+  "checklist_id": "core_lite.no_manual_sequence_audit.v0",
+  "plan": "runner/no-manual-sequence-runner-plan.json",
+  "contract": "contracts/runner-consumption-contract.json",
+  "source_receipt": "receipts/stegguardian-no-manual-sequence.json",
+  "checks": [
+    {
+      "check_id": "AUDIT-001",
+      "description": "runner plan references the runner consumption contract",
+      "expected": "contracts/runner-consumption-contract.json"
+    },
+    {
+      "check_id": "AUDIT-002",
+      "description": "runner plan references the no-manual source receipt",
+      "expected": "receipts/stegguardian-no-manual-sequence.json"
+    },
+    {
+      "check_id": "AUDIT-003",
+      "description": "runner ordered actions match the source receipt ordered actions",
+      "expected_actions": [
+        "process repository request records",
+        "run unified adapter validation"
+      ]
+    },
+    {
+      "check_id": "AUDIT-004",
+      "description": "runner plan references local processor and validation artifacts",
+      "expected_artifacts": [
+        "tools/process_automation_requests.py",
+        "tools/validate_stegguardian_adapter_all.py"
+      ]
+    },
+    {
+      "check_id": "AUDIT-005",
+      "description": "runner result target is declared by contract",
+      "expected": "receipts/runner-consumption-result.json"
+    }
+  ],
+  "decision_rule": "Checklist passes only when every expected path and ordered action matches the declared plan, contract, and source receipt."
+}
