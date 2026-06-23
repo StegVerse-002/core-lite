@@ -1,0 +1,19 @@
+{
+  "receipt_id": "core-lite-sg-rct-0001",
+  "subject_class": "school_child",
+  "interaction_type": "AI_TUTOR_SESSION",
+  "provider_class": "declared_educational_ai",
+  "capability_state_ref": "cap:school_child:education_active",
+  "policy_ref": "policy:guardian-ai-learning-v0",
+  "standing_ref": "standing:guardian_ai_tutor_allow_0001",
+  "decision": "ALLOW",
+  "decision_reasons": [
+    "guardian education authority active",
+    "provider educational declaration valid",
+    "content class educational",
+    "unrelated profiling absent"
+  ],
+  "disclosure_minimized": true,
+  "challenge_path": "guardian.challenge.receipt",
+  "created_at": "2026-06-20T00:00:00Z"
+}
