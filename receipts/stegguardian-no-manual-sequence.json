@@ -1,0 +1,18 @@
+{
+  "receipt_id": "core-lite.stegguardian.no_manual_sequence.v0",
+  "purpose": "Record the no-manual sequence for StegGuardian adapter activation.",
+  "ordered_actions": [
+    "process repository request records",
+    "run unified adapter validation"
+  ],
+  "evidence": [
+    "tools/process_automation_requests.py",
+    "tools/validate_stegguardian_adapter_all.py",
+    "receipts/stegguardian-core-lite-goal-activation.json"
+  ],
+  "done_when": [
+    "request processing receipt exists",
+    "unified validation passes"
+  ],
+  "status": "sequence_defined_for_runner_consumption"
+}
