@@ -1,0 +1,15 @@
+{
+  "store_id": "core_lite.provider_store.seed.v0",
+  "records": {
+    "provider:ai_tutor:declared": {
+      "record_type": "provider_declaration",
+      "status": "active",
+      "standing": "resolved"
+    },
+    "provider:unresolved": {
+      "record_type": "provider_declaration",
+      "status": "unresolved",
+      "standing": "unresolved"
+    }
+  }
+}
