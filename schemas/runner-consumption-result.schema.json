@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://stegverse.example/schemas/core-lite/runner-consumption-result.schema.json",
+  "title": "Runner Consumption Result",
+  "type": "object",
+  "required": [
+    "receipt_id",
+    "contract_id",
+    "source_receipt",
+    "decision",
+    "actions",
+    "created_at"
+  ],
+  "properties": {
+    "receipt_id": { "type": "string", "minLength": 1 },
+    "contract_id": { "type": "string", "minLength": 1 },
+    "source_receipt": { "type": "string", "minLength": 1 },
+    "decision": {
+      "type": "string",
+      "enum": ["ALLOW", "FAIL_CLOSED"]
+    },
+    "actions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["action", "status"],
+        "properties": {
+          "action": { "type": "string", "minLength": 1 },
+          "status": { "type": "string", "minLength": 1 },
+          "detail": { "type": "string" }
+        },
+        "additionalProperties": true
+      }
+    },
+    "created_at": { "type": "string", "format": "date-time" }
+  },
+  "additionalProperties": true
+}
