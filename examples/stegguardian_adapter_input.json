@@ -1,0 +1,19 @@
+{
+  "cell_id": "INT_CHILD_APPROVED_AI_TUTOR",
+  "subject_class": "school_child",
+  "interaction_type": "AI_TUTOR_SESSION",
+  "provider_class": "declared_educational_ai",
+  "capability_state_ref": "cap:school_child:education_active",
+  "provider_declaration_ref": "provider:ai_tutor:declared",
+  "policy_ref": "policy:guardian-ai-learning-v0",
+  "evidence_refs": [
+    "evidence:guardian_authority_active",
+    "evidence:education_capability_active",
+    "evidence:provider_educational_declaration_valid"
+  ],
+  "context_refs": [
+    "context:execution_time",
+    "context:content_class_educational",
+    "context:unrelated_profiling_absent"
+  ]
+}
