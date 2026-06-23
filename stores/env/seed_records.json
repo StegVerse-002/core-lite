@@ -1,0 +1,20 @@
+{
+  "store_id": "core_lite.env_store.seed.v0",
+  "records": {
+    "context:execution_time": {
+      "record_type": "context",
+      "status": "active",
+      "standing": "resolved"
+    },
+    "context:content_class_educational": {
+      "record_type": "context",
+      "status": "active",
+      "standing": "resolved"
+    },
+    "context:unrelated_profiling_absent": {
+      "record_type": "context",
+      "status": "active",
+      "standing": "resolved"
+    }
+  }
+}
