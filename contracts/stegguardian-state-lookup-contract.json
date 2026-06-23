@@ -1,0 +1,23 @@
+{
+  "contract_id": "core_lite.stegguardian_state_lookup.v0",
+  "purpose": "Define how StegGuardian adapter references resolve against core-lite state records.",
+  "lookup_inputs": [
+    "capability_state_ref",
+    "provider_declaration_ref",
+    "policy_ref",
+    "evidence_refs",
+    "context_refs"
+  ],
+  "state_record_source": "state/stegguardian/seed_state_records.json",
+  "required_record_fields": [
+    "record_type",
+    "status",
+    "standing"
+  ],
+  "resolved_condition": {
+    "status": "active",
+    "standing": "resolved"
+  },
+  "unresolved_condition": "Any missing, inactive, expired, superseded, or unresolved record must cause FAIL_CLOSED until standing is re-bound.",
+  "replacement_target": "general core-lite state, policy, evidence, context, and continuity stores"
+}
