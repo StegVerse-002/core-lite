@@ -1,0 +1,29 @@
+{
+  "mapping_id": "core_lite.stegguardian_store_mapping.v0",
+  "purpose": "Map StegGuardian adapter reference classes to general core-lite stores.",
+  "seed_source": "state/stegguardian/seed_state_records.json",
+  "mappings": {
+    "capability_state_ref": {
+      "seed_record_type": "capability_state",
+      "target_store": "core_lite.capability_state_store"
+    },
+    "provider_declaration_ref": {
+      "seed_record_type": "provider_declaration",
+      "target_store": "core_lite.provider_declaration_store"
+    },
+    "policy_ref": {
+      "seed_record_type": "policy",
+      "target_store": "core_lite.policy_store"
+    },
+    "evidence_refs": {
+      "seed_record_type": "evidence",
+      "target_store": "core_lite.evidence_store"
+    },
+    "context_refs": {
+      "seed_record_type": "context",
+      "target_store": "core_lite.context_store"
+    }
+  },
+  "resolution_rule": "A target record must be active and resolved at execution time to continue evaluation.",
+  "fallback_rule": "If a target store is unavailable, unresolved, or stale, return FAIL_CLOSED."
+}
