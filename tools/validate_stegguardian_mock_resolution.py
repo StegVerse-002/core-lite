@@ -2,7 +2,7 @@ import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-TABLE_PATH = ROOT / "examples" / "stegguardian_mock_resolution_table.json"
+STATE_PATH = ROOT / "state" / "stegguardian" / "seed_state_records.json"
 CASES = [
     {
         "label": "allow",
@@ -32,10 +32,16 @@ def collect_refs(payload):
     return refs
 
 
-def decide(payload, table):
-    entries = table.get("entries", {})
+def ref_is_resolved(ref, state):
+    record = state.get("records", {}).get(ref)
+    if not record:
+        return False
+    return record.get("status") == "active" and record.get("standing") == "resolved"
+
+
+def decide(payload, state):
     for ref in collect_refs(payload):
-        if entries.get(ref) != "resolved":
+        if not ref_is_resolved(ref, state):
             return "FAIL_CLOSED"
     if payload.get("cell_id") == "INT_CHILD_APPROVED_AI_TUTOR":
         return "ALLOW"
@@ -43,23 +49,23 @@ def decide(payload, table):
 
 
 def main():
-    table = load_json(TABLE_PATH)
+    state = load_json(STATE_PATH)
     failures = []
 
     for case in CASES:
         payload = load_json(case["input"])
-        actual = decide(payload, table)
+        actual = decide(payload, state)
         expected = case["expected"]
         if actual != expected:
             failures.append(f"{case['label']}: expected {expected}, got {actual}")
 
     if failures:
-        print("StegGuardian mock resolution validation failed:")
+        print("StegGuardian state resolution validation failed:")
         for failure in failures:
             print("- " + failure)
         return 1
 
-    print(f"StegGuardian mock resolution validation passed: {len(CASES)} cases")
+    print(f"StegGuardian state resolution validation passed: {len(CASES)} cases")
     return 0
 
 
