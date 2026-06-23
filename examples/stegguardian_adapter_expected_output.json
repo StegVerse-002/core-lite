@@ -1,0 +1,22 @@
+{
+  "decision": "ALLOW",
+  "standing_ref": "standing:guardian_ai_tutor_allow_0001",
+  "decision_reasons": [
+    "guardian education authority active",
+    "provider educational declaration valid",
+    "content class educational",
+    "unrelated profiling absent"
+  ],
+  "receipt_required": true,
+  "receipt_material": {
+    "subject_class": "school_child",
+    "interaction_type": "AI_TUTOR_SESSION",
+    "provider_class": "declared_educational_ai",
+    "capability_state_ref": "cap:school_child:education_active",
+    "policy_ref": "policy:guardian-ai-learning-v0",
+    "standing_ref": "standing:guardian_ai_tutor_allow_0001",
+    "decision": "ALLOW",
+    "disclosure_minimized": true,
+    "challenge_path": "guardian.challenge.receipt"
+  }
+}
