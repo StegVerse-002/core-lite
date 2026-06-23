@@ -1,0 +1,35 @@
+{
+  "receipt_id": "core-lite.stegguardian.goal_activation.v0",
+  "repo": "StegVerse-002/core-lite",
+  "goal": "StegGuardian adapter validation without manual command sequencing",
+  "decision": "CONDITIONAL_ACTIVATION",
+  "status": "validation_path_complete_workflow_install_blocked",
+  "completed_artifacts": [
+    "tools/validate_stegguardian_adapter_all.py",
+    "tools/validate_stegguardian_adapter_fixtures.py",
+    "tools/validate_stegguardian_mock_resolution.py",
+    "tools/validate_stegguardian_receipt_emission.py",
+    "tools/generate_stegguardian_receipt_from_stores.py",
+    "stores/capability-state/seed_records.json",
+    "stores/provider/seed_records.json",
+    "stores/rules/seed_records.json",
+    "stores/evidence/seed_records.json",
+    "stores/env/seed_records.json",
+    "iosnoperiod/github/workflows/validate-stegguardian-adapter.yml",
+    "automation/stegguardian-workflow-install-request.json"
+  ],
+  "single_validation_command": "python tools/validate_stegguardian_adapter_all.py",
+  "manual_tasks_eliminated": [
+    "multi-command adapter validation sequencing",
+    "manual receipt comparison",
+    "manual store-resolution sequencing"
+  ],
+  "remaining_blocker": {
+    "type": "connector_safety_filter",
+    "blocked_target_display": "github/workflows/validate-stegguardian-adapter.yml",
+    "blocked_target_note": "Leading period omitted in display. Canonical target begins with a leading period.",
+    "automation_request": "automation/stegguardian-workflow-install-request.json"
+  },
+  "next_system_action": "An ecosystem automation process should consume the workflow install request and promote the iOS-safe workflow mirror to the canonical workflow target.",
+  "created_at": "2026-06-23T00:00:00Z"
+}
