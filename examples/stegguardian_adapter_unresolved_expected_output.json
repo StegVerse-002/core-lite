@@ -1,0 +1,19 @@
+{
+  "decision": "FAIL_CLOSED",
+  "standing_ref": "standing:unresolved",
+  "decision_reasons": [
+    "required standing could not be resolved or reconstructed"
+  ],
+  "receipt_required": true,
+  "receipt_material": {
+    "subject_class": "any",
+    "interaction_type": "PROTECTED_INTERACTION",
+    "provider_class": "any",
+    "capability_state_ref": "cap:unresolved",
+    "policy_ref": "policy:default-fail-closed-v0",
+    "standing_ref": "standing:unresolved",
+    "decision": "FAIL_CLOSED",
+    "disclosure_minimized": true,
+    "challenge_path": "subject.challenge.receipt"
+  }
+}
