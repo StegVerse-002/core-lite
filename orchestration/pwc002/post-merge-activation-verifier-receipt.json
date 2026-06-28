@@ -1,0 +1,12 @@
+{
+  "receipt_type": "pwc002_post_merge_activation_verifier_receipt",
+  "repo": "StegVerse-002/core-lite",
+  "branch": "pwc002/install-runtime-handoff",
+  "installed_verifier": "verifiers/pwc002/post-merge-activation-verifier.json",
+  "activation_claimed": false,
+  "manual_reconstruction_required": false,
+  "remaining_items": [
+    "propagation verification task"
+  ],
+  "result": "VERIFIER_INSTALLED_PENDING_LATER_INPUTS"
+}
