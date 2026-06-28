@@ -1,0 +1,18 @@
+{
+  "adapter_type": "pwc002_runtime_integration_receipt_adapter",
+  "version": "1.0.0-draft",
+  "source_handoff": "PWC002_MIRROR_HANDOFF.md",
+  "repo": "StegVerse-002/core-lite",
+  "role": "core_target",
+  "accepted_receipts": [
+    "runtime_package_install_receipt",
+    "live_operation_queue_receipt",
+    "connector_dispatch_receiver_receipt",
+    "propagation_verification_task_receipt"
+  ],
+  "current_boundary": "draft_branch_only",
+  "activation_claimed": false,
+  "merge_authorized": false,
+  "manual_receipt_mapping_required": false,
+  "adapter_result": "INSTALLED_ON_DRAFT_BRANCH"
+}
