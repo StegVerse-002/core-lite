@@ -1,0 +1,38 @@
+{
+  "schema": "stegverse.management_package_intake_report.v1",
+  "version": "0.1.14-gllm",
+  "repo": "StegVerse-002/core-lite",
+  "checked_utc": "2026-07-06T22:00:00-05:00",
+  "authority": {
+    "candidate_evidence_only": true,
+    "canonical_authority": false,
+    "broad_authority": false,
+    "may_bind_repo_state": false
+  },
+  "input_state": {
+    "quorum_readiness_review_result": "QUORUM_READINESS_REVIEW_READY_FOR_001_PACKAGE",
+    "source_repo": "Data-Continuation/core-lite",
+    "expected_artifact": "core-lite-workstream-status"
+  },
+  "required_001_package_inputs": [
+    "reports/ecosystem_maintainer_scan.json",
+    "reports/auto_fix_eligibility.json",
+    "reports/friction_avoided.json",
+    "reports/bundle_registry.json",
+    "reports/capability_gap_plan.json"
+  ],
+  "missing_inputs": [
+    "Data-Continuation/core-lite workflow artifact: core-lite-workstream-status must be produced and supplied to this intake boundary before candidate evidence can be accepted"
+  ],
+  "intake_boundary": {
+    "this_intake_forms_quorum": false,
+    "this_intake_grants_authority": false,
+    "this_intake_installs": false,
+    "this_intake_binds_repo_state": false,
+    "candidate_evidence_may_be_used_for_next_transition_review": true,
+    "requires_future_authorized_quorum_for_binding_authority": true
+  },
+  "result": "MANAGEMENT_PACKAGE_INTAKE_PENDING_001_ARTIFACT",
+  "next_required_action": "Run or inspect Data-Continuation/core-lite workflow artifact and feed the report set into this boundary",
+  "next_candidate_goal": "management action candidate synthesis after 001 package acceptance"
+}
