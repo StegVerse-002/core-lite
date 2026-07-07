@@ -2,8 +2,8 @@
 
 Generated: 2026-07-06
 Repo: StegVerse-002/core-lite
-Completed goal: v0.1.13 quorum-readiness review boundary.
-Current goal: 001 management package intake review.
+Completed goal: v0.1.14 001 management package intake boundary.
+Current goal: 001 artifact package acceptance or management action candidate synthesis after package is supplied.
 
 ## Assessment Goal
 
@@ -27,14 +27,15 @@ v0.1.10 AUTHORITY_DECISION_REQUEST_RECORDED
 v0.1.11 AUTHORITY_DECISION_REVIEW_PENDING_AUTHORIZED_QUORUM
 v0.1.12 QUORUM_READINESS_REQUEST_RECORDED
 v0.1.13 QUORUM_READINESS_REVIEW_READY_FOR_001_PACKAGE
+v0.1.14 MANAGEMENT_PACKAGE_INTAKE_PENDING_001_ARTIFACT
 ```
 
-## v0.1.13 Artifacts
+## v0.1.14 Artifacts
 
 ```text
-config/quorum_readiness_review_policy.json
-reports/current/quorum_readiness_review_report.json
-receipts/current/quorum_readiness_review_receipt.jsonl
+config/management_package_intake_policy.json
+reports/current/management_package_intake_report.json
+receipts/current/management_package_intake_receipt.jsonl
 ```
 
 ## Boundary
@@ -44,7 +45,7 @@ canonical_authority: false
 broad_authority: false
 may_bind_repo_state: false
 
-This review does not form quorum, grant authority, install changes, or bind repository state. It only records that StegVerse-002 is ready to evaluate the StegVerse-001 management package as candidate evidence.
+This intake boundary does not form quorum, grant authority, install changes, or bind repository state. It creates the governed receiving slot for StegVerse-001/Data-Continuation/core-lite management outputs.
 
 ## Required 001 Package Inputs
 
@@ -58,18 +59,30 @@ reports/bundle_registry.json
 reports/capability_gap_plan.json
 ```
 
-## Next Candidate Goal
-
-001 management package intake review.
-
-Suggested artifacts:
+## Current Intake Result
 
 ```text
-config/management_package_intake_policy.json
-reports/current/management_package_intake_report.json
-receipts/current/management_package_intake_receipt.jsonl
+MANAGEMENT_PACKAGE_INTAKE_PENDING_001_ARTIFACT
+```
+
+## Next Candidate Goal
+
+If the 001 artifact package is available:
+
+```text
+MANAGEMENT_PACKAGE_CANDIDATE_EVIDENCE_ACCEPTED
+```
+
+If not available, continue by improving automation that produces or retrieves the package from Data-Continuation/core-lite.
+
+Suggested next artifacts after package acceptance:
+
+```text
+config/management_action_candidate_policy.json
+reports/current/management_action_candidate_report.json
+receipts/current/management_action_candidate_receipt.jsonl
 ```
 
 ## Archive Readiness
 
-Archive-ready through v0.1.13. Ecosystem-managed continuation can begin from this handoff after the Data-Continuation/core-lite artifact package is available.
+Archive-ready through v0.1.14. Ecosystem-managed continuation can begin from this handoff; no earlier conversation context is required beyond the 001 artifact package requirement above.
