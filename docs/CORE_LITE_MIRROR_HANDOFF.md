@@ -2,8 +2,8 @@
 
 Generated: 2026-07-07
 Repo: StegVerse-002/core-lite
-Completed goal: v0.1.16 management package retrieval boundary.
-Current goal: stage 001 artifact package, run intake validator, or wire validator into declared-task dispatcher.
+Completed goal: v0.1.17 management package declared task and dispatcher script.
+Current goal: wire declared-task job into existing core-lite-intake workflow, or stage 001 artifact package and run dispatcher locally/through CI.
 
 ## Assessment Goal
 
@@ -30,14 +30,14 @@ v0.1.13 QUORUM_READINESS_REVIEW_READY_FOR_001_PACKAGE
 v0.1.14 MANAGEMENT_PACKAGE_INTAKE_PENDING_001_ARTIFACT
 v0.1.15 MANAGEMENT_PACKAGE_VALIDATOR_PRESENT
 v0.1.16 MANAGEMENT_PACKAGE_RETRIEVAL_PENDING_SOURCE_ARTIFACT
+v0.1.17 MANAGEMENT_PACKAGE_DECLARED_TASK_READY
 ```
 
-## v0.1.16 Artifacts
+## v0.1.17 Artifacts
 
 ```text
-config/management_package_retrieval_policy.json
-reports/current/management_package_retrieval_report.json
-receipts/current/management_package_retrieval_receipt.jsonl
+tools/tasks/sv002.management_package.intake.json
+tools/scripts/run_declared_task.py
 ```
 
 ## Boundary
@@ -47,7 +47,7 @@ canonical_authority: false
 broad_authority: false
 may_bind_repo_state: false
 
-This retrieval boundary does not form quorum, grant authority, install changes, or bind repository state. It records that the 001 package is still the needed input and that staged evidence must be validated before use.
+The declared task and dispatcher do not form quorum, grant authority, install changes, or bind repository state. They only provide a governed task execution surface for candidate-evidence validation.
 
 ## Required 001 Package Inputs
 
@@ -61,10 +61,18 @@ reports/bundle_registry.json
 reports/capability_gap_plan.json
 ```
 
-## Validation Command
+## Validation Commands
+
+Direct validator:
 
 ```bash
 python tools/validate_management_package_intake.py --root .
+```
+
+Declared-task dispatcher:
+
+```bash
+python tools/scripts/run_declared_task.py --repo-root . --task-id sv002.management_package.intake --stage SV002-M11
 ```
 
 Expected generated outputs:
@@ -73,6 +81,8 @@ Expected generated outputs:
 reports/current/management_package_acceptance_report.md
 reports/current/management_package_acceptance_report.json
 receipts/current/management_package_acceptance_receipt.jsonl
+reports/current/declared_task_dispatch_report.json
+receipts/current/declared_task_dispatch_receipt.jsonl
 ```
 
 ## Current Intake Result
@@ -86,7 +96,7 @@ MANAGEMENT_PACKAGE_RETRIEVAL_PENDING_SOURCE_ARTIFACT
 Highest-value next build target if no artifact is available:
 
 ```text
-Wire tools/validate_management_package_intake.py into the existing core-lite-intake dispatcher as a declared task without adding a new workflow.
+Wire tools/scripts/run_declared_task.py into the existing core-lite-intake workflow declared_task route without adding a new workflow.
 ```
 
 If the 001 artifact package is available:
@@ -105,4 +115,4 @@ receipts/current/management_action_candidate_receipt.jsonl
 
 ## Archive Readiness
 
-Archive-ready through v0.1.16. Ecosystem-managed continuation can begin from this handoff; no earlier conversation context is required beyond the 001 artifact package requirement and dispatcher-wiring target above.
+Archive-ready through v0.1.17. Ecosystem-managed continuation can begin from this handoff; no earlier conversation context is required beyond the 001 artifact package requirement and workflow declared-task wiring target above.
