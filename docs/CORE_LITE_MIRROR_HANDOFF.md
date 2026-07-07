@@ -1,9 +1,9 @@
 # StegVerse-002 Core-Lite Mirror Handoff
 
-Generated: 2026-07-06
+Generated: 2026-07-07
 Repo: StegVerse-002/core-lite
-Completed goal: v0.1.15 management package validator and intake directory.
-Current goal: supply 001 artifact package or synthesize management action candidates after package acceptance.
+Completed goal: v0.1.16 management package retrieval boundary.
+Current goal: stage 001 artifact package, run intake validator, or wire validator into declared-task dispatcher.
 
 ## Assessment Goal
 
@@ -29,13 +29,15 @@ v0.1.12 QUORUM_READINESS_REQUEST_RECORDED
 v0.1.13 QUORUM_READINESS_REVIEW_READY_FOR_001_PACKAGE
 v0.1.14 MANAGEMENT_PACKAGE_INTAKE_PENDING_001_ARTIFACT
 v0.1.15 MANAGEMENT_PACKAGE_VALIDATOR_PRESENT
+v0.1.16 MANAGEMENT_PACKAGE_RETRIEVAL_PENDING_SOURCE_ARTIFACT
 ```
 
-## v0.1.15 Artifacts
+## v0.1.16 Artifacts
 
 ```text
-tools/validate_management_package_intake.py
-incoming/data_continuation_core_lite/README.md
+config/management_package_retrieval_policy.json
+reports/current/management_package_retrieval_report.json
+receipts/current/management_package_retrieval_receipt.jsonl
 ```
 
 ## Boundary
@@ -45,7 +47,7 @@ canonical_authority: false
 broad_authority: false
 may_bind_repo_state: false
 
-This validator does not form quorum, grant authority, install changes, or bind repository state. It only checks whether the StegVerse-001/Data-Continuation/core-lite management package has been supplied to the expected intake directory.
+This retrieval boundary does not form quorum, grant authority, install changes, or bind repository state. It records that the 001 package is still the needed input and that staged evidence must be validated before use.
 
 ## Required 001 Package Inputs
 
@@ -76,18 +78,22 @@ receipts/current/management_package_acceptance_receipt.jsonl
 ## Current Intake Result
 
 ```text
-MANAGEMENT_PACKAGE_INTAKE_PENDING_001_ARTIFACT
+MANAGEMENT_PACKAGE_RETRIEVAL_PENDING_SOURCE_ARTIFACT
 ```
 
 ## Next Candidate Goal
+
+Highest-value next build target if no artifact is available:
+
+```text
+Wire tools/validate_management_package_intake.py into the existing core-lite-intake dispatcher as a declared task without adding a new workflow.
+```
 
 If the 001 artifact package is available:
 
 ```text
 MANAGEMENT_PACKAGE_CANDIDATE_EVIDENCE_ACCEPTED
 ```
-
-If not available, continue by improving automation that produces, retrieves, or mirrors the package from Data-Continuation/core-lite.
 
 Suggested next artifacts after package acceptance:
 
@@ -99,4 +105,4 @@ receipts/current/management_action_candidate_receipt.jsonl
 
 ## Archive Readiness
 
-Archive-ready through v0.1.15. Ecosystem-managed continuation can begin from this handoff; no earlier conversation context is required beyond the 001 artifact package requirement above.
+Archive-ready through v0.1.16. Ecosystem-managed continuation can begin from this handoff; no earlier conversation context is required beyond the 001 artifact package requirement and dispatcher-wiring target above.
