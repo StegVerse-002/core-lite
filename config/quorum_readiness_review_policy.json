@@ -1,0 +1,37 @@
+{
+  "schema": "stegverse.quorum_readiness_review_policy.v1",
+  "version": "0.1.13-gllm",
+  "repo": "StegVerse-002/core-lite",
+  "assessment_goal": "review quorum-readiness request and prepare evidence-only handoff for 001-to-002 ecosystem management activation",
+  "authority": {
+    "candidate_evidence_only": true,
+    "canonical_authority": false,
+    "broad_authority": false,
+    "may_bind_repo_state": false
+  },
+  "required_inputs": [
+    "config/quorum_readiness_request_policy.json",
+    "reports/current/quorum_readiness_request_report.json",
+    "receipts/current/quorum_readiness_request_receipt.jsonl",
+    "docs/CORE_LITE_MIRROR_HANDOFF.md"
+  ],
+  "optional_external_inputs": [
+    "Data-Continuation/core-lite::reports/ecosystem_maintainer_scan.json",
+    "Data-Continuation/core-lite::reports/auto_fix_eligibility.json",
+    "Data-Continuation/core-lite::reports/friction_avoided.json",
+    "Data-Continuation/core-lite::reports/bundle_registry.json",
+    "Data-Continuation/core-lite::reports/capability_gap_plan.json"
+  ],
+  "expected_prior_result": "QUORUM_READINESS_REQUEST_RECORDED",
+  "review_result": "QUORUM_READINESS_REVIEW_READY_FOR_001_PACKAGE",
+  "review_boundary": {
+    "this_review_forms_quorum": false,
+    "this_review_grants_authority": false,
+    "this_review_installs": false,
+    "this_review_binds_repo_state": false,
+    "may_accept_001_candidate_evidence": true,
+    "requires_001_artifact_package": true,
+    "requires_future_authorized_quorum_for_binding_authority": true
+  },
+  "next_candidate_goal": "001 management package intake review"
+}
