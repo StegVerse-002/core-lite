@@ -1,9 +1,9 @@
 # StegVerse-002 Core-Lite Mirror Handoff
 
-Generated: 2026-06-18
+Generated: 2026-07-06
 Repo: StegVerse-002/core-lite
-Completed goal: v0.1.12 quorum-readiness request boundary.
-Current goal: Archive-ready handoff; next candidate is quorum-readiness review boundary.
+Completed goal: v0.1.13 quorum-readiness review boundary.
+Current goal: 001 management package intake review.
 
 ## Assessment Goal
 
@@ -26,14 +26,15 @@ v0.1.9 ECOSYSTEM_HANDOFF_CAPABLE
 v0.1.10 AUTHORITY_DECISION_REQUEST_RECORDED
 v0.1.11 AUTHORITY_DECISION_REVIEW_PENDING_AUTHORIZED_QUORUM
 v0.1.12 QUORUM_READINESS_REQUEST_RECORDED
+v0.1.13 QUORUM_READINESS_REVIEW_READY_FOR_001_PACKAGE
 ```
 
-## v0.1.12 Artifacts
+## v0.1.13 Artifacts
 
 ```text
-config/quorum_readiness_request_policy.json
-reports/current/quorum_readiness_request_report.json
-receipts/current/quorum_readiness_request_receipt.jsonl
+config/quorum_readiness_review_policy.json
+reports/current/quorum_readiness_review_report.json
+receipts/current/quorum_readiness_review_receipt.jsonl
 ```
 
 ## Boundary
@@ -43,18 +44,32 @@ canonical_authority: false
 broad_authority: false
 may_bind_repo_state: false
 
+This review does not form quorum, grant authority, install changes, or bind repository state. It only records that StegVerse-002 is ready to evaluate the StegVerse-001 management package as candidate evidence.
+
+## Required 001 Package Inputs
+
+Expected from `Data-Continuation/core-lite` workflow artifact `core-lite-workstream-status`:
+
+```text
+reports/ecosystem_maintainer_scan.json
+reports/auto_fix_eligibility.json
+reports/friction_avoided.json
+reports/bundle_registry.json
+reports/capability_gap_plan.json
+```
+
 ## Next Candidate Goal
 
-Quorum-readiness review boundary.
+001 management package intake review.
 
 Suggested artifacts:
 
 ```text
-config/quorum_readiness_review_policy.json
-reports/current/quorum_readiness_review_report.json
-receipts/current/quorum_readiness_review_receipt.jsonl
+config/management_package_intake_policy.json
+reports/current/management_package_intake_report.json
+receipts/current/management_package_intake_receipt.jsonl
 ```
 
 ## Archive Readiness
 
-Archive-ready through v0.1.12. Ecosystem-managed continuation can begin from this handoff and the self-management report.
+Archive-ready through v0.1.13. Ecosystem-managed continuation can begin from this handoff after the Data-Continuation/core-lite artifact package is available.
