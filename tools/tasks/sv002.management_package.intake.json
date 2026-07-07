@@ -1,0 +1,35 @@
+{
+  "task_id": "sv002.management_package.intake",
+  "stage": "SV002-M11",
+  "allowed_stages": ["SV002-M11", "SV002-M12"],
+  "description": "Validate the Data-Continuation/core-lite management package staged under incoming/data_continuation_core_lite as candidate evidence only.",
+  "capability": "management_package_intake_validation",
+  "transition_class": "tooling",
+  "authority": "candidate_evidence_review_only",
+  "entry_point": "tools/validate_management_package_intake.py",
+  "command": "python tools/validate_management_package_intake.py --root .",
+  "timeout_seconds": 120,
+  "expected_outputs": [
+    "reports/current/management_package_acceptance_report.md",
+    "reports/current/management_package_acceptance_report.json",
+    "receipts/current/management_package_acceptance_receipt.jsonl"
+  ],
+  "decision_set": [
+    "MANAGEMENT_PACKAGE_INTAKE_PENDING_001_ARTIFACT",
+    "MANAGEMENT_PACKAGE_CANDIDATE_EVIDENCE_ACCEPTED",
+    "FAIL_CLOSED"
+  ],
+  "stop_condition": "Intake validation report and receipt written; no repository state is bound by this task.",
+  "governance": {
+    "candidate_evidence_only": true,
+    "no_broad_authority": true,
+    "no_root_readme_overwrite": true,
+    "no_workflow_changes_by_task": true,
+    "default_deny": true,
+    "does_not_form_quorum": true,
+    "does_not_grant_authority": true,
+    "does_not_install_destination_files": true,
+    "receipt_before_claim": true
+  },
+  "notes": "Run after Data-Continuation/core-lite produces the core-lite-workstream-status artifact and its required reports are staged under incoming/data_continuation_core_lite/."
+}
