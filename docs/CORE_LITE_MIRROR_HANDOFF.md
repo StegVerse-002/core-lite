@@ -2,8 +2,8 @@
 
 Generated: 2026-07-07
 Repo: StegVerse-002/core-lite
-Completed goal: v0.1.18 workflow reduction partial.
-Current goal: finish workflow reduction to minimum standard, then wire declared-task job into existing core-lite-intake workflow.
+Completed goal: v0.1.19 workflow reduction complete.
+Current goal: wire declared-task job into existing core-lite-intake workflow.
 
 ## Assessment Goal
 
@@ -32,11 +32,12 @@ v0.1.15 MANAGEMENT_PACKAGE_VALIDATOR_PRESENT
 v0.1.16 MANAGEMENT_PACKAGE_RETRIEVAL_PENDING_SOURCE_ARTIFACT
 v0.1.17 MANAGEMENT_PACKAGE_DECLARED_TASK_READY
 v0.1.18 WORKFLOW_REDUCTION_PARTIAL
+v0.1.19 WORKFLOW_REDUCTION_COMPLETE
 ```
 
-## v0.1.18 Workflow Reduction
+## v0.1.19 Workflow Reduction
 
-Retain as standard workflows:
+Retained standard workflows:
 
 ```text
 .github/workflows/bootstrap-core-lite.yml
@@ -47,21 +48,16 @@ Removed redundant workflow triggers:
 
 ```text
 .github/workflows/cge-recovery-proof-regression.yml
+.github/workflows/core-lite-autonomous-tick.yml
 .github/workflows/core-lite-heartbeat-watchdog.yml
 .github/workflows/core-lite-v013-receipt-installer.yml
+.github/workflows/recovery-authority-boundary-regression.yml
 .github/workflows/repo-recovery-destination-plan.yml
 .github/workflows/repo-recovery-finalize-check.yml
 .github/workflows/repo-recovery-finalize-one-candidate.yml
 .github/workflows/repo-recovery-finalize-one-execution-preflight.yml
 .github/workflows/repo-recovery-ingest-one-proof.yml
 .github/workflows/repo-recovery-rebuild-corrected.yml
-```
-
-Connector-blocked deletion candidates still needing neutralization or deletion:
-
-```text
-.github/workflows/core-lite-autonomous-tick.yml
-.github/workflows/recovery-authority-boundary-regression.yml
 ```
 
 ## v0.1.17 Artifacts Still Active
@@ -124,11 +120,8 @@ MANAGEMENT_PACKAGE_RETRIEVAL_PENDING_SOURCE_ARTIFACT
 
 ## Next Candidate Goal
 
-Highest-value next build targets:
-
 ```text
-1. Delete or neutralize the two connector-blocked workflows.
-2. Wire tools/scripts/run_declared_task.py into the existing core-lite-intake workflow declared_task route without adding a new workflow.
+Wire tools/scripts/run_declared_task.py into the existing core-lite-intake workflow declared_task route without adding a new workflow.
 ```
 
 If the 001 artifact package is available:
@@ -137,6 +130,14 @@ If the 001 artifact package is available:
 MANAGEMENT_PACKAGE_CANDIDATE_EVIDENCE_ACCEPTED
 ```
 
+Suggested next artifacts after package acceptance:
+
+```text
+config/management_action_candidate_policy.json
+reports/current/management_action_candidate_report.json
+receipts/current/management_action_candidate_receipt.jsonl
+```
+
 ## Archive Readiness
 
-Archive-ready through v0.1.18. Ecosystem-managed continuation can begin from this handoff; no earlier conversation context is required beyond the two blocked workflow paths and declared-task workflow wiring target above.
+Archive-ready through v0.1.19. Ecosystem-managed continuation can begin from this handoff; no earlier conversation context is required beyond the declared-task workflow wiring target above.
