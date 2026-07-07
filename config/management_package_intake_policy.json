@@ -1,0 +1,41 @@
+{
+  "schema": "stegverse.management_package_intake_policy.v1",
+  "version": "0.1.14-gllm",
+  "repo": "StegVerse-002/core-lite",
+  "assessment_goal": "intake StegVerse-001 management package as candidate evidence for ecosystem-managed continuation",
+  "authority": {
+    "candidate_evidence_only": true,
+    "canonical_authority": false,
+    "broad_authority": false,
+    "may_bind_repo_state": false
+  },
+  "required_inputs": [
+    "config/quorum_readiness_review_policy.json",
+    "reports/current/quorum_readiness_review_report.json",
+    "receipts/current/quorum_readiness_review_receipt.jsonl",
+    "Data-Continuation/core-lite::reports/ecosystem_maintainer_scan.json",
+    "Data-Continuation/core-lite::reports/auto_fix_eligibility.json",
+    "Data-Continuation/core-lite::reports/friction_avoided.json",
+    "Data-Continuation/core-lite::reports/bundle_registry.json",
+    "Data-Continuation/core-lite::reports/capability_gap_plan.json"
+  ],
+  "expected_prior_result": "QUORUM_READINESS_REVIEW_READY_FOR_001_PACKAGE",
+  "intake_result_when_package_missing": "MANAGEMENT_PACKAGE_INTAKE_PENDING_001_ARTIFACT",
+  "intake_result_when_package_present": "MANAGEMENT_PACKAGE_CANDIDATE_EVIDENCE_ACCEPTED",
+  "intake_boundary": {
+    "this_intake_forms_quorum": false,
+    "this_intake_grants_authority": false,
+    "this_intake_installs": false,
+    "this_intake_binds_repo_state": false,
+    "candidate_evidence_may_be_used_for_next_transition_review": true,
+    "requires_future_authorized_quorum_for_binding_authority": true
+  },
+  "package_validation_rules": {
+    "all_required_reports_present": true,
+    "reports_must_be_from_data_continuation_core_lite": true,
+    "reports_must_be_candidate_evidence_only": true,
+    "receipts_expected_for_each_report_family": true,
+    "mutation_decisions_must_remain_nonbinding": true
+  },
+  "next_candidate_goal": "management action candidate synthesis"
+}
