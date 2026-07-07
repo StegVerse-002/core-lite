@@ -2,8 +2,8 @@
 
 Generated: 2026-07-06
 Repo: StegVerse-002/core-lite
-Completed goal: v0.1.14 001 management package intake boundary.
-Current goal: 001 artifact package acceptance or management action candidate synthesis after package is supplied.
+Completed goal: v0.1.15 management package validator and intake directory.
+Current goal: supply 001 artifact package or synthesize management action candidates after package acceptance.
 
 ## Assessment Goal
 
@@ -28,14 +28,14 @@ v0.1.11 AUTHORITY_DECISION_REVIEW_PENDING_AUTHORIZED_QUORUM
 v0.1.12 QUORUM_READINESS_REQUEST_RECORDED
 v0.1.13 QUORUM_READINESS_REVIEW_READY_FOR_001_PACKAGE
 v0.1.14 MANAGEMENT_PACKAGE_INTAKE_PENDING_001_ARTIFACT
+v0.1.15 MANAGEMENT_PACKAGE_VALIDATOR_PRESENT
 ```
 
-## v0.1.14 Artifacts
+## v0.1.15 Artifacts
 
 ```text
-config/management_package_intake_policy.json
-reports/current/management_package_intake_report.json
-receipts/current/management_package_intake_receipt.jsonl
+tools/validate_management_package_intake.py
+incoming/data_continuation_core_lite/README.md
 ```
 
 ## Boundary
@@ -45,11 +45,11 @@ canonical_authority: false
 broad_authority: false
 may_bind_repo_state: false
 
-This intake boundary does not form quorum, grant authority, install changes, or bind repository state. It creates the governed receiving slot for StegVerse-001/Data-Continuation/core-lite management outputs.
+This validator does not form quorum, grant authority, install changes, or bind repository state. It only checks whether the StegVerse-001/Data-Continuation/core-lite management package has been supplied to the expected intake directory.
 
 ## Required 001 Package Inputs
 
-Expected from `Data-Continuation/core-lite` workflow artifact `core-lite-workstream-status`:
+Expected from `Data-Continuation/core-lite` workflow artifact `core-lite-workstream-status` and placed under `incoming/data_continuation_core_lite/`:
 
 ```text
 reports/ecosystem_maintainer_scan.json
@@ -57,6 +57,20 @@ reports/auto_fix_eligibility.json
 reports/friction_avoided.json
 reports/bundle_registry.json
 reports/capability_gap_plan.json
+```
+
+## Validation Command
+
+```bash
+python tools/validate_management_package_intake.py --root .
+```
+
+Expected generated outputs:
+
+```text
+reports/current/management_package_acceptance_report.md
+reports/current/management_package_acceptance_report.json
+receipts/current/management_package_acceptance_receipt.jsonl
 ```
 
 ## Current Intake Result
@@ -73,7 +87,7 @@ If the 001 artifact package is available:
 MANAGEMENT_PACKAGE_CANDIDATE_EVIDENCE_ACCEPTED
 ```
 
-If not available, continue by improving automation that produces or retrieves the package from Data-Continuation/core-lite.
+If not available, continue by improving automation that produces, retrieves, or mirrors the package from Data-Continuation/core-lite.
 
 Suggested next artifacts after package acceptance:
 
@@ -85,4 +99,4 @@ receipts/current/management_action_candidate_receipt.jsonl
 
 ## Archive Readiness
 
-Archive-ready through v0.1.14. Ecosystem-managed continuation can begin from this handoff; no earlier conversation context is required beyond the 001 artifact package requirement above.
+Archive-ready through v0.1.15. Ecosystem-managed continuation can begin from this handoff; no earlier conversation context is required beyond the 001 artifact package requirement above.
