@@ -1,0 +1,35 @@
+{
+  "schema": "stegverse.management_package_retrieval_policy.v1",
+  "version": "0.1.16-gllm",
+  "repo": "StegVerse-002/core-lite",
+  "assessment_goal": "request or retrieve the StegVerse-001 management package from Data-Continuation/core-lite without treating retrieval as authority",
+  "authority": {
+    "candidate_evidence_only": true,
+    "canonical_authority": false,
+    "broad_authority": false,
+    "may_bind_repo_state": false,
+    "may_mutate_destination_state": false
+  },
+  "source_repo": "Data-Continuation/core-lite",
+  "source_artifact": "core-lite-workstream-status",
+  "source_export_manifest": "Data-Continuation/core-lite::core_lite/stegverse_002_export_manifest.json",
+  "destination_intake_root": "incoming/data_continuation_core_lite/",
+  "required_package_inputs": [
+    "reports/ecosystem_maintainer_scan.json",
+    "reports/auto_fix_eligibility.json",
+    "reports/friction_avoided.json",
+    "reports/bundle_registry.json",
+    "reports/capability_gap_plan.json"
+  ],
+  "retrieval_boundary": {
+    "this_retrieval_forms_quorum": false,
+    "this_retrieval_grants_authority": false,
+    "this_retrieval_installs": false,
+    "this_retrieval_binds_repo_state": false,
+    "may_stage_candidate_evidence_only": true,
+    "requires_future_validation": "tools/validate_management_package_intake.py"
+  },
+  "retrieval_result_when_artifact_absent": "MANAGEMENT_PACKAGE_RETRIEVAL_PENDING_SOURCE_ARTIFACT",
+  "retrieval_result_when_artifact_present": "MANAGEMENT_PACKAGE_RETRIEVAL_READY_FOR_VALIDATION",
+  "next_candidate_goal": "run management package intake validator after package is staged"
+}
