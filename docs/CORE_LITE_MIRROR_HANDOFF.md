@@ -2,8 +2,8 @@
 
 Generated: 2026-07-07
 Repo: StegVerse-002/core-lite
-Completed goal: v0.1.19 workflow reduction complete.
-Current goal: wire declared-task job into existing core-lite-intake workflow.
+Completed goal: v0.1.20 declared-task workflow wiring complete.
+Current goal: supply 001 artifact package and run declared task `sv002.management_package.intake`, then synthesize management action candidates after package acceptance.
 
 ## Assessment Goal
 
@@ -33,9 +33,10 @@ v0.1.16 MANAGEMENT_PACKAGE_RETRIEVAL_PENDING_SOURCE_ARTIFACT
 v0.1.17 MANAGEMENT_PACKAGE_DECLARED_TASK_READY
 v0.1.18 WORKFLOW_REDUCTION_PARTIAL
 v0.1.19 WORKFLOW_REDUCTION_COMPLETE
+v0.1.20 DECLARED_TASK_WORKFLOW_WIRED
 ```
 
-## v0.1.19 Workflow Reduction
+## v0.1.20 Workflow State
 
 Retained standard workflows:
 
@@ -44,7 +45,17 @@ Retained standard workflows:
 .github/workflows/core-lite-intake.yml
 ```
 
-Removed redundant workflow triggers:
+`core-lite-intake.yml` now routes `workflow_dispatch.task_id` to a `declared-task` job before agent routing, so declared tasks do not get preempted by the default agent provider.
+
+Declared task command supported by workflow dispatch:
+
+```text
+task_id: sv002.management_package.intake
+stage_override: SV002-M11
+dry_run: false
+```
+
+## Removed Redundant Workflow Triggers
 
 ```text
 .github/workflows/cge-recovery-proof-regression.yml
@@ -74,7 +85,7 @@ canonical_authority: false
 broad_authority: false
 may_bind_repo_state: false
 
-The declared task, dispatcher, and workflow reduction do not form quorum, grant authority, install changes, or bind repository state. They reduce operational surface area and preserve candidate-evidence validation through the stable dispatcher pattern.
+The declared task, dispatcher, and workflow wiring do not form quorum, grant authority, install changes, or bind repository state. They provide a governed task execution surface for candidate-evidence validation.
 
 ## Required 001 Package Inputs
 
@@ -102,6 +113,16 @@ Declared-task dispatcher:
 python tools/scripts/run_declared_task.py --repo-root . --task-id sv002.management_package.intake --stage SV002-M11
 ```
 
+Workflow dispatch:
+
+```text
+core-lite-intake.yml
+  task_id: sv002.management_package.intake
+  stage_override: SV002-M11
+  dry_run: false
+  agent_provider: none
+```
+
 Expected generated outputs:
 
 ```text
@@ -120,10 +141,6 @@ MANAGEMENT_PACKAGE_RETRIEVAL_PENDING_SOURCE_ARTIFACT
 
 ## Next Candidate Goal
 
-```text
-Wire tools/scripts/run_declared_task.py into the existing core-lite-intake workflow declared_task route without adding a new workflow.
-```
-
 If the 001 artifact package is available:
 
 ```text
@@ -140,4 +157,4 @@ receipts/current/management_action_candidate_receipt.jsonl
 
 ## Archive Readiness
 
-Archive-ready through v0.1.19. Ecosystem-managed continuation can begin from this handoff; no earlier conversation context is required beyond the declared-task workflow wiring target above.
+Archive-ready through v0.1.20. Ecosystem-managed continuation can begin from this handoff; no earlier conversation context is required beyond supplying the 001 package or moving to management action candidate synthesis after acceptance.
