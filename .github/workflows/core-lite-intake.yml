@@ -53,6 +53,8 @@ name: core-lite-intake
       - "schemas/**"
       - "docs/methodology/**"
       - "tools/tasks/**"
+      - "tools/scripts/run_declared_task.py"
+      - "tools/validate_management_package_intake.py"
       - "core_lite/**"
       - "config/**"
       - "tests/**"
@@ -82,6 +84,7 @@ jobs:
       dry_run: ${{ steps.route.outputs.dry_run }}
       input_type: ${{ steps.route.outputs.input_type }}
       input_path: ${{ steps.route.outputs.input_path }}
+      task_id: ${{ steps.route.outputs.task_id }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -99,6 +102,7 @@ jobs:
           AGENT_PROVIDER="none"
           INPUT_TYPE="${{ github.event.inputs.input_type || '' }}"
           INPUT_PATH="${{ github.event.inputs.input_path || '' }}"
+          TASK_ID="${{ github.event.inputs.task_id || '' }}"
           STAGE="${{ github.event.inputs.stage_override || '' }}"
           DRY_RUN="${{ github.event.inputs.dry_run || 'false' }}"
 
@@ -120,22 +124,22 @@ jobs:
               AGENT_PROVIDER="none"
               INPUT_TYPE="push_incoming_disposition_gate"
               INPUT_PATH="@reports/current/incoming_changed_files.txt"
-            elif grep -Eq '^(task.md|CLAUDE.md|\.github/workflows/core-lite-intake.yml|scripts/|tools/agent_governance/|agent_policy/|governance/directives/|schemas/|docs/methodology/|tools/tasks/|core_lite/|config/|tests/)' reports/current/changed_files.txt; then
+            elif grep -Eq '^(task.md|CLAUDE.md|\.github/workflows/core-lite-intake.yml|scripts/|tools/agent_governance/|agent_policy/|governance/directives/|schemas/|docs/methodology/|tools/tasks/|tools/scripts/run_declared_task.py|tools/validate_management_package_intake.py|core_lite/|config/|tests/)' reports/current/changed_files.txt; then
               ROUTE="llm_bundle_and_ingest"
               AGENT_PROVIDER="both"
             else
               ROUTE="noop"
             fi
           else
-            if [ "${{ github.event.inputs.agent_provider || 'both' }}" != "none" ]; then
-              ROUTE="llm_bundle_and_ingest"
-              AGENT_PROVIDER="${{ github.event.inputs.agent_provider || 'both' }}"
+            if [ -n "${TASK_ID}" ]; then
+              ROUTE="declared_task"
+              AGENT_PROVIDER="none"
             elif [ -n "${INPUT_TYPE}" ] || [ -n "${INPUT_PATH}" ]; then
               ROUTE="incoming"
               AGENT_PROVIDER="none"
-            elif [ -n "${{ github.event.inputs.task_id || '' }}" ]; then
-              ROUTE="declared_task"
-              AGENT_PROVIDER="none"
+            elif [ "${{ github.event.inputs.agent_provider || 'both' }}" != "none" ]; then
+              ROUTE="llm_bundle_and_ingest"
+              AGENT_PROVIDER="${{ github.event.inputs.agent_provider || 'both' }}"
             fi
           fi
 
@@ -145,6 +149,7 @@ jobs:
           echo "dry_run=${DRY_RUN}" >> "$GITHUB_OUTPUT"
           echo "input_type=${INPUT_TYPE}" >> "$GITHUB_OUTPUT"
           echo "input_path=${INPUT_PATH}" >> "$GITHUB_OUTPUT"
+          echo "task_id=${TASK_ID}" >> "$GITHUB_OUTPUT"
 
           {
             echo "## StegVerse Core-Lite Intake — Autonomous Route"
@@ -156,10 +161,70 @@ jobs:
             echo "| agent_provider | ${AGENT_PROVIDER} |"
             echo "| stage | ${STAGE} |"
             echo "| dry_run | ${DRY_RUN} |"
+            echo "| task_id | ${TASK_ID} |"
             echo
             echo "### Changed files"
             if [ -s reports/current/changed_files.txt ]; then sed 's/^/- /' reports/current/changed_files.txt; else echo "- none"; fi
           } >> "$GITHUB_STEP_SUMMARY"
+
+  declared-task:
+    runs-on: ubuntu-latest
+    needs: [route]
+    if: ${{ needs.route.outputs.route == 'declared_task' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt || true
+          pip install -e . || true
+          echo "PYTHONPATH=$GITHUB_WORKSPACE" >> "$GITHUB_ENV"
+
+      - name: Run declared task dispatcher
+        run: |
+          set -euo pipefail
+          DRY_RUN_ARG=""
+          if [ "${{ needs.route.outputs.dry_run }}" = "true" ]; then DRY_RUN_ARG="--dry-run"; fi
+          python tools/scripts/run_declared_task.py \
+            --repo-root . \
+            --task-id "${{ needs.route.outputs.task_id }}" \
+            --stage "${{ needs.route.outputs.stage }}" \
+            ${DRY_RUN_ARG}
+
+      - name: Commit declared task evidence
+        if: always()
+        run: |
+          set -euo pipefail
+          git config user.name "StegVerse-002 Declared Task Router"
+          git config user.email "sv002-declared-task-router@stegverse"
+          git add -A reports/current/ receipts/current/ outputs/ dist/ tracking/ quarantine/ incoming/ || true
+          if git diff --staged --quiet; then
+            echo "No declared task evidence to commit."
+          else
+            git commit -m "sv002: run declared task evidence"
+            git push
+          fi
+
+      - name: Upload declared task evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: declared-task-evidence
+          path: |
+            reports/current/
+            receipts/current/
+            outputs/
+            dist/
+            tracking/
+            quarantine/
+          if-no-files-found: warn
 
   incoming-ingest:
     runs-on: ubuntu-latest
