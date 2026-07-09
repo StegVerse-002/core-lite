@@ -1,0 +1,35 @@
+{
+  "task_id": "sv002.management_package.retrieve",
+  "stage": "SV002-M11",
+  "allowed_stages": ["SV002-M11", "SV002-M12"],
+  "description": "Prepare a non-authorizing retrieval/mirroring request for the Data-Continuation/core-lite management package. This task records the required package contract and does not fetch external artifacts by itself.",
+  "capability": "management_package_retrieval_request",
+  "transition_class": "tooling",
+  "authority": "candidate_evidence_request_only",
+  "entry_point": "tools/prepare_management_package_retrieval.py",
+  "command": "python tools/prepare_management_package_retrieval.py --repo-root .",
+  "timeout_seconds": 120,
+  "expected_outputs": [
+    "reports/current/management_package_retrieval_request.md",
+    "reports/current/management_package_retrieval_request.json",
+    "receipts/current/management_package_retrieval_request_receipt.jsonl"
+  ],
+  "decision_set": [
+    "MANAGEMENT_PACKAGE_RETRIEVAL_REQUEST_READY",
+    "FAIL_CLOSED"
+  ],
+  "stop_condition": "Retrieval request report and receipt written; no source artifact is fetched and no repository state is bound.",
+  "governance": {
+    "candidate_evidence_only": true,
+    "no_broad_authority": true,
+    "no_root_readme_overwrite": true,
+    "no_workflow_changes_by_task": true,
+    "default_deny": true,
+    "does_not_form_quorum": true,
+    "does_not_grant_authority": true,
+    "does_not_fetch_external_artifacts": true,
+    "does_not_install_destination_files": true,
+    "receipt_before_claim": true
+  },
+  "notes": "Use this task to generate the exact retrieval/mirroring request for the 001 package. A separate authorized mechanism must supply artifacts under incoming/data_continuation_core_lite/."
+}
