@@ -2,8 +2,8 @@
 
 Generated: 2026-07-09
 Repo: StegVerse-002/core-lite
-Completed goal: v0.1.21 management action candidate boundary installed.
-Current goal: supply 001 artifact package, run declared task `sv002.management_package.intake`, then populate management action candidates after package acceptance.
+Completed goal: v0.1.22 management package retrieval declared task installed.
+Current goal: run declared task `sv002.management_package.retrieve`, supply 001 artifact package, run `sv002.management_package.intake`, then populate management action candidates after package acceptance.
 
 ## Coordination Check
 
@@ -24,7 +24,7 @@ Result:
 NO_VISIBLE_PARALLEL_SESSION_CONFLICT
 ```
 
-If another session is working outside GitHub-visible artifacts, it should continue from this handoff and avoid duplicating v0.1.21.
+If another session is working outside GitHub-visible artifacts, it should continue from this handoff and avoid duplicating v0.1.21 or v0.1.22.
 
 ## Assessment Goal
 
@@ -56,6 +56,7 @@ v0.1.18 WORKFLOW_REDUCTION_PARTIAL
 v0.1.19 WORKFLOW_REDUCTION_COMPLETE
 v0.1.20 DECLARED_TASK_WORKFLOW_WIRED
 v0.1.21 MANAGEMENT_ACTION_CANDIDATE_SYNTHESIS_PENDING_001_ACCEPTANCE
+v0.1.22 MANAGEMENT_PACKAGE_RETRIEVAL_TASK_READY
 ```
 
 ## v0.1.20 Workflow State
@@ -69,20 +70,19 @@ Retained standard workflows:
 
 `core-lite-intake.yml` routes `workflow_dispatch.task_id` to a `declared-task` job before agent routing, so declared tasks do not get preempted by the default agent provider.
 
-Declared task command supported by workflow dispatch:
-
-```text
-task_id: sv002.management_package.intake
-stage_override: SV002-M11
-dry_run: false
-```
-
 ## v0.1.21 Artifacts
 
 ```text
 config/management_action_candidate_policy.json
 reports/current/management_action_candidate_report.json
 receipts/current/management_action_candidate_receipt.jsonl
+```
+
+## v0.1.22 Artifacts
+
+```text
+tools/tasks/sv002.management_package.retrieve.json
+tools/prepare_management_package_retrieval.py
 ```
 
 ## Boundary
@@ -94,7 +94,7 @@ may_bind_repo_state: false
 may_execute_actions: false
 may_mutate_managed_repositories: false
 
-The management action candidate boundary does not form quorum, grant authority, execute actions, install files, or bind repository state. It only creates the governed slot where action candidates may be synthesized after 001 package acceptance.
+The retrieval task does not fetch artifacts, form quorum, grant authority, execute actions, install files, or bind repository state. It only prepares an exact retrieval/mirroring request and receipt for the Data-Continuation/core-lite package.
 
 ## Required 001 Package Inputs
 
@@ -110,21 +110,27 @@ reports/capability_gap_plan.json
 
 ## Validation Commands
 
-Direct validator:
+Retrieval request task:
 
 ```bash
-python tools/validate_management_package_intake.py --root .
+python tools/scripts/run_declared_task.py --repo-root . --task-id sv002.management_package.retrieve --stage SV002-M11
 ```
 
-Declared-task dispatcher:
+Intake validator:
 
 ```bash
 python tools/scripts/run_declared_task.py --repo-root . --task-id sv002.management_package.intake --stage SV002-M11
 ```
 
-Workflow dispatch:
+Workflow dispatch examples:
 
 ```text
+core-lite-intake.yml
+  task_id: sv002.management_package.retrieve
+  stage_override: SV002-M11
+  dry_run: false
+  agent_provider: none
+
 core-lite-intake.yml
   task_id: sv002.management_package.intake
   stage_override: SV002-M11
@@ -132,7 +138,15 @@ core-lite-intake.yml
   agent_provider: none
 ```
 
-Expected generated outputs:
+Expected retrieval outputs:
+
+```text
+reports/current/management_package_retrieval_request.md
+reports/current/management_package_retrieval_request.json
+receipts/current/management_package_retrieval_request_receipt.jsonl
+```
+
+Expected intake outputs:
 
 ```text
 reports/current/management_package_acceptance_report.md
@@ -161,9 +175,9 @@ MANAGEMENT_ACTION_CANDIDATES_READY_FOR_REVIEW
 Next actual build target if the package is not yet available:
 
 ```text
-Create a retrieval/mirroring task contract for importing Data-Continuation/core-lite artifact outputs into incoming/data_continuation_core_lite/ without adding workflows.
+Run sv002.management_package.retrieve, then use the request to supply or mirror the 001 package under incoming/data_continuation_core_lite/ without adding workflows.
 ```
 
 ## Archive Readiness
 
-Archive-ready through v0.1.21. Ecosystem-managed continuation can begin from this handoff; no earlier conversation context is required beyond supplying/retrieving the 001 package or moving to management action candidate synthesis after acceptance.
+Archive-ready through v0.1.22. Ecosystem-managed continuation can begin from this handoff; no earlier conversation context is required beyond running the retrieval request task, supplying/retrieving the 001 package, or moving to management action candidate synthesis after acceptance.
