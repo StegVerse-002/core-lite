@@ -1,9 +1,30 @@
 # StegVerse-002 Core-Lite Mirror Handoff
 
-Generated: 2026-07-07
+Generated: 2026-07-09
 Repo: StegVerse-002/core-lite
-Completed goal: v0.1.20 declared-task workflow wiring complete.
-Current goal: supply 001 artifact package and run declared task `sv002.management_package.intake`, then synthesize management action candidates after package acceptance.
+Completed goal: v0.1.21 management action candidate boundary installed.
+Current goal: supply 001 artifact package, run declared task `sv002.management_package.intake`, then populate management action candidates after package acceptance.
+
+## Coordination Check
+
+GitHub-visible coordination check was performed before v0.1.21 installation.
+
+Observed:
+
+```text
+Recent visible commits were from this workflow/dispatcher thread.
+No open PRs found for management package, workflow, or declared task overlap.
+No open issues found for management package, workflow, or declared task overlap.
+Branch search returned no parallel branch result.
+```
+
+Result:
+
+```text
+NO_VISIBLE_PARALLEL_SESSION_CONFLICT
+```
+
+If another session is working outside GitHub-visible artifacts, it should continue from this handoff and avoid duplicating v0.1.21.
 
 ## Assessment Goal
 
@@ -34,6 +55,7 @@ v0.1.17 MANAGEMENT_PACKAGE_DECLARED_TASK_READY
 v0.1.18 WORKFLOW_REDUCTION_PARTIAL
 v0.1.19 WORKFLOW_REDUCTION_COMPLETE
 v0.1.20 DECLARED_TASK_WORKFLOW_WIRED
+v0.1.21 MANAGEMENT_ACTION_CANDIDATE_SYNTHESIS_PENDING_001_ACCEPTANCE
 ```
 
 ## v0.1.20 Workflow State
@@ -45,7 +67,7 @@ Retained standard workflows:
 .github/workflows/core-lite-intake.yml
 ```
 
-`core-lite-intake.yml` now routes `workflow_dispatch.task_id` to a `declared-task` job before agent routing, so declared tasks do not get preempted by the default agent provider.
+`core-lite-intake.yml` routes `workflow_dispatch.task_id` to a `declared-task` job before agent routing, so declared tasks do not get preempted by the default agent provider.
 
 Declared task command supported by workflow dispatch:
 
@@ -55,27 +77,12 @@ stage_override: SV002-M11
 dry_run: false
 ```
 
-## Removed Redundant Workflow Triggers
+## v0.1.21 Artifacts
 
 ```text
-.github/workflows/cge-recovery-proof-regression.yml
-.github/workflows/core-lite-autonomous-tick.yml
-.github/workflows/core-lite-heartbeat-watchdog.yml
-.github/workflows/core-lite-v013-receipt-installer.yml
-.github/workflows/recovery-authority-boundary-regression.yml
-.github/workflows/repo-recovery-destination-plan.yml
-.github/workflows/repo-recovery-finalize-check.yml
-.github/workflows/repo-recovery-finalize-one-candidate.yml
-.github/workflows/repo-recovery-finalize-one-execution-preflight.yml
-.github/workflows/repo-recovery-ingest-one-proof.yml
-.github/workflows/repo-recovery-rebuild-corrected.yml
-```
-
-## v0.1.17 Artifacts Still Active
-
-```text
-tools/tasks/sv002.management_package.intake.json
-tools/scripts/run_declared_task.py
+config/management_action_candidate_policy.json
+reports/current/management_action_candidate_report.json
+receipts/current/management_action_candidate_receipt.jsonl
 ```
 
 ## Boundary
@@ -84,8 +91,10 @@ candidate_evidence_only: true
 canonical_authority: false
 broad_authority: false
 may_bind_repo_state: false
+may_execute_actions: false
+may_mutate_managed_repositories: false
 
-The declared task, dispatcher, and workflow wiring do not form quorum, grant authority, install changes, or bind repository state. They provide a governed task execution surface for candidate-evidence validation.
+The management action candidate boundary does not form quorum, grant authority, execute actions, install files, or bind repository state. It only creates the governed slot where action candidates may be synthesized after 001 package acceptance.
 
 ## Required 001 Package Inputs
 
@@ -137,6 +146,7 @@ receipts/current/declared_task_dispatch_receipt.jsonl
 
 ```text
 MANAGEMENT_PACKAGE_RETRIEVAL_PENDING_SOURCE_ARTIFACT
+MANAGEMENT_ACTION_CANDIDATE_SYNTHESIS_PENDING_001_ACCEPTANCE
 ```
 
 ## Next Candidate Goal
@@ -145,16 +155,15 @@ If the 001 artifact package is available:
 
 ```text
 MANAGEMENT_PACKAGE_CANDIDATE_EVIDENCE_ACCEPTED
+MANAGEMENT_ACTION_CANDIDATES_READY_FOR_REVIEW
 ```
 
-Suggested next artifacts after package acceptance:
+Next actual build target if the package is not yet available:
 
 ```text
-config/management_action_candidate_policy.json
-reports/current/management_action_candidate_report.json
-receipts/current/management_action_candidate_receipt.jsonl
+Create a retrieval/mirroring task contract for importing Data-Continuation/core-lite artifact outputs into incoming/data_continuation_core_lite/ without adding workflows.
 ```
 
 ## Archive Readiness
 
-Archive-ready through v0.1.20. Ecosystem-managed continuation can begin from this handoff; no earlier conversation context is required beyond supplying the 001 package or moving to management action candidate synthesis after acceptance.
+Archive-ready through v0.1.21. Ecosystem-managed continuation can begin from this handoff; no earlier conversation context is required beyond supplying/retrieving the 001 package or moving to management action candidate synthesis after acceptance.
