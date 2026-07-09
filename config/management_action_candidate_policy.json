@@ -1,0 +1,34 @@
+{
+  "schema": "stegverse.management_action_candidate_policy.v1",
+  "version": "0.1.21-gllm",
+  "repo": "StegVerse-002/core-lite",
+  "assessment_goal": "synthesize non-authorizing management action candidates after StegVerse-001 package acceptance",
+  "authority": {
+    "candidate_evidence_only": true,
+    "canonical_authority": false,
+    "broad_authority": false,
+    "may_bind_repo_state": false,
+    "may_execute_actions": false,
+    "may_mutate_managed_repositories": false
+  },
+  "required_prior_results": [
+    "DECLARED_TASK_WORKFLOW_WIRED",
+    "MANAGEMENT_PACKAGE_CANDIDATE_EVIDENCE_ACCEPTED"
+  ],
+  "allowed_current_result_when_package_missing": "MANAGEMENT_ACTION_CANDIDATE_SYNTHESIS_PENDING_001_ACCEPTANCE",
+  "allowed_result_after_package_acceptance": "MANAGEMENT_ACTION_CANDIDATES_READY_FOR_REVIEW",
+  "candidate_classes": [
+    "ECOSYSTEM_HANDOFF_CAPABLE",
+    "ECOSYSTEM_CONTINUE_REQUIRED",
+    "ECOSYSTEM_REPAIR_REQUIRED"
+  ],
+  "synthesis_boundary": {
+    "this_synthesis_forms_quorum": false,
+    "this_synthesis_grants_authority": false,
+    "this_synthesis_executes_actions": false,
+    "this_synthesis_installs_files": false,
+    "this_synthesis_binds_repo_state": false,
+    "requires_future_authorized_review_for_execution": true
+  },
+  "next_candidate_goal": "review management action candidates through authorized quorum before any execution authority is inferred"
+}
