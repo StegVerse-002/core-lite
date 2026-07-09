@@ -1,0 +1,30 @@
+{
+  "schema": "stegverse.management_action_candidate_report.v1",
+  "version": "0.1.21-gllm",
+  "repo": "StegVerse-002/core-lite",
+  "checked_utc": "2026-07-09T15:00:00-05:00",
+  "authority": {
+    "candidate_evidence_only": true,
+    "canonical_authority": false,
+    "broad_authority": false,
+    "may_bind_repo_state": false,
+    "may_execute_actions": false,
+    "may_mutate_managed_repositories": false
+  },
+  "observed_prior_state": {
+    "declared_task_workflow_wired": true,
+    "management_package_candidate_evidence_accepted": false,
+    "source_repo": "Data-Continuation/core-lite",
+    "destination_repo": "StegVerse-002/core-lite"
+  },
+  "candidate_classes": [
+    "ECOSYSTEM_HANDOFF_CAPABLE",
+    "ECOSYSTEM_CONTINUE_REQUIRED",
+    "ECOSYSTEM_REPAIR_REQUIRED"
+  ],
+  "candidate_actions": [],
+  "blocked_reason": "Data-Continuation/core-lite package has not yet been accepted by the management package intake boundary.",
+  "result": "MANAGEMENT_ACTION_CANDIDATE_SYNTHESIS_PENDING_001_ACCEPTANCE",
+  "next_required_action": "Supply the 001 artifact package and run declared task sv002.management_package.intake before candidate actions are synthesized.",
+  "next_candidate_goal": "management action candidates ready for authorized review"
+}
