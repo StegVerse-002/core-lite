@@ -1,0 +1,25 @@
+{
+  "schema": "stegverse.management_package_acceptance_report.v2",
+  "version": "0.1.23-gllm",
+  "repo": "StegVerse-002/core-lite",
+  "source_repo": "Data-Continuation/core-lite",
+  "source_commit": "c9c69d948c84fc38c56910ca5eebef7c82b46d47",
+  "authority": {
+    "candidate_evidence_only": true,
+    "canonical_authority": false,
+    "broad_authority": false,
+    "may_bind_repo_state": false
+  },
+  "reference_manifest": "incoming/data_continuation_core_lite/source_reference_manifest.json",
+  "accepted_reference_inputs": [
+    {"path":"reports/ecosystem_maintainer_scan.json","blob_sha":"5dda61c897285dc5510184a985f96155e61448a7"},
+    {"path":"reports/auto_fix_eligibility.json","blob_sha":"95bcae777daf2cd4007cd1e8ba03bee82fa6b226"},
+    {"path":"reports/friction_avoided.json","blob_sha":"3a6cdcae40febfe18223baf39d8cb308173dabfb"},
+    {"path":"reports/bundle_registry.json","blob_sha":"1c675477be6a11bc2de1334a7566df6e895b572c"},
+    {"path":"reports/capability_gap_plan.json","blob_sha":"4c5edbb495a277d58548756480bcc462bc92bb19"}
+  ],
+  "missing_inputs": [],
+  "result": "MANAGEMENT_PACKAGE_CANDIDATE_EVIDENCE_ACCEPTED",
+  "next_candidate_goal": "management action candidate synthesis",
+  "mutation_count": 0
+}
