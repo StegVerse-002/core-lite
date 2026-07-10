@@ -1,8 +1,7 @@
 {
-  "schema": "stegverse.management_action_candidate_report.v1",
-  "version": "0.1.21-gllm",
+  "schema": "stegverse.management_action_candidate_report.v2",
+  "version": "0.1.24-gllm",
   "repo": "StegVerse-002/core-lite",
-  "checked_utc": "2026-07-09T15:00:00-05:00",
   "authority": {
     "candidate_evidence_only": true,
     "canonical_authority": false,
@@ -13,8 +12,9 @@
   },
   "observed_prior_state": {
     "declared_task_workflow_wired": true,
-    "management_package_candidate_evidence_accepted": false,
+    "management_package_candidate_evidence_accepted": true,
     "source_repo": "Data-Continuation/core-lite",
+    "source_commit": "c9c69d948c84fc38c56910ca5eebef7c82b46d47",
     "destination_repo": "StegVerse-002/core-lite"
   },
   "candidate_classes": [
@@ -22,9 +22,46 @@
     "ECOSYSTEM_CONTINUE_REQUIRED",
     "ECOSYSTEM_REPAIR_REQUIRED"
   ],
-  "candidate_actions": [],
-  "blocked_reason": "Data-Continuation/core-lite package has not yet been accepted by the management package intake boundary.",
-  "result": "MANAGEMENT_ACTION_CANDIDATE_SYNTHESIS_PENDING_001_ACCEPTANCE",
-  "next_required_action": "Supply the 001 artifact package and run declared task sv002.management_package.intake before candidate actions are synthesized.",
-  "next_candidate_goal": "management action candidates ready for authorized review"
+  "candidate_actions": [
+    {
+      "candidate_id": "SV002-MGMT-001",
+      "target_repo": "Data-Continuation/core-lite",
+      "classification": "ECOSYSTEM_CONTINUE_REQUIRED",
+      "action": "Reduce workflow files toward the two-workflow repository standard by routing specialized jobs through stable bootstrap and declared-task workflows.",
+      "evidence_refs": [
+        "reports/ecosystem_maintainer_scan.json@5dda61c897285dc5510184a985f96155e61448a7"
+      ],
+      "reason": "The accepted ecosystem scan identifies multiple specialized workflow control files, indicating workflow-surface consolidation remains incomplete.",
+      "execution_authority": false,
+      "requires_authorized_review": true
+    },
+    {
+      "candidate_id": "SV002-MGMT-002",
+      "target_repo": "Data-Continuation/core-lite",
+      "classification": "ECOSYSTEM_REPAIR_REQUIRED",
+      "action": "Plan and implement the missing repository scanner capability path or reconcile the capability declaration with the existing scanner implementation.",
+      "evidence_refs": [
+        "reports/capability_gap_plan.json@4c5edbb495a277d58548756480bcc462bc92bb19"
+      ],
+      "reason": "The accepted capability-gap evidence classifies scanner as signaled_missing with high risk and recommends PLAN_CAPABILITY_COMPLETION.",
+      "execution_authority": false,
+      "requires_authorized_review": true
+    },
+    {
+      "candidate_id": "SV002-MGMT-003",
+      "target_repo": "Data-Continuation/core-lite",
+      "classification": "ECOSYSTEM_HANDOFF_CAPABLE",
+      "action": "Preserve the published 001 management-package path and immutable reference contract as the standard 001-to-002 handoff mechanism.",
+      "evidence_refs": [
+        "reports/bundle_registry.json@1c675477be6a11bc2de1334a7566df6e895b572c",
+        "reports/friction_avoided.json@3a6cdcae40febfe18223baf39d8cb308173dabfb"
+      ],
+      "reason": "The accepted bundle and friction evidence supports retaining generated-report publication and reference-based intake because it reduces repeated manual transfer and preserves reconstructability.",
+      "execution_authority": false,
+      "requires_authorized_review": true
+    }
+  ],
+  "result": "MANAGEMENT_ACTION_CANDIDATES_READY_FOR_REVIEW",
+  "next_required_action": "Submit candidate actions to an authorized review or quorum boundary before any repository mutation or execution authority is inferred.",
+  "next_candidate_goal": "management action candidate authorized review"
 }
