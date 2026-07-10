@@ -1,0 +1,53 @@
+{
+  "schema": "stegverse.management_action_review_policy.v1",
+  "version": "0.1.25-gllm",
+  "repo": "StegVerse-002/core-lite",
+  "assessment_goal": "review management action candidates without combining review and execution",
+  "authority": {
+    "candidate_evidence_only": true,
+    "canonical_authority": false,
+    "broad_authority": false,
+    "may_bind_repo_state": false,
+    "may_execute_actions": false,
+    "may_mutate_managed_repositories": false
+  },
+  "required_inputs": [
+    "config/management_action_candidate_policy.json",
+    "reports/current/management_action_candidate_report.json",
+    "receipts/current/management_action_candidate_receipt.jsonl"
+  ],
+  "allowed_decisions": [
+    "ALLOW",
+    "DENY",
+    "FAIL_CLOSED"
+  ],
+  "decision_rules": {
+    "allow_requires": [
+      "authorized reviewer or quorum identity",
+      "reviewer authority evidence",
+      "candidate-specific scope approval",
+      "current policy and delegation references",
+      "explicit separation from execution"
+    ],
+    "deny_when": [
+      "candidate is outside scope",
+      "candidate conflicts with current policy",
+      "candidate evidence is materially contradicted"
+    ],
+    "fail_closed_when": [
+      "authorized reviewer evidence is absent",
+      "reviewer authority cannot be reconstructed",
+      "policy or delegation reference is missing or stale",
+      "review would otherwise imply execution authority"
+    ]
+  },
+  "review_boundary": {
+    "this_review_forms_quorum": false,
+    "this_review_grants_execution_authority": false,
+    "this_review_executes_actions": false,
+    "this_review_installs_files": false,
+    "this_review_binds_repo_state": false,
+    "execution_requires_separate_transition": true
+  },
+  "next_candidate_goal": "separate execution authority request for any candidate receiving ALLOW"
+}
