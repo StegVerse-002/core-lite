@@ -1,76 +1,70 @@
 # StegVerse-002 Core-Lite Mirror Handoff
 
-Generated: 2026-07-09
+Generated: 2026-07-10
 Repo: StegVerse-002/core-lite
-Completed goal: v0.1.22 management package retrieval declared task installed.
-Current goal: run declared task `sv002.management_package.retrieve`, supply 001 artifact package, run `sv002.management_package.intake`, then populate management action candidates after package acceptance.
+Completed goal: v0.1.24 001 package accepted by immutable references and management action candidates synthesized.
+Current goal: authorized review of management action candidates before any execution authority is inferred.
 
 ## Coordination Check
-
-GitHub-visible coordination check was performed before v0.1.21 installation.
-
-Observed:
-
-```text
-Recent visible commits were from this workflow/dispatcher thread.
-No open PRs found for management package, workflow, or declared task overlap.
-No open issues found for management package, workflow, or declared task overlap.
-Branch search returned no parallel branch result.
-```
-
-Result:
 
 ```text
 NO_VISIBLE_PARALLEL_SESSION_CONFLICT
 ```
 
-If another session is working outside GitHub-visible artifacts, it should continue from this handoff and avoid duplicating v0.1.21 or v0.1.22.
-
-## Assessment Goal
-
-Continue building without manual actions through completion OR until task handoff and task completion is capable of being handled by ecosystem management.
+Recent visible commits, open PRs, open issues, and branch search showed no overlapping GitHub-visible work on this target. Other sessions should continue from this handoff and avoid duplicating v0.1.23-v0.1.24.
 
 ## Assessment Result
 
+```text
 ECOSYSTEM_HANDOFF_CAPABLE
+```
 
 ## Completed Chain
 
 ```text
-v0.1.3 PROOF_COMPLETE
-v0.1.4 DESTINATION_ADMISSIBLE_AS_CANDIDATE
-v0.1.5 INSTALL_PENDING_CANDIDATE_REVIEW
-v0.1.6 PROMOTION_READY_FOR_EXPLICIT_GRANT_REQUEST
-v0.1.7 EXPLICIT_GRANT_REQUEST_RECORDED
-v0.1.8 GRANT_REVIEW_PENDING_HUMAN_OR_COUNCIL_AUTHORITY
-v0.1.9 ECOSYSTEM_HANDOFF_CAPABLE
-v0.1.10 AUTHORITY_DECISION_REQUEST_RECORDED
-v0.1.11 AUTHORITY_DECISION_REVIEW_PENDING_AUTHORIZED_QUORUM
-v0.1.12 QUORUM_READINESS_REQUEST_RECORDED
-v0.1.13 QUORUM_READINESS_REVIEW_READY_FOR_001_PACKAGE
-v0.1.14 MANAGEMENT_PACKAGE_INTAKE_PENDING_001_ARTIFACT
-v0.1.15 MANAGEMENT_PACKAGE_VALIDATOR_PRESENT
-v0.1.16 MANAGEMENT_PACKAGE_RETRIEVAL_PENDING_SOURCE_ARTIFACT
-v0.1.17 MANAGEMENT_PACKAGE_DECLARED_TASK_READY
-v0.1.18 WORKFLOW_REDUCTION_PARTIAL
-v0.1.19 WORKFLOW_REDUCTION_COMPLETE
 v0.1.20 DECLARED_TASK_WORKFLOW_WIRED
 v0.1.21 MANAGEMENT_ACTION_CANDIDATE_SYNTHESIS_PENDING_001_ACCEPTANCE
 v0.1.22 MANAGEMENT_PACKAGE_RETRIEVAL_TASK_READY
+v0.1.23 MANAGEMENT_PACKAGE_CANDIDATE_EVIDENCE_ACCEPTED
+v0.1.24 MANAGEMENT_ACTION_CANDIDATES_READY_FOR_REVIEW
 ```
 
-## v0.1.20 Workflow State
+## Workflow Standard
 
-Retained standard workflows:
+Retained workflows:
 
 ```text
 .github/workflows/bootstrap-core-lite.yml
 .github/workflows/core-lite-intake.yml
 ```
 
-`core-lite-intake.yml` routes `workflow_dispatch.task_id` to a `declared-task` job before agent routing, so declared tasks do not get preempted by the default agent provider.
+## v0.1.23 Intake Artifacts
 
-## v0.1.21 Artifacts
+```text
+incoming/data_continuation_core_lite/source_reference_manifest.json
+tools/validate_management_package_intake.py
+reports/current/management_package_acceptance_report.json
+receipts/current/management_package_acceptance_receipt.jsonl
+```
+
+Accepted source:
+
+```text
+Data-Continuation/core-lite
+commit: c9c69d948c84fc38c56910ca5eebef7c82b46d47
+```
+
+Accepted immutable references:
+
+```text
+reports/ecosystem_maintainer_scan.json@5dda61c897285dc5510184a985f96155e61448a7
+reports/auto_fix_eligibility.json@95bcae777daf2cd4007cd1e8ba03bee82fa6b226
+reports/friction_avoided.json@3a6cdcae40febfe18223baf39d8cb308173dabfb
+reports/bundle_registry.json@1c675477be6a11bc2de1334a7566df6e895b572c
+reports/capability_gap_plan.json@4c5edbb495a277d58548756480bcc462bc92bb19
+```
+
+## v0.1.24 Candidate Artifacts
 
 ```text
 config/management_action_candidate_policy.json
@@ -78,106 +72,46 @@ reports/current/management_action_candidate_report.json
 receipts/current/management_action_candidate_receipt.jsonl
 ```
 
-## v0.1.22 Artifacts
+Current candidates:
 
 ```text
-tools/tasks/sv002.management_package.retrieve.json
-tools/prepare_management_package_retrieval.py
+SV002-MGMT-001: reduce Data-Continuation/core-lite workflows toward the two-workflow standard.
+SV002-MGMT-002: reconcile or complete the high-risk missing scanner capability path.
+SV002-MGMT-003: preserve the published 001-to-002 immutable-reference handoff mechanism.
 ```
 
 ## Boundary
 
+```text
 candidate_evidence_only: true
 canonical_authority: false
 broad_authority: false
 may_bind_repo_state: false
 may_execute_actions: false
 may_mutate_managed_repositories: false
-
-The retrieval task does not fetch artifacts, form quorum, grant authority, execute actions, install files, or bind repository state. It only prepares an exact retrieval/mirroring request and receipt for the Data-Continuation/core-lite package.
-
-## Required 001 Package Inputs
-
-Expected from `Data-Continuation/core-lite` workflow artifact `core-lite-workstream-status` and placed under `incoming/data_continuation_core_lite/`:
-
-```text
-reports/ecosystem_maintainer_scan.json
-reports/auto_fix_eligibility.json
-reports/friction_avoided.json
-reports/bundle_registry.json
-reports/capability_gap_plan.json
 ```
 
-## Validation Commands
+Neither package acceptance nor candidate synthesis forms quorum, grants authority, executes actions, installs files, or binds repository state.
 
-Retrieval request task:
-
-```bash
-python tools/scripts/run_declared_task.py --repo-root . --task-id sv002.management_package.retrieve --stage SV002-M11
-```
-
-Intake validator:
-
-```bash
-python tools/scripts/run_declared_task.py --repo-root . --task-id sv002.management_package.intake --stage SV002-M11
-```
-
-Workflow dispatch examples:
-
-```text
-core-lite-intake.yml
-  task_id: sv002.management_package.retrieve
-  stage_override: SV002-M11
-  dry_run: false
-  agent_provider: none
-
-core-lite-intake.yml
-  task_id: sv002.management_package.intake
-  stage_override: SV002-M11
-  dry_run: false
-  agent_provider: none
-```
-
-Expected retrieval outputs:
-
-```text
-reports/current/management_package_retrieval_request.md
-reports/current/management_package_retrieval_request.json
-receipts/current/management_package_retrieval_request_receipt.jsonl
-```
-
-Expected intake outputs:
-
-```text
-reports/current/management_package_acceptance_report.md
-reports/current/management_package_acceptance_report.json
-receipts/current/management_package_acceptance_receipt.jsonl
-reports/current/declared_task_dispatch_report.json
-receipts/current/declared_task_dispatch_receipt.jsonl
-```
-
-## Current Intake Result
-
-```text
-MANAGEMENT_PACKAGE_RETRIEVAL_PENDING_SOURCE_ARTIFACT
-MANAGEMENT_ACTION_CANDIDATE_SYNTHESIS_PENDING_001_ACCEPTANCE
-```
-
-## Next Candidate Goal
-
-If the 001 artifact package is available:
+## Current Results
 
 ```text
 MANAGEMENT_PACKAGE_CANDIDATE_EVIDENCE_ACCEPTED
 MANAGEMENT_ACTION_CANDIDATES_READY_FOR_REVIEW
 ```
 
-Next actual build target if the package is not yet available:
+## Next Candidate Goal
+
+Create the authorized-review boundary for `SV002-MGMT-001` through `SV002-MGMT-003`. The review must produce ALLOW, DENY, or FAIL_CLOSED per candidate and must not combine review with execution.
+
+Suggested next artifacts:
 
 ```text
-Run sv002.management_package.retrieve, then use the request to supply or mirror the 001 package under incoming/data_continuation_core_lite/ without adding workflows.
+config/management_action_review_policy.json
+reports/current/management_action_review_report.json
+receipts/current/management_action_review_receipt.jsonl
 ```
 
 ## Archive Readiness
 
-Archive-ready through v0.1.22. Ecosystem-managed continuation can begin from this handoff; no earlier conversation context is required beyond running the retrieval request task, supplying/retrieving the 001 package, or moving to management action candidate synthesis after acceptance.
+Archive-ready through v0.1.24. No earlier conversation context is required; continue from the authorized-review boundary described above.
