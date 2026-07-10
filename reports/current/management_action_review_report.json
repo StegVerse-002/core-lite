@@ -1,0 +1,69 @@
+{
+  "schema": "stegverse.management_action_review_report.v1",
+  "version": "0.1.25-gllm",
+  "repo": "StegVerse-002/core-lite",
+  "checked_utc": "2026-07-10T13:00:00-05:00",
+  "authority": {
+    "candidate_evidence_only": true,
+    "canonical_authority": false,
+    "broad_authority": false,
+    "may_bind_repo_state": false,
+    "may_execute_actions": false,
+    "may_mutate_managed_repositories": false
+  },
+  "review_context": {
+    "candidate_report": "reports/current/management_action_candidate_report.json",
+    "candidate_result": "MANAGEMENT_ACTION_CANDIDATES_READY_FOR_REVIEW",
+    "authorized_reviewer_identity_present": false,
+    "reviewer_authority_evidence_present": false,
+    "execution_transition_present": false
+  },
+  "decisions": [
+    {
+      "candidate_id": "SV002-MGMT-001",
+      "decision": "FAIL_CLOSED",
+      "reason": "Workflow reduction may be supportable, but no authorized reviewer or quorum evidence is present. Review cannot be promoted into authority.",
+      "execution_authority": false,
+      "may_bind_repo_state": false,
+      "next_required_evidence": [
+        "authorized reviewer or quorum identity",
+        "candidate-specific scope approval",
+        "current policy and delegation references"
+      ]
+    },
+    {
+      "candidate_id": "SV002-MGMT-002",
+      "decision": "FAIL_CLOSED",
+      "reason": "The scanner capability gap is high risk and requires explicit authority and implementation-scope review before mutation.",
+      "execution_authority": false,
+      "may_bind_repo_state": false,
+      "next_required_evidence": [
+        "authorized reviewer or quorum identity",
+        "canonical capability ownership decision",
+        "approved implementation destination and scope"
+      ]
+    },
+    {
+      "candidate_id": "SV002-MGMT-003",
+      "decision": "FAIL_CLOSED",
+      "reason": "Preservation of the immutable-reference mechanism is supported as candidate evidence, but no authorized review evidence exists to make the preservation policy binding.",
+      "execution_authority": false,
+      "may_bind_repo_state": false,
+      "next_required_evidence": [
+        "authorized reviewer or quorum identity",
+        "explicit policy approval for the handoff mechanism",
+        "separate execution or publication transition if required"
+      ]
+    }
+  ],
+  "aggregate_result": "MANAGEMENT_ACTION_REVIEW_FAIL_CLOSED_PENDING_AUTHORIZED_QUORUM",
+  "review_boundary": {
+    "this_review_forms_quorum": false,
+    "this_review_grants_execution_authority": false,
+    "this_review_executes_actions": false,
+    "this_review_installs_files": false,
+    "this_review_binds_repo_state": false,
+    "execution_requires_separate_transition": true
+  },
+  "next_candidate_goal": "authorized quorum review or separate authority request for each candidate"
+}
