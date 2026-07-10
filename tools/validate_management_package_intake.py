@@ -10,6 +10,7 @@ from typing import Any
 
 POLICY_PATH = Path("config/management_package_intake_policy.json")
 PACKAGE_ROOT = Path("incoming/data_continuation_core_lite")
+REFERENCE_MANIFEST = PACKAGE_ROOT / "source_reference_manifest.json"
 REPORT_JSON = Path("reports/current/management_package_acceptance_report.json")
 REPORT_MD = Path("reports/current/management_package_acceptance_report.md")
 RECEIPT_PATH = Path("receipts/current/management_package_acceptance_receipt.jsonl")
@@ -47,8 +48,10 @@ def append_receipt(report: dict[str, Any]) -> dict[str, Any]:
         "version": report["version"],
         "repo": report["repo"],
         "source_repo": report["source_repo"],
+        "source_commit": report.get("source_commit"),
         "result": report["result"],
         "missing_input_count": len(report["missing_inputs"]),
+        "reference_input_count": len(report["accepted_reference_inputs"]),
         "candidate_evidence_only": report["authority"]["candidate_evidence_only"],
         "may_bind_repo_state": report["authority"]["may_bind_repo_state"],
         "previous_hash": previous_hash,
@@ -66,6 +69,7 @@ def render_markdown(report: dict[str, Any]) -> str:
         f"Generated: `{report['checked_utc']}`",
         f"Repo: `{report['repo']}`",
         f"Source repo: `{report['source_repo']}`",
+        f"Source commit: `{report.get('source_commit') or 'not supplied'}`",
         "",
         "## Result",
         "",
@@ -77,13 +81,13 @@ def render_markdown(report: dict[str, Any]) -> str:
     for key, value in report["authority"].items():
         lines.append(f"- {key}: `{value}`")
     lines.extend(["", "## Missing Inputs", ""])
-    if report["missing_inputs"]:
-        lines.extend(f"- `{value}`" for value in report["missing_inputs"])
-    else:
-        lines.append("- None")
-    lines.extend(["", "## Accepted Inputs", ""])
-    if report["accepted_inputs"]:
-        lines.extend(f"- `{value}`" for value in report["accepted_inputs"])
+    lines.extend(f"- `{value}`" for value in report["missing_inputs"]) if report["missing_inputs"] else lines.append("- None")
+    lines.extend(["", "## Accepted Local Inputs", ""])
+    lines.extend(f"- `{value}`" for value in report["accepted_local_inputs"]) if report["accepted_local_inputs"] else lines.append("- None")
+    lines.extend(["", "## Accepted Immutable References", ""])
+    if report["accepted_reference_inputs"]:
+        for item in report["accepted_reference_inputs"]:
+            lines.append(f"- `{item['path']}` @ `{item['blob_sha']}`")
     else:
         lines.append("- None")
     lines.extend([
@@ -106,27 +110,59 @@ def resolve_required_inputs(policy: dict[str, Any]) -> list[str]:
     return out
 
 
+def load_reference_map(root: Path) -> tuple[dict[str, str], str | None]:
+    path = root / REFERENCE_MANIFEST
+    if not path.exists():
+        return {}, None
+    manifest = read_json(path)
+    if manifest.get("source_repo") != "Data-Continuation/core-lite":
+        raise ValueError("Reference manifest source_repo mismatch")
+    if manifest.get("candidate_evidence_only") is not True:
+        raise ValueError("Reference manifest must remain candidate evidence only")
+    refs: dict[str, str] = {}
+    for item in manifest.get("references", []):
+        if not isinstance(item, dict):
+            continue
+        ref_path = str(item.get("path", "")).strip()
+        blob_sha = str(item.get("blob_sha", "")).strip()
+        if ref_path and len(blob_sha) == 40:
+            refs[ref_path] = blob_sha
+    return refs, str(manifest.get("source_commit") or "") or None
+
+
 def build_report(root: Path) -> tuple[dict[str, Any], int]:
     policy = read_json(root / POLICY_PATH)
     required = resolve_required_inputs(policy)
-    missing = [value for value in required if not (root / PACKAGE_ROOT / value).exists()]
-    accepted = [value for value in required if (root / PACKAGE_ROOT / value).exists()]
+    reference_map, source_commit = load_reference_map(root)
+
+    accepted_local = [value for value in required if (root / PACKAGE_ROOT / value).exists()]
+    accepted_reference = [
+        {"path": value, "blob_sha": reference_map[value]}
+        for value in required
+        if value not in accepted_local and value in reference_map
+    ]
+    accepted_paths = set(accepted_local) | {item["path"] for item in accepted_reference}
+    missing = [value for value in required if value not in accepted_paths]
     result = policy["intake_result_when_package_present"] if not missing else policy["intake_result_when_package_missing"]
 
     report: dict[str, Any] = {
-        "schema": "stegverse.management_package_acceptance_report.v1",
-        "version": "0.1.15-gllm",
+        "schema": "stegverse.management_package_acceptance_report.v2",
+        "version": "0.1.23-gllm",
         "repo": policy["repo"],
         "source_repo": "Data-Continuation/core-lite",
+        "source_commit": source_commit,
         "checked_utc": now(),
         "authority": policy["authority"],
         "package_root": PACKAGE_ROOT.as_posix(),
+        "reference_manifest": REFERENCE_MANIFEST.as_posix(),
         "required_inputs": required,
-        "accepted_inputs": accepted,
+        "accepted_inputs": sorted(accepted_paths),
+        "accepted_local_inputs": accepted_local,
+        "accepted_reference_inputs": accepted_reference,
         "missing_inputs": missing,
         "intake_boundary": policy["intake_boundary"],
         "result": result,
-        "next_candidate_goal": "management action candidate synthesis" if not missing else "produce or supply 001 management package",
+        "next_candidate_goal": "management action candidate synthesis" if not missing else "produce, mirror, or reference remaining 001 management package inputs",
         "mutation_count": 0,
     }
     report["receipt"] = append_receipt(report)
