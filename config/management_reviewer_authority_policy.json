@@ -1,0 +1,56 @@
+{
+  "schema": "stegverse.management_reviewer_authority_policy.v1",
+  "version": "0.1.26-gllm",
+  "repo": "StegVerse-002/core-lite",
+  "assessment_goal": "validate reviewer or quorum authority evidence before management action review is rerun",
+  "authority": {
+    "candidate_evidence_only": true,
+    "canonical_authority": false,
+    "broad_authority": false,
+    "may_bind_repo_state": false,
+    "may_execute_actions": false,
+    "may_mutate_managed_repositories": false
+  },
+  "required_candidate_ids": [
+    "SV002-MGMT-001",
+    "SV002-MGMT-002",
+    "SV002-MGMT-003"
+  ],
+  "required_evidence_fields": [
+    "reviewer_or_quorum_id",
+    "authority_source_ref",
+    "delegation_ref",
+    "policy_ref",
+    "candidate_scope",
+    "valid_from",
+    "valid_until",
+    "issued_at",
+    "issuer_id",
+    "revocation_status",
+    "evidence_hash"
+  ],
+  "validation_rules": {
+    "identity_must_be_reconstructable": true,
+    "authority_source_must_be_canonical": true,
+    "delegation_must_cover_candidate_scope": true,
+    "policy_must_be_current": true,
+    "validity_window_must_include_review_time": true,
+    "revocation_status_must_be_active": true,
+    "evidence_hash_must_resolve": true,
+    "authority_may_not_imply_execution_authority": true
+  },
+  "decision_set": [
+    "REVIEWER_AUTHORITY_EVIDENCE_ACCEPTED",
+    "REVIEWER_AUTHORITY_EVIDENCE_DENIED",
+    "REVIEWER_AUTHORITY_EVIDENCE_FAIL_CLOSED"
+  ],
+  "intake_boundary": {
+    "this_intake_forms_quorum": false,
+    "this_intake_grants_review_authority": false,
+    "this_intake_grants_execution_authority": false,
+    "this_intake_executes_actions": false,
+    "this_intake_binds_repo_state": false,
+    "accepted_evidence_only_enables_review_rerun": true
+  },
+  "next_candidate_goal": "rerun candidate-specific management action review only after authority evidence is accepted"
+}
