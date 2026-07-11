@@ -1,0 +1,61 @@
+{
+  "schema": "stegverse.management_reviewer_authority_report.v1",
+  "version": "0.1.26-gllm",
+  "repo": "StegVerse-002/core-lite",
+  "checked_utc": "2026-07-11T07:00:00-05:00",
+  "authority": {
+    "candidate_evidence_only": true,
+    "canonical_authority": false,
+    "broad_authority": false,
+    "may_bind_repo_state": false,
+    "may_execute_actions": false,
+    "may_mutate_managed_repositories": false
+  },
+  "candidate_ids": [
+    "SV002-MGMT-001",
+    "SV002-MGMT-002",
+    "SV002-MGMT-003"
+  ],
+  "observed_evidence": {
+    "reviewer_or_quorum_id": null,
+    "authority_source_ref": null,
+    "delegation_ref": null,
+    "policy_ref": null,
+    "candidate_scope": [],
+    "valid_from": null,
+    "valid_until": null,
+    "issued_at": null,
+    "issuer_id": null,
+    "revocation_status": null,
+    "evidence_hash": null
+  },
+  "validation": {
+    "identity_reconstructable": false,
+    "authority_source_canonical": false,
+    "delegation_covers_candidate_scope": false,
+    "policy_current": false,
+    "validity_window_active": false,
+    "revocation_status_active": false,
+    "evidence_hash_resolves": false,
+    "execution_authority_excluded": true
+  },
+  "missing_evidence_fields": [
+    "reviewer_or_quorum_id",
+    "authority_source_ref",
+    "delegation_ref",
+    "policy_ref",
+    "candidate_scope",
+    "valid_from",
+    "valid_until",
+    "issued_at",
+    "issuer_id",
+    "revocation_status",
+    "evidence_hash"
+  ],
+  "result": "REVIEWER_AUTHORITY_EVIDENCE_FAIL_CLOSED",
+  "reason": "No reconstructable reviewer or quorum authority evidence has been supplied.",
+  "review_rerun_allowed": false,
+  "execution_authority": false,
+  "next_required_action": "Supply candidate-specific reviewer or quorum authority evidence satisfying config/management_reviewer_authority_policy.json.",
+  "next_candidate_goal": "accepted reviewer authority evidence followed by a separate candidate-specific review rerun"
+}
