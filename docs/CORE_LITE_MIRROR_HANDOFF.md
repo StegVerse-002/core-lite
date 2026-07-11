@@ -1,9 +1,9 @@
 # StegVerse-002 Core-Lite Mirror Handoff
 
-Generated: 2026-07-10
+Generated: 2026-07-11
 Repo: StegVerse-002/core-lite
-Completed goal: v0.1.25 management action review boundary installed and fail-closed decisions recorded.
-Current goal: obtain reconstructable authorized reviewer or quorum evidence for candidate-specific review; do not execute candidates from this boundary.
+Completed goal: v0.1.26 reviewer/quorum authority-evidence intake boundary installed.
+Current goal: define and accept a candidate-specific authority evidence submission before rerunning management action review.
 
 ## Coordination Check
 
@@ -11,7 +11,7 @@ Current goal: obtain reconstructable authorized reviewer or quorum evidence for 
 NO_VISIBLE_PARALLEL_SESSION_CONFLICT
 ```
 
-Other sessions should continue from this handoff and avoid duplicating v0.1.23-v0.1.25.
+Other sessions should continue from this handoff and avoid duplicating v0.1.23-v0.1.26.
 
 ## Assessment Result
 
@@ -28,6 +28,7 @@ v0.1.22 MANAGEMENT_PACKAGE_RETRIEVAL_TASK_READY
 v0.1.23 MANAGEMENT_PACKAGE_CANDIDATE_EVIDENCE_ACCEPTED
 v0.1.24 MANAGEMENT_ACTION_CANDIDATES_READY_FOR_REVIEW
 v0.1.25 MANAGEMENT_ACTION_REVIEW_FAIL_CLOSED_PENDING_AUTHORIZED_QUORUM
+v0.1.26 REVIEWER_AUTHORITY_EVIDENCE_FAIL_CLOSED
 ```
 
 ## Workflow Standard
@@ -39,31 +40,7 @@ Retained workflows:
 .github/workflows/core-lite-intake.yml
 ```
 
-## v0.1.23 Intake Artifacts
-
-```text
-incoming/data_continuation_core_lite/source_reference_manifest.json
-tools/validate_management_package_intake.py
-reports/current/management_package_acceptance_report.json
-receipts/current/management_package_acceptance_receipt.jsonl
-```
-
-Accepted source:
-
-```text
-Data-Continuation/core-lite
-commit: c9c69d948c84fc38c56910ca5eebef7c82b46d47
-```
-
-## v0.1.24 Candidate Artifacts
-
-```text
-config/management_action_candidate_policy.json
-reports/current/management_action_candidate_report.json
-receipts/current/management_action_candidate_receipt.jsonl
-```
-
-Candidates:
+## Current Candidates
 
 ```text
 SV002-MGMT-001: reduce Data-Continuation/core-lite workflows toward the two-workflow standard.
@@ -71,38 +48,58 @@ SV002-MGMT-002: reconcile or complete the high-risk missing scanner capability p
 SV002-MGMT-003: preserve the published 001-to-002 immutable-reference handoff mechanism.
 ```
 
-## v0.1.25 Review Artifacts
-
-```text
-config/management_action_review_policy.json
-reports/current/management_action_review_report.json
-receipts/current/management_action_review_receipt.jsonl
-```
-
-Per-candidate decisions:
+## v0.1.25 Review Result
 
 ```text
 SV002-MGMT-001: FAIL_CLOSED
 SV002-MGMT-002: FAIL_CLOSED
 SV002-MGMT-003: FAIL_CLOSED
-```
-
-Aggregate result:
-
-```text
 MANAGEMENT_ACTION_REVIEW_FAIL_CLOSED_PENDING_AUTHORIZED_QUORUM
 ```
 
-## Why Review Failed Closed
+## v0.1.26 Authority Intake Artifacts
 
 ```text
-No authorized reviewer or quorum identity was supplied.
-No reconstructable reviewer authority evidence was supplied.
-No current candidate-specific policy/delegation approval was supplied.
-Review and execution remain separate transitions.
+config/management_reviewer_authority_policy.json
+reports/current/management_reviewer_authority_report.json
+receipts/current/management_reviewer_authority_receipt.jsonl
 ```
 
-The result is not a denial of the candidate substance. It prevents candidate evidence from being mistaken for review authority or execution authority.
+Required authority-evidence fields:
+
+```text
+reviewer_or_quorum_id
+authority_source_ref
+delegation_ref
+policy_ref
+candidate_scope
+valid_from
+valid_until
+issued_at
+issuer_id
+revocation_status
+evidence_hash
+```
+
+Current authority intake result:
+
+```text
+REVIEWER_AUTHORITY_EVIDENCE_FAIL_CLOSED
+review_rerun_allowed: false
+```
+
+## Why Authority Intake Failed Closed
+
+```text
+No reviewer or quorum identity was supplied.
+No canonical authority source was supplied.
+No delegation or policy reference was supplied.
+No candidate-specific scope was supplied.
+No validity window or revocation status was supplied.
+No resolvable evidence hash was supplied.
+```
+
+This result does not deny future review authority. It prevents absent or unreconstructable authority from being inferred.
 
 ## Boundary
 
@@ -113,6 +110,7 @@ broad_authority: false
 may_bind_repo_state: false
 may_execute_actions: false
 may_mutate_managed_repositories: false
+accepted_evidence_only_enables_review_rerun: true
 execution_requires_separate_transition: true
 ```
 
@@ -122,22 +120,30 @@ execution_requires_separate_transition: true
 MANAGEMENT_PACKAGE_CANDIDATE_EVIDENCE_ACCEPTED
 MANAGEMENT_ACTION_CANDIDATES_READY_FOR_REVIEW
 MANAGEMENT_ACTION_REVIEW_FAIL_CLOSED_PENDING_AUTHORIZED_QUORUM
+REVIEWER_AUTHORITY_EVIDENCE_FAIL_CLOSED
 ```
 
 ## Next Candidate Goal
 
-Create a reviewer/quorum authority-evidence intake boundary. It must validate reviewer identity, scope, delegation, policy freshness, validity window, and candidate-specific authority before review is rerun.
+Create a candidate-specific authority evidence submission schema and declared task. The task must validate the submission against `config/management_reviewer_authority_policy.json` and may only produce one of:
+
+```text
+REVIEWER_AUTHORITY_EVIDENCE_ACCEPTED
+REVIEWER_AUTHORITY_EVIDENCE_DENIED
+REVIEWER_AUTHORITY_EVIDENCE_FAIL_CLOSED
+```
 
 Suggested next artifacts:
 
 ```text
-config/management_reviewer_authority_policy.json
-reports/current/management_reviewer_authority_report.json
-receipts/current/management_reviewer_authority_receipt.jsonl
+schemas/management_reviewer_authority_submission.schema.json
+tools/validate_management_reviewer_authority.py
+tools/tasks/sv002.management_reviewer_authority.validate.json
+incoming/management_reviewer_authority/README.md
 ```
 
-No candidate may be executed directly from v0.1.25, including after an ALLOW decision. Any future ALLOW requires a separate execution-authority request and transition.
+No candidate may be reviewed again until authority evidence is accepted. No candidate may be executed directly from review; any future ALLOW still requires a separate execution-authority request and transition.
 
 ## Archive Readiness
 
-Archive-ready through v0.1.25. No earlier conversation context is required; continue from the reviewer/quorum authority-evidence intake boundary described above.
+Archive-ready through v0.1.26. No earlier conversation context is required; continue from the candidate-specific authority evidence submission contract described above.
