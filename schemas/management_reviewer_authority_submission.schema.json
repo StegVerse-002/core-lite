@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://stegverse.org/schemas/management_reviewer_authority_submission.schema.json",
+  "title": "Management Reviewer Authority Submission",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "submission_id",
+    "reviewer_identity",
+    "authority_class",
+    "candidate_ids",
+    "scope",
+    "policy_refs",
+    "delegation_refs",
+    "valid_from",
+    "valid_until",
+    "revocation_status",
+    "evidence_hashes"
+  ],
+  "properties": {
+    "schema": {"const": "stegverse.management_reviewer_authority_submission.v1"},
+    "submission_id": {"type": "string", "minLength": 8},
+    "reviewer_identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "identity_type", "identity_evidence_refs"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "identity_type": {"enum": ["human", "council", "entity", "service"]},
+        "identity_evidence_refs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "authority_class": {"enum": ["reviewer", "quorum", "council"]},
+    "candidate_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"enum": ["SV002-MGMT-001", "SV002-MGMT-002", "SV002-MGMT-003"]}
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["org", "repo", "actions"],
+      "properties": {
+        "org": {"type": "string", "minLength": 1},
+        "repo": {"type": "string", "minLength": 1},
+        "actions": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"enum": ["review", "allow", "deny", "fail_closed"]}
+        }
+      }
+    },
+    "policy_refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "delegation_refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "valid_from": {"type": "string", "format": "date-time"},
+    "valid_until": {"type": "string", "format": "date-time"},
+    "revocation_status": {"enum": ["not_revoked", "revoked", "unknown"]},
+    "evidence_hashes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["ref", "sha256"],
+        "properties": {
+          "ref": {"type": "string", "minLength": 1},
+          "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+        }
+      }
+    },
+    "notes": {"type": "string"}
+  }
+}
