@@ -1,0 +1,34 @@
+{
+  "task_id": "sv002.management_reviewer_authority.validate",
+  "stage": "SV002-M12",
+  "allowed_stages": ["SV002-M12", "SV002-M13"],
+  "description": "Validate reviewer or quorum authority submissions for structural completeness, freshness, revocation posture, candidate scope, and review-only boundaries.",
+  "capability": "management_reviewer_authority_submission_validation",
+  "transition_class": "tooling",
+  "authority": "candidate_evidence_validation_only",
+  "entry_point": "tools/validate_management_reviewer_authority_submission.py",
+  "command": "python tools/validate_management_reviewer_authority_submission.py --repo-root .",
+  "timeout_seconds": 120,
+  "expected_outputs": [
+    "reports/current/management_reviewer_authority_submission_report.md",
+    "reports/current/management_reviewer_authority_submission_report.json",
+    "receipts/current/management_reviewer_authority_submission_receipt.jsonl"
+  ],
+  "decision_set": [
+    "REVIEWER_AUTHORITY_SUBMISSION_PENDING",
+    "REVIEWER_AUTHORITY_SUBMISSION_FAIL_CLOSED",
+    "REVIEWER_AUTHORITY_SUBMISSION_STRUCTURALLY_ACCEPTED",
+    "FAIL_CLOSED"
+  ],
+  "stop_condition": "Submission validation report and receipt written; no authority is granted and no candidate review is rerun automatically.",
+  "governance": {
+    "candidate_evidence_only": true,
+    "default_deny": true,
+    "does_not_form_quorum": true,
+    "does_not_grant_review_authority": true,
+    "does_not_grant_execution_authority": true,
+    "does_not_rerun_management_action_review": true,
+    "does_not_install_or_mutate_target_repositories": true,
+    "receipt_before_claim": true
+  }
+}
