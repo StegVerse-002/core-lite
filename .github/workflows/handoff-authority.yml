@@ -1,0 +1,27 @@
+name: Handoff Authority Gate
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.handoff/**'
+      - '**/*_HANDOFF.md'
+      - '**/*_MIRROR_HANDOFF.md'
+      - '.github/workflows/handoff-authority.yml'
+  pull_request:
+    paths:
+      - '.handoff/**'
+      - '**/*_HANDOFF.md'
+      - '**/*_MIRROR_HANDOFF.md'
+      - '.github/workflows/handoff-authority.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    uses: GCAT-BCAT-Engine/workflows/.github/workflows/handoff-authority-reusable.yml@a859be95c29245f9b5fa7fab1a824920ac0b10ed
+    with:
+      repository: StegVerse-002/core-lite
+      verifier_ref: a859be95c29245f9b5fa7fab1a824920ac0b10ed
