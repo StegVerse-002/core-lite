@@ -1,0 +1,17 @@
+name: Continuity Provenance Gate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    uses: GCAT-BCAT-Engine/workflows/.github/workflows/continuity-provenance-reusable.yml@a79134d666cd784a10d28fa62dd43e170fd62c77
+    with:
+      repository: StegVerse-002/core-lite
+      verifier_ref: a79134d666cd784a10d28fa62dd43e170fd62c77

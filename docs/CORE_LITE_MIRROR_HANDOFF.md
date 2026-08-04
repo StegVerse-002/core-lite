@@ -4,13 +4,14 @@
 
 This document is the single repository-wide current handoff for
 `StegVerse-002/core-lite`. Machine authority is declared in
-`.handoff/current.json`.
+`.handoff/current.json`, and the current commit-bound change is declared in
+`.continuity/config.json`.
 
 The scoped StegGuardian automation lane remains at
 `docs/STEGGUARDIAN_AUTOMATION_HANDOFF.md` and cannot supersede this record.
 
-Live default-branch state, Git history, workflow runs, receipts, and committed
-reports override historical conversation claims.
+Live default-branch state, Git history, workflow runs, receipts, committed
+reports, and verified change records override historical conversation claims.
 
 ## Role
 
@@ -23,7 +24,11 @@ quorum, execution, or repository-binding authority.
 
 ```text
 .handoff/current.json
+.continuity/config.json
+.continuity/change-records/SV-CONT-CORE-LITE-20260804-001.json
+.continuity/cross-repository-references.json
 .github/workflows/handoff-authority.yml
+.github/workflows/continuity-provenance.yml
 .github/workflows/bootstrap-core-lite.yml
 .github/workflows/core-lite-intake.yml
 docs/CORE_LITE_MIRROR_HANDOFF.md
@@ -39,7 +44,13 @@ receipts/current/management_reviewer_authority_submission_receipt.jsonl
 ## Current working path
 
 ```text
-candidate-specific reviewer authority submission
+repository change
+  -> governing handoff authority ALLOW
+  -> commit-bound change record
+  -> changed-path and content-hash verification
+  -> required cross-repository reference verification
+  -> continuity provenance ALLOW
+  -> candidate-specific reviewer authority submission
   -> structural completeness validation
   -> candidate and review-only scope validation
   -> validity and revocation posture validation
@@ -66,16 +77,6 @@ python tools/scripts/run_declared_task.py \
   --stage SV002-M12
 ```
 
-Workflow dispatch equivalent:
-
-```text
-core-lite-intake.yml
-  task_id: sv002.management_reviewer_authority.validate
-  stage_override: SV002-M12
-  dry_run: false
-  agent_provider: none
-```
-
 ## Done state for this repo
 
 Completed chain:
@@ -95,16 +96,23 @@ The repository is handoff-capable through v0.1.27. The current authority lane is
 done only when accepted submissions can be independently reconstructed against
 identity, policy, delegation, revocation, and evidence-hash sources.
 
+Continuity provenance is an admission prerequisite. It does not grant review,
+quorum, execution, or repository-binding authority.
+
 ## Completed in latest pass
 
 ```text
 v0.1.27 reviewer/quorum authority submission surface installed
 single governing handoff declared in .handoff/current.json
 StegGuardian automation handoff explicitly scoped
-pinned reusable handoff-authority workflow installed
+pinned reusable handoff-authority workflow installed and validated
+commit-bound continuity config installed
+pinned continuity-provenance caller installed
+cross-repository validator reference pinned to commit and Git blob
+adoption change record installed
 ```
 
-Current structural result:
+Current structural result remains:
 
 ```text
 REVIEWER_AUTHORITY_SUBMISSION_PENDING
@@ -166,11 +174,12 @@ StegVerse-002/StegGuardian
 master-records/orchestration
 ```
 
-No destination receives authority merely by receiving a submission, report, or
-receipt.
+No destination receives authority merely by receiving a submission, report,
+receipt, handoff, or provenance record.
 
 ## Next task
 
-Run the pinned handoff-authority gate. After it returns `ALLOW`, implement the
-reviewer-authority evidence reconstruction verifier. Do not rerun management
-action review automatically from structural acceptance.
+Run the pinned continuity-provenance gate. After it returns `ALLOW`, implement
+the reviewer-authority evidence reconstruction verifier through a new change
+record. Do not rerun management-action review automatically from structural
+acceptance.

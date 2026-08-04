@@ -1,0 +1,68 @@
+{
+  "actor": {
+    "class": "chatgpt",
+    "instance": "GPT-5.6 Thinking",
+    "session_ref": "handoff-authority-integration-2026-08-04"
+  },
+  "base_commit": "427f3584932a46d76f5a40c0e1d0a66f8578fbe5",
+  "change_id": "SV-CONT-CORE-LITE-20260804-001",
+  "changed_paths": [
+    {
+      "change_type": "added",
+      "hash": "0b1e282c4733db954f49aa72f41f8d0bb13b0323",
+      "hash_algorithm": "git-blob-sha1",
+      "path": ".continuity/config.json"
+    },
+    {
+      "change_type": "added",
+      "hash": "cb15e237683fe8eba58e6a0f322d343d5e7cb1e7",
+      "hash_algorithm": "git-blob-sha1",
+      "path": ".continuity/cross-repository-references.json"
+    },
+    {
+      "change_type": "added",
+      "hash": "f9b90576631ad061127f92b12c1c1679af71fedb",
+      "hash_algorithm": "git-blob-sha1",
+      "path": ".github/workflows/continuity-provenance.yml"
+    },
+    {
+      "change_type": "modified",
+      "hash": "46eb3f9d95f1c111dd463d76abb9c0828507e910",
+      "hash_algorithm": "git-blob-sha1",
+      "path": ".handoff/current.json"
+    },
+    {
+      "change_type": "modified",
+      "hash": "9f7c9e1ec645a3f353eb1f69565367f80e13a4de",
+      "hash_algorithm": "git-blob-sha1",
+      "path": "docs/CORE_LITE_MIRROR_HANDOFF.md"
+    }
+  ],
+  "claims": [
+    {
+      "claim": "commit-bound continuity provenance adopted",
+      "state": "IMPLEMENTED"
+    },
+    {
+      "claim": "central validator reference pinned to commit and Git blob",
+      "state": "IMPLEMENTED"
+    },
+    {
+      "claim": "report and receipt machine outputs explicitly exempted",
+      "state": "IMPLEMENTED"
+    }
+  ],
+  "created_at": "2026-08-04T23:26:00Z",
+  "governing_handoff": {
+    "hash": "9f7c9e1ec645a3f353eb1f69565367f80e13a4de",
+    "hash_algorithm": "git-blob-sha1",
+    "path": "docs/CORE_LITE_MIRROR_HANDOFF.md"
+  },
+  "record_hash": "35c40bbbdc4991e95a5be79412bb1708ea48ebdf1da05e8b6badca402e0c812c",
+  "repository": "StegVerse-002/core-lite",
+  "schema": "stegverse.session.change_record.v1",
+  "unresolved_tasks": [
+    "observe hosted continuity provenance workflow result",
+    "implement reviewer-authority evidence reconstruction verifier through a successor record"
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "record_hash": "a67b84dbac153fb30d26e1c360d66a1e94518f768bc1b68eca55876b28849a33",
+  "references": [
+    {
+      "content_hash": "d415493046170bcbf1242bf2701629ff7adc0337",
+      "hash_algorithm": "git-blob-sha1",
+      "path": "tools/continuity_provenance.py",
+      "reference_id": "continuity-provenance-validator",
+      "relationship": "hosted_contract_source",
+      "repository": "GCAT-BCAT-Engine/workflows",
+      "required": true,
+      "source_commit": "a79134d666cd784a10d28fa62dd43e170fd62c77",
+      "verification_evidence": [
+        "workflow_run:30959696236",
+        "commit:a79134d666cd784a10d28fa62dd43e170fd62c77"
+      ],
+      "verification_status": "VERIFIED"
+    }
+  ],
+  "repository": "StegVerse-002/core-lite",
+  "schema": "stegverse.cross_repository_reference_set.v1"
+}
