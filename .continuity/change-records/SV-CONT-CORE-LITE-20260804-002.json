@@ -1,0 +1,68 @@
+{
+  "actor": {
+    "class": "chatgpt",
+    "instance": "GPT-5.6 Thinking",
+    "session_ref": "handoff-semantic-core-lite-adoption-2026-08-04"
+  },
+  "base_commit": "18cdef35f07c0a694ac1d6383623a8e01fb00856",
+  "change_id": "SV-CONT-CORE-LITE-20260804-002",
+  "changed_paths": [
+    {
+      "change_type": "modified",
+      "hash": "6d65662c1dff98b50b35473816c7af289e92d18a",
+      "hash_algorithm": "git-blob-sha1",
+      "path": ".continuity/config.json"
+    },
+    {
+      "change_type": "added",
+      "hash": "94acecb413204972ad3b4a0c3fa9a882ab2b1fb7",
+      "hash_algorithm": "git-blob-sha1",
+      "path": ".github/workflows/handoff-semantics.yml"
+    },
+    {
+      "change_type": "modified",
+      "hash": "e86ad51e9d0c8ea872655570d0720963a1c0534b",
+      "hash_algorithm": "git-blob-sha1",
+      "path": ".handoff/current.json"
+    },
+    {
+      "change_type": "added",
+      "hash": "4c0685e7ea28fea7ddeab132039d697cbf41728c",
+      "hash_algorithm": "git-blob-sha1",
+      "path": "docs/HANDOFF_SEMANTIC_ADOPTION_HANDOFF.md"
+    }
+  ],
+  "claims": [
+    {
+      "claim": "pinned read-only semantic caller installed",
+      "state": "IMPLEMENTED"
+    },
+    {
+      "claim": "reviewer authority, quorum, ingestion, management review, and execution effects remain false",
+      "state": "PRESERVED_BOUNDARY"
+    },
+    {
+      "claim": "semantic repair remains disabled",
+      "state": "PRESERVED_BOUNDARY"
+    },
+    {
+      "claim": "hosted semantic evidence is required before claim release",
+      "state": "PENDING_VALIDATION"
+    }
+  ],
+  "created_at": "2026-08-05T00:44:00Z",
+  "governing_handoff": {
+    "hash": "9f7c9e1ec645a3f353eb1f69565367f80e13a4de",
+    "hash_algorithm": "git-blob-sha1",
+    "path": "docs/CORE_LITE_MIRROR_HANDOFF.md"
+  },
+  "record_hash": "5e29be5acfc67a5b08553d088b376cd9fdc3d8630e7c5e0fe72ae90e9b963cf0",
+  "repository": "StegVerse-002/core-lite",
+  "schema": "stegverse.session.change_record.v1",
+  "unresolved_tasks": [
+    "inspect hosted semantic workflow result and retained artifact",
+    "record delta counts, reconciliation status, hashes, artifact ID, and digest in docs/HANDOFF_SEMANTIC_ADOPTION_HANDOFF.md",
+    "promote exact commit and run evidence into GCAT-BCAT-Engine/workflows/data/handoff-semantic-adoption.json",
+    "retain reviewer-evidence reconstruction under its existing canonical task and keep repair mode READ_ONLY"
+  ]
+}
