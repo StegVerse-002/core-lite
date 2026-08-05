@@ -8,12 +8,13 @@
   },
   "document_profile": "format_a_v1",
   "scoped_handoffs": [
-    "docs/STEGGUARDIAN_AUTOMATION_HANDOFF.md"
+    "docs/STEGGUARDIAN_AUTOMATION_HANDOFF.md",
+    "docs/HANDOFF_SEMANTIC_ADOPTION_HANDOFF.md"
   ],
   "archive_policy": {
     "date_suffix_required": true,
     "session_archive_prefix_allowed": true
   },
-  "declared_at": "2026-08-04T23:26:00Z",
-  "base_commit": "427f3584932a46d76f5a40c0e1d0a66f8578fbe5"
+  "declared_at": "2026-08-05T00:44:00Z",
+  "base_commit": "1374ff17dee6cff3a1f77268a59f44a0d0092c14"
 }
