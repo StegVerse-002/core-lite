@@ -1,0 +1,44 @@
+{
+  "schema": "stegverse.curiosity_motive_governance.adoption.v1",
+  "repository": "StegVerse-002/core-lite",
+  "stage": "SV002-CMG-01",
+  "status": "SOURCE_ANCHOR_BOUND",
+  "source_implementation": {
+    "repository": "StegVerse-Labs/StegCore",
+    "commit": "42231a3862c2fe9b5898e6f75d72cff0b44e7396",
+    "module_path": "src/stegcore/motive_governance.py",
+    "module_git_blob_sha": "0a333344492880044680de6a9325ba16112bbacd",
+    "test_path": "tests/test_motive_governance.py",
+    "test_git_blob_sha": "e098a59f079801febb0af3a4ced4305945fec477"
+  },
+  "master_record": {
+    "repository": "master-records/core-lite",
+    "anchor_record_path": "records/stegcore_curiosity_motive_governance_anchor_001.json",
+    "anchor_record_commit": "698d3dbd3d132ace168f5467a372c33852d30206",
+    "anchor_hash": "769df23f3e66cc893690293c6eeddebafa3438585091cb830ba42c9127fa59bd",
+    "destination_receipt_path": "records/stegcore_curiosity_motive_governance_anchor_receipt_001.json",
+    "destination_receipt_commit": "17d54c23ba5d42daed1a6d12ada155e0c4c706b7",
+    "destination_receipt_hash": "64d31728944ed70550ad709f7f45cecedff0eb6a069c260f947d54e227e7d22a"
+  },
+  "required_findings": [
+    "event",
+    "motivational",
+    "normative",
+    "observer"
+  ],
+  "required_separation_invariants": {
+    "motive_does_not_grant_authority": true,
+    "normative_denial_does_not_negate_motive": true,
+    "observer_description_does_not_define_motive": true,
+    "reconstruction_does_not_constitute_occurrence": true,
+    "phenomenal_status_not_inferred": true,
+    "verifier_disagreement_fails_closed": true
+  },
+  "activation_boundary": {
+    "runtime_activation": false,
+    "execution_authority_granted": false,
+    "repository_binding_authority_granted": false,
+    "continuity_occurrence_receipt_minted": false,
+    "next_stage": "install a local verifier adapter that consumes replay witnesses and emits claim-separated findings"
+  }
+}
