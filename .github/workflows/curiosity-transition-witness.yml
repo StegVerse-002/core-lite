@@ -12,10 +12,11 @@ on:
       - "records/custody-chain-evidence-semantics-reopening-001.json"
       - "tests/test_curiosity_witness_typed_evidence.py"
       - "docs/CURIOSITY_WITNESS_RUNTIME_INTAKE_MIRROR_HANDOFF.md"
+      - ".continuity/**"
+      - ".handoff/current.json"
       - ".github/workflows/curiosity-transition-witness.yml"
   push:
-    branches:
-      - main
+    branches: [main]
     paths:
       - "tools/validate_curiosity_transition_witness.py"
       - "tests/test_curiosity_transition_witness.py"
@@ -25,6 +26,8 @@ on:
       - "records/custody-chain-evidence-semantics-reopening-001.json"
       - "tests/test_curiosity_witness_typed_evidence.py"
       - "docs/CURIOSITY_WITNESS_RUNTIME_INTAKE_MIRROR_HANDOFF.md"
+      - ".continuity/**"
+      - ".handoff/current.json"
       - ".github/workflows/curiosity-transition-witness.yml"
 
 permissions:
@@ -47,23 +50,18 @@ jobs:
           mkdir -p reports/current
           python - <<'PY' | tee reports/current/typed-evidence-execution.json
           import json, os
-          print(json.dumps({
-            "repository": "StegVerse-002/core-lite",
-            "workflow": "Curiosity transition witness",
-            "head_sha": os.environ["GITHUB_SHA"],
-            "execution_state": "EXECUTED",
-            "runtime_activation": False,
-            "authority_effect": "NONE"
-          }, sort_keys=True))
+          print(json.dumps({"repository":"StegVerse-002/core-lite","workflow":"Curiosity transition witness","head_sha":os.environ['GITHUB_SHA'],"execution_state":"EXECUTED","runtime_activation":False,"authority_effect":"NONE"}, sort_keys=True))
           PY
-      - name: Upload typed evidence
+      - name: Upload runtime and typed evidence
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: curiosity-witness-typed-evidence-${{ github.sha }}
           path: |
+            reports/current/curiosity_transition_witness_report.json
+            receipts/current/curiosity_transition_witness_receipt.jsonl
             reports/current/typed-evidence-execution.json
             records/curiosity-witness-runtime-evidence-chain.json
             records/custody-chain-evidence-semantics-reopening-001.json
             docs/CURIOSITY_WITNESS_RUNTIME_INTAKE_MIRROR_HANDOFF.md
           if-no-files-found: error
-          retention-days: 30
+          retention-days: 90
