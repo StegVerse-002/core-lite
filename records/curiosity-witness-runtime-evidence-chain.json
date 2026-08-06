@@ -36,15 +36,9 @@
       "source_repository": "StegVerse-002/core-lite",
       "source_commit": "48500639bb29bd7c86437df9086a773df1e46543",
       "source_path": "reports/current/curiosity_transition_witness_report.json",
-      "canonicalization": {
-        "format": "JSON",
-        "sort_keys": true,
-        "separators": [",", ":"],
-        "encoding": "UTF-8",
-        "excluded_field": null
-      },
-      "availability_state": "GENERATED_UNTRACKED",
-      "verification_state": "HOSTED_ARTIFACT_REQUIRED",
+      "canonicalization": {"format": "JSON", "sort_keys": true, "separators": [",", ":"], "encoding": "UTF-8", "excluded_field": null},
+      "availability_state": "AVAILABLE_IN_HOSTED_ARTIFACT",
+      "verification_state": "DOWNLOAD_AND_INSPECT_REQUIRED",
       "required_for_decision": true,
       "authority_boundary": "candidate reconstruction evidence only"
     },
@@ -56,8 +50,8 @@
       "source_repository": "StegVerse-002/core-lite",
       "source_commit": "48500639bb29bd7c86437df9086a773df1e46543",
       "source_path": "receipts/current/curiosity_transition_witness_receipt.jsonl",
-      "availability_state": "GENERATED_UNTRACKED",
-      "verification_state": "HOSTED_ARTIFACT_REQUIRED",
+      "availability_state": "AVAILABLE_IN_HOSTED_ARTIFACT",
+      "verification_state": "DOWNLOAD_AND_INSPECT_REQUIRED",
       "required_for_decision": true,
       "authority_boundary": "evidence admission receipt only"
     },
@@ -69,12 +63,9 @@
       "source_repository": "StegVerse-002/core-lite",
       "source_commit": "48500639bb29bd7c86437df9086a773df1e46543",
       "source_path": "reports/current/curiosity_transition_witness_report.json#replay_root",
-      "canonicalization": {
-        "format": "application-defined replay Merkle root",
-        "excluded_field": null
-      },
-      "availability_state": "GENERATED_UNTRACKED",
-      "verification_state": "HOSTED_ARTIFACT_REQUIRED",
+      "canonicalization": {"format": "application-defined replay Merkle root", "excluded_field": null},
+      "availability_state": "AVAILABLE_IN_HOSTED_ARTIFACT",
+      "verification_state": "DOWNLOAD_AND_INSPECT_REQUIRED",
       "required_for_decision": true,
       "authority_boundary": "replay reconstruction evidence only"
     },
@@ -86,15 +77,16 @@
       "source_repository": "StegVerse-002/core-lite",
       "source_commit": "48500639bb29bd7c86437df9086a773df1e46543",
       "source_path": "github-actions://run/31059989426/artifact/8951702116",
-      "availability_state": "EXPIRING_EXTERNAL",
-      "retention_days": 30,
-      "expires_at": "2026-09-05T00:00:00Z",
-      "mirror_state": "REQUIRED",
+      "availability_state": "AVAILABLE",
+      "created_at": "2026-08-06T00:31:59Z",
+      "retention_days": 90,
+      "expires_at": "2026-11-04T00:31:45Z",
+      "mirror_state": "REQUIRED_BEFORE_EXPIRY",
       "unavailable_behavior": "FAIL_CLOSED",
       "verification_state": "DOWNLOAD_AND_INSPECT_REQUIRED",
       "required_for_decision": true,
       "authority_boundary": "artifact evidence only"
     }
   ],
-  "next_executable_task": "mirror load-bearing generated evidence into repository-resident immutable records before artifact expiry"
+  "next_executable_task": "download and inspect artifact 8951702116, then mirror load-bearing generated evidence into repository-resident immutable records before 2026-11-04T00:31:45Z"
 }
