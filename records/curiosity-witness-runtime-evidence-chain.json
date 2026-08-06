@@ -1,0 +1,100 @@
+{
+  "schema": "stegverse.custody.typed_evidence_chain.v1",
+  "record_type": "typed_custody_evidence_chain",
+  "source_repository": "StegVerse-002/core-lite",
+  "destination_repository": "master-records/core-lite",
+  "goal_id": "SV002-CURIOSITY-WITNESS-INTAKE-001",
+  "canonical_runtime_commit": "48500639bb29bd7c86437df9086a773df1e46543",
+  "authority_boundary": {
+    "evidence_admission_only": true,
+    "execution_authority_granted": false,
+    "repository_binding_granted": false,
+    "runtime_activation": false,
+    "occurrence_proven": false,
+    "phenomenal_status_inferred": false
+  },
+  "entries": [
+    {
+      "evidence_id": "SV002-RUNTIME-MERGE-001",
+      "digest_type": "git_object_id",
+      "digest_algorithm": "SHA-1",
+      "digest": "48500639bb29bd7c86437df9086a773df1e46543",
+      "object_kind": "commit",
+      "source_repository": "StegVerse-002/core-lite",
+      "source_commit": "48500639bb29bd7c86437df9086a773df1e46543",
+      "source_path": null,
+      "availability_state": "AVAILABLE_IN_GIT_HISTORY",
+      "verification_state": "HISTORY_RESOLUTION_REQUIRED",
+      "required_for_decision": true,
+      "authority_boundary": "repository history evidence only"
+    },
+    {
+      "evidence_id": "SV002-RUNTIME-CANDIDATE-001",
+      "digest_type": "canonical_object_digest",
+      "digest_algorithm": "SHA-256",
+      "digest": "b34743d186307080a4cc371d3780544f3038c39ebbb7d146bd974461e8cf8ef1",
+      "source_repository": "StegVerse-002/core-lite",
+      "source_commit": "48500639bb29bd7c86437df9086a773df1e46543",
+      "source_path": "reports/current/curiosity_transition_witness_report.json",
+      "canonicalization": {
+        "format": "JSON",
+        "sort_keys": true,
+        "separators": [",", ":"],
+        "encoding": "UTF-8",
+        "excluded_field": null
+      },
+      "availability_state": "GENERATED_UNTRACKED",
+      "verification_state": "HOSTED_ARTIFACT_REQUIRED",
+      "required_for_decision": true,
+      "authority_boundary": "candidate reconstruction evidence only"
+    },
+    {
+      "evidence_id": "SV002-RUNTIME-RECEIPT-001",
+      "digest_type": "file_digest",
+      "digest_algorithm": "SHA-256",
+      "digest": "6dd6039d558b07e1d3a35ab6ce65ea015353e9df46b7c8dc84edfdd7ad80908d",
+      "source_repository": "StegVerse-002/core-lite",
+      "source_commit": "48500639bb29bd7c86437df9086a773df1e46543",
+      "source_path": "receipts/current/curiosity_transition_witness_receipt.jsonl",
+      "availability_state": "GENERATED_UNTRACKED",
+      "verification_state": "HOSTED_ARTIFACT_REQUIRED",
+      "required_for_decision": true,
+      "authority_boundary": "evidence admission receipt only"
+    },
+    {
+      "evidence_id": "SV002-RUNTIME-REPLAY-ROOT-001",
+      "digest_type": "canonical_object_digest",
+      "digest_algorithm": "SHA-256",
+      "digest": "bbd79be33e090e188484628e341f28b0bebcda260a509bbdc47681c9ee204d89",
+      "source_repository": "StegVerse-002/core-lite",
+      "source_commit": "48500639bb29bd7c86437df9086a773df1e46543",
+      "source_path": "reports/current/curiosity_transition_witness_report.json#replay_root",
+      "canonicalization": {
+        "format": "application-defined replay Merkle root",
+        "excluded_field": null
+      },
+      "availability_state": "GENERATED_UNTRACKED",
+      "verification_state": "HOSTED_ARTIFACT_REQUIRED",
+      "required_for_decision": true,
+      "authority_boundary": "replay reconstruction evidence only"
+    },
+    {
+      "evidence_id": "SV002-RUNTIME-ACTIONS-ARTIFACT-001",
+      "digest_type": "external_artifact",
+      "digest_algorithm": "SHA-256",
+      "digest": "604c3961f5de4a28104724d01256a5e7f508bc1b7b2c9c8d2e859f672bdb9697",
+      "source_repository": "StegVerse-002/core-lite",
+      "source_commit": "48500639bb29bd7c86437df9086a773df1e46543",
+      "source_path": "github-actions://run/31059989426/artifact/8951702116",
+      "availability_state": "EXPIRING_EXTERNAL",
+      "retention_days": 30,
+      "expires_at": "2026-09-05T00:00:00Z",
+      "mirror_state": "REQUIRED",
+      "unavailable_behavior": "FAIL_CLOSED",
+      "verification_state": "DOWNLOAD_AND_INSPECT_REQUIRED",
+      "required_for_decision": true,
+      "authority_boundary": "artifact evidence only"
+    }
+  ],
+  "next_executable_task": "mirror load-bearing generated evidence into repository-resident immutable records before artifact expiry"
+}
