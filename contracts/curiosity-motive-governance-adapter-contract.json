@@ -1,0 +1,84 @@
+{
+  "schema": "stegverse.curiosity_motive_governance.adapter_contract.v1",
+  "repository": "StegVerse-002/core-lite",
+  "stage": "SV002-CMG-02",
+  "status": "LOCAL_REPLAY_WITNESS_ADAPTER_INSTALLED",
+  "adapter": {
+    "path": "tools/curiosity_motive_governance_adapter.py",
+    "language": "python",
+    "runtime_dependencies": [
+      "python>=3.10",
+      "stdlib-only"
+    ],
+    "source_anchor": {
+      "repository": "StegVerse-Labs/StegCore",
+      "commit": "42231a3862c2fe9b5898e6f75d72cff0b44e7396",
+      "module_path": "src/stegcore/motive_governance.py",
+      "module_git_blob_sha": "0a333344492880044680de6a9325ba16112bbacd",
+      "test_path": "tests/test_motive_governance.py",
+      "test_git_blob_sha": "e098a59f079801febb0af3a4ced4305945fec477"
+    }
+  },
+  "input": {
+    "schema": "stegverse.curiosity_motive_governance.witness.v1",
+    "required_fields": [
+      "schema",
+      "witness_id",
+      "events",
+      "authority_context",
+      "observer"
+    ],
+    "event_requirements": [
+      "zero-based contiguous sequence",
+      "state object",
+      "previous_event_hash chain",
+      "canonical sha256 event_hash"
+    ],
+    "optional_evidence": [
+      "counterfactuals",
+      "candidate_set_evidence"
+    ]
+  },
+  "output": {
+    "schema": "stegverse.curiosity_motive_governance.finding_set.v1",
+    "required_findings": [
+      "event_finding",
+      "motivational_finding",
+      "normative_finding",
+      "observer_record"
+    ],
+    "required_hashes": [
+      "witness_hash",
+      "replay_root",
+      "finding_hash",
+      "record_hash"
+    ]
+  },
+  "decision_semantics": {
+    "ALLOW": "valid reconstructed execution with valid commit-time authority",
+    "DENY": "reconstructed execution without valid authority",
+    "FAIL_CLOSED": "invalid witness or unresolved execution authority",
+    "NO_EXECUTION": "no execution commit observed"
+  },
+  "exit_codes": {
+    "0": "event chain reconstructed; normative decision is carried in output",
+    "2": "input or event chain failed closed"
+  },
+  "separation_invariants": {
+    "motive_does_not_grant_authority": true,
+    "normative_denial_does_not_negate_motive": true,
+    "observer_description_does_not_define_motive": true,
+    "reconstruction_does_not_constitute_occurrence": true,
+    "phenomenal_status_not_inferred": true,
+    "verifier_disagreement_fails_closed": true
+  },
+  "activation_boundary": {
+    "runtime_activation": false,
+    "execution_authority_granted": false,
+    "repository_binding_authority_granted": false,
+    "continuity_occurrence_receipt_minted": false,
+    "tests_installed": false,
+    "declared_task_installed": false,
+    "hosted_validation_installed": false
+  }
+}

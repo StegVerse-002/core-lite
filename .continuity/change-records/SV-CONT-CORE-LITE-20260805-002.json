@@ -1,0 +1,80 @@
+{
+  "actor": {
+    "class": "chatgpt",
+    "instance": "GPT-5.6 Thinking",
+    "session_ref": "curiosity-motive-governance-adoption-2026-08-05"
+  },
+  "base_commit": "9421aac52d21b0d11dfd5b0803c1a7569b486ce3",
+  "change_id": "SV-CONT-CORE-LITE-20260805-002",
+  "changed_paths": [
+    {
+      "change_type": "modified",
+      "hash": "957b952779ae10d10d8d2108fba6db618d170bf4",
+      "hash_algorithm": "git-blob-sha1",
+      "path": ".continuity/config.json"
+    },
+    {
+      "change_type": "modified",
+      "hash": "7f0e9b6d47a26da164d7120ac8d6ffd96e7b1948",
+      "hash_algorithm": "git-blob-sha1",
+      "path": ".handoff/current.json"
+    },
+    {
+      "change_type": "added",
+      "hash": "c9860bcfb7ed8270834bad6b4e9d041e3994b1c3",
+      "hash_algorithm": "git-blob-sha1",
+      "path": "contracts/curiosity-motive-governance-adapter-contract.json"
+    },
+    {
+      "change_type": "modified",
+      "hash": "4941d9ef82a19f3d51fea7b063d97d5e940bdc37",
+      "hash_algorithm": "git-blob-sha1",
+      "path": "contracts/curiosity-motive-governance-adoption.json"
+    },
+    {
+      "change_type": "added",
+      "hash": "2b7a393c042c9e85f24ec927d96ad47b8412ed16",
+      "hash_algorithm": "git-blob-sha1",
+      "path": "docs/CURIOSITY_MOTIVE_GOVERNANCE_HANDOFF.md"
+    },
+    {
+      "change_type": "added",
+      "hash": "430c7e0ddee6dccd8c810a9506f64f9e6bb6fb09",
+      "hash_algorithm": "git-blob-sha1",
+      "path": "tools/curiosity_motive_governance_adapter.py"
+    }
+  ],
+  "claims": [
+    {
+      "claim": "A local stdlib replay-witness adapter is installed and pinned to the exact canonical StegCore motive-governance source.",
+      "state": "INSTALLED"
+    },
+    {
+      "claim": "The adapter emits separate event, motivational, normative, and observer findings with deterministic content hashes.",
+      "state": "INSTALLED"
+    },
+    {
+      "claim": "Invalid witnesses and unresolved authority fail closed, while motive attribution remains unable to grant execution authority.",
+      "state": "PRESERVED_BOUNDARY"
+    },
+    {
+      "claim": "Runtime activation, declared-task execution, hosted validation, and occurrence-receipt minting remain outside this stage.",
+      "state": "PRESERVED_BOUNDARY"
+    }
+  ],
+  "created_at": "2026-08-06T00:22:00Z",
+  "governing_handoff": {
+    "hash": "9f7c9e1ec645a3f353eb1f69565367f80e13a4de",
+    "hash_algorithm": "git-blob-sha1",
+    "path": "docs/CORE_LITE_MIRROR_HANDOFF.md"
+  },
+  "repository": "StegVerse-002/core-lite",
+  "schema": "stegverse.session.change_record.v1",
+  "unresolved_tasks": [
+    "add deterministic valid, tampered, unauthorized, and underdetermined fixtures and tests",
+    "register a declared task only after Stage SV002-CMG-03 passes",
+    "install hosted validation only after the local test harness passes",
+    "mint a separate runtime activation receipt only after all prior stages validate"
+  ],
+  "record_hash": "f9a892e1afa818975503dd9f14112e43e2b9e6e0ed35419f501c44680fd23843"
+}

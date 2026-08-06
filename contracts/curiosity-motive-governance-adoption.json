@@ -1,8 +1,8 @@
 {
   "schema": "stegverse.curiosity_motive_governance.adoption.v1",
   "repository": "StegVerse-002/core-lite",
-  "stage": "SV002-CMG-01",
-  "status": "SOURCE_ANCHOR_BOUND",
+  "stage": "SV002-CMG-02",
+  "status": "LOCAL_ADAPTER_INSTALLED",
   "source_implementation": {
     "repository": "StegVerse-Labs/StegCore",
     "commit": "42231a3862c2fe9b5898e6f75d72cff0b44e7396",
@@ -19,6 +19,13 @@
     "destination_receipt_path": "records/stegcore_curiosity_motive_governance_anchor_receipt_001.json",
     "destination_receipt_commit": "17d54c23ba5d42daed1a6d12ada155e0c4c706b7",
     "destination_receipt_hash": "64d31728944ed70550ad709f7f45cecedff0eb6a069c260f947d54e227e7d22a"
+  },
+  "local_adapter": {
+    "path": "tools/curiosity_motive_governance_adapter.py",
+    "contract_path": "contracts/curiosity-motive-governance-adapter-contract.json",
+    "status": "INSTALLED_NOT_ACTIVATED",
+    "input_schema": "stegverse.curiosity_motive_governance.witness.v1",
+    "output_schema": "stegverse.curiosity_motive_governance.finding_set.v1"
   },
   "required_findings": [
     "event",
@@ -39,6 +46,6 @@
     "execution_authority_granted": false,
     "repository_binding_authority_granted": false,
     "continuity_occurrence_receipt_minted": false,
-    "next_stage": "install a local verifier adapter that consumes replay witnesses and emits claim-separated findings"
+    "next_stage": "add deterministic valid, tampered, unauthorized, and underdetermined fixtures and tests"
   }
 }
