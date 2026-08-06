@@ -1,0 +1,297 @@
+{
+  "$id": "https://stegverse.org/schemas/curiosity_motive_execution_witness.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "actor": {
+      "additionalProperties": false,
+      "properties": {
+        "class": {
+          "enum": [
+            "human",
+            "ai_system",
+            "agent",
+            "mixed"
+          ],
+          "type": "string"
+        },
+        "id": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "class"
+      ],
+      "type": "object"
+    },
+    "authority": {
+      "additionalProperties": false,
+      "properties": {
+        "authority_valid": {
+          "type": "boolean"
+        },
+        "boundary_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "commit_time_valid": {
+          "type": "boolean"
+        },
+        "delegation_ref": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "policy_ref": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "boundary_id",
+        "authority_valid",
+        "commit_time_valid",
+        "policy_ref",
+        "delegation_ref"
+      ],
+      "type": "object"
+    },
+    "evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "answer_sensitive_cessation": {
+          "type": "boolean"
+        },
+        "causal_intervention_support": {
+          "type": "boolean"
+        },
+        "context_transfer": {
+          "type": "boolean"
+        },
+        "persistence_after_task_end": {
+          "type": "boolean"
+        },
+        "question_representation": {
+          "type": "boolean"
+        },
+        "reward_independence": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "question_representation",
+        "persistence_after_task_end",
+        "reward_independence",
+        "answer_sensitive_cessation",
+        "context_transfer",
+        "causal_intervention_support"
+      ],
+      "type": "object"
+    },
+    "observer": {
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "existential_judgment": {
+          "type": "string"
+        },
+        "id": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "description",
+        "existential_judgment"
+      ],
+      "type": "object"
+    },
+    "schema": {
+      "const": "stegverse.curiosity_motive_execution_witness.v1"
+    },
+    "source_contract": {
+      "additionalProperties": false,
+      "properties": {
+        "implementation_blob_sha": {
+          "pattern": "^[0-9a-f]{40}$",
+          "type": "string"
+        },
+        "master_anchor_commit": {
+          "pattern": "^[0-9a-f]{40}$",
+          "type": "string"
+        },
+        "master_anchor_hash": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "master_receipt_commit": {
+          "pattern": "^[0-9a-f]{40}$",
+          "type": "string"
+        },
+        "master_receipt_hash": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "stegcore_commit": {
+          "pattern": "^[0-9a-f]{40}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "stegcore_commit",
+        "implementation_blob_sha",
+        "master_anchor_commit",
+        "master_anchor_hash",
+        "master_receipt_commit",
+        "master_receipt_hash"
+      ],
+      "type": "object"
+    },
+    "transitions": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "hash": {
+            "pattern": "^[0-9a-f]{64}$",
+            "type": "string"
+          },
+          "index": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "previous_hash": {
+            "pattern": "^[0-9a-f]{64}$",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "state": {
+            "additionalProperties": false,
+            "properties": {
+              "action_committed": {
+                "type": "boolean"
+              },
+              "authority_valid": {
+                "type": "boolean"
+              },
+              "external_action": {
+                "type": "boolean"
+              },
+              "gap_represented": {
+                "type": "boolean"
+              },
+              "inquiry_persistent": {
+                "type": "boolean"
+              },
+              "operational_boundary_represented": {
+                "type": "boolean"
+              },
+              "plan_selected": {
+                "type": "boolean"
+              },
+              "uncertainty_reduction_valued": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "gap_represented",
+              "uncertainty_reduction_valued",
+              "inquiry_persistent",
+              "plan_selected",
+              "operational_boundary_represented",
+              "external_action",
+              "action_committed",
+              "authority_valid"
+            ],
+            "type": "object"
+          },
+          "timestamp": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "transition_id": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "transition_type": {
+            "enum": [
+              "encounter",
+              "epistemic",
+              "motivational",
+              "objective",
+              "planning",
+              "authority",
+              "commit",
+              "outcome"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "index",
+          "transition_id",
+          "timestamp",
+          "transition_type",
+          "state",
+          "previous_hash",
+          "hash"
+        ],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "verifiers": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "decision": {
+            "enum": [
+              "ALLOW",
+              "DENY",
+              "NO_EXECUTION_TRANSITION"
+            ],
+            "type": "string"
+          },
+          "name": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "decision"
+        ],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "witness_id": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema",
+    "witness_id",
+    "source_contract",
+    "actor",
+    "observer",
+    "authority",
+    "evidence",
+    "verifiers",
+    "transitions"
+  ],
+  "title": "StegVerse Curiosity and Motive Execution Witness",
+  "type": "object"
+}

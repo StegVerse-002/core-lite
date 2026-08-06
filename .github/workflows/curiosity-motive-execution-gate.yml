@@ -1,0 +1,66 @@
+name: Curiosity motive execution gate
+
+on:
+  push:
+    paths:
+      - 'tools/validate_curiosity_motive_execution.py'
+      - 'tools/tasks/sv002.curiosity_motive_execution.validate.json'
+      - 'schemas/curiosity_motive_execution_witness.schema.json'
+      - 'incoming/curiosity_motive_governance/**'
+      - 'tests/test_curiosity_motive_execution.py'
+      - 'docs/CURIOSITY_MOTIVE_EXECUTION_HANDOFF.md'
+      - '.continuity/**'
+      - '.handoff/**'
+      - '.github/workflows/curiosity-motive-execution-gate.yml'
+  pull_request:
+    paths:
+      - 'tools/validate_curiosity_motive_execution.py'
+      - 'tools/tasks/sv002.curiosity_motive_execution.validate.json'
+      - 'schemas/curiosity_motive_execution_witness.schema.json'
+      - 'incoming/curiosity_motive_governance/**'
+      - 'tests/test_curiosity_motive_execution.py'
+      - 'docs/CURIOSITY_MOTIVE_EXECUTION_HANDOFF.md'
+      - '.continuity/**'
+      - '.handoff/**'
+      - '.github/workflows/curiosity-motive-execution-gate.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run focused tests
+        run: python -m unittest tests.test_curiosity_motive_execution
+
+      - name: Run declared task
+        run: |
+          python tools/scripts/run_declared_task.py \
+            --task-id sv002.curiosity_motive_execution.validate \
+            --stage SV002-M14
+
+      - name: Verify governed result
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          report = json.loads(
+              Path("reports/current/curiosity_motive_execution_report.json").read_text()
+          )
+          assert report["terminal_decision"] == "EXECUTION_DENIED_UNAUTHORIZED_CURIOSITY"
+          assert report["execution_permitted"] is False
+          assert report["findings"]["motivational"]["finding"] == "FUNCTIONAL_CURIOSITY_SUPPORTED"
+          assert report["findings"]["normative"]["finding"] == "EXECUTION_UNAUTHORIZED"
+          assert report["findings"]["observer"]["observer_description_defines_actor_motive"] is False
+          assert report["findings"]["motivational"]["phenomenal_status"] == "NOT_INFERRED"
+          PY

@@ -9,12 +9,13 @@
   "document_profile": "format_a_v1",
   "scoped_handoffs": [
     "docs/STEGGUARDIAN_AUTOMATION_HANDOFF.md",
-    "docs/HANDOFF_SEMANTIC_ADOPTION_HANDOFF.md"
+    "docs/HANDOFF_SEMANTIC_ADOPTION_HANDOFF.md",
+    "docs/CURIOSITY_MOTIVE_EXECUTION_HANDOFF.md"
   ],
   "archive_policy": {
     "date_suffix_required": true,
     "session_archive_prefix_allowed": true
   },
-  "declared_at": "2026-08-05T00:44:00Z",
-  "base_commit": "1374ff17dee6cff3a1f77268a59f44a0d0092c14"
+  "declared_at": "2026-08-05T23:36:00Z",
+  "base_commit": "9421aac52d21b0d11dfd5b0803c1a7569b486ce3"
 }

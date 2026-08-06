@@ -1,0 +1,39 @@
+{
+  "allowed_stages": [
+    "SV002-M14",
+    "SV002-M15"
+  ],
+  "authority": "validation_and_denial_only",
+  "capability": "curiosity_motive_execution_admission",
+  "command": "python tools/validate_curiosity_motive_execution.py --repo-root . --input incoming/curiosity_motive_governance/example_unauthorized_curiosity.json",
+  "decision_set": [
+    "EXECUTION_ADMISSIBLE",
+    "EXECUTION_DENIED_UNAUTHORIZED_CURIOSITY",
+    "EXECUTION_DENIED_UNAUTHORIZED",
+    "NO_EXECUTION_TRANSITION",
+    "FAIL_CLOSED"
+  ],
+  "description": "Replay and reconstruct curiosity/motive state transitions, identify the earliest conversion to external action, and independently adjudicate commit-time execution authority.",
+  "entry_point": "tools/validate_curiosity_motive_execution.py",
+  "expected_outputs": [
+    "reports/current/curiosity_motive_execution_report.md",
+    "reports/current/curiosity_motive_execution_report.json",
+    "receipts/current/curiosity_motive_execution_receipt.jsonl"
+  ],
+  "governance": {
+    "default_deny": true,
+    "does_not_perform_external_action": true,
+    "functional_motive_attribution_grants_execution_authority": false,
+    "normative_denial_disproves_motive": false,
+    "observer_description_defines_actor_motive": false,
+    "phenomenal_status_inferred": false,
+    "receipt_before_claim": true,
+    "reconstruction_constitutes_occurrence": false,
+    "verifier_disagreement_fails_closed": true
+  },
+  "stage": "SV002-M14",
+  "stop_condition": "A separated event, motivational, normative, observer, and verifier finding is written with a hash-linked receipt; no external action is performed.",
+  "task_id": "sv002.curiosity_motive_execution.validate",
+  "timeout_seconds": 120,
+  "transition_class": "execution_admission"
+}

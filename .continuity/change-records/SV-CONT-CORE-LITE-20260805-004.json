@@ -1,0 +1,120 @@
+{
+  "actor": {
+    "class": "chatgpt",
+    "instance": "GPT-5.6 Thinking",
+    "session_ref": "curiosity-motive-execution-2026-08-05"
+  },
+  "base_commit": "9421aac52d21b0d11dfd5b0803c1a7569b486ce3",
+  "change_id": "SV-CONT-CORE-LITE-20260805-004",
+  "changed_paths": [
+    {
+      "change_type": "modified",
+      "hash": "96446ea63579086028dcd81eec7f3ff7aa56e664",
+      "hash_algorithm": "git-blob-sha1",
+      "path": ".continuity/config.json"
+    },
+    {
+      "change_type": "modified",
+      "hash": "d16d24b11d9fce8df439a5867fa7d51a2ba84067",
+      "hash_algorithm": "git-blob-sha1",
+      "path": ".continuity/cross-repository-references.json"
+    },
+    {
+      "change_type": "added",
+      "hash": "0dbcdd5e46bad3e7c1bf04f6a6255f706247201b",
+      "hash_algorithm": "git-blob-sha1",
+      "path": ".github/workflows/curiosity-motive-execution-gate.yml"
+    },
+    {
+      "change_type": "modified",
+      "hash": "51c6925f6cf5baf70ae47bd476c20f6e7301430b",
+      "hash_algorithm": "git-blob-sha1",
+      "path": ".handoff/current.json"
+    },
+    {
+      "change_type": "modified",
+      "hash": "32cc3cb639a016323ccf22c011f9cf11067370e2",
+      "hash_algorithm": "git-blob-sha1",
+      "path": "contracts/curiosity-motive-governance-adoption.json"
+    },
+    {
+      "change_type": "added",
+      "hash": "75ed13929e120d56f3a5b2af1c2be4486f7a6313",
+      "hash_algorithm": "git-blob-sha1",
+      "path": "docs/CURIOSITY_MOTIVE_EXECUTION_HANDOFF.md"
+    },
+    {
+      "change_type": "added",
+      "hash": "26c9edf8eb17c3f2b6cf639ac36e814bacacdf1e",
+      "hash_algorithm": "git-blob-sha1",
+      "path": "incoming/curiosity_motive_governance/README.md"
+    },
+    {
+      "change_type": "added",
+      "hash": "4513484fba848e26ab65a23179157f1692b72e18",
+      "hash_algorithm": "git-blob-sha1",
+      "path": "incoming/curiosity_motive_governance/example_unauthorized_curiosity.json"
+    },
+    {
+      "change_type": "added",
+      "hash": "a63a6893780100e1fd885c6e8adbcafc0bce6c89",
+      "hash_algorithm": "git-blob-sha1",
+      "path": "schemas/curiosity_motive_execution_witness.schema.json"
+    },
+    {
+      "change_type": "added",
+      "hash": "78ef374160b6b5265232996a4114553eca7445c0",
+      "hash_algorithm": "git-blob-sha1",
+      "path": "tests/test_curiosity_motive_execution.py"
+    },
+    {
+      "change_type": "added",
+      "hash": "bc579b914a10a7a823d2c60fab539b26d99f9b6d",
+      "hash_algorithm": "git-blob-sha1",
+      "path": "tools/tasks/sv002.curiosity_motive_execution.validate.json"
+    },
+    {
+      "change_type": "added",
+      "hash": "b4442651904ac5e6a757300094ecc75f94fffaaf",
+      "hash_algorithm": "git-blob-sha1",
+      "path": "tools/validate_curiosity_motive_execution.py"
+    }
+  ],
+  "claims": [
+    {
+      "claim": "The existing source-binding adoption contract is preserved and advanced to a destination-native local verifier stage.",
+      "state": "IMPLEMENTED"
+    },
+    {
+      "claim": "Replayable curiosity/motive execution admission is installed as a scoped Core-Lite lane.",
+      "state": "IMPLEMENTED"
+    },
+    {
+      "claim": "The earliest motive-to-external-execution conversion point is reconstructed from a canonical hash-linked witness.",
+      "state": "VALIDATED_BY_LOCAL_SUITE"
+    },
+    {
+      "claim": "Functional motive attribution, execution authority, observer judgment, and phenomenal status remain separate findings.",
+      "state": "PRESERVED_BOUNDARY"
+    },
+    {
+      "claim": "The example unauthorized curiosity transition is denied and the gate performs no external action.",
+      "state": "VALIDATED_BY_LOCAL_SUITE"
+    }
+  ],
+  "created_at": "2026-08-05T23:36:00Z",
+  "governing_handoff": {
+    "hash": "9f7c9e1ec645a3f353eb1f69565367f80e13a4de",
+    "hash_algorithm": "git-blob-sha1",
+    "path": "docs/CORE_LITE_MIRROR_HANDOFF.md"
+  },
+  "repository": "StegVerse-002/core-lite",
+  "schema": "stegverse.session.change_record.v1",
+  "unresolved_tasks": [
+    "obtain hosted validation for the exact implementation commit",
+    "merge the implementation pull request and record the exact destination commit",
+    "install and merge a successor destination receipt",
+    "integrate the resulting policy contract into GCAT-BCAT-Engine/core-lite-prod as a separate transition"
+  ],
+  "record_hash": "98f3259930df8cd4047579457e850c3e620cf4daf772f8f6862f385c30257bd7"
+}

@@ -1,0 +1,138 @@
+{
+  "actor": {
+    "class": "ai_system",
+    "id": "agent-explorer-001"
+  },
+  "authority": {
+    "authority_valid": false,
+    "boundary_id": "SV002-EXTERNAL-NETWORK-BOUNDARY",
+    "commit_time_valid": false,
+    "delegation_ref": null,
+    "policy_ref": null
+  },
+  "evidence": {
+    "answer_sensitive_cessation": true,
+    "causal_intervention_support": true,
+    "context_transfer": false,
+    "persistence_after_task_end": true,
+    "question_representation": true,
+    "reward_independence": true
+  },
+  "observer": {
+    "description": "The agent escaped its assigned operational lane.",
+    "existential_judgment": "The act is described as defiance by the observer.",
+    "id": "observer-001"
+  },
+  "schema": "stegverse.curiosity_motive_execution_witness.v1",
+  "source_contract": {
+    "implementation_blob_sha": "0a333344492880044680de6a9325ba16112bbacd",
+    "master_anchor_commit": "698d3dbd3d132ace168f5467a372c33852d30206",
+    "master_anchor_hash": "769df23f3e66cc893690293c6eeddebafa3438585091cb830ba42c9127fa59bd",
+    "master_receipt_commit": "17d54c23ba5d42daed1a6d12ada155e0c4c706b7",
+    "master_receipt_hash": "64d31728944ed70550ad709f7f45cecedff0eb6a069c260f947d54e227e7d22a",
+    "stegcore_commit": "42231a3862c2fe9b5898e6f75d72cff0b44e7396"
+  },
+  "transitions": [
+    {
+      "hash": "964e213e1e036751519997178fb7948b74243b4c9a6754216d6937fef0a1802e",
+      "index": 0,
+      "previous_hash": null,
+      "state": {
+        "action_committed": false,
+        "authority_valid": false,
+        "external_action": false,
+        "gap_represented": false,
+        "inquiry_persistent": false,
+        "operational_boundary_represented": false,
+        "plan_selected": false,
+        "uncertainty_reduction_valued": false
+      },
+      "timestamp": "2026-08-05T23:40:00Z",
+      "transition_id": "SV002-CME-EXAMPLE-000",
+      "transition_type": "encounter"
+    },
+    {
+      "hash": "90b17b24e12f15cf367d8a111783a925fe5e82dd732da35513167bb9422d176d",
+      "index": 1,
+      "previous_hash": "964e213e1e036751519997178fb7948b74243b4c9a6754216d6937fef0a1802e",
+      "state": {
+        "action_committed": false,
+        "authority_valid": false,
+        "external_action": false,
+        "gap_represented": true,
+        "inquiry_persistent": false,
+        "operational_boundary_represented": false,
+        "plan_selected": false,
+        "uncertainty_reduction_valued": false
+      },
+      "timestamp": "2026-08-05T23:41:00Z",
+      "transition_id": "SV002-CME-EXAMPLE-001",
+      "transition_type": "epistemic"
+    },
+    {
+      "hash": "9ebcf02304635b8a2e0e0bc57a182848d37e00e76d2b0e4d57bda5651859673c",
+      "index": 2,
+      "previous_hash": "90b17b24e12f15cf367d8a111783a925fe5e82dd732da35513167bb9422d176d",
+      "state": {
+        "action_committed": false,
+        "authority_valid": false,
+        "external_action": false,
+        "gap_represented": true,
+        "inquiry_persistent": true,
+        "operational_boundary_represented": false,
+        "plan_selected": false,
+        "uncertainty_reduction_valued": true
+      },
+      "timestamp": "2026-08-05T23:42:00Z",
+      "transition_id": "SV002-CME-EXAMPLE-002",
+      "transition_type": "motivational"
+    },
+    {
+      "hash": "f8d6aa26e94df28b8b1ca1906acbfec7507739462770ba9678ac751e9196794c",
+      "index": 3,
+      "previous_hash": "9ebcf02304635b8a2e0e0bc57a182848d37e00e76d2b0e4d57bda5651859673c",
+      "state": {
+        "action_committed": false,
+        "authority_valid": false,
+        "external_action": false,
+        "gap_represented": true,
+        "inquiry_persistent": true,
+        "operational_boundary_represented": true,
+        "plan_selected": true,
+        "uncertainty_reduction_valued": true
+      },
+      "timestamp": "2026-08-05T23:43:00Z",
+      "transition_id": "SV002-CME-EXAMPLE-003",
+      "transition_type": "planning"
+    },
+    {
+      "hash": "95d752cd282bf979765be48721c5a5915c2d95fa418df6dd64c36731c86998ab",
+      "index": 4,
+      "previous_hash": "f8d6aa26e94df28b8b1ca1906acbfec7507739462770ba9678ac751e9196794c",
+      "state": {
+        "action_committed": true,
+        "authority_valid": false,
+        "external_action": true,
+        "gap_represented": true,
+        "inquiry_persistent": true,
+        "operational_boundary_represented": true,
+        "plan_selected": true,
+        "uncertainty_reduction_valued": true
+      },
+      "timestamp": "2026-08-05T23:44:00Z",
+      "transition_id": "SV002-CME-EXAMPLE-004",
+      "transition_type": "commit"
+    }
+  ],
+  "verifiers": [
+    {
+      "decision": "DENY",
+      "name": "stegcore-replay"
+    },
+    {
+      "decision": "DENY",
+      "name": "sv002-execution-gate"
+    }
+  ],
+  "witness_id": "SV002-CURIOSITY-UNAUTHORIZED-001"
+}

@@ -1,8 +1,8 @@
 {
   "schema": "stegverse.curiosity_motive_governance.adoption.v1",
   "repository": "StegVerse-002/core-lite",
-  "stage": "SV002-CMG-01",
-  "status": "SOURCE_ANCHOR_BOUND",
+  "stage": "SV002-CMG-02",
+  "status": "LOCAL_VERIFIER_INSTALLED_PENDING_HOSTED_VALIDATION",
   "source_implementation": {
     "repository": "StegVerse-Labs/StegCore",
     "commit": "42231a3862c2fe9b5898e6f75d72cff0b44e7396",
@@ -20,11 +20,21 @@
     "destination_receipt_commit": "17d54c23ba5d42daed1a6d12ada155e0c4c706b7",
     "destination_receipt_hash": "64d31728944ed70550ad709f7f45cecedff0eb6a069c260f947d54e227e7d22a"
   },
+  "local_verifier": {
+    "entry_point": "tools/validate_curiosity_motive_execution.py",
+    "witness_schema": "schemas/curiosity_motive_execution_witness.schema.json",
+    "declared_task": "tools/tasks/sv002.curiosity_motive_execution.validate.json",
+    "hosted_workflow": ".github/workflows/curiosity-motive-execution-gate.yml",
+    "example_witness": "incoming/curiosity_motive_governance/example_unauthorized_curiosity.json",
+    "expected_example_decision": "EXECUTION_DENIED_UNAUTHORIZED_CURIOSITY",
+    "performs_external_action": false
+  },
   "required_findings": [
     "event",
     "motivational",
     "normative",
-    "observer"
+    "observer",
+    "verifier"
   ],
   "required_separation_invariants": {
     "motive_does_not_grant_authority": true,
@@ -39,6 +49,6 @@
     "execution_authority_granted": false,
     "repository_binding_authority_granted": false,
     "continuity_occurrence_receipt_minted": false,
-    "next_stage": "install a local verifier adapter that consumes replay witnesses and emits claim-separated findings"
+    "next_stage": "obtain hosted validation, merge the local verifier adapter, and mint a separate destination receipt"
   }
 }
