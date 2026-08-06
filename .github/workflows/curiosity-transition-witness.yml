@@ -1,47 +1,75 @@
-name: Curiosity transition witness intake
+name: Curiosity transition witness
 
 on:
-  push:
-    paths:
-      - "tools/validate_curiosity_transition_witness.py"
-      - "tests/test_curiosity_transition_witness.py"
-      - "schemas/curiosity_transition_witness.schema.json"
-      - "examples/curiosity-governance/unauthorized-curiosity-witness.json"
-      - "docs/CURIOSITY_WITNESS_RUNTIME_INTAKE_MIRROR_HANDOFF.md"
-      - ".continuity/**"
-      - ".handoff/current.json"
-      - ".github/workflows/curiosity-transition-witness.yml"
+  workflow_dispatch:
   pull_request:
     paths:
       - "tools/validate_curiosity_transition_witness.py"
       - "tests/test_curiosity_transition_witness.py"
       - "schemas/curiosity_transition_witness.schema.json"
       - "examples/curiosity-governance/unauthorized-curiosity-witness.json"
+      - "records/curiosity-witness-runtime-evidence-chain.json"
+      - "records/custody-chain-evidence-semantics-reopening-001.json"
+      - "records/custody-hash-transition-reference-001.json"
+      - "tests/test_curiosity_witness_typed_evidence.py"
       - "docs/CURIOSITY_WITNESS_RUNTIME_INTAKE_MIRROR_HANDOFF.md"
+      - "docs/CURIOSITY_WITNESS_RUNTIME_HASH_TRANSITION_ADDENDUM.md"
       - ".continuity/**"
       - ".handoff/current.json"
       - ".github/workflows/curiosity-transition-witness.yml"
-  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "tools/validate_curiosity_transition_witness.py"
+      - "tests/test_curiosity_transition_witness.py"
+      - "schemas/curiosity_transition_witness.schema.json"
+      - "examples/curiosity-governance/unauthorized-curiosity-witness.json"
+      - "records/curiosity-witness-runtime-evidence-chain.json"
+      - "records/custody-chain-evidence-semantics-reopening-001.json"
+      - "records/custody-hash-transition-reference-001.json"
+      - "tests/test_curiosity_witness_typed_evidence.py"
+      - "docs/CURIOSITY_WITNESS_RUNTIME_INTAKE_MIRROR_HANDOFF.md"
+      - "docs/CURIOSITY_WITNESS_RUNTIME_HASH_TRANSITION_ADDENDUM.md"
+      - ".continuity/**"
+      - ".handoff/current.json"
+      - ".github/workflows/curiosity-transition-witness.yml"
 
 permissions:
   contents: read
 
 jobs:
-  verify:
+  validate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
         with:
           python-version: "3.11"
       - name: Verify bounded witness intake
         run: python tools/validate_curiosity_transition_witness.py
-      - name: Run focused tests
-        run: python -m unittest tests/test_curiosity_transition_witness.py
-      - name: Upload candidate report and receipt
-        uses: actions/upload-artifact@v4
+      - name: Validate witness and typed evidence semantics
+        run: python -m unittest tests/test_curiosity_transition_witness.py tests/test_curiosity_witness_typed_evidence.py
+      - name: Validate hash transition reference
+        run: python -m json.tool records/custody-hash-transition-reference-001.json >/dev/null
+      - name: Emit exact-head execution receipt
+        run: |
+          mkdir -p reports/current
+          python - <<'PY' | tee reports/current/typed-evidence-execution.json
+          import json, os
+          print(json.dumps({"repository":"StegVerse-002/core-lite","workflow":"Curiosity transition witness","head_sha":os.environ['GITHUB_SHA'],"execution_state":"EXECUTED","runtime_activation":False,"authority_effect":"NONE"}, sort_keys=True))
+          PY
+      - name: Upload runtime and typed evidence
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: curiosity-transition-witness-evidence
+          name: curiosity-witness-typed-evidence-${{ github.sha }}
           path: |
             reports/current/curiosity_transition_witness_report.json
             receipts/current/curiosity_transition_witness_receipt.jsonl
+            reports/current/typed-evidence-execution.json
+            records/curiosity-witness-runtime-evidence-chain.json
+            records/custody-chain-evidence-semantics-reopening-001.json
+            records/custody-hash-transition-reference-001.json
+            docs/CURIOSITY_WITNESS_RUNTIME_INTAKE_MIRROR_HANDOFF.md
+            docs/CURIOSITY_WITNESS_RUNTIME_HASH_TRANSITION_ADDENDUM.md
+          if-no-files-found: error
+          retention-days: 90
