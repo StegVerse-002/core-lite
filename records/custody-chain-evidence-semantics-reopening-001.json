@@ -1,0 +1,24 @@
+{
+  "record_type": "custody_chain_reopening_transition",
+  "record_id": "SV002-CMG-EVIDENCE-SEMANTICS-REOPEN-001",
+  "repository": "StegVerse-002/core-lite",
+  "branch": "fix/custody-chain-evidence-semantics",
+  "originating_goal": "type and verify runtime candidate, receipt, replay-root, and repository identity evidence without activating runtime",
+  "prior_state": {
+    "runtime_intake_owner": "pull request #6",
+    "main_commit_observed": "6579b7a1066791087109e2725a2b8554aef1c3a4"
+  },
+  "claim_state": "CLAIMED_FOR_INTEGRATION",
+  "claimant": "cross-repository custody evidence lane",
+  "claimed_at": "2026-08-06T20:26:00Z",
+  "release_condition": "evidence inventory and digest typing committed; applicable handoff appends transition; no overlap with PR #6; validation passes and exact-main evidence is inspected",
+  "owned_capability": "evidence semantics only",
+  "excluded_paths_and_capabilities": {
+    "pull_request_6_runtime_files": "EXCLUDED",
+    "runtime_activation": false,
+    "execution_authority": false,
+    "policy_admission": false,
+    "repository_binding": false
+  },
+  "next_executable_action": "inventory the three canonical runtime digests and classify each as record_self_hash, canonical_object_digest, file_digest, or external_artifact"
+}
