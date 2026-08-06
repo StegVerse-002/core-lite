@@ -10,6 +10,7 @@ on:
       - "examples/curiosity-governance/unauthorized-curiosity-witness.json"
       - "records/curiosity-witness-runtime-evidence-chain.json"
       - "records/custody-chain-evidence-semantics-reopening-001.json"
+      - "records/custody-hash-transition-reference-001.json"
       - "tests/test_curiosity_witness_typed_evidence.py"
       - "docs/CURIOSITY_WITNESS_RUNTIME_INTAKE_MIRROR_HANDOFF.md"
       - ".continuity/**"
@@ -24,6 +25,7 @@ on:
       - "examples/curiosity-governance/unauthorized-curiosity-witness.json"
       - "records/curiosity-witness-runtime-evidence-chain.json"
       - "records/custody-chain-evidence-semantics-reopening-001.json"
+      - "records/custody-hash-transition-reference-001.json"
       - "tests/test_curiosity_witness_typed_evidence.py"
       - "docs/CURIOSITY_WITNESS_RUNTIME_INTAKE_MIRROR_HANDOFF.md"
       - ".continuity/**"
@@ -45,6 +47,8 @@ jobs:
         run: python tools/validate_curiosity_transition_witness.py
       - name: Validate witness and typed evidence semantics
         run: python -m unittest tests/test_curiosity_transition_witness.py tests/test_curiosity_witness_typed_evidence.py
+      - name: Verify hash-transition reference is present
+        run: python -m json.tool records/custody-hash-transition-reference-001.json >/dev/null
       - name: Emit exact-head execution receipt
         run: |
           mkdir -p reports/current
@@ -62,6 +66,7 @@ jobs:
             reports/current/typed-evidence-execution.json
             records/curiosity-witness-runtime-evidence-chain.json
             records/custody-chain-evidence-semantics-reopening-001.json
+            records/custody-hash-transition-reference-001.json
             docs/CURIOSITY_WITNESS_RUNTIME_INTAKE_MIRROR_HANDOFF.md
           if-no-files-found: error
           retention-days: 90
