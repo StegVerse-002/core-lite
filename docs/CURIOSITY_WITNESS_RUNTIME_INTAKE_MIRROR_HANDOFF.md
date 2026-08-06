@@ -148,3 +148,64 @@ session consolidation: 6/6
 ## Archive condition
 
 This scoped runtime-intake workstream is archive-safe. The source, anchor, runtime receipt, downstream admission, custody acknowledgement, and final GCAT import are all durably recorded. No unique chat-only state remains.
+
+## Typed custody evidence reopening transition — 2026-08-06
+
+The preceding runtime-intake completion remains historical evidence and is not overwritten. This transition is a separate evidence-semantics integration lane and does not modify the runtime-intake files owned by pull request 6.
+
+```text
+transition_id: SV002-CUSTODY-EVIDENCE-SEMANTICS-REOPEN-001
+reopening_trigger: independent reconciliation could not distinguish runtime digest semantics or artifact availability from the flat evidence chain
+prior_claim_state: RELEASED / COMPLETE for runtime intake
+new_claim_state: CLAIMED_FOR_INTEGRATION for evidence semantics
+repository: StegVerse-002/core-lite
+branch: fix/custody-chain-evidence-semantics
+pull_request: 7
+canonical_dependency: master-records/core-lite#27
+collision_boundary: pull request 6 retains runtime-intake custody ownership
+active_implementation_claim: typed evidence record and validator installed
+active_validation_claim: exact-head hosted workflow pending
+claim_release_condition: PR-head workflow success, job and log inspection, artifact inspection, repository-resident mirror resolution, merge, and exact-main workflow success
+```
+
+Installed evidence-semantics surfaces:
+
+```text
+records/custody-chain-evidence-semantics-reopening-001.json
+records/curiosity-witness-runtime-evidence-chain.json
+tests/test_curiosity_witness_typed_evidence.py
+.github/workflows/curiosity-transition-witness.yml
+docs/CURIOSITY_WITNESS_RUNTIME_INTAKE_MIRROR_HANDOFF.md
+```
+
+The typed record classifies:
+
+```text
+runtime merge: git_object_id / commit
+runtime candidate: canonical_object_digest
+runtime receipt: file_digest
+runtime replay root: canonical_object_digest
+hosted artifact: external_artifact
+```
+
+The external artifact is explicitly expiry-aware. Required evidence that becomes unavailable resolves to `FAIL_CLOSED`; missing evidence is never treated as success. The repository-resident mirror remains a release condition because the hosted artifact has a finite retention window.
+
+Machine-owned validation:
+
+```text
+owner: .github/workflows/curiosity-transition-witness.yml
+trigger: pull request, push to main on owned paths, or workflow dispatch
+inputs: original witness, typed evidence record, reopening record, both test modules, this handoff
+outputs: deterministic test results, exact-head execution receipt, typed-evidence artifact
+failure behavior: fail closed
+next executable task: inspect the exact PR-head workflow run, jobs, logs, and artifact
+```
+
+```text
+MERGED INTO: master-records/core-lite#27
+integration lane: StegVerse-002/core-lite#7
+runtime implementation owner: StegVerse-002/core-lite#6
+archive_state_for_reopening: BLOCKED_PENDING_HOSTED_VALIDATION_MIRROR_AND_MERGE
+```
+
+This transition grants no runtime activation, execution authority, repository binding, quorum, policy publication, public publication, occurrence claim, or phenomenal-status claim.
