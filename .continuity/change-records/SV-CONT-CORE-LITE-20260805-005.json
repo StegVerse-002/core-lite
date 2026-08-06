@@ -1,0 +1,47 @@
+{
+  "actor": {
+    "class": "chatgpt",
+    "instance": "GPT-5.6 Thinking",
+    "session_ref": "curiosity-motive-governance-staged-adoption-2026-08-05"
+  },
+  "base_commit": "fa1755f4cf21e10b4f413ae8fd3c459a795d5f59",
+  "change_id": "SV-CONT-CORE-LITE-20260805-005",
+  "changed_paths": [
+    {
+      "change_type": "modified",
+      "hash": "46323873c5801ea4ffceb7dc45db39bcccdd267c",
+      "hash_algorithm": "git-blob-sha1",
+      "path": ".continuity/config.json"
+    },
+    {
+      "change_type": "deleted",
+      "hash": "52ed603d7f099ec47dfcd54f0bcdfc578da2c062",
+      "hash_algorithm": "git-blob-sha1",
+      "path": "tools/verify_curiosity_motive_governance.py"
+    }
+  ],
+  "claims": [
+    {
+      "claim": "The duplicate local adapter was removed because tools/validate_curiosity_transition_witness.py is the canonical installed runtime-intake verifier.",
+      "state": "CONSOLIDATED"
+    },
+    {
+      "claim": "The existing validator preserves event, motivational, normative, and observer separation while remaining candidate-only and fail-closed.",
+      "state": "PRESERVED_BOUNDARY"
+    }
+  ],
+  "created_at": "2026-08-06T00:42:00Z",
+  "governing_handoff": {
+    "hash": "9f7c9e1ec645a3f353eb1f69565367f80e13a4de",
+    "hash_algorithm": "git-blob-sha1",
+    "path": "docs/CORE_LITE_MIRROR_HANDOFF.md"
+  },
+  "repository": "StegVerse-002/core-lite",
+  "schema": "stegverse.session.change_record.v1",
+  "unresolved_tasks": [
+    "verify hosted workflow results for the canonical curiosity transition witness implementation",
+    "return the bounded runtime-intake receipt to StegCore issue 48 and master-record issue 15",
+    "keep execution, review, quorum, and GCAT-BCAT admission as separate governed transitions"
+  ],
+  "record_hash": "77db36f3ae2761fe1f35c6bf10af7c357d4c70b845dab99027d7dd7920b994c5"
+}
