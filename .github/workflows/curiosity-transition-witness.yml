@@ -5,8 +5,11 @@ on:
     paths:
       - "tools/validate_curiosity_transition_witness.py"
       - "tests/test_curiosity_transition_witness.py"
+      - "tests/test_curiosity_transition_witness_runtime_receipt.py"
       - "schemas/curiosity_transition_witness.schema.json"
       - "examples/curiosity-governance/unauthorized-curiosity-witness.json"
+      - "contracts/curiosity-motive-governance-adoption.json"
+      - "receipts/installed/curiosity_transition_witness_runtime_receipt_001.json"
       - "docs/CURIOSITY_WITNESS_RUNTIME_INTAKE_MIRROR_HANDOFF.md"
       - ".continuity/**"
       - ".handoff/current.json"
@@ -15,8 +18,11 @@ on:
     paths:
       - "tools/validate_curiosity_transition_witness.py"
       - "tests/test_curiosity_transition_witness.py"
+      - "tests/test_curiosity_transition_witness_runtime_receipt.py"
       - "schemas/curiosity_transition_witness.schema.json"
       - "examples/curiosity-governance/unauthorized-curiosity-witness.json"
+      - "contracts/curiosity-motive-governance-adoption.json"
+      - "receipts/installed/curiosity_transition_witness_runtime_receipt_001.json"
       - "docs/CURIOSITY_WITNESS_RUNTIME_INTAKE_MIRROR_HANDOFF.md"
       - ".continuity/**"
       - ".handoff/current.json"
@@ -36,8 +42,10 @@ jobs:
           python-version: "3.11"
       - name: Verify bounded witness intake
         run: python tools/validate_curiosity_transition_witness.py
-      - name: Run focused tests
+      - name: Run focused witness tests
         run: python -m unittest tests/test_curiosity_transition_witness.py
+      - name: Verify durable installation receipt
+        run: python -m unittest tests/test_curiosity_transition_witness_runtime_receipt.py
       - name: Upload candidate report and receipt
         uses: actions/upload-artifact@v4
         with:

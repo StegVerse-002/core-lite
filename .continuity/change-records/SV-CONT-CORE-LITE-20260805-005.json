@@ -1,0 +1,89 @@
+{
+  "actor": {
+    "class": "chatgpt",
+    "instance": "GPT-5.6 Thinking",
+    "session_ref": "curiosity-motive-runtime-finalization-2026-08-05"
+  },
+  "base_commit": "48500639bb29bd7c86437df9086a773df1e46543",
+  "change_id": "SV-CONT-CORE-LITE-20260805-005",
+  "changed_paths": [
+    {
+      "change_type": "modified",
+      "hash": "46323873c5801ea4ffceb7dc45db39bcccdd267c",
+      "hash_algorithm": "git-blob-sha1",
+      "path": ".continuity/config.json"
+    },
+    {
+      "change_type": "modified",
+      "hash": "bfacb2da67fd997b36d13ab028abb410ac2f2006",
+      "hash_algorithm": "git-blob-sha1",
+      "path": ".github/workflows/curiosity-transition-witness.yml"
+    },
+    {
+      "change_type": "modified",
+      "hash": "258574872b18f20f53f40b60e6ff2e8f783029ea",
+      "hash_algorithm": "git-blob-sha1",
+      "path": ".handoff/current.json"
+    },
+    {
+      "change_type": "modified",
+      "hash": "233e5cd6ba231f1a72b45cae4361c2baf5d7223c",
+      "hash_algorithm": "git-blob-sha1",
+      "path": "contracts/curiosity-motive-governance-adoption.json"
+    },
+    {
+      "change_type": "modified",
+      "hash": "74bdb248ea58a1ef6f1b6c8aa7ace403d6c591af",
+      "hash_algorithm": "git-blob-sha1",
+      "path": "docs/CURIOSITY_WITNESS_RUNTIME_INTAKE_MIRROR_HANDOFF.md"
+    },
+    {
+      "change_type": "added",
+      "hash": "7596409e829f822f9531f3683c57d519f7c4b9d3",
+      "hash_algorithm": "git-blob-sha1",
+      "path": "receipts/installed/curiosity_transition_witness_runtime_receipt_001.json"
+    },
+    {
+      "change_type": "added",
+      "hash": "e1f4933177b0f987e92ff727b839fc4e2606c4c5",
+      "hash_algorithm": "git-blob-sha1",
+      "path": "tests/test_curiosity_transition_witness_runtime_receipt.py"
+    }
+  ],
+  "claims": [
+    {
+      "claim": "The anchored curiosity witness runtime intake is merged on the default branch and its exact destination commit is recorded.",
+      "state": "VERIFIED"
+    },
+    {
+      "claim": "Hosted validation, artifact, replay, candidate, conversion-point, and intake receipt evidence are durably recorded.",
+      "state": "VERIFIED"
+    },
+    {
+      "claim": "The adoption contract is advanced from source binding to a merged, validated, and receipted local verifier state.",
+      "state": "IMPLEMENTED"
+    },
+    {
+      "claim": "Functional motive, normative authority, observer narrative, and phenomenal status remain separated; the intake activates no action.",
+      "state": "PRESERVED_BOUNDARY"
+    },
+    {
+      "claim": "GCAT/BCAT policy admission remains a separate uncompleted transition.",
+      "state": "PENDING"
+    }
+  ],
+  "created_at": "2026-08-06T00:40:00Z",
+  "governing_handoff": {
+    "hash": "9f7c9e1ec645a3f353eb1f69565367f80e13a4de",
+    "hash_algorithm": "git-blob-sha1",
+    "path": "docs/CORE_LITE_MIRROR_HANDOFF.md"
+  },
+  "record_hash": "aaaf9e060ab9471021e5b5013e88e09fbece02a062b37fe718fc81f8d2e04e1b",
+  "repository": "StegVerse-002/core-lite",
+  "schema": "stegverse.session.change_record.v1",
+  "unresolved_tasks": [
+    "discover and inspect the authoritative GCAT/BCAT destination repository and governing handoff",
+    "install target-native policy admission as a separately authorized transition",
+    "obtain hosted validation, exact merge commit, and destination receipt for GCAT/BCAT admission"
+  ]
+}
