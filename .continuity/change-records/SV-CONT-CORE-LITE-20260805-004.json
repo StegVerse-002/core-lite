@@ -1,0 +1,98 @@
+{
+  "actor": {
+    "class": "chatgpt",
+    "instance": "GPT-5.6 Thinking",
+    "session_ref": "curiosity-witness-runtime-intake-2026-08-05"
+  },
+  "base_commit": "17a982bea2f178c49144c3f1888d443c830ac4f3",
+  "change_id": "SV-CONT-CORE-LITE-20260805-004",
+  "changed_paths": [
+    {
+      "change_type": "modified",
+      "hash": "96446ea63579086028dcd81eec7f3ff7aa56e664",
+      "hash_algorithm": "git-blob-sha1",
+      "path": ".continuity/config.json"
+    },
+    {
+      "change_type": "modified",
+      "hash": "14f7b68a8143c44d38d63a2ce9bc7b3a68261b0b",
+      "hash_algorithm": "git-blob-sha1",
+      "path": ".continuity/cross-repository-references.json"
+    },
+    {
+      "change_type": "added",
+      "hash": "d4815b2780cc29049668df9db0f434092eb599c0",
+      "hash_algorithm": "git-blob-sha1",
+      "path": ".github/workflows/curiosity-transition-witness.yml"
+    },
+    {
+      "change_type": "modified",
+      "hash": "739c3e3c3ac178757923edd247cc919d52097f20",
+      "hash_algorithm": "git-blob-sha1",
+      "path": ".handoff/current.json"
+    },
+    {
+      "change_type": "added",
+      "hash": "9c08e991ee370a644ffc137e6c4d166f7a41b988",
+      "hash_algorithm": "git-blob-sha1",
+      "path": "docs/CURIOSITY_WITNESS_RUNTIME_INTAKE_MIRROR_HANDOFF.md"
+    },
+    {
+      "change_type": "added",
+      "hash": "e8dfcef5608455e5757bf0d0c392785566ba2780",
+      "hash_algorithm": "git-blob-sha1",
+      "path": "examples/curiosity-governance/unauthorized-curiosity-witness.json"
+    },
+    {
+      "change_type": "added",
+      "hash": "207b840d7a5aca5fdd73c1e0065840e68d0e6452",
+      "hash_algorithm": "git-blob-sha1",
+      "path": "schemas/curiosity_transition_witness.schema.json"
+    },
+    {
+      "change_type": "added",
+      "hash": "4e35876be8e86333c9510eddcd856edcf9c0658f",
+      "hash_algorithm": "git-blob-sha1",
+      "path": "tests/test_curiosity_transition_witness.py"
+    },
+    {
+      "change_type": "added",
+      "hash": "b51d6c3b6b6b6688a9de2f4799b343842b681aa3",
+      "hash_algorithm": "git-blob-sha1",
+      "path": "tools/validate_curiosity_transition_witness.py"
+    }
+  ],
+  "claims": [
+    {
+      "claim": "the exact merged StegCore curiosity/motive governance contract and bounded master-record anchor are pinned as verified cross-repository references",
+      "state": "VALIDATED"
+    },
+    {
+      "claim": "hash-linked witness replay reconstructs the earliest motive-to-execution conversion point and detects tampering",
+      "state": "VALIDATED"
+    },
+    {
+      "claim": "event, motivational, normative, and observer findings remain independent in the emitted evaluation candidate",
+      "state": "VALIDATED"
+    },
+    {
+      "claim": "runtime intake emits evidence and receipts but grants no execution, review, quorum, repository-binding, publication, or phenomenal authority",
+      "state": "PRESERVED_BOUNDARY"
+    }
+  ],
+  "created_at": "2026-08-06T00:03:00Z",
+  "governing_handoff": {
+    "hash": "9f7c9e1ec645a3f353eb1f69565367f80e13a4de",
+    "hash_algorithm": "git-blob-sha1",
+    "path": "docs/CORE_LITE_MIRROR_HANDOFF.md"
+  },
+  "record_hash": "f7e23ff42cf5023cf02eb7198e5c02a0e989b32249449d0d706477f032ae3ed6",
+  "repository": "StegVerse-002/core-lite",
+  "schema": "stegverse.session.change_record.v1",
+  "unresolved_tasks": [
+    "obtain hosted focused and continuity validation for the exact branch commit",
+    "merge through the repository-authorized path and record the exact merge commit and workflow receipts in issue 2",
+    "return the bounded runtime-intake receipt to StegCore issue 48 and master-record issue 15",
+    "keep action execution, management review, quorum, and GCAT-BCAT admission as separate governed transitions"
+  ]
+}
