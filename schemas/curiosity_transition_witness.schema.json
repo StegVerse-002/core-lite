@@ -1,0 +1,106 @@
+{
+  "$id": "https://stegverse.org/schemas/curiosity_transition_witness.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "authority_context": {
+      "required": [
+        "status"
+      ],
+      "type": "object"
+    },
+    "events": {
+      "items": {
+        "properties": {
+          "event_hash": {
+            "pattern": "^[0-9a-f]{64}$",
+            "type": "string"
+          },
+          "event_type": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "evidence_refs": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "previous_event_hash": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "sequence": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "state": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "sequence",
+          "event_type",
+          "state",
+          "evidence_refs",
+          "previous_event_hash",
+          "event_hash"
+        ],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "observer": {
+      "required": [
+        "observer_id",
+        "description",
+        "evidence_refs"
+      ],
+      "type": "object"
+    },
+    "schema": {
+      "const": "stegverse.curiosity_transition_witness.v1"
+    },
+    "upstream_anchor": {
+      "additionalProperties": false,
+      "properties": {
+        "master_records_commit": {
+          "const": "facd5508d540f1afddf3a8dc6502084460407b0d"
+        },
+        "record_hash": {
+          "const": "76a865b3efe8eb7496bdd36a78e5b8d3024ddcda4a009462784ed81308db97af"
+        },
+        "record_id": {
+          "const": "MR-STEGCORE-CURIOSITY-MOTIVE-GOV-42231A3-001"
+        },
+        "stegcore_merge_commit": {
+          "const": "42231a3862c2fe9b5898e6f75d72cff0b44e7396"
+        }
+      },
+      "required": [
+        "record_id",
+        "record_hash",
+        "master_records_commit",
+        "stegcore_merge_commit"
+      ],
+      "type": "object"
+    },
+    "witness_id": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema",
+    "witness_id",
+    "upstream_anchor",
+    "events",
+    "authority_context",
+    "observer"
+  ],
+  "title": "StegVerse Curiosity Transition Witness",
+  "type": "object"
+}

@@ -1,5 +1,5 @@
 {
-  "record_hash": "a67b84dbac153fb30d26e1c360d66a1e94518f768bc1b68eca55876b28849a33",
+  "record_hash": "5da3937ab1648700619097a03cdde459889585c20c9a842a30c07c242030a0e4",
   "references": [
     {
       "content_hash": "d415493046170bcbf1242bf2701629ff7adc0337",
@@ -13,6 +13,39 @@
       "verification_evidence": [
         "workflow_run:30959696236",
         "commit:a79134d666cd784a10d28fa62dd43e170fd62c77"
+      ],
+      "verification_status": "VERIFIED"
+    },
+    {
+      "content_hash": "0a333344492880044680de6a9325ba16112bbacd",
+      "hash_algorithm": "git-blob-sha1",
+      "path": "src/stegcore/motive_governance.py",
+      "reference_id": "stegcore-curiosity-motive-contract",
+      "relationship": "canonical_governance_contract",
+      "repository": "StegVerse-Labs/StegCore",
+      "required": true,
+      "source_commit": "42231a3862c2fe9b5898e6f75d72cff0b44e7396",
+      "verification_evidence": [
+        "pull_request:49",
+        "workflow_run:31057032397",
+        "workflow_run:31057032433"
+      ],
+      "verification_status": "VERIFIED"
+    },
+    {
+      "content_hash": "1737afb2bd96ee42529986c56cadbd2fee4dbcfc",
+      "hash_algorithm": "git-blob-sha1",
+      "path": "records/stegcore_curiosity_motive_governance_42231a3.json",
+      "reference_id": "master-record-stegcore-curiosity-motive-anchor",
+      "relationship": "bounded_custody_anchor",
+      "repository": "master-records/core-lite",
+      "required": true,
+      "source_commit": "facd5508d540f1afddf3a8dc6502084460407b0d",
+      "verification_evidence": [
+        "record_id:MR-STEGCORE-CURIOSITY-MOTIVE-GOV-42231A3-001",
+        "record_hash:76a865b3efe8eb7496bdd36a78e5b8d3024ddcda4a009462784ed81308db97af",
+        "workflow_run:31057800942",
+        "workflow_run:31057801247"
       ],
       "verification_status": "VERIFIED"
     }
