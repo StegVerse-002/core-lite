@@ -4,7 +4,7 @@
     "instance": "GPT-5.6 Thinking",
     "session_ref": "curiosity-witness-runtime-intake-2026-08-05"
   },
-  "base_commit": "17a982bea2f178c49144c3f1888d443c830ac4f3",
+  "base_commit": "9421aac52d21b0d11dfd5b0803c1a7569b486ce3",
   "change_id": "SV-CONT-CORE-LITE-20260805-004",
   "changed_paths": [
     {
@@ -27,7 +27,7 @@
     },
     {
       "change_type": "modified",
-      "hash": "739c3e3c3ac178757923edd247cc919d52097f20",
+      "hash": "9dae77ca43c73365fec8ceb71b93adac60a9ee3f",
       "hash_algorithm": "git-blob-sha1",
       "path": ".handoff/current.json"
     },
@@ -86,7 +86,7 @@
     "hash_algorithm": "git-blob-sha1",
     "path": "docs/CORE_LITE_MIRROR_HANDOFF.md"
   },
-  "record_hash": "f7e23ff42cf5023cf02eb7198e5c02a0e989b32249449d0d706477f032ae3ed6",
+  "record_hash": "5309dd201fec06608ad460850b341cef41831ddc9e19a9e3aaa0c9d6a1b89ff6",
   "repository": "StegVerse-002/core-lite",
   "schema": "stegverse.session.change_record.v1",
   "unresolved_tasks": [
