@@ -1,0 +1,52 @@
+{
+  "actor": {
+    "class": "chatgpt",
+    "instance": "GPT-5.6 Thinking",
+    "session_ref": "curiosity-motive-governance-adoption-2026-08-05"
+  },
+  "base_commit": "17a982bea2f178c49144c3f1888d443c830ac4f3",
+  "change_id": "SV-CONT-CORE-LITE-20260805-001",
+  "changed_paths": [
+    {
+      "change_type": "modified",
+      "hash": "043e6ddaf88a5ce316874ad93e41a8d57f5eb8d4",
+      "hash_algorithm": "git-blob-sha1",
+      "path": ".continuity/config.json"
+    },
+    {
+      "change_type": "added",
+      "hash": "1e9470ea46aa284a692a8be87a2d5a91eff4a61d",
+      "hash_algorithm": "git-blob-sha1",
+      "path": "contracts/curiosity-motive-governance-adoption.json"
+    }
+  ],
+  "claims": [
+    {
+      "claim": "StegVerse-002/core-lite is pinned to the exact StegCore curiosity motive governance source commit and canonical module/test blobs.",
+      "state": "INSTALLED"
+    },
+    {
+      "claim": "The matching Master Records anchor and destination receipt are pinned without granting runtime or execution authority.",
+      "state": "INSTALLED"
+    },
+    {
+      "claim": "Event, motivational, normative, and observer findings remain separate adoption requirements.",
+      "state": "PRESERVED_BOUNDARY"
+    }
+  ],
+  "created_at": "2026-08-06T00:13:42Z",
+  "governing_handoff": {
+    "hash": "9f7c9e1ec645a3f353eb1f69565367f80e13a4de",
+    "hash_algorithm": "git-blob-sha1",
+    "path": "docs/CORE_LITE_MIRROR_HANDOFF.md"
+  },
+  "record_hash": "b5f4048ddfd6904dfd148148efb704bd8bbbde9039a68dcf553e570569e30ba4",
+  "repository": "StegVerse-002/core-lite",
+  "schema": "stegverse.session.change_record.v1",
+  "unresolved_tasks": [
+    "install a local replay-witness verifier adapter",
+    "add deterministic fixtures and tests",
+    "wire a declared task and hosted validation workflow",
+    "mint a separate runtime activation receipt only after validation"
+  ]
+}
