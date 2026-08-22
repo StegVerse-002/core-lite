@@ -7,15 +7,36 @@ on:
         description: "Type BOOTSTRAP to confirm identity declaration"
         required: true
         default: ""
+  push:
+    branches: [main]
+    paths:
+      - "VERSION.json"
+      - "tools/check_ecosystem_component_version.py"
+      - "docs/CORE_LITE_MIRROR_HANDOFF.md"
+      - ".github/workflows/bootstrap-core-lite.yml"
 
 permissions:
   contents: write
   actions: read
 
 jobs:
+  version-contract:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate ecosystem component version contract
+        run: python tools/check_ecosystem_component_version.py
+
   bootstrap:
     runs-on: ubuntu-latest
-    if: github.event.inputs.confirm == 'BOOTSTRAP'
+    if: github.event_name == 'workflow_dispatch' && github.event.inputs.confirm == 'BOOTSTRAP'
 
     steps:
       - name: Checkout
