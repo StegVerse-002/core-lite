@@ -7,6 +7,12 @@ on:
         description: "Type BOOTSTRAP to confirm identity declaration"
         required: true
         default: ""
+  pull_request:
+    paths:
+      - "VERSION.json"
+      - "tools/check_ecosystem_component_version.py"
+      - "docs/CORE_LITE_MIRROR_HANDOFF.md"
+      - ".github/workflows/bootstrap-core-lite.yml"
   push:
     branches: [main]
     paths:
