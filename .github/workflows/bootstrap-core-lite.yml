@@ -1,3 +1,4 @@
+# Proof-branch note: this file change exists only to execute the existing non-mutating version-contract job; authority effect NONE.
 name: bootstrap-core-lite
 
 on:
