@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0.0",
+  "component_id": "STEGVERSE-002-CORE-LITE",
+  "repository": "StegVerse-002/core-lite",
+  "component_version": "0.1.27",
+  "version_stage": "DEVELOPMENT",
+  "release": {
+    "tag": null,
+    "commit": null,
+    "release_evidence": []
+  },
+  "workstream_identity": {
+    "role": "SV002_INGESTION_THROUGH_EXECUTION_AND_REVIEWER_AUTHORITY_INTAKE",
+    "current_structural_result": "REVIEWER_AUTHORITY_SUBMISSION_PENDING",
+    "handoff_capable_through": "v0.1.27",
+    "next_required_capability": "REVIEWER_AUTHORITY_EVIDENCE_RECONSTRUCTION"
+  },
+  "runtime": {
+    "state": "PENDING",
+    "evidence": [
+      "docs/CORE_LITE_MIRROR_HANDOFF.md"
+    ],
+    "next_required_state": "PINNED_CONTINUITY_PROVENANCE_ALLOW_THEN_REVIEWER_AUTHORITY_RECONSTRUCTION"
+  },
+  "activation": {
+    "state": "PENDING",
+    "evidence": [
+      "docs/CORE_LITE_MIRROR_HANDOFF.md"
+    ],
+    "current_projection": "STRUCTURAL_ACCEPTANCE_DOES_NOT_GRANT_REVIEW_QUORUM_EXECUTION_OR_REPOSITORY_BINDING_AUTHORITY"
+  },
+  "source_of_truth": "docs/CORE_LITE_MIRROR_HANDOFF.md",
+  "version_contract": "StegVerse-Labs/Site:docs/ECOSYSTEM_COMPONENT_VERSION_CONTRACT.md",
+  "authority_effect": "NONE"
+}
