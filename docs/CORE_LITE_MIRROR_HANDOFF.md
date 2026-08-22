@@ -31,15 +31,51 @@ quorum, execution, or repository-binding authority.
 .github/workflows/continuity-provenance.yml
 .github/workflows/bootstrap-core-lite.yml
 .github/workflows/core-lite-intake.yml
+VERSION.json
 docs/CORE_LITE_MIRROR_HANDOFF.md
 docs/STEGGUARDIAN_AUTOMATION_HANDOFF.md
 schemas/management_reviewer_authority_submission.schema.json
 incoming/management_reviewer_authority/README.md
+tools/check_ecosystem_component_version.py
 tools/validate_management_reviewer_authority_submission.py
 tools/tasks/sv002.management_reviewer_authority.validate.json
 reports/current/management_reviewer_authority_submission_report.json
 receipts/current/management_reviewer_authority_submission_receipt.jsonl
 ```
+
+## Ecosystem component version contract
+
+Normalized component identity is now installed under the shared StegVerse
+component-version contract without changing repository authority:
+
+```text
+component_id: STEGVERSE-002-CORE-LITE
+component_version: 0.1.27
+version_stage: DEVELOPMENT
+release: NOT_CLAIMED
+runtime: PENDING
+activation: PENDING
+authority_effect: NONE
+```
+
+Evidence and enforcement:
+
+```text
+VERSION.json                                      commit 95697020e9637837223dd7e45426ba535ee1017f
+tools/check_ecosystem_component_version.py        commit 2fa3901e3c02939464d1639056d5b2aa7b18a938
+.github/workflows/bootstrap-core-lite.yml          commit d44ab534ba3a01f6e6e06ded781c0758341b5596
+```
+
+The existing `bootstrap-core-lite` workflow now contains a separate
+non-mutating `version-contract` job for changes to the declaration, validator,
+this handoff, or the workflow. The bootstrap identity action remains
+manual-only. Workflow installation is not workflow execution evidence; hosted
+PASS must be observed separately before this repository is counted as having
+executed version-contract proof.
+
+The version declaration records the repository-native v0.1.27 handoff lineage.
+It does not create a release tag, runtime proof, review authority, quorum,
+execution authority, repository-binding authority, or activation.
 
 ## Current working path
 
@@ -110,6 +146,9 @@ commit-bound continuity config installed
 pinned continuity-provenance caller installed
 cross-repository validator reference pinned to commit and Git blob
 adoption change record installed
+normalized VERSION.json installed for repository-owned 0.1.27 DEVELOPMENT identity
+owner-local fail-closed version validator installed
+existing bootstrap workflow extended with non-mutating version-contract validation job
 ```
 
 Current structural result remains:
@@ -183,3 +222,7 @@ Run the pinned continuity-provenance gate. After it returns `ALLOW`, implement
 the reviewer-authority evidence reconstruction verifier through a new change
 record. Do not rerun management-action review automatically from structural
 acceptance.
+
+For the ecosystem-versioning lane, separately observe the installed
+`version-contract` job on the exact default-branch source before claiming
+executed validator evidence.
