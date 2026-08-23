@@ -17,10 +17,10 @@
     {"change_type":"added","hash":"577a9900a23e70c111ba614c99393988affab48f","hash_algorithm":"git-blob-sha1","path":"docs/CURIOSITY_WITNESS_RUNTIME_HASH_TRANSITION_ADDENDUM.md"},
     {"change_type":"modified","hash":"55b4edca75efa6c8a1f2845c21ace722644f3070","hash_algorithm":"git-blob-sha1","path":"docs/CURIOSITY_WITNESS_RUNTIME_INTAKE_MIRROR_HANDOFF.md"},
     {"change_type":"added","hash":"6bd15c4fcc157db477cf370e8bc2a433a3d744e9","hash_algorithm":"git-blob-sha1","path":"evidence/artifact-mirrors/8951702116.json"},
-    {"change_type":"added","hash":"af152b18ffa1e9be5a384523caf5e12405c0bf00","hash_algorithm":"git-blob-sha1","path":"records/curiosity-witness-runtime-evidence-chain.json"},
+    {"change_type":"added","hash":"a349bd54b651aa634c289b38a48fe456524ad776","hash_algorithm":"git-blob-sha1","path":"records/curiosity-witness-runtime-evidence-chain.json"},
     {"change_type":"added","hash":"bae19a06364d1d35333b7f76e81d66de67b6cc03","hash_algorithm":"git-blob-sha1","path":"records/custody-chain-evidence-semantics-reopening-001.json"},
     {"change_type":"added","hash":"08de6e2d523101fe87c80b9c88aca14a1111b8cc","hash_algorithm":"git-blob-sha1","path":"records/custody-hash-transition-reference-001.json"},
-    {"change_type":"added","hash":"bb9a148ca6b5b13df70e27c3b38e1151394a6f5b","hash_algorithm":"git-blob-sha1","path":"tests/test_curiosity_witness_typed_evidence.py"},
+    {"change_type":"added","hash":"1dcad54e12fa75556c7e10222a05786064d8e79c","hash_algorithm":"git-blob-sha1","path":"tests/test_curiosity_witness_typed_evidence.py"},
     {"change_type":"added","hash":"71589e6a2a2ee9cd0b8083ba680bf7bb9d54ce2e","hash_algorithm":"git-blob-sha1","path":"tools/check_ecosystem_component_version.py"},
     {"change_type":"deleted","hash":"52ed603d7f099ec47dfcd54f0bcdfc578da2c062","hash_algorithm":"git-blob-sha1","path":"tools/verify_curiosity_motive_governance.py"}
   ],
@@ -35,7 +35,7 @@
     "hash_algorithm": "git-blob-sha1",
     "path": "docs/CORE_LITE_MIRROR_HANDOFF.md"
   },
-  "record_hash": "5fa4d02cfedcbd5db2579461624fd1f9eb80a678b4d70f4c935e45c0da2beb3d",
+  "record_hash": "9a7056323b85a886185b5c0681a90649d1f9f7c29061e5cbd83d9194fc9ce2b5",
   "repository": "StegVerse-002/core-lite",
   "schema": "stegverse.session.change_record.v1",
   "unresolved_tasks": [
