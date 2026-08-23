@@ -1,0 +1,46 @@
+{
+  "actor": {
+    "class": "agent",
+    "instance": "stegverse-continuity-reconciliation",
+    "session_ref": "sv002-governance-reconciliation-2026-08-22"
+  },
+  "base_commit": "fa1755f4cf21e10b4f413ae8fd3c459a795d5f59",
+  "change_id": "SV-CONT-CORE-LITE-20260822-006",
+  "changed_paths": [
+    {"change_type":"added","hash":"03c7d573f0d6ed654f79b7dc53d73e290ca8478b","hash_algorithm":"git-blob-sha1","path":".continuity/change-records/SV-CONT-CORE-LITE-20260805-005.json"},
+    {"change_type":"modified","hash":"8c5f5c6c4699fb2b82b6351d163299d8db3d6ad7","hash_algorithm":"git-blob-sha1","path":".continuity/config.json"},
+    {"change_type":"modified","hash":"7473681908d6d7dc2956c8923a43fe8376cd1f65","hash_algorithm":"git-blob-sha1","path":".github/workflows/bootstrap-core-lite.yml"},
+    {"change_type":"modified","hash":"f588565007b437e3eb6484190f6e1f3e45634d26","hash_algorithm":"git-blob-sha1","path":".github/workflows/curiosity-transition-witness.yml"},
+    {"change_type":"modified","hash":"f21f648bcdff777a63a2003afa955f3b455dca36","hash_algorithm":"git-blob-sha1","path":".handoff/current.json"},
+    {"change_type":"added","hash":"8e9fbcaf794879eab839bd7c4e20ad3a5a69bc52","hash_algorithm":"git-blob-sha1","path":"VERSION.json"},
+    {"change_type":"modified","hash":"ec6b02f3dbd3307eac2df40cf0129d1c692a6db3","hash_algorithm":"git-blob-sha1","path":"docs/CORE_LITE_MIRROR_HANDOFF.md"},
+    {"change_type":"added","hash":"577a9900a23e70c111ba614c99393988affab48f","hash_algorithm":"git-blob-sha1","path":"docs/CURIOSITY_WITNESS_RUNTIME_HASH_TRANSITION_ADDENDUM.md"},
+    {"change_type":"modified","hash":"55b4edca75efa6c8a1f2845c21ace722644f3070","hash_algorithm":"git-blob-sha1","path":"docs/CURIOSITY_WITNESS_RUNTIME_INTAKE_MIRROR_HANDOFF.md"},
+    {"change_type":"added","hash":"6bd15c4fcc157db477cf370e8bc2a433a3d744e9","hash_algorithm":"git-blob-sha1","path":"evidence/artifact-mirrors/8951702116.json"},
+    {"change_type":"added","hash":"af152b18ffa1e9be5a384523caf5e12405c0bf00","hash_algorithm":"git-blob-sha1","path":"records/curiosity-witness-runtime-evidence-chain.json"},
+    {"change_type":"added","hash":"bae19a06364d1d35333b7f76e81d66de67b6cc03","hash_algorithm":"git-blob-sha1","path":"records/custody-chain-evidence-semantics-reopening-001.json"},
+    {"change_type":"added","hash":"08de6e2d523101fe87c80b9c88aca14a1111b8cc","hash_algorithm":"git-blob-sha1","path":"records/custody-hash-transition-reference-001.json"},
+    {"change_type":"added","hash":"bb9a148ca6b5b13df70e27c3b38e1151394a6f5b","hash_algorithm":"git-blob-sha1","path":"tests/test_curiosity_witness_typed_evidence.py"},
+    {"change_type":"added","hash":"71589e6a2a2ee9cd0b8083ba680bf7bb9d54ce2e","hash_algorithm":"git-blob-sha1","path":"tools/check_ecosystem_component_version.py"},
+    {"change_type":"deleted","hash":"52ed603d7f099ec47dfcd54f0bcdfc578da2c062","hash_algorithm":"git-blob-sha1","path":"tools/verify_curiosity_motive_governance.py"}
+  ],
+  "claims": [
+    {"claim":"The current governing handoff declaration is rebound to the exact current CORE_LITE_MIRROR_HANDOFF git blob without changing its authority boundaries.","state":"RECONCILED"},
+    {"claim":"All repository changes since the retained Aug. 5 continuity base are explicitly declared in one reconstructable change set; no intermediate unrecorded changes are skipped.","state":"RECONSTRUCTED"},
+    {"claim":"The 0.1.27 version-contract proof remains non-authorizing and the manual bootstrap transition remains separate.","state":"PRESERVED_BOUNDARY"}
+  ],
+  "created_at": "2026-08-23T00:40:00Z",
+  "governing_handoff": {
+    "hash": "ec6b02f3dbd3307eac2df40cf0129d1c692a6db3",
+    "hash_algorithm": "git-blob-sha1",
+    "path": "docs/CORE_LITE_MIRROR_HANDOFF.md"
+  },
+  "record_hash": "5fa4d02cfedcbd5db2579461624fd1f9eb80a678b4d70f4c935e45c0da2beb3d",
+  "repository": "StegVerse-002/core-lite",
+  "schema": "stegverse.session.change_record.v1",
+  "unresolved_tasks": [
+    "obtain fresh Handoff Semantic Admission ALLOW on the repaired declaration",
+    "obtain fresh Continuity Provenance ALLOW for this complete change record",
+    "after governed proof is green, implement reviewer-authority evidence reconstruction as a separate admitted change"
+  ]
+}
