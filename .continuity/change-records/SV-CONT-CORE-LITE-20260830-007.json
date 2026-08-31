@@ -8,16 +8,17 @@
   "change_id": "SV-CONT-CORE-LITE-20260830-007",
   "changed_paths": [
     {"change_type":"modified","hash":"d095dee8e3275970480d0071b348f484672a826c","hash_algorithm":"git-blob-sha1","path":".continuity/config.json"},
-    {"change_type":"modified","hash":"b9ed75e8c4d77c4a1185be3d6934984346e4031a","hash_algorithm":"git-blob-sha1","path":".handoff/current.json"},
+    {"change_type":"modified","hash":"d15912dad7569e975ca29025562a03999276d6e3","hash_algorithm":"git-blob-sha1","path":".handoff/current.json"},
     {"change_type":"modified","hash":"a8a1e524de1229b8e49607003d6c4b1f8687e44c","hash_algorithm":"git-blob-sha1","path":"VERSION.json"},
     {"change_type":"modified","hash":"3856331eccbfc26371d619b9d37a1b15b4772965","hash_algorithm":"git-blob-sha1","path":"STATUS.md"},
-    {"change_type":"modified","hash":"2b8b55acae41caa1195c95740b1de2081e547b9e","hash_algorithm":"git-blob-sha1","path":"docs/CORE_LITE_MIRROR_HANDOFF.md"},
+    {"change_type":"modified","hash":"6b1104aca17e1980299e1bb4ff4f7cbdc6c00330","hash_algorithm":"git-blob-sha1","path":"docs/CORE_LITE_MIRROR_HANDOFF.md"},
     {"change_type":"added","hash":"dfc6dd4eaeb8abe49deb9940c20c345d2176ac1a","hash_algorithm":"git-blob-sha1","path":"tools/reconstruct_management_reviewer_authority.py"},
     {"change_type":"added","hash":"5ca5681d56d27a73753b40da92bf8fdb22b72e72","hash_algorithm":"git-blob-sha1","path":"tests/test_management_reviewer_authority_reconstruction.py"},
     {"change_type":"added","hash":"9e49aa462a7a6e25edf26bdcae898755942af4fb","hash_algorithm":"git-blob-sha1","path":"tools/tasks/sv002.management_reviewer_authority.reconstruct.json"},
     {"change_type":"added","hash":"b90813f8baf56df9459da02c17bb48bff7cbadd8","hash_algorithm":"git-blob-sha1","path":"schemas/management_reviewer_authority_evidence.schema.json"},
     {"change_type":"added","hash":"2c57a51ef3a9d3a277792811b52a2882076e4a5e","hash_algorithm":"git-blob-sha1","path":"scripts/run_sv002_experiment_readiness.py"},
-    {"change_type":"added","hash":"b1f2a2a23725dbd6b733cc04cff8fbb97208fe14","hash_algorithm":"git-blob-sha1","path":"tools/tasks/sv002.experiment.readiness.verify.json"}
+    {"change_type":"added","hash":"b1f2a2a23725dbd6b733cc04cff8fbb97208fe14","hash_algorithm":"git-blob-sha1","path":"tools/tasks/sv002.experiment.readiness.verify.json"},
+    {"change_type":"modified","hash":"72f428b0ba4dace4fc88da58177a9b863ecd35ca","hash_algorithm":"git-blob-sha1","path":"tools/check_ecosystem_component_version.py"}
   ],
   "claims": [
     {"claim":"Reviewer-authority evidence reconstruction is implemented as a bounded, hash-verifying, fail-closed source capability.","state":"IMPLEMENTED"},
@@ -27,11 +28,11 @@
   ],
   "created_at": "2026-08-31T02:35:00Z",
   "governing_handoff": {
-    "hash": "2b8b55acae41caa1195c95740b1de2081e547b9e",
+    "hash": "6b1104aca17e1980299e1bb4ff4f7cbdc6c00330",
     "hash_algorithm": "git-blob-sha1",
     "path": "docs/CORE_LITE_MIRROR_HANDOFF.md"
   },
-  "record_hash": "63baaf48b923c789780ee812a7e59d1574aa05ce4cdc74c4d4b8a28b85955339",
+  "record_hash": "085517f96547b300400b7b97e5cce701a6f7dcf43680b961fa1e2e4be29957c0",
   "repository": "StegVerse-002/core-lite",
   "schema": "stegverse.session.change_record.v1",
   "unresolved_tasks": [
