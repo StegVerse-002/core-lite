@@ -31,7 +31,7 @@
       "reports/current/sv002_experiment_readiness_report.json",
       "receipts/current/sv002_experiment_readiness_receipt.jsonl"
     ],
-    "current_projection": "SOURCE_READINESS_EXECUTED_DOES_NOT_GRANT_QUORUM_EXECUTION_REPOSITORY_BINDING_OR_RUNTIME_ACTIVATION"
+    "current_projection": "SOURCE_READINESS_EXECUTED_DO_NOT_GRANT_QUORUM_OR_EXECUTION_OR_REPOSITORY_BINDING_OR_RUNTIME_ACTIVATION"
   },
   "source_of_truth": "docs/CORE_LITE_MIRROR_HANDOFF.md",
   "version_contract": "StegVerse-Labs/Site:docs/ECOSYSTEM_COMPONENT_VERSION_CONTRACT.md",
