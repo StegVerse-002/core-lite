@@ -1,0 +1,64 @@
+{
+  "actor": {
+    "class": "chatgpt",
+    "instance": "gpt-5.6-sol",
+    "session_ref": "sv002-experiment-readiness-dispatch-repair-2026-08-30"
+  },
+  "base_commit": "2f4a3fb956c1c8af53a04acbea3632900fc5eb20",
+  "change_id": "SV-CONT-CORE-LITE-20260830-008",
+  "changed_paths": [
+    {
+      "change_type": "modified",
+      "hash": "e26274354d3549b2140499308092adde14c29fe4",
+      "hash_algorithm": "git-blob-sha1",
+      "path": ".github/workflows/core-lite-intake.yml"
+    },
+    {
+      "change_type": "modified",
+      "hash": "fcec5282fb8146a874ca7dd18c72ee666c784278",
+      "hash_algorithm": "git-blob-sha1",
+      "path": ".continuity/config.json"
+    },
+    {
+      "change_type": "modified",
+      "hash": "1ee1574cedde6b3d1cc83f39f7aeceb7f718da69",
+      "hash_algorithm": "git-blob-sha1",
+      "path": ".handoff/current.json"
+    },
+    {
+      "change_type": "modified",
+      "hash": "6e88a8fd4cba4e78543a37bb48f6869dfd4ff749",
+      "hash_algorithm": "git-blob-sha1",
+      "path": "docs/CORE_LITE_MIRROR_HANDOFF.md"
+    }
+  ],
+  "claims": [
+    {
+      "claim": "The stable dispatcher readiness route is syntactically complete and routes experiment-readiness source changes to the declared readiness task.",
+      "state": "REPAIRED"
+    },
+    {
+      "claim": "The prior merged readiness implementation remains intact; this change repairs only its execution route and durable handoff state.",
+      "state": "PRESERVED"
+    },
+    {
+      "claim": "Runtime, activation, release, quorum, execution authority, and public experiment occurrence remain unclaimed.",
+      "state": "PRESERVED_BOUNDARY"
+    }
+  ],
+  "created_at": "2026-08-31T02:40:00Z",
+  "governing_handoff": {
+    "hash": "6e88a8fd4cba4e78543a37bb48f6869dfd4ff749",
+    "hash_algorithm": "git-blob-sha1",
+    "path": "docs/CORE_LITE_MIRROR_HANDOFF.md"
+  },
+  "record_hash": "d76fe4dd4f0bf739a5cbff9fd6cbea7ba85d0a83e18c52439c59f3470dfdea4c",
+  "repository": "StegVerse-002/core-lite",
+  "schema": "stegverse.session.change_record.v1",
+  "unresolved_tasks": [
+    "obtain exact-head handoff authority, semantic admission, continuity provenance, version-contract, and workflow-parse validation",
+    "merge dispatcher repair",
+    "execute sv002.experiment.readiness.verify through the stable dispatcher on main and preserve evidence",
+    "obtain direct runtime and public-observation evidence before activation or experiment-occurrence claims"
+  ]
+}
