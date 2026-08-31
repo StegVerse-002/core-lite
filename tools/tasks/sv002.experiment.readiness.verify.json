@@ -1,0 +1,28 @@
+{
+  "task_id": "sv002.experiment.readiness.verify",
+  "stage": "SV002-M12",
+  "allowed_stages": ["SV002-M12", "SV002-M13"],
+  "description": "Run the source-level StegVerse-002 public-experiment readiness checks as one receipted command.",
+  "capability": "sv002_experiment_readiness_verification",
+  "transition_class": "tooling",
+  "authority": "test_only",
+  "entry_point": "scripts/run_sv002_experiment_readiness.py",
+  "command": "python scripts/run_sv002_experiment_readiness.py",
+  "timeout_seconds": 300,
+  "expected_outputs": [
+    "reports/current/sv002_experiment_readiness_report.json",
+    "receipts/current/sv002_experiment_readiness_receipt.jsonl",
+    "reports/current/management_reviewer_authority_reconstruction_report.json",
+    "receipts/current/management_reviewer_authority_reconstruction_receipt.jsonl"
+  ],
+  "decision_set": ["ALLOW_EXPERIMENT_READINESS", "FAIL_CLOSED"],
+  "stop_condition": "Readiness report and receipt written; no runtime activation or execution authority inferred.",
+  "governance": {
+    "test_only": true,
+    "default_deny": true,
+    "does_not_activate_runtime": true,
+    "does_not_grant_authority": true,
+    "does_not_form_quorum": true,
+    "receipt_before_claim": true
+  }
+}

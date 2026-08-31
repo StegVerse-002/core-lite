@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://stegverse.org/schemas/management_reviewer_authority_evidence.schema.json",
+  "title": "Management Reviewer Authority Evidence",
+  "type": "object",
+  "required": ["schema", "evidence_type"],
+  "properties": {
+    "schema": {"const": "stegverse.management_reviewer_authority_evidence.v1"},
+    "evidence_type": {"enum": ["identity", "policy", "delegation", "revocation"]},
+    "subject_id": {"type": "string"},
+    "delegate_id": {"type": "string"},
+    "status": {"enum": ["valid", "active", "inactive", "unknown"]},
+    "repo": {"type": "string"},
+    "candidate_ids": {
+      "type": "array",
+      "items": {"enum": ["SV002-MGMT-001", "SV002-MGMT-002", "SV002-MGMT-003"]},
+      "uniqueItems": true
+    },
+    "actions": {
+      "type": "array",
+      "items": {"enum": ["review", "allow", "deny", "fail_closed"]},
+      "uniqueItems": true
+    },
+    "revoked": {"type": "boolean"},
+    "source": {"type": "string"},
+    "notes": {"type": "string"}
+  }
+}

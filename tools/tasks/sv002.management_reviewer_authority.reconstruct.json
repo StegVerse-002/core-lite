@@ -1,0 +1,33 @@
+{
+  "task_id": "sv002.management_reviewer_authority.reconstruct",
+  "stage": "SV002-M12",
+  "allowed_stages": ["SV002-M12", "SV002-M13"],
+  "description": "Independently reconstruct identity, policy, delegation, revocation, and hash-bound evidence for structurally accepted reviewer-authority submissions.",
+  "capability": "management_reviewer_authority_evidence_reconstruction",
+  "transition_class": "tooling",
+  "authority": "candidate_evidence_validation_only",
+  "entry_point": "tools/reconstruct_management_reviewer_authority.py",
+  "command": "python tools/reconstruct_management_reviewer_authority.py --repo-root .",
+  "timeout_seconds": 120,
+  "expected_outputs": [
+    "reports/current/management_reviewer_authority_reconstruction_report.json",
+    "receipts/current/management_reviewer_authority_reconstruction_receipt.jsonl"
+  ],
+  "decision_set": [
+    "REVIEWER_AUTHORITY_EVIDENCE_PENDING",
+    "REVIEWER_AUTHORITY_EVIDENCE_ACCEPTED",
+    "REVIEWER_AUTHORITY_EVIDENCE_FAIL_CLOSED"
+  ],
+  "stop_condition": "Evidence reconstruction decision and receipt emitted; no quorum, execution authority, repository binding, or runtime activation occurs.",
+  "governance": {
+    "candidate_evidence_only": true,
+    "default_deny": true,
+    "requires_hash_bound_evidence": true,
+    "requires_identity_policy_delegation_revocation_evidence": true,
+    "does_not_form_quorum": true,
+    "does_not_grant_execution_authority": true,
+    "does_not_bind_repository_state": true,
+    "does_not_activate_runtime": true,
+    "receipt_before_claim": true
+  }
+}
