@@ -2,7 +2,7 @@
   "schema": "stegverse.continuity.config.v1",
   "repository": "StegVerse-002/core-lite",
   "enforcement_mode": "ENFORCE",
-  "current_change_record": ".continuity/change-records/SV-CONT-CORE-LITE-20260830-007.json",
+  "current_change_record": ".continuity/change-records/SV-CONT-CORE-LITE-20260830-008.json",
   "cross_repository_references": ".continuity/cross-repository-references.json",
   "allowed_unrecorded_paths": [
     ".continuity/provenance-verification-receipt.json",

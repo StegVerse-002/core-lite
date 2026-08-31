@@ -105,6 +105,7 @@ historical M0-M10 completion with current lifecycle state.
 
 ## Remaining work
 
+- Validate the repaired stable dispatcher syntax and readiness route on the exact repair head.
 - Obtain exact-head handoff authority ALLOW.
 - Obtain exact-head handoff semantic admission ALLOW.
 - Obtain exact-head continuity provenance ALLOW.
@@ -140,7 +141,6 @@ StegVerse-Labs/Site, GCAT-BCAT-Engine/Publisher, admissibility-wiki, and steggua
 
 ## Next task
 
-Repair any exact-head verifier deltas until all admission checks are green. Then merge
-the readiness change and execute `sv002.experiment.readiness.verify` on the merged
-default branch. Keep runtime, activation, release, and public-observation claims pending
+Validate and merge the dispatcher repair, then execute `sv002.experiment.readiness.verify`
+through the repaired stable dispatcher on the merged default branch. Keep runtime, activation, release, and public-observation claims pending
 until direct corresponding evidence exists.
