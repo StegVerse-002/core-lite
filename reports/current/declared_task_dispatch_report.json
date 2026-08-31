@@ -2,7 +2,7 @@
   "command": "python scripts/run_sv002_experiment_readiness.py",
   "dry_run": false,
   "exit_code": 0,
-  "generated_at": "2026-08-31T02:48:06+00:00",
+  "generated_at": "2026-08-31T02:57:05+00:00",
   "mutation_count": 0,
   "repo_root": "/home/runner/work/core-lite/core-lite",
   "result": "DECLARED_TASK_COMPLETED",

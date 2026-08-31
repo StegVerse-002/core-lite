@@ -9,7 +9,7 @@
       ],
       "exit_code": 0,
       "passed": true,
-      "stderr": "....\n----------------------------------------------------------------------\nRan 4 tests in 0.029s\n\nOK\n",
+      "stderr": "....\n----------------------------------------------------------------------\nRan 4 tests in 0.006s\n\nOK\n",
       "stdout": ""
     },
     {
@@ -32,7 +32,7 @@
       "exit_code": 0,
       "passed": true,
       "stderr": "",
-      "stdout": "ECOSYSTEM_COMPONENT_VERSION=PASS\nCOMPONENT=STEGVERSE-002-CORE-LITE\nCOMPONENT_VERSION=0.1.28\nVERSION_STAGE=DEVELOPMENT\nRELEASE=NOT_CLAIMED\nRUNTIME=PENDING\nACTIVATION=PENDING\nAUTHORITY_EFFECT=NONE\n"
+      "stdout": "ECOSYSTEM_COMPONENT_VERSION=PASS\nCOMPONENT=STEGVERSE-002-CORE-LITE\nCOMPONENT_VERSION=0.1.29\nVERSION_STAGE=DEVELOPMENT\nRELEASE=NOT_CLAIMED\nRUNTIME=PENDING\nACTIVATION=PENDING\nAUTHORITY_EFFECT=NONE\n"
     }
   ],
   "experiment_boundary": {

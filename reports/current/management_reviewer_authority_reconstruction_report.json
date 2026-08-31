@@ -14,8 +14,8 @@
     "authority_effect": "NONE",
     "decision": "REVIEWER_AUTHORITY_EVIDENCE_PENDING",
     "fail_closed_count": 0,
-    "previous_receipt_hash": null,
-    "receipt_hash": "1df56f03d1c510e2127787c523927c4f9d25b97c616827867faf02867ecd60b3",
+    "previous_receipt_hash": "1df56f03d1c510e2127787c523927c4f9d25b97c616827867faf02867ecd60b3",
+    "receipt_hash": "65b85c166dd600d44b8f487a0fb01825d53cb313d83032e940d35f5cf46223ad",
     "repository": "StegVerse-002/core-lite",
     "schema": "stegverse.management_reviewer_authority_reconstruction_receipt.v1",
     "submission_count": 0
