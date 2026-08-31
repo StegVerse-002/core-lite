@@ -1,0 +1,80 @@
+{
+  "actor": {
+    "class": "chatgpt",
+    "instance": "gpt-5.6-sol",
+    "session_ref": "sv002-finalize-experiment-readiness-2026-08-30"
+  },
+  "base_commit": "6bc1ed8daed592070cc6971032962c0fa9dd1ac0",
+  "change_id": "SV-CONT-CORE-LITE-20260830-010",
+  "changed_paths": [
+    {
+      "change_type": "modified",
+      "hash": "5ab61d10a09249e59c4cbf8027d8e9b5055ba4aa",
+      "hash_algorithm": "git-blob-sha1",
+      "path": ".continuity/config.json"
+    },
+    {
+      "change_type": "modified",
+      "hash": "e5973f708525da6b0b4f7928b6feb7f6c510d04a",
+      "hash_algorithm": "git-blob-sha1",
+      "path": ".handoff/current.json"
+    },
+    {
+      "change_type": "modified",
+      "hash": "9b78ea25499123dfa73fa4b43e7355c7cb090b99",
+      "hash_algorithm": "git-blob-sha1",
+      "path": "VERSION.json"
+    },
+    {
+      "change_type": "modified",
+      "hash": "aaa98aae680d543c6aa32ecc9c805867d46189cd",
+      "hash_algorithm": "git-blob-sha1",
+      "path": "STATUS.md"
+    },
+    {
+      "change_type": "modified",
+      "hash": "6f93f62b6f0db5acde19047915c0e5e88e06338a",
+      "hash_algorithm": "git-blob-sha1",
+      "path": "docs/CORE_LITE_MIRROR_HANDOFF.md"
+    },
+    {
+      "change_type": "modified",
+      "hash": "b66ef11cf490893ed0bfced88a38fd444c36f199",
+      "hash_algorithm": "git-blob-sha1",
+      "path": "tools/check_ecosystem_component_version.py"
+    }
+  ],
+  "claims": [
+    {
+      "claim": "Merged default-branch source executed sv002.experiment.readiness.verify and emitted ALLOW_EXPERIMENT_READINESS.",
+      "state": "EXECUTED"
+    },
+    {
+      "claim": "The experiment-readiness report and receipt are committed on main and reviewer-authority reconstruction remains PENDING with zero fabricated submissions.",
+      "state": "OBSERVED"
+    },
+    {
+      "claim": "Component lifecycle advances to 0.1.29 DEVELOPMENT with source readiness executed; runtime and activation remain PENDING.",
+      "state": "RECONCILED"
+    },
+    {
+      "claim": "Release remains unclaimed and authority_effect remains NONE.",
+      "state": "PRESERVED_BOUNDARY"
+    }
+  ],
+  "created_at": "2026-08-31T02:50:00Z",
+  "governing_handoff": {
+    "hash": "6f93f62b6f0db5acde19047915c0e5e88e06338a",
+    "hash_algorithm": "git-blob-sha1",
+    "path": "docs/CORE_LITE_MIRROR_HANDOFF.md"
+  },
+  "record_hash": "0d61f10208b36e63482cf018c86e7b4bdbdc5fb440e1951213fe0f38dc4fffe9",
+  "repository": "StegVerse-002/core-lite",
+  "schema": "stegverse.session.change_record.v1",
+  "unresolved_tasks": [
+    "obtain direct runtime observation for the intended experiment execution environment",
+    "obtain activation evidence before changing activation from PENDING",
+    "obtain public-display/end-to-end observation evidence before claiming experiment occurrence",
+    "propagate lifecycle/experiment semantics to Site, Publisher, admissibility-wiki, and stegguardian-wiki when release-ready"
+  ]
+}
