@@ -1,0 +1,68 @@
+{
+  "actor": {
+    "class": "chatgpt",
+    "instance": "gpt-5.6-sol",
+    "session_ref": "sv002-restore-proven-dispatcher-2026-08-30"
+  },
+  "base_commit": "4fc3150ee25e97fa063c1c690f3f879e58743498",
+  "change_id": "SV-CONT-CORE-LITE-20260830-009",
+  "changed_paths": [
+    {
+      "change_type": "modified",
+      "hash": "698e67d6e76e9a92fcdf9e07dbb1be1278e93faf",
+      "hash_algorithm": "git-blob-sha1",
+      "path": ".github/workflows/core-lite-intake.yml"
+    },
+    {
+      "change_type": "modified",
+      "hash": "00712c6a24c3b3e27ffb3742eed1f4f86b507246",
+      "hash_algorithm": "git-blob-sha1",
+      "path": ".continuity/config.json"
+    },
+    {
+      "change_type": "modified",
+      "hash": "68b30f6511c2c2a851e0353a90f2a16f280d26f1",
+      "hash_algorithm": "git-blob-sha1",
+      "path": ".handoff/current.json"
+    },
+    {
+      "change_type": "modified",
+      "hash": "5af13fcf0f7c4c6e8bff13497f173c8f4c1cc581",
+      "hash_algorithm": "git-blob-sha1",
+      "path": "docs/CORE_LITE_MIRROR_HANDOFF.md"
+    }
+  ],
+  "claims": [
+    {
+      "claim": "The existing core-lite workflow is restored from the last historically successful dispatcher revision and remains a single stable dispatcher surface.",
+      "state": "RESTORED"
+    },
+    {
+      "claim": "A narrow readiness push job executes the declared sv002.experiment.readiness.verify task when the merge commit carries the [sv002-readiness] marker.",
+      "state": "IMPLEMENTED"
+    },
+    {
+      "claim": "The incoming-ingestion route is suppressed only for the marked readiness merge to prevent concurrent write-capable jobs.",
+      "state": "BOUNDED"
+    },
+    {
+      "claim": "Runtime, activation, release, quorum, execution authority, and public experiment occurrence remain unclaimed.",
+      "state": "PRESERVED_BOUNDARY"
+    }
+  ],
+  "created_at": "2026-08-31T02:45:00Z",
+  "governing_handoff": {
+    "hash": "5af13fcf0f7c4c6e8bff13497f173c8f4c1cc581",
+    "hash_algorithm": "git-blob-sha1",
+    "path": "docs/CORE_LITE_MIRROR_HANDOFF.md"
+  },
+  "record_hash": "a4d4c5e272f669123c0005daeb7aff21f05b6676d8d494067e1bbed405e1baef",
+  "repository": "StegVerse-002/core-lite",
+  "schema": "stegverse.session.change_record.v1",
+  "unresolved_tasks": [
+    "obtain exact-head handoff authority, semantic admission, continuity provenance, version-contract, and witness validation",
+    "merge with [sv002-readiness] marker",
+    "verify sv002.experiment.readiness.verify execution and committed evidence on main",
+    "obtain direct runtime and public-observation evidence before activation or experiment-occurrence claims"
+  ]
+}

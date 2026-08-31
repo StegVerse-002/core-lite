@@ -4,7 +4,7 @@
   "current_handoff": {
     "path": "docs/CORE_LITE_MIRROR_HANDOFF.md",
     "hash_algorithm": "git-blob-sha1",
-    "hash": "6e88a8fd4cba4e78543a37bb48f6869dfd4ff749"
+    "hash": "5af13fcf0f7c4c6e8bff13497f173c8f4c1cc581"
   },
   "document_profile": "format_a_v1",
   "scoped_handoffs": [
@@ -16,6 +16,6 @@
     "date_suffix_required": true,
     "session_archive_prefix_allowed": true
   },
-  "declared_at": "2026-08-31T02:40:00Z",
-  "base_commit": "2f4a3fb956c1c8af53a04acbea3632900fc5eb20"
+  "declared_at": "2026-08-31T02:45:00Z",
+  "base_commit": "4fc3150ee25e97fa063c1c690f3f879e58743498"
 }
