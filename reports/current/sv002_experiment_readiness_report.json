@@ -1,0 +1,59 @@
+{
+  "checks": [
+    {
+      "command": [
+        "/opt/hostedtoolcache/Python/3.11.16/x64/bin/python",
+        "-m",
+        "unittest",
+        "tests.test_management_reviewer_authority_reconstruction"
+      ],
+      "exit_code": 0,
+      "passed": true,
+      "stderr": "....\n----------------------------------------------------------------------\nRan 4 tests in 0.029s\n\nOK\n",
+      "stdout": ""
+    },
+    {
+      "command": [
+        "/opt/hostedtoolcache/Python/3.11.16/x64/bin/python",
+        "tools/reconstruct_management_reviewer_authority.py",
+        "--repo-root",
+        "."
+      ],
+      "exit_code": 0,
+      "passed": true,
+      "stderr": "",
+      "stdout": "Decision: REVIEWER_AUTHORITY_EVIDENCE_PENDING\nWrote reports/current/management_reviewer_authority_reconstruction_report.json\nWrote receipts/current/management_reviewer_authority_reconstruction_receipt.jsonl\n"
+    },
+    {
+      "command": [
+        "/opt/hostedtoolcache/Python/3.11.16/x64/bin/python",
+        "tools/check_ecosystem_component_version.py"
+      ],
+      "exit_code": 0,
+      "passed": true,
+      "stderr": "",
+      "stdout": "ECOSYSTEM_COMPONENT_VERSION=PASS\nCOMPONENT=STEGVERSE-002-CORE-LITE\nCOMPONENT_VERSION=0.1.28\nVERSION_STAGE=DEVELOPMENT\nRELEASE=NOT_CLAIMED\nRUNTIME=PENDING\nACTIVATION=PENDING\nAUTHORITY_EFFECT=NONE\n"
+    }
+  ],
+  "experiment_boundary": {
+    "llm_output_is_bounded_input_not_authority": true,
+    "no_private_or_owner_authority_evidence_fabricated": true,
+    "review_evidence_does_not_form_quorum": true,
+    "source_ready_does_not_mean_runtime_activated": true,
+    "workflow_pass_does_not_mean_runtime_activated": true
+  },
+  "remaining_external_gate": "none_for_source_readiness",
+  "repository": "StegVerse-002/core-lite",
+  "reviewer_authority_reconstruction": {
+    "authority_boundary": {
+      "activates_runtime": false,
+      "binds_repository_state": false,
+      "forms_quorum": false,
+      "grants_execution_authority": false,
+      "reconstruction_is_review_evidence_only": true
+    },
+    "decision": "REVIEWER_AUTHORITY_EVIDENCE_PENDING"
+  },
+  "schema": "stegverse.sv002_experiment_readiness_report.v1",
+  "terminal_decision": "ALLOW_EXPERIMENT_READINESS"
+}

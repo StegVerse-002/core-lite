@@ -1,0 +1,28 @@
+{
+  "accepted_count": 0,
+  "authority_boundary": {
+    "activates_runtime": false,
+    "binds_repository_state": false,
+    "forms_quorum": false,
+    "grants_execution_authority": false,
+    "reconstruction_is_review_evidence_only": true
+  },
+  "decision": "REVIEWER_AUTHORITY_EVIDENCE_PENDING",
+  "fail_closed_count": 0,
+  "receipt": {
+    "accepted_count": 0,
+    "authority_effect": "NONE",
+    "decision": "REVIEWER_AUTHORITY_EVIDENCE_PENDING",
+    "fail_closed_count": 0,
+    "previous_receipt_hash": null,
+    "receipt_hash": "1df56f03d1c510e2127787c523927c4f9d25b97c616827867faf02867ecd60b3",
+    "repository": "StegVerse-002/core-lite",
+    "schema": "stegverse.management_reviewer_authority_reconstruction_receipt.v1",
+    "submission_count": 0
+  },
+  "report_hash": "06780da429b631bcbd5d343c1031be73c26745e9b77e31c77db782364d02612b",
+  "repository": "StegVerse-002/core-lite",
+  "results": [],
+  "schema": "stegverse.management_reviewer_authority_reconstruction_report.v1",
+  "submission_count": 0
+}
