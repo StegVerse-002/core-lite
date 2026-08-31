@@ -20,7 +20,7 @@ def main() -> None:
         "schema_version": "1.0.0",
         "component_id": "STEGVERSE-002-CORE-LITE",
         "repository": "StegVerse-002/core-lite",
-        "component_version": "0.1.28",
+        "component_version": "0.1.29",
         "version_stage": "DEVELOPMENT",
         "source_of_truth": "docs/CORE_LITE_MIRROR_HANDOFF.md",
         "authority_effect": "NONE",
@@ -44,11 +44,11 @@ def main() -> None:
         fail("activation state must remain PENDING until repository activation evidence closes")
 
     workstream = data.get("workstream_identity", {})
-    if workstream.get("handoff_capable_through") != "v0.1.28":
+    if workstream.get("handoff_capable_through") != "v0.1.29":
         fail("handoff lineage must remain bound to v0.1.28")
-    if workstream.get("current_structural_result") != "REVIEWER_AUTHORITY_EVIDENCE_RECONSTRUCTION_IMPLEMENTED_PENDING_EXECUTED_PROOF":
+    if workstream.get("current_structural_result") != "EXPERIMENT_SOURCE_READINESS_EXECUTED":
         fail("structural result drift")
-    if workstream.get("next_required_capability") != "EXECUTED_EXPERIMENT_READINESS_AND_RUNTIME_EVIDENCE":
+    if workstream.get("next_required_capability") != "RUNTIME_OBSERVATION_AND_PUBLIC_EXPERIMENT_EVIDENCE":
         fail("next required capability drift")
 
     projection = str(activation.get("current_projection", ""))
@@ -64,7 +64,7 @@ def main() -> None:
 
     print("ECOSYSTEM_COMPONENT_VERSION=PASS")
     print("COMPONENT=STEGVERSE-002-CORE-LITE")
-    print("COMPONENT_VERSION=0.1.28")
+    print("COMPONENT_VERSION=0.1.29")
     print("VERSION_STAGE=DEVELOPMENT")
     print("RELEASE=NOT_CLAIMED")
     print("RUNTIME=PENDING")

@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "component_id": "STEGVERSE-002-CORE-LITE",
   "repository": "StegVerse-002/core-lite",
-  "component_version": "0.1.28",
+  "component_version": "0.1.29",
   "version_stage": "DEVELOPMENT",
   "release": {
     "tag": null,
@@ -11,23 +11,27 @@
   },
   "workstream_identity": {
     "role": "SV002_INGESTION_THROUGH_EXECUTION_AND_REVIEWER_AUTHORITY_INTAKE",
-    "current_structural_result": "REVIEWER_AUTHORITY_EVIDENCE_RECONSTRUCTION_IMPLEMENTED_PENDING_EXECUTED_PROOF",
-    "handoff_capable_through": "v0.1.28",
-    "next_required_capability": "EXECUTED_EXPERIMENT_READINESS_AND_RUNTIME_EVIDENCE"
+    "current_structural_result": "EXPERIMENT_SOURCE_READINESS_EXECUTED",
+    "handoff_capable_through": "v0.1.29",
+    "next_required_capability": "RUNTIME_OBSERVATION_AND_PUBLIC_EXPERIMENT_EVIDENCE"
   },
   "runtime": {
     "state": "PENDING",
     "evidence": [
-      "docs/CORE_LITE_MIRROR_HANDOFF.md"
+      "docs/CORE_LITE_MIRROR_HANDOFF.md",
+      "reports/current/sv002_experiment_readiness_report.json",
+      "receipts/current/sv002_experiment_readiness_receipt.jsonl"
     ],
-    "next_required_state": "EXECUTED_READINESS_PROOF_THEN_RUNTIME_OBSERVATION"
+    "next_required_state": "DIRECT_RUNTIME_OBSERVATION"
   },
   "activation": {
     "state": "PENDING",
     "evidence": [
-      "docs/CORE_LITE_MIRROR_HANDOFF.md"
+      "docs/CORE_LITE_MIRROR_HANDOFF.md",
+      "reports/current/sv002_experiment_readiness_report.json",
+      "receipts/current/sv002_experiment_readiness_receipt.jsonl"
     ],
-    "current_projection": "SOURCE_READINESS_AND_RECONSTRUCTED_REVIEW_EVIDENCE_DO_NOT_GRANT_QUORUM_EXECUTION_REPOSITORY_BINDING_OR_RUNTIME_ACTIVATION"
+    "current_projection": "SOURCE_READINESS_EXECUTED_DO_NOT_GRANT_QUORUM_OR_EXECUTION_OR_REPOSITORY_BINDING_OR_RUNTIME_ACTIVATION"
   },
   "source_of_truth": "docs/CORE_LITE_MIRROR_HANDOFF.md",
   "version_contract": "StegVerse-Labs/Site:docs/ECOSYSTEM_COMPONENT_VERSION_CONTRACT.md",

@@ -60,14 +60,16 @@ python tools/scripts/run_declared_task.py \
   --stage SV002-M12
 ```
 
-Expected healthy source-level decision is `ALLOW_EXPERIMENT_READINESS`. That decision
-does not claim runtime activation or public experiment occurrence.
+Executed healthy source-level decision is `ALLOW_EXPERIMENT_READINESS`, committed at
+`6bc1ed8daed592070cc6971032962c0fa9dd1ac0`. The report and receipt are installed under
+`reports/current/` and `receipts/current/`. That decision does not claim runtime activation
+or public experiment occurrence.
 
 ## Done state for this repo
 
-The source-readiness lane is done when exact-head handoff authority, semantic admission,
+The source-readiness lane is DONE. Exact-head handoff authority, semantic admission,
 continuity provenance, version-contract validation, reviewer-authority reconstruction
-tests, and the declared readiness task all pass on admitted source.
+tests, and the declared readiness task passed on admitted merged source.
 
 Reviewer evidence reconstruction may emit:
 
@@ -108,18 +110,14 @@ racing the incoming-ingestion route.
 
 ## Remaining work
 
-- Validate the restored historically successful dispatcher baseline and readiness job on the exact repair head.
-- Obtain exact-head handoff authority ALLOW.
-- Obtain exact-head handoff semantic admission ALLOW.
-- Obtain exact-head continuity provenance ALLOW.
-- Obtain exact-head ecosystem component-version PASS.
-- Merge the admitted readiness change.
-- Execute `sv002.experiment.readiness.verify` on merged default-branch source.
-- Preserve the resulting reports and receipts.
+Source-level experiment preparation is complete. Remaining gates require corresponding
+runtime or live-observation evidence rather than additional source claims:
+
 - Route any real authorized reviewer packet through reconstruction without fabricating one.
-- Obtain direct runtime evidence before changing runtime from PENDING.
+- Obtain direct runtime observation before changing runtime from PENDING.
 - Obtain activation evidence before changing activation from PENDING.
 - Obtain public-display/end-to-end observation evidence before claiming experiment occurrence.
+- Keep release unclaimed until the release contract and runtime/publication evidence agree.
 
 Historical M0-M10 stage-map completion remains implementation evidence only and is not
 current runtime, activation, release, or public-observation evidence.
@@ -144,6 +142,4 @@ StegVerse-Labs/Site, GCAT-BCAT-Engine/Publisher, admissibility-wiki, and steggua
 
 ## Next task
 
-Validate and merge the restored dispatcher using the `[sv002-readiness]` merge marker,
-then verify the emitted experiment-readiness report and receipt on the resulting default branch. Keep runtime, activation, release, and public-observation claims pending
-until direct corresponding evidence exists.
+Use the executed readiness report and receipt as the source-preparation baseline for the experiment. Next, obtain direct runtime and public-observation evidence through the intended experiment execution path. Keep runtime, activation, release, and public-observation claims pending until direct corresponding evidence exists.
