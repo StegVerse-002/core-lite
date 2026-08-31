@@ -45,10 +45,10 @@ def main() -> None:
 
     workstream = data.get("workstream_identity", {})
     if workstream.get("handoff_capable_through") != "v0.1.28":
-        fail("handoff lineage must remain bound to v0.1.27")
-    if workstream.get("current_structural_result") != "EXECUTED_EXPERIMENT_READINESS_AND_RUNTIME_EVIDENCE_IMPLEMENTED_PENDING_EXECUTED_PROOF":
+        fail("handoff lineage must remain bound to v0.1.28")
+    if workstream.get("current_structural_result") != "REVIEWER_AUTHORITY_EVIDENCE_RECONSTRUCTION_IMPLEMENTED_PENDING_EXECUTED_PROOF":
         fail("structural result drift")
-    if workstream.get("next_required_capability") != "REVIEWER_AUTHORITY_EVIDENCE_RECONSTRUCTION":
+    if workstream.get("next_required_capability") != "EXECUTED_EXPERIMENT_READINESS_AND_RUNTIME_EVIDENCE":
         fail("next required capability drift")
 
     projection = str(activation.get("current_projection", ""))
