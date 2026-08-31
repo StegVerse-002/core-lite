@@ -101,11 +101,14 @@ docs/CORE_LITE_MIRROR_HANDOFF.md
 The implementation verifies hash-bound identity, policy, delegation, and revocation
 evidence; rejects tampered or revoked evidence; preserves an empty mailbox as pending
 rather than activated; and reconciles stale status language that previously conflated
-historical M0-M10 completion with current lifecycle state.
+historical M0-M10 completion with current lifecycle state. The execution surface is now
+restored from the last historically successful dispatcher revision and extended with a
+narrow `[sv002-readiness]` push job that executes the declared readiness task without
+racing the incoming-ingestion route.
 
 ## Remaining work
 
-- Validate the repaired stable dispatcher syntax and readiness route on the exact repair head.
+- Validate the restored historically successful dispatcher baseline and readiness job on the exact repair head.
 - Obtain exact-head handoff authority ALLOW.
 - Obtain exact-head handoff semantic admission ALLOW.
 - Obtain exact-head continuity provenance ALLOW.
@@ -141,6 +144,6 @@ StegVerse-Labs/Site, GCAT-BCAT-Engine/Publisher, admissibility-wiki, and steggua
 
 ## Next task
 
-Validate and merge the dispatcher repair, then execute `sv002.experiment.readiness.verify`
-through the repaired stable dispatcher on the merged default branch. Keep runtime, activation, release, and public-observation claims pending
+Validate and merge the restored dispatcher using the `[sv002-readiness]` merge marker,
+then verify the emitted experiment-readiness report and receipt on the resulting default branch. Keep runtime, activation, release, and public-observation claims pending
 until direct corresponding evidence exists.
