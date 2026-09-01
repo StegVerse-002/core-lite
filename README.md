@@ -3,9 +3,9 @@
 **Version:** `1.0.0-sv002-m10`  
 **Entity:** `StegVerse-002`  
 **Role:** Governed AI/intellect block — clean-slate successor to `StegVerse-001`  
-**Status:** Production-candidate — all gates complete, intake proven live  
+**Status:** Organization-local capability source; historical source/fixture gates exist, but authentic current resident activation is not established by this README  
 **Primary proof target:** Clean Core-Lite instance for governed LLM / admissibility-at-commit proof  
-**KnowledgeVault dependency:** Online / active dependency for continuity, portable memory, governed context, and state access  
+**KnowledgeVault relationship:** optional/bounded context capability where separately available and admitted; not proof of current runtime activation  
 
 ---
 
@@ -494,3 +494,20 @@ Use this checklist after upload or release creation.
 This repository is part of the StegVerse governed AI/intellect ecosystem.
 
 Public mirrors and documentation may be visible, but execution authority, admissibility, receipts, and governed transitions remain bound to the repository evidence chain and current policy state.
+
+
+## Current StegVerse-002 organization integration
+
+`core-lite` is an organization-local admissibility capability, not the StegVerse-002 principal runtime and not organization activation authority.
+
+```text
+StegVerse-002/micro-node-runtime
+        ↕
+StegVerse-002/.github
+        ↕
+StegVerse-002/core-lite
+```
+
+The organization boundary owns capability discovery, routing, ingress/egress, resident dispatch, and organization-level transition recording. GitHub Actions in this repository may validate source/evidence; they do not establish sovereign runtime authority or live activation.
+
+The repo-owned machine-readable capability descriptor is `.stegverse/capability/descriptor.json`.
