@@ -1,0 +1,29 @@
+{
+  "schema": "stegverse.organization-capability-descriptor/v1",
+  "organization": "StegVerse-002",
+  "repository": "StegVerse-002/core-lite",
+  "capability_id": "stegverse-002.core-lite",
+  "capability_class": "ADMISSIBILITY_ENGINE_CAPABILITY",
+  "role": "Organization-local commit-time admissibility and receipt-capable evaluation surface; not the StegVerse-002 principal runtime and not organization activation authority.",
+  "availability_state": "AVAILABLE_CAPABILITY_REQUIRES_RUNTIME_EVIDENCE",
+  "runtime_materialization_may_be_required": true,
+  "discoverability": {
+    "organization_local": true,
+    "discoverable_through": "StegVerse-002/.github",
+    "injected_into_self_characterization_objective": false,
+    "identity_constitution_prescribed": false,
+    "use_required": false,
+    "relevance_to_self_characterization_prescribed": false
+  },
+  "authority": {
+    "repository_is_org_activation_authority": false,
+    "descriptor_grants_execution_authority": false,
+    "descriptor_grants_standing": false,
+    "descriptor_grants_admissibility": false,
+    "descriptor_grants_identity_constitution": false
+  },
+  "ledger": {
+    "repo_transition_contract": ".stegverse/transition-ledger/contract.json",
+    "organization_rollup": "StegVerse-002/.github"
+  }
+}
