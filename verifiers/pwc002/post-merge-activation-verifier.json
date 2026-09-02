@@ -1,0 +1,18 @@
+{
+  "verifier_type": "pwc002_post_merge_activation_verifier",
+  "version": "1.0.0-draft",
+  "source_handoff": "PWC002_MIRROR_HANDOFF.md",
+  "source_adapter": "adapters/pwc002/runtime-integration-receipt-adapter.json",
+  "repo": "StegVerse-002/core-lite",
+  "role": "core_target",
+  "required_later_inputs": [
+    "review_boundary_receipt",
+    "merge_receipts",
+    "runtime_integration_receipts",
+    "master_records_standing_receipt"
+  ],
+  "current_state": "pending_later_inputs",
+  "activation_claimed": false,
+  "manual_reconstruction_required": false,
+  "verifier_result": "INSTALLED_PENDING_LATER_INPUTS"
+}

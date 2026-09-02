@@ -1,0 +1,10 @@
+{
+  "receipt_type": "pwc002_repo_install_receipt",
+  "repo": "StegVerse-002/core-lite",
+  "role": "core_target",
+  "branch": "pwc002/install-runtime-handoff",
+  "live_default_branch_write": false,
+  "merge_authorized": false,
+  "manual_task_eliminated": "core target handoff placement",
+  "result": "DRAFT_BRANCH_INSTALLED"
+}

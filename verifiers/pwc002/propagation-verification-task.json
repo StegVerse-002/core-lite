@@ -1,0 +1,32 @@
+{
+  "task_type": "pwc002_core_lite_propagation_verification_task",
+  "version": "1.0.0-draft",
+  "source_handoff": "PWC002_MIRROR_HANDOFF.md",
+  "source_adapter": "adapters/pwc002/runtime-integration-receipt-adapter.json",
+  "source_activation_verifier": "verifiers/pwc002/post-merge-activation-verifier.json",
+  "targets": [
+    {
+      "repo": "GCAT-BCAT-Engine/Publisher",
+      "role": "publisher",
+      "required_later_receipts": ["publisher_record_receipt", "accepted_packet_receipt"]
+    },
+    {
+      "repo": "StegVerse-Labs/Site",
+      "role": "site_mirror",
+      "required_later_receipts": ["site_display_receipt", "publication_receipt"]
+    },
+    {
+      "repo": "StegVerse-Labs/admissibility-wiki",
+      "role": "semantic_mirror",
+      "required_later_receipts": ["workflow_vocabulary_receipt", "semantic_receipt"]
+    },
+    {
+      "repo": "StegVerse-002/stegguardian-wiki",
+      "role": "semantic_mirror",
+      "required_later_receipts": ["micro_node_vocabulary_receipt", "semantic_receipt"]
+    }
+  ],
+  "activation_claimed": false,
+  "manual_target_mapping_required": false,
+  "task_result": "INSTALLED_PENDING_LATER_RECEIPTS"
+}

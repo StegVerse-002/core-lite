@@ -1,0 +1,14 @@
+{
+  "receipt_type": "pwc002_runtime_integration_receipt_adapter_receipt",
+  "repo": "StegVerse-002/core-lite",
+  "branch": "pwc002/install-runtime-handoff",
+  "installed_adapter": "adapters/pwc002/runtime-integration-receipt-adapter.json",
+  "activation_claimed": false,
+  "merge_authorized": false,
+  "manual_receipt_mapping_required": false,
+  "remaining_items": [
+    "post-merge activation verifier",
+    "propagation verification task"
+  ],
+  "result": "ADAPTER_INSTALLED_ON_DRAFT_BRANCH"
+}

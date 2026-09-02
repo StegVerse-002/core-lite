@@ -1,0 +1,16 @@
+{
+  "receipt_type": "pwc002_core_lite_propagation_verification_task_receipt",
+  "repo": "StegVerse-002/core-lite",
+  "branch": "pwc002/install-runtime-handoff",
+  "installed_task": "verifiers/pwc002/propagation-verification-task.json",
+  "verified_target_set": [
+    "GCAT-BCAT-Engine/Publisher",
+    "StegVerse-Labs/Site",
+    "StegVerse-Labs/admissibility-wiki",
+    "StegVerse-002/stegguardian-wiki"
+  ],
+  "activation_claimed": false,
+  "manual_target_mapping_required": false,
+  "remaining_items": [],
+  "result": "TASK_INSTALLED_PENDING_LATER_RECEIPTS"
+}
