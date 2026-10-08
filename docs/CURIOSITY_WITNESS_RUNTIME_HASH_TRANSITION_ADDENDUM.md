@@ -18,7 +18,7 @@ canonical_dependency: master-records/core-lite#27
 The hashes in the completed runtime-intake and downstream chain remain valid historical evidence for the exact record versions then in force. They are not overwritten.
 
 ```text
-Master Records custody record
+Master Records organization record
 historical_hash: f7db74f1a2caafab593f2beacc203901ac5a72d5d0fd44b7e0f9b209170a528f
 current_migrated_hash: 216e2c43a572e11109165b5237ef82162b10dc6262b36156e3783dd6879d3103
 
