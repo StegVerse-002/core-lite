@@ -80,7 +80,7 @@ The inherited zero-job `core-lite-intake.yml` run `31059988700` remains recorded
 ```text
 GCAT admission record hash: 6bfbd1af3aecd03c3b4579d0465f0962dd49f3741e786046a4189735223e3eac
 GCAT release merge: 1ab3790ac543190ae30a8f2da3b8a37f37844742
-Master Records custody record hash: f7db74f1a2caafab593f2beacc203901ac5a72d5d0fd44b7e0f9b209170a528f
+Master Records organization record hash: f7db74f1a2caafab593f2beacc203901ac5a72d5d0fd44b7e0f9b209170a528f
 Master Records acknowledgement hash: 0a98789be976aad5c18936fe823f9732d683f4e149051e34976eb4743678eb24
 GCAT acknowledgement import merge: 1cd8c7fda426f85d429c8e5ce0fb5c0896aec5f2
 GCAT acknowledgement import hash: 1d65230536d7cc7db60cc544c84d42d9d25fc3c9382b66d703476ac34b88813e
@@ -122,7 +122,7 @@ pending machine task: none for this intake goal
 ```text
 MERGED INTO: GCAT-BCAT-Engine/core-lite-prod/docs/CURIOSITY_MOTIVE_ADMISSION_MIRROR_HANDOFF.md
 source handoff: StegVerse-Labs/StegCore/docs/CURIOSITY_AFFECTIVE_GOVERNANCE_MIRROR_HANDOFF.md
-custody handoff: master-records/core-lite/STEGCORE_CURIOSITY_MOTIVE_GOVERNANCE_MIRROR_HANDOFF.md
+organization-record handoff: master-records/core-lite/STEGCORE_CURIOSITY_MOTIVE_GOVERNANCE_MIRROR_HANDOFF.md
 remaining executable tasks: none for this session goal
 blockers: none
 Site, Publisher, and wiki propagation: not authorized or required

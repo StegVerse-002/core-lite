@@ -20,7 +20,7 @@ build/
 # stegverse/  — keep tracked
 # receipts/    — keep tracked
 # reports/     — keep tracked
-# dist/bundles/ and dist/master-records/ are governed proof/custody artifacts
+# dist/bundles/ and dist/master-records/ are governed proof and organization-record artifacts
 
 # Local secrets — never commit
 env

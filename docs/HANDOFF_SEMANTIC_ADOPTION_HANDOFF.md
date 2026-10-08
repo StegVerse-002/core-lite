@@ -61,7 +61,7 @@ authority_effect = NONE
 
 ```text
 central registry owner: GCAT-BCAT-Engine/workflows/data/handoff-semantic-adoption.json
-custody owner: master-records/orchestration/HANDOFF_SEMANTIC_CUSTODY_HANDOFF.md
+organization-record owner: master-records/orchestration/HANDOFF_SEMANTIC_CUSTODY_HANDOFF.md
 next executable action: centralize this exact evidence and accept the expanded registry for bounded custody
 ```
 
