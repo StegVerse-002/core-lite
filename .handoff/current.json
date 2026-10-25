@@ -10,7 +10,8 @@
   "scoped_handoffs": [
     "docs/STEGGUARDIAN_AUTOMATION_HANDOFF.md",
     "docs/HANDOFF_SEMANTIC_ADOPTION_HANDOFF.md",
-    "docs/CURIOSITY_WITNESS_RUNTIME_INTAKE_MIRROR_HANDOFF.md"
+    "docs/CURIOSITY_WITNESS_RUNTIME_INTAKE_MIRROR_HANDOFF.md",
+    "docs/TRANSITION_LEDGER_MIRROR_HANDOFF.md"
   ],
   "archive_policy": {
     "date_suffix_required": true,

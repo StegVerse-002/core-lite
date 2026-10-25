@@ -1,0 +1,45 @@
+{
+  "actor": {
+    "class": "agent",
+    "instance": "Grok Bot",
+    "session_ref": "P4 Maintenance Lane a65c67bf"
+  },
+  "base_commit": "7563cad75d8694e3b6a46eccca8b236c53a1208e",
+  "change_id": "SV-CONT-CORE-LITE-20261025-001",
+  "changed_paths": [
+    {
+      "change_type": "modified",
+      "hash": "b42717cf28718ace6cb3798ba0c394949cc6649f",
+      "hash_algorithm": "git-blob-sha1",
+      "path": ".continuity/config.json"
+    },
+    {
+      "change_type": "modified",
+      "hash": "60ab4eab664519f86da935aef78a29eb22a98224",
+      "hash_algorithm": "git-blob-sha1",
+      "path": ".handoff/current.json"
+    }
+  ],
+  "claims": [
+    {
+      "claim": "docs/TRANSITION_LEDGER_MIRROR_HANDOFF.md is declared as a scoped handoff in .handoff/current.json; the pinned handoff verifiers @a859be95 and @ec8dc192 return ALLOW",
+      "state": "VALIDATED"
+    },
+    {
+      "claim": "This change record declares the change set from the current main, so Continuity Provenance Gate no longer reports declared_change_set_mismatch",
+      "state": "VALIDATED"
+    }
+  ],
+  "created_at": "2026-10-25T04:16:22Z",
+  "governing_handoff": {
+    "hash": "6f93f62b6f0db5acde19047915c0e5e88e06338a",
+    "hash_algorithm": "git-blob-sha1",
+    "path": "docs/CORE_LITE_MIRROR_HANDOFF.md"
+  },
+  "record_hash": "888f3fcbe88b6267423a18c6f99167907c2c8e3a88d4f2db09c60c09136bd83f",
+  "repository": "StegVerse-002/core-lite",
+  "schema": "stegverse.session.change_record.v1",
+  "unresolved_tasks": [
+    "G17 workflow-surface consolidation (StegVerse-org/.github#166) of core-lite is FAIL_CLOSED: the run_catalog manifest path tools/tasks/task_catalog.json is already a stored core-lite task catalog (stegverse.task_catalog.v1) read by core_lite/intake.py and tools/scripts/task_dispatcher.py"
+  ]
+}
